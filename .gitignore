@@ -1,0 +1,12 @@
+node_modules
+build
+dist
+dist-doc
+*.log
+*.cache
+/.eslintcache
+.next
+coverage
+package-lock.json
+npm-shrinkwrap.json
+yarn.lock
