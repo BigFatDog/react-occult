@@ -36,6 +36,16 @@ const getCanvasScale = context => {
   return devicePixelRatio / backingStoreRatio;
 };
 
+type VizDataLayerKeys =
+  | "pieces"
+  | "summaries"
+  | "connectors"
+  | "edges"
+  | "nodes"
+  | "areas"
+  | "lines"
+  | "points"
+
 const Frame = props => {
   const frontCanvasRef = useRef(null);
   const backCanvasRef = useRef(null);
@@ -418,7 +428,7 @@ Frame.propTypes = {
   legendSettings: object,
   afterElements: object,
   canvasPostProcess: oneOfType([string, func]),
-  renderPipeline: object,
+  renderPipeline: { [key in VizDataLayerKeys]?: object },
   defaultSVGRule: func,
   defaultHTMLRule: func,
   projectedCoordinateNames: object,

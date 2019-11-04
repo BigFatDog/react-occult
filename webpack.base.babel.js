@@ -27,12 +27,9 @@ module.exports = options => ({
     noParse: /(mapbox-gl)\.js$/, //https://github.com/mapbox/mapbox-gl-js/issues/4348
     rules: [
       {
-        test: /\.js$/, // Transform all .js files required somewhere with Babel
+        test: /\.(js|ts|tsx)$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: options.babelQuery,
-        },
+        use: 'ts-loader',
       },
       {
         test: /\.css$/,
@@ -149,7 +146,7 @@ module.exports = options => ({
   ]),
   resolve: {
     modules: ['node_modules', 'docs/app'],
-    extensions: ['.js', '.jsx', '.react.js'],
+    extensions: ['.tsx', '.ts', '.js', '.jsx',],
     mainFields: ['browser', 'jsnext:main', 'main'],
     alias: {
       'dan-components': path.resolve(__dirname, './docs/app/components/'),

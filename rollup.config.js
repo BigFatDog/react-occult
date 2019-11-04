@@ -2,6 +2,7 @@ import nodeResolve from 'rollup-plugin-node-resolve'
 import babel from 'rollup-plugin-babel'
 import replace from 'rollup-plugin-replace'
 import { terser } from 'rollup-plugin-terser'
+import typescript from "rollup-plugin-typescript"
 
 import pkg from './package.json'
 
@@ -25,7 +26,7 @@ export default [
       ...Object.keys(pkg.dependencies || {}),
       ...Object.keys(pkg.peerDependencies || {})
     ],
-    plugins: [babel()]
+    plugins: [typescript(), babel()]
   },
 
   // ES for Browsers
@@ -33,6 +34,7 @@ export default [
     input: 'src/index.js',
     output: { file: 'es/occult.esm.js', format: 'es', indent: false },
     plugins: [
+      typescript(),
       nodeResolve({
         jsnext: true
       }),
@@ -60,6 +62,7 @@ export default [
       indent: false
     },
     plugins: [
+      typescript(),
       nodeResolve({
         jsnext: true
       }),
@@ -82,6 +85,7 @@ export default [
       indent: false
     },
     plugins: [
+      typescript(),
       nodeResolve({
         jsnext: true
       }),
