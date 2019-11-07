@@ -82,7 +82,6 @@ const CartesianFrame = props => {
   const [renderPipeline, setRenderPipeline] = useState({});
 
   const {
-    /** general */
     name,
     className,
     frameKey,
@@ -92,59 +91,6 @@ const CartesianFrame = props => {
     height,
     margin: baseMargin,
 
-    /** scale and accessor */
-    xScale,
-    yScale,
-    xAccessor,
-    yAccessor,
-    lineDataAccessor,
-    areaDataAccessor,
-
-    xExtent: baseXExtent,
-    yExtent: baseYExtent,
-    invertX,
-    invertY,
-
-    // lines
-    lines = [],
-    lineType,
-    lineStyle,
-    lineClass,
-    lineCurve,
-    lineIDAccessor,
-    showLinePoints,
-    lineRenderMode,
-    canvasLines,
-    customLineMark,
-
-    //points
-    points = [],
-    pointStyle,
-    pointClass,
-    pointRadius,
-    pointRenderMode,
-    canvasPoints,
-    customPointMark,
-
-    /** summary */
-    summaries = [],
-    summaryStyle,
-    summaryType,
-    summaryClass,
-    canvasSummary,
-    showSummaryPoints,
-    customSummaryMarks,
-    summaryRenderMode,
-
-    /** areas */
-    areas = summaries,
-    canvasArea = canvasSummary,
-    areaType = summaryType || { type: 'basic' },
-    areaStyle = summaryStyle,
-
-    /** annotation */
-    annotationSettings,
-    annotations,
     /** Decoration */
     beforeElements,
     afterElements,
@@ -152,26 +98,7 @@ const CartesianFrame = props => {
     foregroundGraphics,
     canvasPostProcess,
     additionalDefs,
-    renderOrder,
 
-    /** axes */
-    axes: userAxes,
-    baseMarkProps,
-
-    /** legend and title */
-    title,
-    legendSettings,
-
-    /** interaction */
-    interaction,
-    useSummariesAsInteractionLayer,
-    useAreasAsInteractionLayer = useSummariesAsInteractionLayer,
-    customHoverBehavior,
-    customClickBehavior,
-    customDoubleClickBehavior,
-    hoverAnnotation,
-
-    /** Miscellaneous */
     matte,
     defined
   } = props;

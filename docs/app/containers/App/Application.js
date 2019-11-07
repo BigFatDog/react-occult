@@ -7,6 +7,7 @@ import ContourPage from '../Pages/ContourPage';
 import HeatmapPage from '../Pages/HeatmapPage';
 import HexbinPage from '../Pages/HexbinPage';
 import AnnotationPage from '../Pages/AnnotationPage';
+import AreaPage from '../Pages/AreaChart';
 import NeighborhoodPage from '../Pages/Neighborhood';
 
 import BlankPage from '../Pages/BlankPage';
@@ -23,6 +24,7 @@ class Application extends React.Component {
           <Route path="/contour" component={ContourPage} />
           <Route path="/hexbin" component={HexbinPage} />
           <Route path="/heatmap" component={HeatmapPage} />
+          <Route path="/area" component={AreaPage} />
           <Route path="/annotations" component={AnnotationPage} />
           <Route path="/neighborhood" component={NeighborhoodPage} />
           <Route component={NotFound} />

@@ -37,6 +37,11 @@ module.exports = [
         link: '/contour'
       },
       {
+        key: 'area',
+        name: 'Area',
+        link: '/area'
+      },
+      {
         key: 'hexbin',
         name: 'Hexbin',
         link: '/hexbin'
