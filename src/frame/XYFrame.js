@@ -12,7 +12,6 @@ import {
 } from 'prop-types';
 import filterDefs from '../utils/filterDefs';
 import generateFrameTitle from '../svg/frameFunctions/generateFrameTitle';
-import drawMarginPath from '../svg/frameFunctions/drawMarginPath';
 import SpanOrDiv from '../utils/SpanOrDiv';
 
 const getCanvasScale = context => {
@@ -229,7 +228,7 @@ XYFrame.defaultProps = {
   backgroundGraphics: null,
   foregroundGraphics: null,
   additionalDefs: null,
-  margin: { top: 0, bottom: 0, left: 0, right: 0 },
+  margin: { top: 0, bottom: 0, left: 0, right: 0 }
 };
 
 export default XYFrame;
