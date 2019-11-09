@@ -66,6 +66,11 @@ const AreaPage = props => {
       </Helmet>
       <PapperBlock title="Area Chart" desc="Basic Area Chart">
         <XYFrame {...frameProps}>
+          <XAxis top={0} hideLine tickValues={[0, 1, 3, 4, 5]} title="X" />
+          <XAxis tickFormat={v => `Value is ${v}`} tickLabelAngle={-90} />
+          <YAxis hideTicks />
+          <YAxis left={50} tickFormat={v => v * v} />
+          <YAxis hideLine left={150} tickFormat={v => `this is ${v}`} />
           <Line {...lineProps}>
           </Line>
           <Contour {...contourProps} >
