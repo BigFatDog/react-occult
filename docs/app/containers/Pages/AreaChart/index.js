@@ -5,7 +5,7 @@ import { TheaterSummaryData } from '../ContourPage/ThreaterSummaryData';
 import brand from 'dan-api/dummy/brand';
 import { PapperBlock } from 'dan-components';
 
-import { XYFrame } from 'occult';
+import { XYFrame, Line } from 'occult';
 
 const AreaPage = props => {
   const title = brand.name + ' - Sample Area Chart';
@@ -27,7 +27,9 @@ const AreaPage = props => {
         <meta property="twitter:description" content={description} />
       </Helmet>
       <PapperBlock title="Area Chart" desc="Basic Area Chart">
-        <XYFrame {...frameProps} />
+        <XYFrame {...frameProps}>
+          <Line />
+        </XYFrame>
       </PapperBlock>
     </div>
   );
