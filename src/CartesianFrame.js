@@ -82,6 +82,7 @@ const CartesianFrame = props => {
   const [renderPipeline, setRenderPipeline] = useState({});
 
   const {
+    /** general */
     name,
     className,
     frameKey,
@@ -91,6 +92,59 @@ const CartesianFrame = props => {
     height,
     margin: baseMargin,
 
+    /** scale and accessor */
+    xScale,
+    yScale,
+    xAccessor,
+    yAccessor,
+    lineDataAccessor,
+    areaDataAccessor,
+
+    xExtent: baseXExtent,
+    yExtent: baseYExtent,
+    invertX,
+    invertY,
+
+    // lines
+    lines = [],
+    lineType,
+    lineStyle,
+    lineClass,
+    lineCurve,
+    lineIDAccessor,
+    showLinePoints,
+    lineRenderMode,
+    canvasLines,
+    customLineMark,
+
+    //points
+    points = [],
+    pointStyle,
+    pointClass,
+    pointRadius,
+    pointRenderMode,
+    canvasPoints,
+    customPointMark,
+
+    /** summary */
+    summaries = [],
+    summaryStyle,
+    summaryType,
+    summaryClass,
+    canvasSummary,
+    showSummaryPoints,
+    customSummaryMarks,
+    summaryRenderMode,
+
+    /** areas */
+    areas = summaries,
+    canvasArea = canvasSummary,
+    areaType = summaryType || { type: 'basic' },
+    areaStyle = summaryStyle,
+
+    /** annotation */
+    annotationSettings,
+    annotations,
     /** Decoration */
     beforeElements,
     afterElements,
@@ -98,7 +152,26 @@ const CartesianFrame = props => {
     foregroundGraphics,
     canvasPostProcess,
     additionalDefs,
+    renderOrder,
 
+    /** axes */
+    axes: userAxes,
+    baseMarkProps,
+
+    /** legend and title */
+    title,
+    legendSettings,
+
+    /** interaction */
+    interaction,
+    useSummariesAsInteractionLayer,
+    useAreasAsInteractionLayer = useSummariesAsInteractionLayer,
+    customHoverBehavior,
+    customClickBehavior,
+    customDoubleClickBehavior,
+    hoverAnnotation,
+
+    /** Miscellaneous */
     matte,
     defined
   } = props;
@@ -107,44 +180,44 @@ const CartesianFrame = props => {
     xAccessor: stringToArrayFn(xAccessor, d => d[0]),
     yAccessor: stringToArrayFn(yAccessor, d => d[1]),
     areaDataAccessor: stringToArrayFn(areaDataAccessor, d =>
-      Array.isArray(d) ? d : d.coordinates
+        Array.isArray(d) ? d : d.coordinates
     ),
     lineDataAccessor: stringToArrayFn(lineDataAccessor, d =>
-      Array.isArray(d) ? d : d.coordinates
+        Array.isArray(d) ? d : d.coordinates
     ),
     lineType: objectifyType(lineType),
     areaType: objectifyType(areaType),
     lineIDAccessor: stringToFn(lineIDAccessor, l => l.occultLineID),
     areas:
-      !areas || (Array.isArray(areas) && areas.length === 0)
-        ? undefined
-        : !Array.isArray(areas)
-        ? [areas]
-        : !areaDataAccessor && !areas[0].coordinates
-        ? [{ coordinates: areas }]
-        : areas,
+        !areas || (Array.isArray(areas) && areas.length === 0)
+            ? undefined
+            : !Array.isArray(areas)
+            ? [areas]
+            : !areaDataAccessor && !areas[0].coordinates
+                ? [{ coordinates: areas }]
+                : areas,
     lines:
-      !lines || (Array.isArray(lines) && lines.length === 0)
-        ? undefined
-        : !Array.isArray(lines)
-        ? [lines]
-        : !lineDataAccessor && !lines[0].coordinates
-        ? [{ coordinates: lines }]
-        : lines,
+        !lines || (Array.isArray(lines) && lines.length === 0)
+            ? undefined
+            : !Array.isArray(lines)
+            ? [lines]
+            : !lineDataAccessor && !lines[0].coordinates
+                ? [{ coordinates: lines }]
+                : lines,
     title:
-      typeof title === 'object' &&
-      !React.isValidElement(title) &&
-      title !== null
-        ? title
-        : { title, orient: 'top' },
+        typeof title === 'object' &&
+        !React.isValidElement(title) &&
+        title !== null
+            ? title
+            : { title, orient: 'top' },
     xExtent: (baseXExtent && baseXExtent.extent) || baseXExtent,
     yExtent: (baseYExtent && baseYExtent.extent) || baseYExtent
   };
 
   annotatedSettings.lineType.simpleLine =
-    annotatedSettings.lineType.type === 'line' &&
-    !annotatedSettings.lineType.y1 &&
-    annotatedSettings.lineType.simpleLine !== false;
+      annotatedSettings.lineType.type === 'line' &&
+      !annotatedSettings.lineType.y1 &&
+      annotatedSettings.lineType.simpleLine !== false;
 
   if (annotatedSettings.lineType.type === 'area') {
     // $FlowFixMe
@@ -152,14 +225,14 @@ const CartesianFrame = props => {
   }
 
   const summaryStyleFn = stringToFn(
-    summaryStyle,
-    emptyObjectReturnFunction,
-    true
+      summaryStyle,
+      emptyObjectReturnFunction,
+      true
   );
   const summaryClassFn = stringToFn(
-    summaryClass,
-    emptyStringReturnFunction,
-    true
+      summaryClass,
+      emptyStringReturnFunction,
+      true
   );
   const summaryRenderModeFn = stringToFn(summaryRenderMode, undefined, true);
 
@@ -229,9 +302,9 @@ const CartesianFrame = props => {
         const bounds = Array.isArray(d.bounds) ? d.bounds : [d.bounds];
         bounds.forEach(labelBounds => {
           const label =
-            typeof annotatedSettings.areaType.label === 'function'
-              ? annotatedSettings.areaType.label(d)
-              : annotatedSettings.areaType.label;
+              typeof annotatedSettings.areaType.label === 'function'
+                  ? annotatedSettings.areaType.label(d)
+                  : annotatedSettings.areaType.label;
           if (label && label !== null) {
             const labelPosition = label.position || 'center';
             const labelCenter = [
@@ -258,9 +331,9 @@ const CartesianFrame = props => {
   }
 
   const lineAriaLabel =
-    annotatedSettings.lineType.type !== undefined &&
-    typeof annotatedSettings.lineType.type !== 'function' &&
-    naturalLanguageLineType[annotatedSettings.lineType.type];
+      annotatedSettings.lineType.type !== undefined &&
+      typeof annotatedSettings.lineType.type !== 'function' &&
+      naturalLanguageLineType[annotatedSettings.lineType.type];
 
   const _renderPipeline = {
     lines: {
@@ -364,102 +437,102 @@ const CartesianFrame = props => {
         tickSize: d.tickSize
       });
       const tickLineGroup = (
-        <g key={`axes-tick-lines-${i}`} className={`axis ${axisClassname}`}>
-          {axisLines({
-            axisParts,
-            orient: d.orient,
-            tickLineGenerator: d.tickLineGenerator,
-            baseMarkProps,
-            className: axisClassname
-          })}
-        </g>
+          <g key={`axes-tick-lines-${i}`} className={`axis ${axisClassname}`}>
+            {axisLines({
+              axisParts,
+              orient: d.orient,
+              tickLineGenerator: d.tickLineGenerator,
+              baseMarkProps,
+              className: axisClassname
+            })}
+          </g>
       );
       axesTickLines.push(tickLineGroup);
       return (
-        <Axis
-          label={d.label}
-          axisParts={axisParts}
-          key={d.key || `axis-${i}`}
-          orient={d.orient}
-          size={axisSize}
-          margin={margin}
-          ticks={d.ticks}
-          tickSize={d.tickSize}
-          tickFormat={d.tickFormat}
-          tickValues={tickValues}
-          scale={axisScale}
-          className={axisClassname}
-          padding={d.padding}
-          rotate={d.rotate}
-          annotationFunction={d.axisAnnotationFunction}
-          glyphFunction={d.glyphFunction}
-          baseline={d.baseline}
-          dynamicLabelPosition={d.dynamicLabelPosition}
-          center={d.center}
-          xyPoints={fullDataset}
-          marginalSummaryType={d.marginalSummaryType}
-        />
+          <Axis
+              label={d.label}
+              axisParts={axisParts}
+              key={d.key || `axis-${i}`}
+              orient={d.orient}
+              size={axisSize}
+              margin={margin}
+              ticks={d.ticks}
+              tickSize={d.tickSize}
+              tickFormat={d.tickFormat}
+              tickValues={tickValues}
+              scale={axisScale}
+              className={axisClassname}
+              padding={d.padding}
+              rotate={d.rotate}
+              annotationFunction={d.axisAnnotationFunction}
+              glyphFunction={d.glyphFunction}
+              baseline={d.baseline}
+              dynamicLabelPosition={d.dynamicLabelPosition}
+              center={d.center}
+              xyPoints={fullDataset}
+              marginalSummaryType={d.marginalSummaryType}
+          />
       );
     });
   }
 
   return (
-    <Frame
-      name="CartesianFrame"
-      renderPipeline={_renderPipeline}
-      adjustedPosition={adjustedPosition}
-      width={width}
-      height={height}
-      adjustedSize={adjustedSize}
-      xScale={xScale}
-      yScale={yScale}
-      axes={axes}
-      axesTickLines={axesTickLines}
-      title={annotatedSettings.title}
-      matte={matte}
-      className={className}
-      useSpans={useSpans}
-      frameKey={frameKey}
-      additionalDefs={additionalDefs}
-      annotations={
-        areaAnnotations.length > 0
-          ? [...annotations, ...areaAnnotations]
-          : annotations
-      }
-      annotationSettings={annotationSettings}
-      legendSettings={legendSettings}
-      data={fullDataset}
-      margin={margin}
-      backgroundGraphics={backgroundGraphics}
-      foregroundGraphics={foregroundGraphics}
-      beforeElements={beforeElements}
-      afterElements={afterElements}
-      canvasPostProcess={canvasPostProcess}
-      canvasRendering={!!(canvasArea || canvasPoints || canvasLines)}
-      renderOrder={renderOrder}
-      defaultSVGRule={defaultXYSVGRule({
-        props,
-        annotatedSettings,
-        renderPipeline: _renderPipeline,
-        adjustedPosition,
-        adjustedSize
-      })}
-      defaultHTMLRule={defaultXYHTMLRule({
-        props,
-        annotatedSettings,
-        adjustedPosition,
-        adjustedSize
-      })}
-      projectedCoordinateNames={projectedCoordinateNames}
-      overlay={overlay}
-      interaction={interaction}
-      projectedYMiddle={projectedYMiddle}
-      customClickBehavior={customClickBehavior}
-      customHoverBehavior={customHoverBehavior}
-      customDoubleClickBehavior={customDoubleClickBehavior}
-      points={fullDataset}
-      hoverAnnotation={hoverAnnotation}
-    />
+      <Frame
+          name="CartesianFrame"
+          renderPipeline={_renderPipeline}
+          adjustedPosition={adjustedPosition}
+          width={width}
+          height={height}
+          adjustedSize={adjustedSize}
+          xScale={xScale}
+          yScale={yScale}
+          axes={axes}
+          axesTickLines={axesTickLines}
+          title={annotatedSettings.title}
+          matte={matte}
+          className={className}
+          useSpans={useSpans}
+          frameKey={frameKey}
+          additionalDefs={additionalDefs}
+          annotations={
+            areaAnnotations.length > 0
+                ? [...annotations, ...areaAnnotations]
+                : annotations
+          }
+          annotationSettings={annotationSettings}
+          legendSettings={legendSettings}
+          data={fullDataset}
+          margin={margin}
+          backgroundGraphics={backgroundGraphics}
+          foregroundGraphics={foregroundGraphics}
+          beforeElements={beforeElements}
+          afterElements={afterElements}
+          canvasPostProcess={canvasPostProcess}
+          canvasRendering={!!(canvasArea || canvasPoints || canvasLines)}
+          renderOrder={renderOrder}
+          defaultSVGRule={defaultXYSVGRule({
+            props,
+            annotatedSettings,
+            renderPipeline: _renderPipeline,
+            adjustedPosition,
+            adjustedSize
+          })}
+          defaultHTMLRule={defaultXYHTMLRule({
+            props,
+            annotatedSettings,
+            adjustedPosition,
+            adjustedSize
+          })}
+          projectedCoordinateNames={projectedCoordinateNames}
+          overlay={overlay}
+          interaction={interaction}
+          projectedYMiddle={projectedYMiddle}
+          customClickBehavior={customClickBehavior}
+          customHoverBehavior={customHoverBehavior}
+          customDoubleClickBehavior={customDoubleClickBehavior}
+          points={fullDataset}
+          hoverAnnotation={hoverAnnotation}
+      />
   );
 };
 
