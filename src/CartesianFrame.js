@@ -22,7 +22,6 @@ import {
   adjustedPositionSize
 } from './data/dataFunctions';
 import { projectCoordinates } from './data/projectCoordinates';
-import calculateMargin from './svg/frameFunctions/calculateMargin';
 import createAreas from './svg/behaviors/createArea';
 import createLines from './svg/behaviors/createLines';
 import createPoints from './svg/behaviors/createPoints';
@@ -271,11 +270,16 @@ const CartesianFrame = props => {
     chartSize: [width, height]
   });
 
-  const margin = calculateMargin({
-    margin: baseMargin,
-    userAxes,
-    title: annotatedSettings.title
-  });
+  const margin =
+      typeof baseMargin !== 'object'
+          ? {
+            top: baseMargin,
+            bottom: baseMargin,
+            left: baseMargin,
+            right: baseMargin
+          }
+          : Object.assign({ top: 0, bottom: 0, left: 0, right: 0 }, baseMargin);
+
   const { adjustedPosition, adjustedSize } = adjustedPositionSize({
     size: [width, height],
     margin

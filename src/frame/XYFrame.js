@@ -106,7 +106,7 @@ const XYFrame = props => {
   });
 
   const margin =
-    baseMargin !== 'object'
+    typeof baseMargin !== 'object'
       ? {
           top: baseMargin,
           bottom: baseMargin,
