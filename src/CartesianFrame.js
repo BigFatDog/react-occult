@@ -395,7 +395,15 @@ const CartesianFrame = props => {
     }));
   }
 
-  const { axes, axesTickLines } = toAxes({ fullDataset, margin, userAxes, adjustedSize, yScale, xScale, baseMarkProps });
+  const { axes, axesTickLines } = toAxes({
+    fullDataset,
+    margin,
+    userAxes,
+    adjustedSize,
+    yScale,
+    xScale,
+    baseMarkProps
+  });
   return (
     <Frame
       name="CartesianFrame"

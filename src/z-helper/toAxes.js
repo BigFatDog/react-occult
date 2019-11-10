@@ -2,7 +2,15 @@ import React from 'react';
 import { axisLines, axisPieces } from '../layers/VisualizationLayer/axisMarks';
 import Axis from '../layers/VisualizationLayer/Axis';
 
-const toAxes = ({ fullDataset, margin, userAxes, adjustedSize, yScale, xScale, baseMarkProps }) => {
+const toAxes = ({
+  fullDataset,
+  margin,
+  userAxes,
+  adjustedSize,
+  yScale,
+  xScale,
+  baseMarkProps
+}) => {
   let axes = [];
   const axesTickLines = [];
   const existingBaselines = {};
@@ -84,8 +92,8 @@ const toAxes = ({ fullDataset, margin, userAxes, adjustedSize, yScale, xScale, b
   }
 
   return {
-      axes,
-      axesTickLines
+    axes,
+    axesTickLines
   };
 };
 
