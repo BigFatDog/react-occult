@@ -271,14 +271,14 @@ const CartesianFrame = props => {
   });
 
   const margin =
-      typeof baseMargin !== 'object'
-          ? {
-            top: baseMargin,
-            bottom: baseMargin,
-            left: baseMargin,
-            right: baseMargin
-          }
-          : Object.assign({ top: 0, bottom: 0, left: 0, right: 0 }, baseMargin);
+    typeof baseMargin !== 'object'
+      ? {
+          top: baseMargin,
+          bottom: baseMargin,
+          left: baseMargin,
+          right: baseMargin
+        }
+      : Object.assign({ top: 0, bottom: 0, left: 0, right: 0 }, baseMargin);
 
   const { adjustedPosition, adjustedSize } = adjustedPositionSize({
     size: [width, height],

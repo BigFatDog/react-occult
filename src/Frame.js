@@ -13,7 +13,7 @@ import {
 import filterDefs from './utils/filterDefs';
 import SpanOrDiv from './utils/SpanOrDiv';
 import generateFrameTitle from './svg/frameFunctions/generateFrameTitle';
-import drawMarginPath from './svg/frameFunctions/drawMarginPath';
+import toMarginGraphic from './svg/frameFunctions/toMarginGraphic';
 import {
   AnnotationLayer,
   VisualizationLayer,
@@ -194,25 +194,7 @@ const Frame = props => {
     />
   );
 
-  let marginGraphic = null;
-  if (typeof matte === 'function') {
-    marginGraphic = matte({ size, margin });
-  } else if (React.isValidElement(matte)) {
-    marginGraphic = matte;
-  } else if (matte === true) {
-    marginGraphic = (
-      <path
-        fill="white"
-        transform={`translate(${-margin.left},${-margin.top})`}
-        d={drawMarginPath({
-          margin,
-          size,
-          inset: 0
-        })}
-        className={`${name}-matte`}
-      />
-    );
-  }
+  const marginGraphic = toMarginGraphic({matte, size, margin, name});
 
   return (
     <SpanOrDiv
