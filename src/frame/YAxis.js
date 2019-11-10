@@ -1,7 +1,7 @@
 import React from 'react';
 
 const YAxis = props => {
-    return <div />;
+  return <div />;
 };
 
 YAxis.propTypes = {};

@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Contour = props => {
-    return <div />;
+  return <div />;
 };
 
 Contour.propTypes = {};

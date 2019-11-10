@@ -1,7 +1,7 @@
 import React from 'react';
 
 const XAxis = props => {
-    return <div />;
+  return <div />;
 };
 
 XAxis.propTypes = {};

@@ -13,6 +13,7 @@ import {
 import filterDefs from '../utils/filterDefs';
 import generateFrameTitle from '../svg/frameFunctions/generateFrameTitle';
 import SpanOrDiv from '../utils/SpanOrDiv';
+import VisualizationLayer from '../layers/VisualizationLayer/VisualizationLayer';
 
 const getCanvasScale = context => {
   const devicePixelRatio = window.devicePixelRatio || 1;
@@ -33,6 +34,7 @@ const XYFrame = props => {
   const backCanvasRef = useRef(null);
   const [frontCanvas, setFrontCanvas] = useState(null);
   const [backCanvas, setBackCanvas] = useState(null);
+  const [voronoiHover, setVoronoiHover] = useState(null);
 
   const updateCanvas = () => {
     if (frontCanvasRef && frontCanvasRef.current) {
@@ -174,6 +176,27 @@ const XYFrame = props => {
             height={height}
           >
             {finalFilterDefs}
+            />
+            <VisualizationLayer
+              title={generatedTitle}
+              frameKey={frameKey}
+              axes={axes}
+              size={adjustedSize}
+              position={adjustedPosition}
+              canvasPostProcess={canvasPostProcess}
+              projectedCoordinateNames={projectedCoordinateNames}
+              frontCanvas={frontCanvas}
+              backCanvas={backCanvas}
+              matte={marginGraphic}
+              margin={margin}
+              renderPipeline={renderPipeline}
+              renderOrder={renderOrder}
+              width={width}
+              height={height}
+              xScale={xScale}
+              yScale={yScale}
+              data={data}
+              voronoiHover={setVoronoiHover}
             />
             {/* visualization layer */}
             {generatedTitle && <g className="frame-title">{generatedTitle}</g>}

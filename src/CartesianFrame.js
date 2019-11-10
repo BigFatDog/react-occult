@@ -26,10 +26,9 @@ import calculateMargin from './svg/frameFunctions/calculateMargin';
 import createAreas from './svg/behaviors/createArea';
 import createLines from './svg/behaviors/createLines';
 import createPoints from './svg/behaviors/createPoints';
-import { axisPieces, axisLines } from './layers/VisualizationLayer/axisMarks';
-import Axis from './layers/VisualizationLayer/Axis';
 import defaultXYSVGRule from './utils/defaultXYSVGRule';
 import defaultXYHTMLRule from './utils/defaultXYHTMLRule';
+import toAxes from './z-helper/toAxes';
 
 import {
   projectedX,
@@ -180,44 +179,44 @@ const CartesianFrame = props => {
     xAccessor: stringToArrayFn(xAccessor, d => d[0]),
     yAccessor: stringToArrayFn(yAccessor, d => d[1]),
     areaDataAccessor: stringToArrayFn(areaDataAccessor, d =>
-        Array.isArray(d) ? d : d.coordinates
+      Array.isArray(d) ? d : d.coordinates
     ),
     lineDataAccessor: stringToArrayFn(lineDataAccessor, d =>
-        Array.isArray(d) ? d : d.coordinates
+      Array.isArray(d) ? d : d.coordinates
     ),
     lineType: objectifyType(lineType),
     areaType: objectifyType(areaType),
     lineIDAccessor: stringToFn(lineIDAccessor, l => l.occultLineID),
     areas:
-        !areas || (Array.isArray(areas) && areas.length === 0)
-            ? undefined
-            : !Array.isArray(areas)
-            ? [areas]
-            : !areaDataAccessor && !areas[0].coordinates
-                ? [{ coordinates: areas }]
-                : areas,
+      !areas || (Array.isArray(areas) && areas.length === 0)
+        ? undefined
+        : !Array.isArray(areas)
+        ? [areas]
+        : !areaDataAccessor && !areas[0].coordinates
+        ? [{ coordinates: areas }]
+        : areas,
     lines:
-        !lines || (Array.isArray(lines) && lines.length === 0)
-            ? undefined
-            : !Array.isArray(lines)
-            ? [lines]
-            : !lineDataAccessor && !lines[0].coordinates
-                ? [{ coordinates: lines }]
-                : lines,
+      !lines || (Array.isArray(lines) && lines.length === 0)
+        ? undefined
+        : !Array.isArray(lines)
+        ? [lines]
+        : !lineDataAccessor && !lines[0].coordinates
+        ? [{ coordinates: lines }]
+        : lines,
     title:
-        typeof title === 'object' &&
-        !React.isValidElement(title) &&
-        title !== null
-            ? title
-            : { title, orient: 'top' },
+      typeof title === 'object' &&
+      !React.isValidElement(title) &&
+      title !== null
+        ? title
+        : { title, orient: 'top' },
     xExtent: (baseXExtent && baseXExtent.extent) || baseXExtent,
     yExtent: (baseYExtent && baseYExtent.extent) || baseYExtent
   };
 
   annotatedSettings.lineType.simpleLine =
-      annotatedSettings.lineType.type === 'line' &&
-      !annotatedSettings.lineType.y1 &&
-      annotatedSettings.lineType.simpleLine !== false;
+    annotatedSettings.lineType.type === 'line' &&
+    !annotatedSettings.lineType.y1 &&
+    annotatedSettings.lineType.simpleLine !== false;
 
   if (annotatedSettings.lineType.type === 'area') {
     // $FlowFixMe
@@ -225,14 +224,14 @@ const CartesianFrame = props => {
   }
 
   const summaryStyleFn = stringToFn(
-      summaryStyle,
-      emptyObjectReturnFunction,
-      true
+    summaryStyle,
+    emptyObjectReturnFunction,
+    true
   );
   const summaryClassFn = stringToFn(
-      summaryClass,
-      emptyStringReturnFunction,
-      true
+    summaryClass,
+    emptyStringReturnFunction,
+    true
   );
   const summaryRenderModeFn = stringToFn(summaryRenderMode, undefined, true);
 
@@ -302,9 +301,9 @@ const CartesianFrame = props => {
         const bounds = Array.isArray(d.bounds) ? d.bounds : [d.bounds];
         bounds.forEach(labelBounds => {
           const label =
-              typeof annotatedSettings.areaType.label === 'function'
-                  ? annotatedSettings.areaType.label(d)
-                  : annotatedSettings.areaType.label;
+            typeof annotatedSettings.areaType.label === 'function'
+              ? annotatedSettings.areaType.label(d)
+              : annotatedSettings.areaType.label;
           if (label && label !== null) {
             const labelPosition = label.position || 'center';
             const labelCenter = [
@@ -331,9 +330,9 @@ const CartesianFrame = props => {
   }
 
   const lineAriaLabel =
-      annotatedSettings.lineType.type !== undefined &&
-      typeof annotatedSettings.lineType.type !== 'function' &&
-      naturalLanguageLineType[annotatedSettings.lineType.type];
+    annotatedSettings.lineType.type !== undefined &&
+    typeof annotatedSettings.lineType.type !== 'function' &&
+    naturalLanguageLineType[annotatedSettings.lineType.type];
 
   const _renderPipeline = {
     lines: {
@@ -396,143 +395,64 @@ const CartesianFrame = props => {
     }));
   }
 
-  let axes = [];
-  const axesTickLines = [];
-  const existingBaselines = {};
-
-  if (userAxes) {
-    axes = userAxes.map((d, i) => {
-      let axisClassname = d.className || '';
-      axisClassname += ' axis';
-      let axisScale = yScale;
-      if (existingBaselines[d.orient]) {
-        d.baseline = d.baseline || false;
-      }
-      existingBaselines[d.orient] = true;
-      if (d.orient === 'top' || d.orient === 'bottom') {
-        axisClassname += ' x';
-        axisScale = xScale;
-      } else {
-        axisClassname += ' y';
-      }
-      axisClassname += ` ${d.orient}`;
-
-      let tickValues;
-      if (d.tickValues && Array.isArray(d.tickValues)) {
-        tickValues = d.tickValues;
-      } else if (d.tickValues instanceof Function) {
-        //otherwise assume a function
-        tickValues = d.tickValues(fullDataset, currentProps.size, axisScale);
-      }
-      const axisSize = [adjustedSize[0], adjustedSize[1]];
-
-      const axisParts = axisPieces({
-        padding: d.padding,
-        tickValues,
-        scale: axisScale,
-        ticks: d.ticks,
-        orient: d.orient,
-        size: axisSize,
-        footer: d.footer,
-        tickSize: d.tickSize
-      });
-      const tickLineGroup = (
-          <g key={`axes-tick-lines-${i}`} className={`axis ${axisClassname}`}>
-            {axisLines({
-              axisParts,
-              orient: d.orient,
-              tickLineGenerator: d.tickLineGenerator,
-              baseMarkProps,
-              className: axisClassname
-            })}
-          </g>
-      );
-      axesTickLines.push(tickLineGroup);
-      return (
-          <Axis
-              label={d.label}
-              axisParts={axisParts}
-              key={d.key || `axis-${i}`}
-              orient={d.orient}
-              size={axisSize}
-              margin={margin}
-              ticks={d.ticks}
-              tickSize={d.tickSize}
-              tickFormat={d.tickFormat}
-              tickValues={tickValues}
-              scale={axisScale}
-              className={axisClassname}
-              padding={d.padding}
-              rotate={d.rotate}
-              annotationFunction={d.axisAnnotationFunction}
-              glyphFunction={d.glyphFunction}
-              baseline={d.baseline}
-              dynamicLabelPosition={d.dynamicLabelPosition}
-              center={d.center}
-              xyPoints={fullDataset}
-              marginalSummaryType={d.marginalSummaryType}
-          />
-      );
-    });
-  }
-
+  const { axes, axesTickLines } = toAxes({ fullDataset, margin, userAxes, adjustedSize, yScale, xScale, baseMarkProps });
   return (
-      <Frame
-          name="CartesianFrame"
-          renderPipeline={_renderPipeline}
-          adjustedPosition={adjustedPosition}
-          width={width}
-          height={height}
-          adjustedSize={adjustedSize}
-          xScale={xScale}
-          yScale={yScale}
-          axes={axes}
-          axesTickLines={axesTickLines}
-          title={annotatedSettings.title}
-          matte={matte}
-          className={className}
-          useSpans={useSpans}
-          frameKey={frameKey}
-          additionalDefs={additionalDefs}
-          annotations={
-            areaAnnotations.length > 0
-                ? [...annotations, ...areaAnnotations]
-                : annotations
-          }
-          annotationSettings={annotationSettings}
-          legendSettings={legendSettings}
-          data={fullDataset}
-          margin={margin}
-          backgroundGraphics={backgroundGraphics}
-          foregroundGraphics={foregroundGraphics}
-          beforeElements={beforeElements}
-          afterElements={afterElements}
-          canvasPostProcess={canvasPostProcess}
-          canvasRendering={!!(canvasArea || canvasPoints || canvasLines)}
-          renderOrder={renderOrder}
-          defaultSVGRule={defaultXYSVGRule({
-            props,
-            annotatedSettings,
-            renderPipeline: _renderPipeline,
-            adjustedPosition,
-            adjustedSize
-          })}
-          defaultHTMLRule={defaultXYHTMLRule({
-            props,
-            annotatedSettings,
-            adjustedPosition,
-            adjustedSize
-          })}
-          projectedCoordinateNames={projectedCoordinateNames}
-          overlay={overlay}
-          interaction={interaction}
-          projectedYMiddle={projectedYMiddle}
-          customClickBehavior={customClickBehavior}
-          customHoverBehavior={customHoverBehavior}
-          customDoubleClickBehavior={customDoubleClickBehavior}
-          points={fullDataset}
-          hoverAnnotation={hoverAnnotation}
-      />
+    <Frame
+      name="CartesianFrame"
+      renderPipeline={_renderPipeline}
+      adjustedPosition={adjustedPosition}
+      width={width}
+      height={height}
+      adjustedSize={adjustedSize}
+      xScale={xScale}
+      yScale={yScale}
+      axes={axes}
+      axesTickLines={axesTickLines}
+      title={annotatedSettings.title}
+      matte={matte}
+      className={className}
+      useSpans={useSpans}
+      frameKey={frameKey}
+      additionalDefs={additionalDefs}
+      annotations={
+        areaAnnotations.length > 0
+          ? [...annotations, ...areaAnnotations]
+          : annotations
+      }
+      annotationSettings={annotationSettings}
+      legendSettings={legendSettings}
+      data={fullDataset}
+      margin={margin}
+      backgroundGraphics={backgroundGraphics}
+      foregroundGraphics={foregroundGraphics}
+      beforeElements={beforeElements}
+      afterElements={afterElements}
+      canvasPostProcess={canvasPostProcess}
+      canvasRendering={!!(canvasArea || canvasPoints || canvasLines)}
+      renderOrder={renderOrder}
+      defaultSVGRule={defaultXYSVGRule({
+        props,
+        annotatedSettings,
+        renderPipeline: _renderPipeline,
+        adjustedPosition,
+        adjustedSize
+      })}
+      defaultHTMLRule={defaultXYHTMLRule({
+        props,
+        annotatedSettings,
+        adjustedPosition,
+        adjustedSize
+      })}
+      projectedCoordinateNames={projectedCoordinateNames}
+      overlay={overlay}
+      interaction={interaction}
+      projectedYMiddle={projectedYMiddle}
+      customClickBehavior={customClickBehavior}
+      customHoverBehavior={customHoverBehavior}
+      customDoubleClickBehavior={customDoubleClickBehavior}
+      points={fullDataset}
+      hoverAnnotation={hoverAnnotation}
+    />
   );
 };
 
