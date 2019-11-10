@@ -33,6 +33,11 @@ const ContourPage = props => {
         strokeWidth: 0.5
       };
     },
+    // summaryRenderMode: {
+    //   renderMode: 'sketchy',
+    //   fillWeight: 3,
+    //   hachureGap: 4
+    // },
     pointStyle: d => ({
       r: 2,
       fill: d && colors[d.title]
@@ -51,7 +56,7 @@ const ContourPage = props => {
     showLinePoints: true,
     canvasPoints: true,
     showSummaryPoints: true,
-    canvasSummary: true
+    canvasSummary: true,
   };
 
   return (

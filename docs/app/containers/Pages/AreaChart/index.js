@@ -20,11 +20,7 @@ const AreaPage = props => {
         Theaters showing <tspan fill={'#ac58e5'}>Ex Machina</tspan> vs{' '}
         <tspan fill={'#E0488B'}>Far from the Madding Crowd</tspan>
       </text>
-    ),
-    axes: [
-      { orient: 'left', label: 'Rank' },
-      { orient: 'bottom', label: { name: 'Theaters', locationDistance: 55 } }
-    ]
+    )
   };
 
   const lineProps = {
@@ -71,6 +67,7 @@ const AreaPage = props => {
           <YAxis hideTicks />
           <YAxis left={50} tickFormat={v => v * v} />
           <YAxis hideLine left={150} tickFormat={v => `this is ${v}`} />
+
           <Line {...lineProps} />
           <Contour {...contourProps} />
         </XYFrame>

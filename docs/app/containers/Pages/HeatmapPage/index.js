@@ -40,11 +40,11 @@ const HeatmapPage = props => {
     summaryType: 'heatmap',
 
     /* --- Process --- */
-    // summaryRenderMode: {
-    //   renderMode: 'sketchy',
-    //   fillWeight: 3,
-    //   hachureGap: 4
-    // },
+    summaryRenderMode: {
+      renderMode: 'sketchy',
+      fillWeight: 3,
+      hachureGap: 4
+    },
 
     /* --- Customize --- */
     summaryStyle: e => {

@@ -180,19 +180,22 @@ const XYFrame = props => {
             <VisualizationLayer
               title={generatedTitle}
               frameKey={frameKey}
-              axes={axes}
+              width={width}
+              height={height}
               size={adjustedSize}
               position={adjustedPosition}
-              canvasPostProcess={canvasPostProcess}
-              projectedCoordinateNames={projectedCoordinateNames}
               frontCanvas={frontCanvas}
               backCanvas={backCanvas}
               matte={marginGraphic}
               margin={margin}
+
+              axes={axes}
+              canvasPostProcess={canvasPostProcess}
+              projectedCoordinateNames={projectedCoordinateNames}
+
               renderPipeline={renderPipeline}
               renderOrder={renderOrder}
-              width={width}
-              height={height}
+
               xScale={xScale}
               yScale={yScale}
               data={data}
