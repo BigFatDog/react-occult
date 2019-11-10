@@ -5,7 +5,7 @@ import { TheaterSummaryData } from '../ContourPage/ThreaterSummaryData';
 import brand from 'dan-api/dummy/brand';
 import { PapperBlock } from 'dan-components';
 
-import { XYFrame, Line } from 'occult';
+import { XYFrame, Line, XAxis, YAxis, Contour } from 'occult';
 
 const AreaPage = props => {
   const title = brand.name + ' - Sample Area Chart';

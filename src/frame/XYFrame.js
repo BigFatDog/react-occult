@@ -14,6 +14,7 @@ import filterDefs from '../utils/filterDefs';
 import generateFrameTitle from '../svg/frameFunctions/generateFrameTitle';
 import SpanOrDiv from '../utils/SpanOrDiv';
 import VisualizationLayer from '../layers/VisualizationLayer/VisualizationLayer';
+import { adjustedPositionSize } from '../data/dataFunctions';
 
 const getCanvasScale = context => {
   const devicePixelRatio = window.devicePixelRatio || 1;
@@ -72,7 +73,7 @@ const XYFrame = props => {
     title,
     useSpans,
     additionalDefs,
-    margin,
+    margin: baseMargin,
     matte,
     beforeElements,
     afterElements,
@@ -102,6 +103,21 @@ const XYFrame = props => {
   const generatedTitle = generateFrameTitle({
     title,
     size
+  });
+
+  const margin =
+    baseMargin !== 'object'
+      ? {
+          top: baseMargin,
+          bottom: baseMargin,
+          left: baseMargin,
+          right: baseMargin
+        }
+      : Object.assign({ top: 0, bottom: 0, left: 0, right: 0 }, baseMargin);
+
+  const { adjustedPosition, adjustedSize } = adjustedPositionSize({
+    size: [width, height],
+    margin
   });
 
   return (
@@ -188,14 +204,11 @@ const XYFrame = props => {
               backCanvas={backCanvas}
               matte={marginGraphic}
               margin={margin}
-
               axes={axes}
               canvasPostProcess={canvasPostProcess}
               projectedCoordinateNames={projectedCoordinateNames}
-
               renderPipeline={renderPipeline}
               renderOrder={renderOrder}
-
               xScale={xScale}
               yScale={yScale}
               data={data}
