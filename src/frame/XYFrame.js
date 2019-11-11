@@ -79,7 +79,8 @@ const XYFrame = props => {
     beforeElements,
     afterElements,
     backgroundGraphics,
-    foregroundGraphics
+    foregroundGraphics,
+    canvasPostProcess
   } = props;
 
   const size = [width, height];
@@ -119,8 +120,8 @@ const XYFrame = props => {
 
   //todo: remove
   const marginGraphic = toMarginGraphic({matte, size, margin, name});
+
   const axes = [];
-  const canvasPostProcess = null;
   const projectedCoordinateNames = {};
   const renderPipeline = {};
   const renderOrder = [];
@@ -217,6 +218,7 @@ const XYFrame = props => {
               backCanvas={backCanvas}
               matte={marginGraphic}
               margin={margin}
+
               axes={axes}
               canvasPostProcess={canvasPostProcess}
               projectedCoordinateNames={projectedCoordinateNames}
@@ -264,7 +266,8 @@ XYFrame.propTypes = {
   beforeElements: object,
   afterElements: object,
   backgroundGraphics: object,
-  foregroundGraphics: object
+  foregroundGraphics: object,
+  canvasPostProcess: bool
 };
 
 XYFrame.defaultProps = {
@@ -280,6 +283,7 @@ XYFrame.defaultProps = {
   backgroundGraphics: null,
   foregroundGraphics: null,
   additionalDefs: null,
+  canvasPostProcess: 'chunkClose',
   margin: { top: 0, bottom: 0, left: 0, right: 0 }
 };
 
