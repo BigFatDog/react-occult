@@ -1,6 +1,16 @@
 import { sum } from 'd3-array';
 
 import { findFirstAccessorValue } from './multiAccessorUtils';
+import {
+  projectedX,
+  projectedY,
+  projectedYMiddle,
+  projectedYTop,
+  projectedYBottom,
+  projectedXMiddle,
+  projectedXTop,
+  projectedXBottom
+} from '../constants/coordinateNames';
 
 const datesForUnique = d => (d instanceof Date ? d.getTime() : d);
 
@@ -398,13 +408,7 @@ export function funnelize({ data, steps, key }) {
   return funnelData;
 }
 
-export function relativeY({
-  point,
-  projectedYMiddle,
-  projectedY,
-  yAccessor,
-  yScale
-}) {
+export function relativeY({ point, yAccessor, yScale }) {
   const baseData =
     point &&
     (point[projectedYMiddle] !== undefined
@@ -419,13 +423,7 @@ export function relativeY({
   return baseData !== undefined ? yScale(baseData) : 0;
 }
 
-export function relativeX({
-  point,
-  projectedXMiddle,
-  projectedX,
-  xAccessor,
-  xScale
-}) {
+export function relativeX({ point, xAccessor, xScale }) {
   const baseData =
     point &&
     (point[projectedXMiddle] !== undefined
@@ -440,14 +438,7 @@ export function relativeX({
   return baseData !== undefined ? xScale(baseData) : 0;
 }
 
-export function findPointByID({
-  point,
-  idAccessor,
-  lines,
-  xScale,
-  projectedX,
-  xAccessor
-}) {
+export function findPointByID({ point, idAccessor, lines, xScale, xAccessor }) {
   const pointID = idAccessor(point.parentLine || point);
 
   if (pointID) {

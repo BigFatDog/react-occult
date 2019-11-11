@@ -15,6 +15,13 @@ import {
 
 import clonedAppliedElement from './clonedAppliedElement';
 
+import {
+  projectedX,
+  projectedY,
+  projectedYTop,
+  projectedYBottom,
+} from '../../constants/coordinateNames';
+
 export const curveHash = {
   step: curveStep,
   stepbefore: curveStepBefore,
@@ -31,14 +38,16 @@ export const curveHash = {
 
 export function lineGeneratorDecorator({
   generator,
-  projectedCoordinateNames,
   defined,
   xScale,
   yScale,
   interpolator,
   simpleLine
 }) {
-  const { x, y, yTop, yBottom } = projectedCoordinateNames;
+  const x = projectedX;
+  const y = projectedY;
+  const yTop = projectedYTop;
+  const yBottom = projectedYBottom;
 
   generator.x(d => xScale(d[x])).curve(interpolator);
 
@@ -60,7 +69,6 @@ const createLines = ({
   yScale,
   canvasDrawing,
   data,
-  projectedCoordinateNames,
   customMark,
   canvasRender,
   styleFn,
@@ -89,7 +97,6 @@ const createLines = ({
   const lineGenerator = customLine.simpleLine ? line() : area();
 
   lineGeneratorDecorator({
-    projectedCoordinateNames,
     defined,
     interpolator,
     generator: lineGenerator,
@@ -104,7 +111,6 @@ const createLines = ({
         const dynLineGenerator = area();
 
         lineGeneratorDecorator({
-          projectedCoordinateNames,
           defined,
           interpolator: interpolator.dynamicInterpolator(d, i),
           generator: dynLineGenerator,
@@ -234,7 +240,6 @@ const createLines = ({
     const overLine = line();
 
     lineGeneratorDecorator({
-      projectedCoordinateNames,
       defined,
       interpolator,
       generator: overLine,

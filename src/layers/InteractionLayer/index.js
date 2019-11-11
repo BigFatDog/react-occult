@@ -2,7 +2,6 @@ import * as React from 'react';
 import { brushX, brushY, brush } from 'd3-brush';
 import { extent as d3Extent } from 'd3-array';
 import { select, event } from 'd3-selection';
-import { ScaleLinear } from 'd3-scale';
 import { voronoi } from 'd3-voronoi';
 import { Mark } from 'semiotic-mark';
 
@@ -21,6 +20,7 @@ import {
 import SpanOrDiv from '../../utils/SpanOrDiv';
 
 import {
+  projectedX,
   projectedY,
   projectedYTop,
   projectedYMiddle,
@@ -361,7 +361,6 @@ class InteractionLayer extends React.Component {
       xScale,
       yScale,
       points,
-      projectedX,
       showLinePoints,
       size,
       overlay,
@@ -722,9 +721,6 @@ InteractionLayer.propTypes = {
   hoverAnnotation: oneOfType([bool, object, array, func]),
   interactionOverflow: object,
   size: arrayOf(number),
-  projectedYMiddle: string,
-  projectedX: string,
-  projectedY: string,
   points: arrayOf(object),
   position: arrayOf(number),
   enabled: bool,

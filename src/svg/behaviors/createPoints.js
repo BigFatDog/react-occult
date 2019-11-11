@@ -1,11 +1,17 @@
 import clonedAppliedElement from './clonedAppliedElement';
 
+import {
+  projectedX,
+  projectedY,
+  projectedYMiddle,
+  projectedXMiddle,
+} from '../../constants/coordinateNames';
+
 const createPoints = ({
   xScale,
   yScale,
   canvasDrawing,
   data,
-  projectedCoordinateNames,
   customMark,
   canvasRender,
   styleFn,
@@ -14,7 +20,11 @@ const createPoints = ({
   renderMode,
   baseMarkProps
 }) => {
-  const { y, x, yMiddle, xMiddle } = projectedCoordinateNames;
+  const x = projectedX;
+  const y = projectedY;
+  const xMiddle = projectedXMiddle;
+  const yMiddle = projectedYMiddle;
+
   const mappedPoints = [];
   data.forEach((d, i) => {
     const dX = xScale(d[xMiddle] || d[x]);

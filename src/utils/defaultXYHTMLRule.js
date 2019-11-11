@@ -77,7 +77,6 @@ const defaultXYHTMLRule = ({
         idAccessor,
         lines,
         xScale,
-        projectedX,
         xAccessor
       });
       return [

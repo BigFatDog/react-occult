@@ -20,16 +20,16 @@ const toMarginGraphic = ({ matte, size, margin, name }) => {
     marginGraphic = matte;
   } else if (matte === true) {
     marginGraphic = (
-        <path
-            fill="white"
-            transform={`translate(${-margin.left},${-margin.top})`}
-            d={drawMarginPath({
-              margin,
-              size,
-              inset: 0
-            })}
-            className={`${name}-matte`}
-        />
+      <path
+        fill="white"
+        transform={`translate(${-margin.left},${-margin.top})`}
+        d={drawMarginPath({
+          margin,
+          size,
+          inset: 0
+        })}
+        className={`${name}-matte`}
+      />
     );
   }
 

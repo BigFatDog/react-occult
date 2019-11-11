@@ -57,7 +57,6 @@ const defaultXYSVGRule = ({
         idAccessor,
         lines,
         xScale,
-        projectedX,
         xAccessor
       });
 
@@ -67,15 +66,11 @@ const defaultXYSVGRule = ({
     screenCoordinates = [
       relativeX({
         point: d,
-        projectedXMiddle,
-        projectedX,
         xAccessor,
         xScale
       }) || 0,
       relativeY({
         point: d,
-        projectedYMiddle,
-        projectedY,
         yAccessor,
         yScale,
         showLinePoints

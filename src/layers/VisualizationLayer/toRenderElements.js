@@ -7,7 +7,6 @@ const toRenderedElements = ({ props, piecesGroup, handleKeyDown }) => {
     xScale,
     yScale,
     baseMarkProps = {},
-    projectedCoordinateNames,
     voronoiHover
   } = props;
   const renderedElements = [];
@@ -32,7 +31,6 @@ const toRenderedElements = ({ props, piecesGroup, handleKeyDown }) => {
         xScale,
         yScale,
         canvasDrawing,
-        projectedCoordinateNames,
         baseMarkProps: Object.assign(baseMarkProps, {
           'aria-label':
             (pipe.ariaLabel && pipe.ariaLabel.items) || 'dataviz-element',

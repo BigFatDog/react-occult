@@ -29,17 +29,6 @@ import defaultXYSVGRule from './utils/defaultXYSVGRule';
 import defaultXYHTMLRule from './utils/defaultXYHTMLRule';
 import toAxes from './z-helper/toAxes';
 
-import {
-  projectedX,
-  projectedY,
-  projectedYMiddle,
-  projectedYTop,
-  projectedYBottom,
-  projectedXMiddle,
-  projectedXTop,
-  projectedXBottom
-} from './constants/coordinateNames';
-
 const naturalLanguageLineType = {
   line: { items: 'line', chart: 'line chart' },
   area: { items: 'area', chart: 'area chart' },
@@ -60,17 +49,6 @@ const naturalLanguageLineType = {
     items: 'line',
     chart: 'difference chart'
   }
-};
-
-const projectedCoordinateNames = {
-  y: projectedY,
-  x: projectedX,
-  yMiddle: projectedYMiddle,
-  yTop: projectedYTop,
-  yBottom: projectedYBottom,
-  xMiddle: projectedXMiddle,
-  xTop: projectedXTop,
-  xBottom: projectedXBottom
 };
 
 const emptyObjectReturnFunction = () => ({});
@@ -455,10 +433,8 @@ const CartesianFrame = props => {
         adjustedPosition,
         adjustedSize
       })}
-      projectedCoordinateNames={projectedCoordinateNames}
       overlay={overlay}
       interaction={interaction}
-      projectedYMiddle={projectedYMiddle}
       customClickBehavior={customClickBehavior}
       customHoverBehavior={customHoverBehavior}
       customDoubleClickBehavior={customDoubleClickBehavior}

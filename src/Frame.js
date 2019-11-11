@@ -20,8 +20,6 @@ import {
   InteractionLayer
 } from './layers';
 
-import { projectedYMiddle } from './constants/coordinateNames';
-
 const getCanvasScale = context => {
   const devicePixelRatio = window.devicePixelRatio || 1;
 
@@ -102,7 +100,6 @@ const Frame = props => {
     adjustedPosition,
     defaultSVGRule,
     defaultHTMLRule,
-    projectedCoordinateNames,
     interaction,
     interactionOverflow,
     customClickBehavior,
@@ -194,7 +191,7 @@ const Frame = props => {
     />
   );
 
-  const marginGraphic = toMarginGraphic({matte, size, margin, name});
+  const marginGraphic = toMarginGraphic({ matte, size, margin, name });
 
   return (
     <SpanOrDiv
@@ -289,7 +286,6 @@ const Frame = props => {
               size={adjustedSize}
               position={adjustedPosition}
               canvasPostProcess={canvasPostProcess}
-              projectedCoordinateNames={projectedCoordinateNames}
               frontCanvas={frontCanvas}
               backCanvas={backCanvas}
               matte={marginGraphic}
@@ -315,9 +311,6 @@ const Frame = props => {
         <InteractionLayer
           useSpans={useSpans}
           hoverAnnotation={hoverAnnotation}
-          projectedX={projectedCoordinateNames.x}
-          projectedY={projectedCoordinateNames.y}
-          projectedYMiddle={projectedYMiddle}
           interaction={interaction}
           voronoiHover={setVoronoiHover}
           customClickBehavior={customClickBehavior}
@@ -403,7 +396,6 @@ Frame.propTypes = {
   renderPipeline: object,
   defaultSVGRule: func,
   defaultHTMLRule: func,
-  projectedCoordinateNames: object,
   interaction: object,
   interactionOverflow: bool,
   customClickBehavior: func,

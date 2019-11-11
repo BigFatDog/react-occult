@@ -142,7 +142,6 @@ VisualizationLayer.propTypes = {
   frontCanvas: object,
   backCanvas: object,
   renderOrder: array,
-  projectedCoordinateNames: object,
   voronoiHover: func
 };
 
