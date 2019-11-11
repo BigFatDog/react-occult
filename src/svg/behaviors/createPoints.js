@@ -4,7 +4,7 @@ import {
   projectedX,
   projectedY,
   projectedYMiddle,
-  projectedXMiddle,
+  projectedXMiddle
 } from '../../constants/coordinateNames';
 
 const createPoints = ({

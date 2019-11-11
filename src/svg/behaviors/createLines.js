@@ -19,7 +19,7 @@ import {
   projectedX,
   projectedY,
   projectedYTop,
-  projectedYBottom,
+  projectedYBottom
 } from '../../constants/coordinateNames';
 
 export const curveHash = {

@@ -80,7 +80,8 @@ const XYFrame = props => {
     afterElements,
     backgroundGraphics,
     foregroundGraphics,
-    canvasPostProcess
+    canvasPostProcess,
+    renderOrder
   } = props;
 
   const size = [width, height];
@@ -122,7 +123,6 @@ const XYFrame = props => {
 
   const axes = [];
   const renderPipeline = {};
-  const renderOrder = [];
   const xScale = null;
   const yScale = null;
   const data = [];
@@ -263,7 +263,8 @@ XYFrame.propTypes = {
   afterElements: object,
   backgroundGraphics: object,
   foregroundGraphics: object,
-  canvasPostProcess: bool
+  canvasPostProcess: bool,
+  renderOrder: array
 };
 
 XYFrame.defaultProps = {
@@ -272,6 +273,7 @@ XYFrame.defaultProps = {
   name: '',
   className: '',
   frameKey: '',
+  margin: { top: 0, bottom: 0, left: 0, right: 0 },
   title: { title: '', orient: 'top' },
   useSpans: false,
   beforeElements: null,
@@ -280,7 +282,7 @@ XYFrame.defaultProps = {
   foregroundGraphics: null,
   additionalDefs: null,
   canvasPostProcess: 'chunkClose',
-  margin: { top: 0, bottom: 0, left: 0, right: 0 }
+  renderOrder: ['areas', 'lines', 'points']
 };
 
 export default XYFrame;
