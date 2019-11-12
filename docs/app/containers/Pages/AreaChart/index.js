@@ -35,11 +35,12 @@ const AreaPage = props => {
     canvas: true
   };
 
-
   const contourProps = {
     xAccessor: d => d.theaterCount,
     yAccessor: d => d.rank,
     sAccessor: d => d.title,
+    xExtent: [0],
+    yExtent: [0],
     data: TheaterSummaryData,
     threshold: 1,
     bandwidth: 15,
