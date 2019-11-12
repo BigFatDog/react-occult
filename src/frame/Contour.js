@@ -9,6 +9,15 @@ import {
 } from 'prop-types';
 
 const Contour = props => {
+  const {
+    data,
+    threshold,
+    bandwidth,
+    areaStyle,
+    pointStyle,
+    canvas,
+  } = props;
+
   return <div />;
 };
 
