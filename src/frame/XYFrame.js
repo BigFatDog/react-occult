@@ -16,6 +16,7 @@ import SpanOrDiv from '../utils/SpanOrDiv';
 import VisualizationLayer from '../layers/VisualizationLayer/VisualizationLayer';
 import { adjustedPositionSize } from '../data/dataFunctions';
 import toMarginGraphic from '../svg/frameFunctions/toMarginGraphic';
+import extractComponentsInFrame from './util/extractComponentsInFrame';
 
 const getCanvasScale = context => {
   const devicePixelRatio = window.devicePixelRatio || 1;
@@ -81,7 +82,8 @@ const XYFrame = props => {
     backgroundGraphics,
     foregroundGraphics,
     canvasPostProcess,
-    renderOrder
+    renderOrder,
+    children
   } = props;
 
   const size = [width, height];
@@ -120,6 +122,8 @@ const XYFrame = props => {
 
   //todo: remove
   const marginGraphic = toMarginGraphic({ matte, size, margin, name });
+  const components = extractComponentsInFrame(children);
+  console.log(components);
 
   const axes = [];
   const renderPipeline = {};

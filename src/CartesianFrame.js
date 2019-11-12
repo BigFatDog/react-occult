@@ -155,6 +155,8 @@ const CartesianFrame = props => {
   const annotatedSettings = {
     xAccessor: stringToArrayFn(xAccessor, d => d[0]),
     yAccessor: stringToArrayFn(yAccessor, d => d[1]),
+    xExtent: (baseXExtent && baseXExtent.extent) || baseXExtent,
+    yExtent: (baseYExtent && baseYExtent.extent) || baseYExtent,
     areaDataAccessor: stringToArrayFn(areaDataAccessor, d =>
       Array.isArray(d) ? d : d.coordinates
     ),
@@ -186,8 +188,6 @@ const CartesianFrame = props => {
       title !== null
         ? title
         : { title, orient: 'top' },
-    xExtent: (baseXExtent && baseXExtent.extent) || baseXExtent,
-    yExtent: (baseYExtent && baseYExtent.extent) || baseYExtent
   };
 
   annotatedSettings.lineType.simpleLine =
