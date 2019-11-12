@@ -1,30 +1,18 @@
 import React from 'react';
-import {
-  object,
-  func,
-  array,
-  oneOfType,
-  bool,
-  number
-} from 'prop-types';
+import { object, func, array, oneOfType, bool, number } from 'prop-types';
 
 const Contour = props => {
-  const {
-    data,
-    threshold,
-    bandwidth,
-    areaStyle,
-    pointStyle,
-    canvas,
-  } = props;
+  const { data, threshold, bandwidth, areaStyle, pointStyle, canvas } = props;
 
   return <div />;
 };
 
 Contour.propTypes = {
   data: array,
+  resolution: number,
   threshold: number,
   bandwidth: number,
+  neighborhood: bool,
   areaStyle: oneOfType([object, func]),
   pointStyle: oneOfType([object, func]),
   canvas: bool
@@ -32,8 +20,9 @@ Contour.propTypes = {
 
 Contour.defaultProps = {
   data: [],
-  threshold: 1,
-  bandwidth: 15,
+  resolution: 500,
+  threshold: 10,
+  bandwidth: 20,
   areaStyle: {
     fill: 'none',
     stroke: 'red',
@@ -43,6 +32,7 @@ Contour.defaultProps = {
     r: 2,
     fill: 'red'
   },
+  neighborhood: true,
   canvas: true
 };
 

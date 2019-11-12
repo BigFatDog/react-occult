@@ -187,7 +187,7 @@ const CartesianFrame = props => {
       !React.isValidElement(title) &&
       title !== null
         ? title
-        : { title, orient: 'top' },
+        : { title, orient: 'top' }
   };
 
   annotatedSettings.lineType.simpleLine =
