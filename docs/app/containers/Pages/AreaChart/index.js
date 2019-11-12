@@ -1,6 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { TheaterSummaryData } from '../ContourPage/ThreaterSummaryData';
+import { group } from 'd3-array';
+import { TheaterSummaryData } from './ThreaterFlattenData';
 
 import brand from 'dan-api/dummy/brand';
 import { PapperBlock } from 'dan-components';
@@ -34,7 +35,11 @@ const AreaPage = props => {
     canvas: true
   };
 
+
   const contourProps = {
+    xAccessor: d => d.theaterCount,
+    yAccessor: d => d.rank,
+    sAccessor: d => d.title,
     data: TheaterSummaryData,
     threshold: 1,
     bandwidth: 15,
@@ -62,8 +67,8 @@ const AreaPage = props => {
       </Helmet>
       <PapperBlock title="Area Chart" desc="Basic Area Chart">
         <XYFrame {...frameProps}>
-          <XAxis label={'Rank'} />
-          <YAxis left={50} label={'Theaters'} />
+          {/*<XAxis label={'Rank'} />*/}
+          {/*<YAxis left={50} label={'Theaters'} />*/}
           {/*<Line {...lineProps} />*/}
           <Contour {...contourProps} />
         </XYFrame>

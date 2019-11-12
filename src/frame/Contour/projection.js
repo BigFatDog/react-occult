@@ -3,22 +3,15 @@ import { scaleLinear } from 'd3-scale';
 import shapeBounds from './shapeBounds';
 
 const contouringProjection = ({
-  summaryType,
+  threshold,
+  resolution,
+  bandwidth,
+  neighborhood,
   data,
   finalXExtent,
   finalYExtent
 }) => {
   let projectedAreas = [];
-  if (!summaryType.type) {
-    summaryType = { type: summaryType };
-  }
-
-  const {
-    resolution = 500,
-    thresholds = 10,
-    bandwidth = 20,
-    neighborhood
-  } = summaryType;
 
   const xScale = scaleLinear()
     .domain(finalXExtent)

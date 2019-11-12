@@ -122,9 +122,9 @@ const XYFrame = props => {
 
   //todo: remove
   const marginGraphic = toMarginGraphic({ matte, size, margin, name });
-  const components = extractComponentsInFrame(children);
-  console.log(components);
-
+  // const components = extractComponentsInFrame(children);
+  // console.log(components);
+  console.log(children)
   const axes = [];
   const renderPipeline = {};
   const xScale = null;
@@ -228,7 +228,9 @@ const XYFrame = props => {
               yScale={yScale}
               data={data}
               voronoiHover={setVoronoiHover}
-            />
+            >
+            </VisualizationLayer>
+            {children}
             {/* visualization layer */}
             {generatedTitle && <g className="frame-title">{generatedTitle}</g>}
             {foregroundGraphics && (
@@ -267,7 +269,7 @@ XYFrame.propTypes = {
   afterElements: object,
   backgroundGraphics: object,
   foregroundGraphics: object,
-  canvasPostProcess: bool,
+  canvasPostProcess: string,
   renderOrder: array
 };
 
