@@ -1,4 +1,4 @@
-export function renderFn({
+const renderFn = ({
   data,
   type,
   renderMode,
@@ -7,7 +7,7 @@ export function renderFn({
   classFn,
   adjustedSize,
   baseMarkProps
-}) {
+}) => {
   const keys = Object.keys(data);
   const renderedSummaryMarks = [];
   const summaryXYCoords = [];
@@ -62,4 +62,6 @@ export function renderFn({
     );
   });
   return { marks: renderedSummaryMarks, xyPoints: summaryXYCoords };
-}
+};
+
+export default renderFn;

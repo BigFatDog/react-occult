@@ -11,6 +11,7 @@ import {
 import { group } from 'd3-array';
 import getExtent from './util/getExtent';
 import contouringProjection from './projection';
+import renderFn from './renderFn';
 
 const Contour = props => {
   const {
@@ -26,19 +27,11 @@ const Contour = props => {
     yAccessor,
     sAccessor,
     xExtent,
-    yExtent
+    yExtent,
+    showPoints
   } = props;
 
-  const groupedMap = group(data, sAccessor);
-  const groupedData = Array.from(groupedMap.keys()).map(d => ({
-    s: d,
-    coordinates: groupedMap.get(d).map(e => ({
-      x: xAccessor(e),
-      y: yAccessor(e)
-    })),
-    _baseData: groupedMap.get(d)
-  }));
-
+  // extents
   const { finalXExtent, finalYExtent } = getExtent({
     data,
     xAccessor,
@@ -47,15 +40,32 @@ const Contour = props => {
     yExtent
   });
 
-  const projectedAreas = contouringProjection({
+  // data projection
+  const { projectedAreas, projectedPoints } = contouringProjection({
     threshold,
     resolution,
     bandWidth,
     neighborhood,
-    data: groupedData,
+    data,
     finalXExtent,
-    finalYExtent
+    finalYExtent,
+    xAccessor,
+    yAccessor,
+    sAccessor,
+    showPoints
   });
+
+  // to render pipelines
+  // const projectContours = renderFn({
+  //   data,
+  //   type,
+  //   renderMode,
+  //   eventListenersGenerator,
+  //   styleFn,
+  //   classFn,
+  //   adjustedSize,
+  //   baseMarkProps
+  // });
   console.log(projectedAreas);
 
   return <div />;
@@ -70,6 +80,7 @@ Contour.propTypes = {
   areaStyle: oneOfType([object, func]),
   pointStyle: oneOfType([object, func]),
   canvas: bool,
+  showPoints: bool,
   xExtent: array,
   yExtent: array,
   xAccessor: oneOfType([string, func]),
@@ -91,6 +102,7 @@ Contour.defaultProps = {
     r: 2,
     fill: 'red'
   },
+  showPoints: true,
   neighborhood: false,
   canvas: true
 };

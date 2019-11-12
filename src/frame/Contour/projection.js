@@ -1,6 +1,7 @@
 import { contourDensity } from 'd3-contour';
 import { scaleLinear } from 'd3-scale';
 import shapeBounds from './shapeBounds';
+import { group } from 'd3-array';
 
 const contouringProjection = ({
   threshold,
@@ -9,9 +10,36 @@ const contouringProjection = ({
   neighborhood,
   data,
   finalXExtent,
-  finalYExtent
+  finalYExtent,
+  xAccessor,
+  yAccessor,
+  sAccessor,
+  showPoints
 }) => {
   let projectedAreas = [];
+  let projectedPoints = [];
+
+  // data
+  const groupedMap = group(data, sAccessor);
+  const groupedData = Array.from(groupedMap.keys()).map(d => ({
+    s: d,
+    coordinates: groupedMap.get(d).map(e => ({
+      x: xAccessor(e),
+      y: yAccessor(e)
+    })),
+    _baseData: groupedMap.get(d)
+  }));
+
+  if (showPoints === true) {
+    projectedPoints = data.map(d => ({
+      parentSummary: groupedData.find(e => e.s === sAccessor(d)),
+      _data: d,
+      x: xAccessor(d),
+      y: yAccessor(d)
+    }));
+  }
+
+  console.log(projectedPoints);
 
   const xScale = scaleLinear()
     .domain(finalXExtent)
@@ -22,7 +50,7 @@ const contouringProjection = ({
     .rangeRound([resolution, 0])
     .nice();
 
-  data.forEach(contourData => {
+  groupedData.forEach(contourData => {
     let contourProjectedAreas = contourDensity()
       .size([resolution, resolution])
       .x(d => xScale(d.x))
@@ -59,7 +87,10 @@ const contouringProjection = ({
     projectedAreas = [...projectedAreas, ...contourProjectedAreas];
   });
 
-  return projectedAreas;
+  return {
+    projectedAreas,
+    projectedPoints
+  };
 };
 
 export default contouringProjection;
