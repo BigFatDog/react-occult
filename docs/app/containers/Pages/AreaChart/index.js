@@ -42,8 +42,8 @@ const AreaPage = props => {
     xExtent: [0],
     yExtent: [0],
     data: TheaterSummaryData,
-    threshold: 1,
-    bandwidth: 15,
+    threshold: 10,
+    bandWidth: 15,
     areaStyle: (e, i) => ({
       fill: 'none',
       stroke: colors[e.parentSummary.title],

@@ -10,13 +10,14 @@ import {
 } from 'prop-types';
 import { group } from 'd3-array';
 import getExtent from './util/getExtent';
+import contouringProjection from './projection';
 
 const Contour = props => {
   const {
     data,
     threshold,
     resolution,
-    bandwidth,
+    bandWidth,
     neighborhood,
     areaStyle,
     pointStyle,
@@ -46,7 +47,17 @@ const Contour = props => {
     yExtent
   });
 
-  console.log(finalXExtent, finalYExtent);
+  const projectedAreas = contouringProjection({
+    threshold,
+    resolution,
+    bandWidth,
+    neighborhood,
+    data: groupedData,
+    finalXExtent,
+    finalYExtent
+  });
+  console.log(projectedAreas);
+
   return <div />;
 };
 
@@ -54,7 +65,7 @@ Contour.propTypes = {
   data: array,
   resolution: number,
   threshold: number,
-  bandwidth: number,
+  bandWidth: number,
   neighborhood: bool,
   areaStyle: oneOfType([object, func]),
   pointStyle: oneOfType([object, func]),
@@ -70,7 +81,7 @@ Contour.defaultProps = {
   data: [],
   resolution: 500,
   threshold: 10,
-  bandwidth: 20,
+  bandWidth: 20,
   areaStyle: {
     fill: 'none',
     stroke: 'red',
@@ -80,7 +91,7 @@ Contour.defaultProps = {
     r: 2,
     fill: 'red'
   },
-  neighborhood: true,
+  neighborhood: false,
   canvas: true
 };
 

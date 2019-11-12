@@ -5,7 +5,7 @@ import shapeBounds from './shapeBounds';
 const contouringProjection = ({
   threshold,
   resolution,
-  bandwidth,
+  bandWidth,
   neighborhood,
   data,
   finalXExtent,
@@ -25,10 +25,10 @@ const contouringProjection = ({
   data.forEach(contourData => {
     let contourProjectedAreas = contourDensity()
       .size([resolution, resolution])
-      .x(d => xScale(d[0]))
-      .y(d => yScale(d[1]))
-      .thresholds(thresholds)
-      .bandwidth(bandwidth)(contourData._xyfCoordinates);
+      .x(d => xScale(d.x))
+      .y(d => yScale(d.y))
+      .thresholds(threshold)
+      .bandwidth(bandWidth)(contourData.coordinates);
 
     if (neighborhood) {
       contourProjectedAreas = [contourProjectedAreas[0]];
