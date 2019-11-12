@@ -39,8 +39,6 @@ const contouringProjection = ({
     }));
   }
 
-  console.log(projectedPoints);
-
   const xScale = scaleLinear()
     .domain(finalXExtent)
     .rangeRound([0, resolution])
