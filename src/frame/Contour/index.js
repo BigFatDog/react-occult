@@ -6,10 +6,16 @@ import {
   oneOfType,
   bool,
   number,
-  string
+  string,
+  node
 } from 'prop-types';
 import getExtent from './util/getExtent';
 import contouringProjection from './projection';
+import { stringToFn } from '../../data/dataFunctions';
+import toRenderedElements from './toRenderedElements';
+
+const emptyObjectReturnFunction = () => ({});
+const emptyStringReturnFunction = () => '';
 
 const Contour = props => {
   const {
@@ -19,6 +25,9 @@ const Contour = props => {
     bandWidth,
     neighborhood,
     areaStyle,
+    areaClass,
+    areaRenderMode,
+    areaCustomMarks,
     pointStyle,
     useCanvas,
     xAccessor,
@@ -40,7 +49,12 @@ const Contour = props => {
   });
 
   // data projection
-  const { projectedAreas, projectedPoints } = contouringProjection({
+  const {
+    projectedAreas,
+    projectedPoints,
+    xScale,
+    yScale
+  } = contouringProjection({
     threshold,
     resolution,
     bandWidth,
@@ -54,10 +68,19 @@ const Contour = props => {
     showPoints
   });
 
-  console.log(projectedAreas, projectedPoints)
+  const { renderedElements, canvasPipeline } = toRenderedElements({
+    useCanvas,
+    xScale,
+    yScale,
+    styleFn: stringToFn(areaStyle, emptyObjectReturnFunction, true),
+    classFn: stringToFn(areaClass, emptyStringReturnFunction, true),
+    renderFn: stringToFn(areaRenderMode, undefined, true),
+    customMarks: areaCustomMarks,
+    data: projectedAreas
+  });
 
-  // canvasRendering for canvas, renderedElements for svg
-  const renderedElements = [];
+  console.log(renderedElements, canvasPipeline);
+
   return <Fragment>{renderedElements}</Fragment>;
 };
 
@@ -68,6 +91,9 @@ Contour.propTypes = {
   bandWidth: number,
   neighborhood: bool,
   areaStyle: oneOfType([object, func]),
+  areaClass: oneOfType([object, func]),
+  areaRenderMode: oneOfType([object, func]),
+  areaCustomMarks: oneOfType([node, func]),
   pointStyle: oneOfType([object, func]),
   useCanvas: bool,
   showPoints: bool,
@@ -93,6 +119,7 @@ Contour.defaultProps = {
     r: 2,
     fill: 'red'
   },
+  areaRenderMode: null,
   showPoints: true,
   neighborhood: false,
   useCanvas: true

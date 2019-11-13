@@ -8,6 +8,13 @@ import { PapperBlock } from 'dan-components';
 
 import { XYFrame, Line, XAxis, YAxis, Contour } from 'occult';
 
+const colors = {
+  'Ex Machina': '#ac58e5',
+  'Far from the Madding Crowd': '#E0488B',
+  'The Longest Ride': '#9fd0cb'
+};
+
+
 const AreaPage = props => {
   const title = brand.name + ' - Sample Area Chart';
   const description = brand.desc;
@@ -53,7 +60,7 @@ const AreaPage = props => {
       r: 2,
       fill: d && colors[d.title]
     }),
-    canvas: true
+    useCanvas: true
   };
 
   return (
