@@ -68,6 +68,8 @@ const VisualizationLayer = props => {
     handleKeyDown
   });
 
+  console.log('---------');
+
   useEffect(() => {
     drawCanvas({
       props,

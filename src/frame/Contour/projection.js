@@ -23,7 +23,7 @@ const contouringProjection = ({
   const groupedMap = group(data, sAccessor);
   const groupedData = Array.from(groupedMap.keys()).map(d => ({
     s: d,
-    coordinates: groupedMap.get(d).map(e => ({
+    _xyCoordinates: groupedMap.get(d).map(e => ({
       x: xAccessor(e),
       y: yAccessor(e)
     })),
@@ -54,7 +54,7 @@ const contouringProjection = ({
       .x(d => xScale(d.x))
       .y(d => yScale(d.y))
       .thresholds(threshold)
-      .bandwidth(bandWidth)(contourData.coordinates);
+      .bandwidth(bandWidth)(contourData._xyCoordinates);
 
     if (neighborhood) {
       contourProjectedAreas = [contourProjectedAreas[0]];

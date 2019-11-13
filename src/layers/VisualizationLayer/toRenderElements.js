@@ -18,6 +18,8 @@ const toRenderedElements = ({ props, piecesGroup, handleKeyDown }) => {
     renderVizKeys.filter(d => renderOrder.indexOf(d) === -1)
   );
 
+  console.log('-------------');
+
   renderKeys.forEach(k => {
     const pipe = renderPipeline[k];
     if (

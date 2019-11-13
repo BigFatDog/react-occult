@@ -79,7 +79,6 @@ export const projectCoordinates = ({
   baseMarkProps,
   chartSize
 }) => {
-  console.log('--------------');
   let fullDataset = [];
   let initialProjectedLines = [];
 

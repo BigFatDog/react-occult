@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import {
   object,
   func,
@@ -8,10 +8,8 @@ import {
   number,
   string
 } from 'prop-types';
-import { group } from 'd3-array';
 import getExtent from './util/getExtent';
 import contouringProjection from './projection';
-import renderFn from './renderFn';
 
 const Contour = props => {
   const {
@@ -22,13 +20,14 @@ const Contour = props => {
     neighborhood,
     areaStyle,
     pointStyle,
-    canvas,
+    useCanvas,
     xAccessor,
     yAccessor,
     sAccessor,
     xExtent,
     yExtent,
-    showPoints
+    showPoints,
+    customMarks
   } = props;
 
   // extents
@@ -55,20 +54,11 @@ const Contour = props => {
     showPoints
   });
 
-  // to render pipelines
-  // const projectContours = renderFn({
-  //   data,
-  //   type,
-  //   renderMode,
-  //   eventListenersGenerator,
-  //   styleFn,
-  //   classFn,
-  //   adjustedSize,
-  //   baseMarkProps
-  // });
-  console.log(projectedAreas);
+  console.log(projectedAreas, projectedPoints)
 
-  return <div />;
+  // canvasRendering for canvas, renderedElements for svg
+  const renderedElements = [];
+  return <Fragment>{renderedElements}</Fragment>;
 };
 
 Contour.propTypes = {
@@ -79,10 +69,11 @@ Contour.propTypes = {
   neighborhood: bool,
   areaStyle: oneOfType([object, func]),
   pointStyle: oneOfType([object, func]),
-  canvas: bool,
+  useCanvas: bool,
   showPoints: bool,
   xExtent: array,
   yExtent: array,
+  customMarks: object,
   xAccessor: oneOfType([string, func]),
   yAccessor: oneOfType([string, func]),
   sAccessor: oneOfType([string, func])
@@ -104,7 +95,7 @@ Contour.defaultProps = {
   },
   showPoints: true,
   neighborhood: false,
-  canvas: true
+  useCanvas: true
 };
 
 export default Contour;
