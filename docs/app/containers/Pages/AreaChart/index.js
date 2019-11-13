@@ -53,14 +53,14 @@ const AreaPage = props => {
     bandWidth: 15,
     areaStyle: (e, i) => ({
       fill: 'none',
-      stroke: colors[e.parentSummary.title],
+      stroke: colors[e.parentSummary.s],
       strokeWidth: 0.5
     }),
     pointStyle: d => ({
       r: 2,
-      fill: d && colors[d.title]
+      fill: d && colors[d.s]
     }),
-    useCanvas: true
+    useCanvas: false
   };
 
   return (

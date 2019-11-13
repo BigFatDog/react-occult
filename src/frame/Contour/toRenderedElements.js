@@ -12,8 +12,9 @@ const toRenderedElements = ({
   renderFn,
   customMark
 }) => {
-  const renderedElements = [];
   const canvasPipeline = [];
+  const svgPipeline = [];
+  const svgPipe = [];
 
   data.forEach((d, i) => {
     let drawD = '';
@@ -54,7 +55,7 @@ const toRenderedElements = ({
     if (shouldBeValid && React.isValidElement(drawD)) {
       renderedAreas.push(drawD);
     } else if (useCanvas === true) {
-      const canvasArea = {
+      const canvasPipe = {
         type: 'area',
         baseClass: 'xyframe-area',
         tx: 0,
@@ -66,9 +67,9 @@ const toRenderedElements = ({
         renderFn,
         classFn: () => className
       };
-      canvasPipeline.push(canvasArea);
+      canvasPipeline.push(canvasPipe);
     } else {
-      renderedElements.push(
+      svgPipe.push(
         <Mark
           key={renderKey}
           forceUpdate={true}
@@ -82,8 +83,21 @@ const toRenderedElements = ({
     }
   });
 
+  if (useCanvas === false) {
+    svgPipeline.push(
+        <g
+            key={'area'}
+            className={'area'}
+            role={'group'}
+            tabIndex={0}
+        >
+          {svgPipe}
+        </g>
+    );
+  }
+
   return {
-    renderedElements,
+    svgPipeline,
     canvasPipeline
   };
 };

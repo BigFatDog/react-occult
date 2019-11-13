@@ -56,7 +56,7 @@ const ContourPage = props => {
     showLinePoints: true,
     canvasPoints: true,
     showSummaryPoints: true,
-    canvasSummary: true
+    canvasSummary: false
   };
 
   return (

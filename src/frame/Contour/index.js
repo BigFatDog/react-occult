@@ -68,7 +68,7 @@ const Contour = props => {
     showPoints
   });
 
-  const { renderedElements, canvasPipeline } = toRenderedElements({
+  const { svgPipeline, canvasPipeline } = toRenderedElements({
     useCanvas,
     xScale,
     yScale,
@@ -79,9 +79,7 @@ const Contour = props => {
     data: projectedAreas
   });
 
-  console.log(renderedElements, canvasPipeline);
-
-  return <Fragment>{renderedElements}</Fragment>;
+  return <Fragment>{svgPipeline}</Fragment>;
 };
 
 Contour.propTypes = {
