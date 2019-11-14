@@ -16,7 +16,8 @@ import SpanOrDiv from '../utils/SpanOrDiv';
 import VisualizationLayer from '../layers/VisualizationLayer/VisualizationLayer';
 import { adjustedPositionSize } from '../data/dataFunctions';
 import toMarginGraphic from '../svg/frameFunctions/toMarginGraphic';
-import extractComponentsInFrame from './util/extractComponentsInFrame';
+import getExtent from './Contour/util/getExtent';
+import {scaleLinear} from "d3-scale";
 
 const getCanvasScale = context => {
   const devicePixelRatio = window.devicePixelRatio || 1;
@@ -126,19 +127,40 @@ const XYFrame = props => {
 
   //todo: remove
   const marginGraphic = toMarginGraphic({ matte, size, margin, name });
-  // const components = extractComponentsInFrame(children);
-  // console.log(components);
-  console.log(children);
-  const axes = [];
-  const renderPipeline = {};
-  const xScale = null;
-  const yScale = null;
-  const data = [];
 
   const { adjustedPosition, adjustedSize } = adjustedPositionSize({
     size: [width, height],
     margin
   });
+
+  const frameScopeExtent = React.Children
+      .toArray(children)
+      .filter( d => d.type.name === 'Contour')
+      .map(d => {
+        return getExtent({
+          data: d.props.data,
+          xAccessor: d.props.xAccessor,
+          yAccessor: d.props.yAccessor,
+          xExtent: d.props.xExtent,
+          yExtent: d.props.yExtent
+        })
+      })
+      .reduce((acc, cur) => {
+        acc.xExtent[0] = Math.min(acc.xExtent[0], cur.finalXExtent[0]);
+        acc.xExtent[1] = Math.max(acc.xExtent[1], cur.finalXExtent[1]);
+        acc.yExtent[0] = Math.min(acc.yExtent[0], cur.finalYExtent[0]);
+        acc.yExtent[1] = Math.max(acc.yExtent[1], cur.finalYExtent[1]);
+        return acc;
+      }, { xExtent: [0, 0], yExtent: [0, 0]});
+
+  const xDomain = [0, adjustedSize[0]];
+  const yDomain = [adjustedSize[1], 0];
+
+  const frameXScale = scaleLinear().domain(frameScopeExtent.xExtent).range(xDomain);
+  const frameYScale = scaleLinear().domain(frameScopeExtent.yExtent).range(yDomain);
+
+  const axes = [];
+  const data = [];
 
   return (
     <SpanOrDiv
@@ -226,14 +248,14 @@ const XYFrame = props => {
               margin={margin}
               canvasPostProcess={canvasPostProcess}
               axes={axes}
-              renderPipeline={renderPipeline}
               renderOrder={renderOrder}
-              xScale={xScale}
-              yScale={yScale}
               data={data}
               voronoiHover={setVoronoiHover}
-            />
-            {children}
+            >
+              {React.Children.toArray(children).filter(d => {
+                return d.type.name === 'Contour';
+              }).map(d => React.cloneElement(d, { adjustedSize, adjustedPosition, frameXScale, frameYScale }))}
+            </VisualizationLayer>
             {/* visualization layer */}
             {generatedTitle && <g className="frame-title">{generatedTitle}</g>}
             {foregroundGraphics && (
