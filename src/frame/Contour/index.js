@@ -36,7 +36,9 @@ const Contour = props => {
     xExtent,
     yExtent,
     showPoints,
-    customMarks
+    customMarks,
+    adjustedPosition,
+    adjustedSize
   } = props;
 
   // extents
@@ -67,6 +69,18 @@ const Contour = props => {
     sAccessor,
     showPoints
   });
+
+  const xDomain = [0, adjustedSize[0]];
+  const yDomain = [adjustedSize[1], 0];
+
+  if (xScale.domain) {
+    xScale.domain(finalXExtent);
+  }
+  if (yScale.domain) {
+    yScale.domain(finalYExtent);
+  }
+  xScale.range(xDomain);
+  yScale.range(yDomain);
 
   const { svgPipeline, canvasPipeline } = toRenderedElements({
     useCanvas,

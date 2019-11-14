@@ -85,14 +85,9 @@ const toRenderedElements = ({
 
   if (useCanvas === false) {
     svgPipeline.push(
-        <g
-            key={'area'}
-            className={'area'}
-            role={'group'}
-            tabIndex={0}
-        >
-          {svgPipe}
-        </g>
+      <g key={'area'} className={'area'} role={'group'} tabIndex={0}>
+        {svgPipe}
+      </g>
     );
   }
 

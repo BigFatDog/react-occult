@@ -54,7 +54,7 @@ const ContourPage = props => {
       { orient: 'bottom', label: { name: 'Theaters', locationDistance: 55 } }
     ],
     showLinePoints: true,
-    canvasPoints: true,
+    canvasPoints: false,
     showSummaryPoints: true,
     canvasSummary: false
   };

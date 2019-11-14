@@ -14,7 +14,6 @@ const colors = {
   'The Longest Ride': '#9fd0cb'
 };
 
-
 const AreaPage = props => {
   const title = brand.name + ' - Sample Area Chart';
   const description = brand.desc;
