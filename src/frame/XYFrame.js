@@ -2,9 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import {
   object,
   string,
-  func,
   array,
-  arrayOf,
   oneOfType,
   bool,
   node,
@@ -17,7 +15,7 @@ import VisualizationLayer from '../layers/VisualizationLayer/VisualizationLayer'
 import { adjustedPositionSize } from '../data/dataFunctions';
 import toMarginGraphic from '../svg/frameFunctions/toMarginGraphic';
 import getExtent from './Contour/util/getExtent';
-import {scaleLinear} from "d3-scale";
+import { scaleLinear } from 'd3-scale';
 
 const getCanvasScale = context => {
   const devicePixelRatio = window.devicePixelRatio || 1;
@@ -133,34 +131,38 @@ const XYFrame = props => {
     margin
   });
 
-  const frameScopeExtent = React.Children
-      .toArray(children)
-      .filter( d => d.type.name === 'Contour')
-      .map(d => {
-        return getExtent({
-          data: d.props.data,
-          xAccessor: d.props.xAccessor,
-          yAccessor: d.props.yAccessor,
-          xExtent: d.props.xExtent,
-          yExtent: d.props.yExtent
-        })
-      })
-      .reduce((acc, cur) => {
+  // frame scope scales
+  const frameScopeExtent = React.Children.toArray(children)
+    .filter(d => d.type.name === 'Contour')
+    .map(d => {
+      return getExtent({
+        data: d.props.data,
+        xAccessor: d.props.xAccessor,
+        yAccessor: d.props.yAccessor,
+        xExtent: d.props.xExtent,
+        yExtent: d.props.yExtent
+      });
+    })
+    .reduce(
+      (acc, cur) => {
         acc.xExtent[0] = Math.min(acc.xExtent[0], cur.finalXExtent[0]);
         acc.xExtent[1] = Math.max(acc.xExtent[1], cur.finalXExtent[1]);
         acc.yExtent[0] = Math.min(acc.yExtent[0], cur.finalYExtent[0]);
         acc.yExtent[1] = Math.max(acc.yExtent[1], cur.finalYExtent[1]);
         return acc;
-      }, { xExtent: [0, 0], yExtent: [0, 0]});
+      },
+      { xExtent: [0, 0], yExtent: [0, 0] }
+    );
 
   const xDomain = [0, adjustedSize[0]];
   const yDomain = [adjustedSize[1], 0];
 
-  const frameXScale = scaleLinear().domain(frameScopeExtent.xExtent).range(xDomain);
-  const frameYScale = scaleLinear().domain(frameScopeExtent.yExtent).range(yDomain);
-
-  const axes = [];
-  const data = [];
+  const frameXScale = scaleLinear()
+    .domain(frameScopeExtent.xExtent)
+    .range(xDomain);
+  const frameYScale = scaleLinear()
+    .domain(frameScopeExtent.yExtent)
+    .range(yDomain);
 
   return (
     <SpanOrDiv
@@ -197,7 +199,16 @@ const XYFrame = props => {
                   {finalBackgroundGraphics}
                 </g>
               )}
-              {/* axisTicklines */}
+              {/*{axesTickLines && (*/}
+              {/*  <g*/}
+              {/*    transform={`translate(${margin.left},${margin.top})`}*/}
+              {/*    key="visualization-tick-lines"*/}
+              {/*    className={'axis axis-tick-lines'}*/}
+              {/*    aria-hidden={true}*/}
+              {/*  >*/}
+              {/*    {axesTickLines}*/}
+              {/*  </g>*/}
+              {/*)}*/}
             </svg>
           )}
           <canvas
@@ -247,14 +258,21 @@ const XYFrame = props => {
               matte={marginGraphic}
               margin={margin}
               canvasPostProcess={canvasPostProcess}
-              axes={axes}
               renderOrder={renderOrder}
-              data={data}
               voronoiHover={setVoronoiHover}
             >
-              {React.Children.toArray(children).filter(d => {
-                return d.type.name === 'Contour';
-              }).map(d => React.cloneElement(d, { adjustedSize, adjustedPosition, frameXScale, frameYScale }))}
+              {React.Children.toArray(children)
+                .filter(d => {
+                  return d.type.name === 'Contour';
+                })
+                .map(d =>
+                  React.cloneElement(d, {
+                    adjustedSize,
+                    adjustedPosition,
+                    frameXScale,
+                    frameYScale
+                  })
+                )}
             </VisualizationLayer>
             {/* visualization layer */}
             {generatedTitle && <g className="frame-title">{generatedTitle}</g>}

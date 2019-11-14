@@ -54,10 +54,7 @@ const Contour = props => {
   });
 
   // data projection
-  const {
-    projectedAreas,
-    projectedPoints,
-  } = contouringProjection({
+  const { projectedAreas, projectedPoints } = contouringProjection({
     threshold,
     resolution,
     bandWidth,
