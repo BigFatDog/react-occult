@@ -105,8 +105,12 @@ const XYFrame = props => {
       ? foregroundGraphics({ size, margin })
       : foregroundGraphics;
 
+  const userTitle =
+    typeof title === 'object' && !React.isValidElement(title) && title !== null
+      ? title
+      : { title, orient: 'top' };
   const generatedTitle = generateFrameTitle({
-    title,
+    title: userTitle,
     size
   });
 
