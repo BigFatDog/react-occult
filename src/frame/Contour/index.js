@@ -9,6 +9,7 @@ import {
   string,
   node
 } from 'prop-types';
+import { scaleLinear } from 'd3-scale';
 import getExtent from './util/getExtent';
 import contouringProjection from './projection';
 import { stringToFn } from '../../data/dataFunctions';
@@ -54,8 +55,6 @@ const Contour = props => {
   const {
     projectedAreas,
     projectedPoints,
-    xScale,
-    yScale
   } = contouringProjection({
     threshold,
     resolution,
@@ -73,14 +72,8 @@ const Contour = props => {
   const xDomain = [0, adjustedSize[0]];
   const yDomain = [adjustedSize[1], 0];
 
-  if (xScale.domain) {
-    xScale.domain(finalXExtent);
-  }
-  if (yScale.domain) {
-    yScale.domain(finalYExtent);
-  }
-  xScale.range(xDomain);
-  yScale.range(yDomain);
+  const xScale = scaleLinear().domain(finalXExtent).range(xDomain);
+  const yScale = scaleLinear().domain(finalYExtent).range(yDomain);
 
   const { svgPipeline, canvasPipeline } = toRenderedElements({
     useCanvas,

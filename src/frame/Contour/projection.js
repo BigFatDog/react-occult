@@ -88,8 +88,6 @@ const contouringProjection = ({
   return {
     projectedAreas,
     projectedPoints,
-    xScale,
-    yScale
   };
 };
 

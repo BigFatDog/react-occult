@@ -74,8 +74,8 @@ const AreaPage = props => {
       </Helmet>
       <PapperBlock title="Area Chart" desc="Basic Area Chart">
         <XYFrame {...frameProps}>
-          {/*<XAxis label={'Rank'} />*/}
-          {/*<YAxis left={50} label={'Theaters'} />*/}
+          <XAxis label={'Rank'} />
+          <YAxis left={50} label={'Theaters'} />
           {/*<Line {...lineProps} />*/}
           <Contour {...contourProps} />
         </XYFrame>
