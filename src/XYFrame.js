@@ -13,11 +13,13 @@ import { scaleLinear } from 'd3-scale';
 import FilterDefs from './widgets/FilterDefs';
 import SpanOrDiv from './widgets/SpanOrDiv';
 import VisualizationLayer from './layers/VisualizationLayer';
-import getAdjustedPositionSize from './frameUtils/getAdjustedPositionSize';
-import toMarginGraphic from './frameUtils/toMarginGraphic';
-import generateFrameTitle from './frameUtils/generateFrameTitle';
-import getExtent from './frameUtils/getExtent';
-import toPipeline from './frameUtils/toPipeline';
+import {
+  generateFrameTitle,
+  getExtent,
+  getAdjustedPositionSize,
+  toMarginGraphic,
+  toPipeline
+} from './frameUtils';
 
 const getCanvasScale = context => {
   const devicePixelRatio = window.devicePixelRatio || 1;
@@ -89,12 +91,6 @@ const XYFrame = props => {
 
   const size = [width, height];
   const devicePixelRatio = window.devicePixelRatio || 1;
-
-  const finalFilterDefs = FilterDefs({
-    matte,
-    key: matte && (frameKey || name),
-    additionalDefs
-  });
 
   const finalBackgroundGraphics =
     typeof backgroundGraphics === 'function'
@@ -263,7 +259,10 @@ const XYFrame = props => {
             width={width}
             height={height}
           >
-            {finalFilterDefs}
+            <FilterDefs
+            matte
+            key={matte && (frameKey || name)}
+            additionalDefs
             />
             <VisualizationLayer
               title={generatedTitle}
