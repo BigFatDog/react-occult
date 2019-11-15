@@ -10,10 +10,10 @@ import {
 } from 'prop-types';
 import { scaleLinear } from 'd3-scale';
 
-import filterDefs from './archive/utils/filterDefs';
-import SpanOrDiv from './archive/utils/SpanOrDiv';
+import FilterDefs from './widgets/FilterDefs';
+import SpanOrDiv from './widgets/SpanOrDiv';
 import VisualizationLayer from './layers/VisualizationLayer';
-import { adjustedPositionSize } from './archive/data/dataFunctions';
+import getAdjustedPositionSize from './frameUtils/getAdjustedPositionSize';
 import toMarginGraphic from './frameUtils/toMarginGraphic';
 import generateFrameTitle from './frameUtils/generateFrameTitle';
 import getExtent from './frameUtils/getExtent';
@@ -90,7 +90,7 @@ const XYFrame = props => {
   const size = [width, height];
   const devicePixelRatio = window.devicePixelRatio || 1;
 
-  const finalFilterDefs = filterDefs({
+  const finalFilterDefs = FilterDefs({
     matte,
     key: matte && (frameKey || name),
     additionalDefs
@@ -128,7 +128,7 @@ const XYFrame = props => {
   //todo: remove
   const marginGraphic = toMarginGraphic({ matte, size, margin, name });
 
-  const { adjustedPosition, adjustedSize } = adjustedPositionSize({
+  const { adjustedPosition, adjustedSize } = getAdjustedPositionSize({
     size: [width, height],
     margin
   });
