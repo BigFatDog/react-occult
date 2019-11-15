@@ -1,8 +1,8 @@
-import getExtent from './util/getExtent';
-import contouringProjection from './projection';
-import toRenderedAreas from './toRenderedAreas';
-import { stringToFn } from '../../archive/data/dataFunctions';
-import toRenderedPoints from './toRenderedPoints';
+import getExtent from './getExtent';
+import contouringProjection from '../plots/Contour/projection';
+import toRenderedAreas from '../plots/Contour/toRenderedAreas';
+import { stringToFn } from '../archive/data/dataFunctions';
+import toRenderedPoints from '../plots/Contour/toRenderedPoints';
 
 const emptyObjectReturnFunction = () => ({});
 const emptyStringReturnFunction = () => '';

@@ -3,7 +3,7 @@ import { node, func, string, array, object, oneOfType, bool } from 'prop-types';
 
 import drawCanvas from './drawCanvas';
 
-const Index = props => {
+const VisualizationLayer = props => {
   const {
     matte,
     matteClip,
@@ -60,12 +60,12 @@ const Index = props => {
   );
 };
 
-Index.defaultProps = {
+VisualizationLayer.defaultProps = {
   position: [0, 0],
   margin: { left: 0, top: 0, right: 0, bottom: 0 }
 };
 
-Index.propTypes = {
+VisualizationLayer.propTypes = {
   frameKey: string,
   xScale: func,
   yScale: func,
@@ -84,4 +84,4 @@ Index.propTypes = {
   canvasPipeline: array
 };
 
-export default Index;
+export default VisualizationLayer;

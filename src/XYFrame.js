@@ -8,15 +8,16 @@ import {
   node,
   number
 } from 'prop-types';
-import filterDefs from './archive/utils/filterDefs';
-import generateFrameTitle from './archive/svg/frameFunctions/generateFrameTitle';
-import SpanOrDiv from './archive/utils/SpanOrDiv';
-import Index from './layers/VisualizationLayer';
-import { adjustedPositionSize } from './archive/data/dataFunctions';
-import toMarginGraphic from './archive/svg/frameFunctions/toMarginGraphic';
-import getExtent from './plots/Contour/util/getExtent';
 import { scaleLinear } from 'd3-scale';
-import toPipeline from './plots/Contour/toPipeline';
+
+import filterDefs from './archive/utils/filterDefs';
+import SpanOrDiv from './archive/utils/SpanOrDiv';
+import VisualizationLayer from './layers/VisualizationLayer';
+import { adjustedPositionSize } from './archive/data/dataFunctions';
+import toMarginGraphic from './frameUtils/toMarginGraphic';
+import generateFrameTitle from './frameUtils/generateFrameTitle';
+import getExtent from './frameUtils/getExtent';
+import toPipeline from './frameUtils/toPipeline';
 
 const getCanvasScale = context => {
   const devicePixelRatio = window.devicePixelRatio || 1;
@@ -264,7 +265,7 @@ const XYFrame = props => {
           >
             {finalFilterDefs}
             />
-            <Index
+            <VisualizationLayer
               title={generatedTitle}
               frameKey={frameKey}
               width={width}
@@ -293,7 +294,7 @@ const XYFrame = props => {
                     frontCanvas
                   })
                 )}
-            </Index>
+            </VisualizationLayer>
             {generatedTitle && <g className="frame-title">{generatedTitle}</g>}
             {foregroundGraphics && (
               <g aria-hidden={true} className="foreground-graphics">
