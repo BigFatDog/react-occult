@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { node, func, string, array, object, oneOfType, bool } from 'prop-types';
 
-import drawCanvas from '../../drawCanvas';
+import drawCanvas from './drawCanvas';
 
 const Index = props => {
   const {
