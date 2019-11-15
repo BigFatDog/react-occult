@@ -9,7 +9,6 @@ import {
   string,
   node
 } from 'prop-types';
-import { scaleLinear } from 'd3-scale';
 import getExtent from './util/getExtent';
 import contouringProjection from './projection';
 import { stringToFn } from '../../data/dataFunctions';
@@ -38,8 +37,6 @@ const Contour = props => {
     yExtent,
     showPoints,
     customMarks,
-    adjustedPosition,
-    adjustedSize,
     frameXScale: xScale,
     frameYScale: yScale
   } = props;
@@ -79,6 +76,7 @@ const Contour = props => {
     data: projectedAreas
   });
 
+  console.log(canvasPipeline)
   return <Fragment>{svgPipeline}</Fragment>;
 };
 

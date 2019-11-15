@@ -46,7 +46,6 @@ const VisualizationLayer = props => {
     updateFocusedVisualizationGroup(vizGroupSetting.vizGroupSetting);
   };
 
-  const svgPipeline = [];
   const canvasPipeline = [];
 
   useEffect(() => {

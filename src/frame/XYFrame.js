@@ -267,14 +267,11 @@ const XYFrame = props => {
                 })
                 .map(d =>
                   React.cloneElement(d, {
-                    adjustedSize,
-                    adjustedPosition,
                     frameXScale,
                     frameYScale
                   })
                 )}
             </VisualizationLayer>
-            {/* visualization layer */}
             {generatedTitle && <g className="frame-title">{generatedTitle}</g>}
             {foregroundGraphics && (
               <g aria-hidden={true} className="foreground-graphics">
