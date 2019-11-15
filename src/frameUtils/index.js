@@ -4,10 +4,10 @@ import generateFrameTitle from './generateFrameTitle';
 import getExtent from './getExtent';
 import toPipeline from './toPipeline';
 
-export default {
-    getAdjustedPositionSize,
-    toMarginGraphic,
-    generateFrameTitle,
-    getExtent,
-    toPipeline
-}
+export {
+  getAdjustedPositionSize,
+  toMarginGraphic,
+  generateFrameTitle,
+  getExtent,
+  toPipeline
+};

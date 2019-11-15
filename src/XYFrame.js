@@ -260,9 +260,9 @@ const XYFrame = props => {
             height={height}
           >
             <FilterDefs
-            matte
-            key={matte && (frameKey || name)}
-            additionalDefs
+              matte
+              key={matte && (frameKey || name)}
+              additionalDefs
             />
             <VisualizationLayer
               title={generatedTitle}
