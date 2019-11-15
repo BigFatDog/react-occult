@@ -33,6 +33,8 @@ const drawCanvas = ({ props, canvasDrawing }) => {
       margin.top
     );
 
+    context.clearRect(-margin.left, -margin.top, size[0], size[1]);
+
     let rc;
 
     canvasDrawing.forEach(piece => {
