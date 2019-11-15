@@ -57,7 +57,7 @@ const AreaPage = props => {
     }),
     pointStyle: d => ({
       r: 2,
-      fill: d && colors[d.s]
+      fill: colors[d.parentSummary.s]
     }),
     useCanvas: false
   };

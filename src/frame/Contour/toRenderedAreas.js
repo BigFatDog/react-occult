@@ -1,7 +1,7 @@
 import React from 'react';
 import { Mark } from 'semiotic-mark';
 
-const toRenderedElements = ({
+const toRenderedAreas = ({
   data,
   xScale,
   yScale,
@@ -97,4 +97,4 @@ const toRenderedElements = ({
   };
 };
 
-export default toRenderedElements;
+export default toRenderedAreas;

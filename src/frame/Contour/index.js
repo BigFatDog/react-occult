@@ -12,7 +12,8 @@ import {
 import getExtent from './util/getExtent';
 import contouringProjection from './projection';
 import { stringToFn } from '../../data/dataFunctions';
-import toRenderedElements from './toRenderedElements';
+import toRenderedAreas from './toRenderedAreas';
+import toRenderedPoints from './toRenderedPoints';
 
 const emptyObjectReturnFunction = () => ({});
 const emptyStringReturnFunction = () => '';
@@ -29,6 +30,9 @@ const Contour = props => {
     areaRenderMode,
     areaCustomMarks,
     pointStyle,
+    pointClass,
+    pointCustomMarks,
+    pointRenderMode,
     useCanvas,
     xAccessor,
     yAccessor,
@@ -65,7 +69,7 @@ const Contour = props => {
     showPoints
   });
 
-  const { svgPipeline, canvasPipeline } = toRenderedElements({
+  const { svgPipeline: areaSvg, canvasPipeline } = toRenderedAreas({
     useCanvas,
     xScale,
     yScale,
@@ -76,8 +80,19 @@ const Contour = props => {
     data: projectedAreas
   });
 
-  console.log(canvasPipeline)
-  return <Fragment>{svgPipeline}</Fragment>;
+  const { svgPipeline: pointsSvg, canvasPipeline: pointsCanvas } = toRenderedPoints({
+    useCanvas,
+    xScale,
+    yScale,
+    styleFn: stringToFn(pointStyle, emptyObjectReturnFunction, true),
+    classFn: stringToFn(pointClass, emptyStringReturnFunction, true),
+    renderFn: stringToFn(pointRenderMode, undefined, true),
+    customMarks: pointCustomMarks,
+    data: projectedPoints
+  });
+
+  const contourSvgPipeline = [...areaSvg, ...pointsSvg];
+  return <Fragment>{contourSvgPipeline}</Fragment>;
 };
 
 Contour.propTypes = {
@@ -91,6 +106,9 @@ Contour.propTypes = {
   areaRenderMode: oneOfType([object, func]),
   areaCustomMarks: oneOfType([node, func]),
   pointStyle: oneOfType([object, func]),
+  pointClass: oneOfType([object, func]),
+  pointCustomMarks: oneOfType([node, func]),
+  pointRenderMode: oneOfType([object, func]),
   useCanvas: bool,
   showPoints: bool,
   xExtent: array,
@@ -116,6 +134,7 @@ Contour.defaultProps = {
     fill: 'red'
   },
   areaRenderMode: null,
+  pointRenderMode: null,
   showPoints: true,
   neighborhood: false,
   useCanvas: true
