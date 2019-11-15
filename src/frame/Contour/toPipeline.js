@@ -1,47 +1,90 @@
+import getExtent from './util/getExtent';
+import contouringProjection from './projection';
+import toRenderedAreas from './toRenderedAreas';
 import { stringToFn } from '../../data/dataFunctions';
-import createLines from '../../svg/behaviors/createLines';
-import createAreas from '../../svg/behaviors/createArea';
-import createPoints from '../../svg/behaviors/createPoints';
+import toRenderedPoints from './toRenderedPoints';
 
-const emptyObjectReturnFunction = () => ({});
-const emptyStringReturnFunction = () => '';
+const toContourPipeline = props => {
+  const {
+    data,
+    threshold,
+    resolution,
+    bandWidth,
+    neighborhood,
+    areaStyle,
+    areaClass,
+    areaRenderMode,
+    areaCustomMarks,
+    pointStyle,
+    pointClass,
+    pointCustomMarks,
+    pointRenderMode,
+    useCanvas,
+    xAccessor,
+    yAccessor,
+    sAccessor,
+    xExtent,
+    yExtent,
+    showPoints,
+    frameXScale: xScale,
+    frameYScale: yScale
+  } = props;
 
-const toPipeline = ({
-  projectedAreas,
-  projectedPoints,
-  areaStyle,
-  useCanvas,
-  customMarks,
-  pointStyle
-}) => {
+  // extents
+  const { finalXExtent, finalYExtent } = getExtent({
+    data,
+    xAccessor,
+    yAccessor,
+    xExtent,
+    yExtent
+  });
+
+  // data projection
+  const { projectedAreas, projectedPoints } = contouringProjection({
+    threshold,
+    resolution,
+    bandWidth,
+    neighborhood,
+    data,
+    finalXExtent,
+    finalYExtent,
+    xAccessor,
+    yAccessor,
+    sAccessor,
+    showPoints
+  });
+
+  const { svgPipeline: areaSvg, canvasPipeline: areaCanvas } = toRenderedAreas({
+    useCanvas,
+    xScale,
+    yScale,
+    styleFn: stringToFn(areaStyle, emptyObjectReturnFunction, true),
+    classFn: stringToFn(areaClass, emptyStringReturnFunction, true),
+    renderFn: stringToFn(areaRenderMode, undefined, true),
+    customMarks: areaCustomMarks,
+    data: projectedAreas
+  });
+
+  const {
+    svgPipeline: pointsSvg,
+    canvasPipeline: pointsCanvas
+  } = toRenderedPoints({
+    useCanvas,
+    xScale,
+    yScale,
+    styleFn: stringToFn(pointStyle, emptyObjectReturnFunction, true),
+    classFn: stringToFn(pointClass, emptyStringReturnFunction, true),
+    renderFn: stringToFn(pointRenderMode, undefined, true),
+    customMarks: pointCustomMarks,
+    data: projectedPoints
+  });
+
+  const contourSvgPipeline = [...areaSvg, ...pointsSvg];
+  const contourCanvasPipeline = [...areaCanvas, ...pointsCanvas];
   return {
-    areas: {
-      accessibleTransform: (data, i) => ({ ...data[i], type: 'frame-hover' }),
-      data: projectedAreas,
-      styleFn: stringToFn(areaStyle, emptyObjectReturnFunction, true),
-      classFn: stringToFn(null, emptyStringReturnFunction, true),
-      renderMode: stringToFn(null, undefined, true),
-      canvasRender: stringToFn(useCanvas, undefined, true),
-      customMark: customMarks,
-      type: null,
-      renderKeyFn: stringToFn(null, (d, i) => `area-${i}`, true),
-      behavior: createAreas
-    },
-    points: {
-      accessibleTransform: (data, i) => ({
-        type: 'frame-hover',
-        ...(data[i].data || data[i])
-      }),
-      data: projectedPoints,
-      styleFn: stringToFn(pointStyle, emptyObjectReturnFunction, true),
-      classFn: stringToFn(null, emptyStringReturnFunction, true),
-      renderMode: stringToFn(null, undefined, true),
-      canvasRender: stringToFn(useCanvas, undefined, true),
-      customMark: customMarks,
-      renderKeyFn: stringToFn(null, (d, i) => `point-${i}`, true),
-      behavior: createPoints
-    }
+    contourSvgPipeline,
+    contourCanvasPipeline
   };
 };
 
-export default toPipeline;
+export default toContourPipeline;

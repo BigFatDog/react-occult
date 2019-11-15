@@ -11,7 +11,7 @@ import {
 import filterDefs from '../utils/filterDefs';
 import generateFrameTitle from '../svg/frameFunctions/generateFrameTitle';
 import SpanOrDiv from '../utils/SpanOrDiv';
-import VisualizationLayer from '../layers/VisualizationLayer/VisualizationLayer';
+import VisualizationLayer from './VisualizationLayer';
 import { adjustedPositionSize } from '../data/dataFunctions';
 import toMarginGraphic from '../svg/frameFunctions/toMarginGraphic';
 import getExtent from './Contour/util/getExtent';
@@ -268,7 +268,8 @@ const XYFrame = props => {
                 .map(d =>
                   React.cloneElement(d, {
                     frameXScale,
-                    frameYScale
+                    frameYScale,
+                    frontCanvas
                   })
                 )}
             </VisualizationLayer>

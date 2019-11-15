@@ -59,7 +59,7 @@ const AreaPage = props => {
       r: 2,
       fill: colors[d.parentSummary.s]
     }),
-    useCanvas: false
+    useCanvas: true
   };
 
   return (
