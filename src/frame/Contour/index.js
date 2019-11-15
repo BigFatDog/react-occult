@@ -69,7 +69,7 @@ const Contour = props => {
     showPoints
   });
 
-  const { svgPipeline: areaSvg, canvasPipeline } = toRenderedAreas({
+  const { svgPipeline: areaSvg, canvasPipeline: areaCanvas } = toRenderedAreas({
     useCanvas,
     xScale,
     yScale,
@@ -92,6 +92,7 @@ const Contour = props => {
   });
 
   const contourSvgPipeline = [...areaSvg, ...pointsSvg];
+  const contourCanvasPipeline = [...areaCanvas, ...pointsCanvas];
   return <Fragment>{contourSvgPipeline}</Fragment>;
 };
 
