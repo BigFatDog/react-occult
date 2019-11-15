@@ -1,7 +1,7 @@
 import getExtent from './util/getExtent';
 import contouringProjection from './projection';
 import toRenderedAreas from './toRenderedAreas';
-import { stringToFn } from '../../data/dataFunctions';
+import { stringToFn } from '../../archive/data/dataFunctions';
 import toRenderedPoints from './toRenderedPoints';
 
 const emptyObjectReturnFunction = () => ({});

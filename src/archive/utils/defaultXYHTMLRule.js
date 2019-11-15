@@ -9,7 +9,7 @@ import {
 } from '../constants/coordinateNames';
 
 import { findFirstAccessorValue } from '../data/multiAccessorUtils';
-import SpanOrDiv from '../utils/SpanOrDiv';
+import SpanOrDiv from './SpanOrDiv';
 import { htmlTooltipAnnotation } from '../annotationRules/xyframeRules';
 
 const defaultXYHTMLRule = ({

@@ -11,7 +11,7 @@ import {
 } from 'prop-types';
 import getExtent from './util/getExtent';
 import contouringProjection from './projection';
-import { stringToFn } from '../../data/dataFunctions';
+import { stringToFn } from '../../archive/data/dataFunctions';
 import toRenderedAreas from './toRenderedAreas';
 import toRenderedPoints from './toRenderedPoints';
 

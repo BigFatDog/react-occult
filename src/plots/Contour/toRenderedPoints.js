@@ -1,11 +1,11 @@
-import clonedAppliedElement from '../../svg/behaviors/clonedAppliedElement';
+import clonedAppliedElement from '../../archive/svg/behaviors/clonedAppliedElement';
 
 import {
   projectedX,
   projectedY,
   projectedYMiddle,
   projectedXMiddle
-} from '../../constants/coordinateNames';
+} from '../../archive/constants/coordinateNames';
 
 const toRenderedPoints = ({
   xScale,

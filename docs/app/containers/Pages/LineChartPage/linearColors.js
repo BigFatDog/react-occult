@@ -1,7 +1,7 @@
 import { range } from 'd3-array';
 import { scaleSequential } from 'd3-scale';
-import isFunction from 'occult/utils/isFunction';
-import equalIntervalBreaks from 'occult/utils/equalIntervalBreaks';
+import isFunction from 'occult/archive/utils/isFunction';
+import equalIntervalBreaks from 'occult/archive/utils/equalIntervalBreaks';
 
 const generateOffsets = interpolator => {
   const offsets = range(0, 1, 0.1);

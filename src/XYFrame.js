@@ -8,15 +8,15 @@ import {
   node,
   number
 } from 'prop-types';
-import filterDefs from '../utils/filterDefs';
-import generateFrameTitle from '../svg/frameFunctions/generateFrameTitle';
-import SpanOrDiv from '../utils/SpanOrDiv';
-import VisualizationLayer from './VisualizationLayer';
-import { adjustedPositionSize } from '../data/dataFunctions';
-import toMarginGraphic from '../svg/frameFunctions/toMarginGraphic';
-import getExtent from './Contour/util/getExtent';
+import filterDefs from './archive/utils/filterDefs';
+import generateFrameTitle from './archive/svg/frameFunctions/generateFrameTitle';
+import SpanOrDiv from './archive/utils/SpanOrDiv';
+import Index from './layers/VisualizationLayer';
+import { adjustedPositionSize } from './archive/data/dataFunctions';
+import toMarginGraphic from './archive/svg/frameFunctions/toMarginGraphic';
+import getExtent from './plots/Contour/util/getExtent';
 import { scaleLinear } from 'd3-scale';
-import toPipeline from './Contour/toPipeline';
+import toPipeline from './plots/Contour/toPipeline';
 
 const getCanvasScale = context => {
   const devicePixelRatio = window.devicePixelRatio || 1;
@@ -167,19 +167,20 @@ const XYFrame = props => {
 
   // canvasPipeline
   const canvasPipeline = React.Children.toArray(children)
-      .filter(d => {
-    return d.props.useCanvas === true;
-  }).map(d => {
-    return toPipeline({
-      ...d.props,
-      frameXScale,
-      frameYScale,
-      frontCanvas
-    });
-  })
-  .reduce((acc, cur) => {
-    return acc.concat(cur.areaPipe);
-  }, []);
+    .filter(d => {
+      return d.props.useCanvas === true;
+    })
+    .map(d => {
+      return toPipeline({
+        ...d.props,
+        frameXScale,
+        frameYScale,
+        frontCanvas
+      });
+    })
+    .reduce((acc, cur) => {
+      return acc.concat(cur.areaPipe);
+    }, []);
 
   return (
     <SpanOrDiv
@@ -263,7 +264,7 @@ const XYFrame = props => {
           >
             {finalFilterDefs}
             />
-            <VisualizationLayer
+            <Index
               title={generatedTitle}
               frameKey={frameKey}
               width={width}
@@ -281,7 +282,9 @@ const XYFrame = props => {
             >
               {React.Children.toArray(children)
                 .filter(d => {
-                  return d.type.name === 'Contour' && d.props.useCanvas === false;
+                  return (
+                    d.type.name === 'Contour' && d.props.useCanvas === false
+                  );
                 })
                 .map(d =>
                   React.cloneElement(d, {
@@ -290,7 +293,7 @@ const XYFrame = props => {
                     frontCanvas
                   })
                 )}
-            </VisualizationLayer>
+            </Index>
             {generatedTitle && <g className="frame-title">{generatedTitle}</g>}
             {foregroundGraphics && (
               <g aria-hidden={true} className="foreground-graphics">

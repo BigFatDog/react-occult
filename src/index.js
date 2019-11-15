@@ -1,9 +1,9 @@
-import CartesianFrame from './CartesianFrame';
-import DividedLine from './DividedLine';
-import XYFrame from './frame/XYFrame';
-import Line from './frame/Line';
-import Contour from './frame/Contour';
-import XAxis from './frame/XAxis';
-import YAxis from './frame/YAxis';
+import CartesianFrame from './archive/CartesianFrame';
+import DividedLine from './archive/DividedLine';
+import XYFrame from './XYFrame';
+import Line from './Line';
+import Contour from './plots/Contour';
+import XAxis from './axis/XAxis';
+import YAxis from './axis/YAxis';
 
 export { CartesianFrame, DividedLine, XYFrame, Line, Contour, XAxis, YAxis };

@@ -1,7 +1,7 @@
 import React from 'react';
 import * as Rough from 'roughjs-es5/lib/canvas';
 
-import chuckCloseCanvasTransform from '../layers/VisualizationLayer/chuckCloseCanvasTransform';
+import chuckCloseCanvasTransform from './archive/layers/VisualizationLayer/chuckCloseCanvasTransform';
 
 const RoughCanvas = Rough.RoughCanvas;
 
