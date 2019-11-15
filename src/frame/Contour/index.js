@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import {
   object,
   func,
@@ -80,7 +80,10 @@ const Contour = props => {
     data: projectedAreas
   });
 
-  const { svgPipeline: pointsSvg, canvasPipeline: pointsCanvas } = toRenderedPoints({
+  const {
+    svgPipeline: pointsSvg,
+    canvasPipeline: pointsCanvas
+  } = toRenderedPoints({
     useCanvas,
     xScale,
     yScale,
@@ -93,7 +96,7 @@ const Contour = props => {
 
   const contourSvgPipeline = [...areaSvg, ...pointsSvg];
   const contourCanvasPipeline = [...areaCanvas, ...pointsCanvas];
-  return <Fragment>{contourSvgPipeline}</Fragment>;
+  return contourSvgPipeline;
 };
 
 Contour.propTypes = {

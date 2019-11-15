@@ -24,7 +24,7 @@ const toRenderedPoints = ({
   const xMiddle = projectedXMiddle;
   const yMiddle = projectedYMiddle;
 
-  console.log('------')
+  console.log('------');
 
   const canvasPipeline = [];
   const svgPipeline = [];
@@ -54,7 +54,7 @@ const toRenderedPoints = ({
       renderedCustomMark &&
       renderedCustomMark.props &&
       !renderedCustomMark.props.markType &&
-      (useCanvas !== true)
+      useCanvas !== true
     ) {
       svgPipeline.push(
         <g
@@ -80,7 +80,7 @@ const toRenderedPoints = ({
           renderFn: renderMode,
           classFn
         };
-          canvasPipeline.push(canvasPoint);
+        canvasPipeline.push(canvasPoint);
       } else {
         const yCoordinates = Array.isArray(d[y])
           ? d[y].map(p => yScale(p))
@@ -111,8 +111,8 @@ const toRenderedPoints = ({
     }
   });
   return {
-      svgPipeline,
-      canvasPipeline
+    svgPipeline,
+    canvasPipeline
   };
 };
 
