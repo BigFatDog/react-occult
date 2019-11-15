@@ -16,6 +16,7 @@ import { adjustedPositionSize } from '../data/dataFunctions';
 import toMarginGraphic from '../svg/frameFunctions/toMarginGraphic';
 import getExtent from './Contour/util/getExtent';
 import { scaleLinear } from 'd3-scale';
+import toPipeline from './Contour/toPipeline';
 
 const getCanvasScale = context => {
   const devicePixelRatio = window.devicePixelRatio || 1;
@@ -164,6 +165,22 @@ const XYFrame = props => {
     .domain(frameScopeExtent.yExtent)
     .range(yDomain);
 
+  // canvasPipeline
+  const canvasPipeline = React.Children.toArray(children)
+      .filter(d => {
+    return d.props.useCanvas === true;
+  }).map(d => {
+    return toPipeline({
+      ...d.props,
+      frameXScale,
+      frameYScale,
+      frontCanvas
+    });
+  })
+  .reduce((acc, cur) => {
+    return acc.concat(cur.areaPipe);
+  }, []);
+
   return (
     <SpanOrDiv
       span={useSpans}
@@ -258,12 +275,13 @@ const XYFrame = props => {
               matte={marginGraphic}
               margin={margin}
               canvasPostProcess={canvasPostProcess}
+              canvasPipeline={canvasPipeline}
               renderOrder={renderOrder}
               voronoiHover={setVoronoiHover}
             >
               {React.Children.toArray(children)
                 .filter(d => {
-                  return d.type.name === 'Contour';
+                  return d.type.name === 'Contour' && d.props.useCanvas === false;
                 })
                 .map(d =>
                   React.cloneElement(d, {

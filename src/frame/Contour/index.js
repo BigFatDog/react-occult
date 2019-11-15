@@ -40,7 +40,6 @@ const Contour = props => {
     xExtent,
     yExtent,
     showPoints,
-    customMarks,
     frameXScale: xScale,
     frameYScale: yScale
   } = props;
@@ -117,7 +116,6 @@ Contour.propTypes = {
   showPoints: bool,
   xExtent: array,
   yExtent: array,
-  customMarks: object,
   xAccessor: oneOfType([string, func]),
   yAccessor: oneOfType([string, func]),
   sAccessor: oneOfType([string, func])

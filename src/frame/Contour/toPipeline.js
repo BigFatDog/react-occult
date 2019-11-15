@@ -4,6 +4,9 @@ import toRenderedAreas from './toRenderedAreas';
 import { stringToFn } from '../../data/dataFunctions';
 import toRenderedPoints from './toRenderedPoints';
 
+const emptyObjectReturnFunction = () => ({});
+const emptyStringReturnFunction = () => '';
+
 const toContourPipeline = props => {
   const {
     data,
@@ -79,11 +82,11 @@ const toContourPipeline = props => {
     data: projectedPoints
   });
 
-  const contourSvgPipeline = [...areaSvg, ...pointsSvg];
-  const contourCanvasPipeline = [...areaCanvas, ...pointsCanvas];
+  const svgPipe = [...areaSvg, ...pointsSvg];
+  const areaPipe = [...areaCanvas, ...pointsCanvas];
   return {
-    contourSvgPipeline,
-    contourCanvasPipeline
+    svgPipe,
+    areaPipe
   };
 };
 

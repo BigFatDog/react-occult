@@ -11,7 +11,8 @@ const VisualizationLayer = props => {
     margin,
     title,
     ariaTitle,
-    children
+    children,
+    canvasPipeline
   } = props;
 
   const canvasDrawing = [];
@@ -19,7 +20,7 @@ const VisualizationLayer = props => {
   useEffect(() => {
     drawCanvas({
       props,
-      canvasDrawing
+      canvasDrawing: canvasPipeline
     });
   });
 
@@ -79,7 +80,8 @@ VisualizationLayer.propTypes = {
   frontCanvas: object,
   backCanvas: object,
   renderOrder: array,
-  voronoiHover: func
+  voronoiHover: func,
+  canvasPipeline: array
 };
 
 export default VisualizationLayer;
