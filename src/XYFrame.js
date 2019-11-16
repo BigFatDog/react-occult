@@ -20,6 +20,7 @@ import {
   toMarginGraphic,
   toPipeline
 } from './frameUtils';
+import toAxes from "./axis/toAxes";
 
 const getCanvasScale = context => {
   const devicePixelRatio = window.devicePixelRatio || 1;
@@ -162,6 +163,19 @@ const XYFrame = props => {
     .domain(frameScopeExtent.yExtent)
     .range(yDomain);
 
+  // axisPipeline
+  const axesDefs = React.Children.toArray(children)
+      .filter(d => d.type.name === 'XAxis' || d.type.name === 'YAxis')
+      .map(d => d.props);
+
+  const {axes, axesTickLines } = toAxes({
+    axesDefs,
+    margin,
+    adjustedSize,
+    xScale: frameXScale,
+    yScale: frameYScale,
+  });
+
   // canvasPipeline
   const canvasPipeline = React.Children.toArray(children)
     .filter(d => {
@@ -202,7 +216,7 @@ const XYFrame = props => {
           className="visualization-layer"
           style={{ position: 'absolute' }}
         >
-          {backgroundGraphics && (
+          {(axesTickLines || backgroundGraphics) && (
             <svg
               className="background-graphics"
               style={{ position: 'absolute' }}
@@ -214,16 +228,16 @@ const XYFrame = props => {
                   {finalBackgroundGraphics}
                 </g>
               )}
-              {/*{axesTickLines && (*/}
-              {/*  <g*/}
-              {/*    transform={`translate(${margin.left},${margin.top})`}*/}
-              {/*    key="visualization-tick-lines"*/}
-              {/*    className={'axis axis-tick-lines'}*/}
-              {/*    aria-hidden={true}*/}
-              {/*  >*/}
-              {/*    {axesTickLines}*/}
-              {/*  </g>*/}
-              {/*)}*/}
+              {axesTickLines && (
+                <g
+                  transform={`translate(${margin.left},${margin.top})`}
+                  key="visualization-tick-lines"
+                  className={'axis axis-tick-lines'}
+                  aria-hidden={true}
+                >
+                  {axesTickLines}
+                </g>
+              )}
             </svg>
           )}
           <canvas
@@ -329,8 +343,8 @@ XYFrame.propTypes = {
   matte: oneOfType([bool, node]),
   beforeElements: object,
   afterElements: object,
-  backgroundGraphics: object,
-  foregroundGraphics: object,
+  backgroundGraphics: oneOfType([node, object]),
+  foregroundGraphics: oneOfType([node, object]),
   canvasPostProcess: string,
   renderOrder: array
 };

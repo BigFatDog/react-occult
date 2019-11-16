@@ -15,8 +15,6 @@ const VisualizationLayer = props => {
     canvasPipeline
   } = props;
 
-  const canvasDrawing = [];
-
   useEffect(() => {
     drawCanvas({
       props,

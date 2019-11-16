@@ -24,8 +24,6 @@ const toRenderedPoints = ({
   const xMiddle = projectedXMiddle;
   const yMiddle = projectedYMiddle;
 
-  console.log('------');
-
   const canvasPipeline = [];
   const svgPipeline = [];
   data.forEach((d, i) => {
