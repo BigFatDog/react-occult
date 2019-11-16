@@ -2,13 +2,7 @@ import React from 'react';
 import { axisLines, axisPieces } from './axisMarks';
 import Axis from './Axis';
 
-const toAxes = ({
-  margin,
-  axesDefs,
-  adjustedSize,
-  yScale,
-  xScale,
-}) => {
+const toAxes = ({ margin, axesDefs, adjustedSize, yScale, xScale }) => {
   let axes = [];
   const axesTickLines = [];
   const existingBaselines = {};

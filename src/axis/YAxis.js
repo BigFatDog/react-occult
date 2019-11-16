@@ -23,7 +23,7 @@ YAxis.propTypes = {
 };
 
 YAxis.defaultProps = {
-  orient: 'left',
+  orient: 'left'
 };
 
 export default YAxis;

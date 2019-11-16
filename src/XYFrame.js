@@ -20,7 +20,7 @@ import {
   toMarginGraphic,
   toPipeline
 } from './frameUtils';
-import toAxes from "./axis/toAxes";
+import toAxes from './axis/toAxes';
 
 const getCanvasScale = context => {
   const devicePixelRatio = window.devicePixelRatio || 1;
@@ -165,15 +165,15 @@ const XYFrame = props => {
 
   // axisPipeline
   const axesDefs = React.Children.toArray(children)
-      .filter(d => d.type.name === 'XAxis' || d.type.name === 'YAxis')
-      .map(d => d.props);
+    .filter(d => d.type.name === 'XAxis' || d.type.name === 'YAxis')
+    .map(d => d.props);
 
-  const {axes, axesTickLines } = toAxes({
+  const { axes, axesTickLines } = toAxes({
     axesDefs,
     margin,
     adjustedSize,
     xScale: frameXScale,
-    yScale: frameYScale,
+    yScale: frameYScale
   });
 
   // canvasPipeline

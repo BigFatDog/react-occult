@@ -23,7 +23,7 @@ XAxis.propTypes = {
 };
 
 XAxis.defaultProps = {
-  orient: 'bottom',
+  orient: 'bottom'
 };
 
 export default XAxis;

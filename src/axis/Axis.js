@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from 'react';
 
 import { axisLabels, axisPieces, axisLines } from './axisMarks';
-import {array, func, number, object, oneOfType, string, bool} from "prop-types";
+import {
+  array,
+  func,
+  number,
+  object,
+  oneOfType,
+  string,
+  bool
+} from 'prop-types';
 
 const formatValue = (value, props) => {
   if (props.tickFormat) {
