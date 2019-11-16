@@ -379,10 +379,10 @@ Axis.propTypes = {
 };
 
 Axis.defaultProps = {
-  rotate: null,
+  rotate: 0,
   label: { position: false },
   orient: 'left',
-  tickFormat: null,
+  tickFormat: d => d,
   size: null,
   className: '',
   padding: 0,

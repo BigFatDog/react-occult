@@ -307,6 +307,11 @@ const XYFrame = props => {
                     frontCanvas
                   })
                 )}
+              {axes && (
+                <g key="visualization-axis-labels" className="axis axis-labels">
+                  {axes}
+                </g>
+              )}
             </VisualizationLayer>
             {generatedTitle && <g className="frame-title">{generatedTitle}</g>}
             {foregroundGraphics && (

@@ -22,13 +22,6 @@ const VisualizationLayer = props => {
     });
   });
 
-  const axes = null;
-  const renderedAxes = axes && (
-    <g key="visualization-axis-labels" className="axis axis-labels">
-      {axes}
-    </g>
-  );
-
   const _title =
     (title && ariaTitle) || props.title
       ? title.props && typeof title.props.children === 'string'
@@ -38,7 +31,7 @@ const VisualizationLayer = props => {
   const ariaLabel = `Visualization ${_title}. Use arrow keys to navigate elements.`;
 
   return (
-    ((renderedAxes || (children && children.length > 0)) && (
+    (children && children.length > 0) && (
       <g
         className="data-visualization"
         key="visualization-clip-path"
@@ -51,11 +44,8 @@ const VisualizationLayer = props => {
       >
         {children}
         {matte}
-        {renderedAxes}
       </g>
-    )) ||
-    null
-  );
+    ));
 };
 
 VisualizationLayer.defaultProps = {
