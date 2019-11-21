@@ -1,12 +1,17 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { group } from 'd3-array';
+import { AnnotationCalloutCircle } from 'react-annotation';
 import { TheaterSummaryData } from './ThreaterFlattenData';
 
 import brand from 'dan-api/dummy/brand';
 import { PapperBlock } from 'dan-components';
+import { XYFrame, Line, XAxis, YAxis, Contour, Hexbin } from 'occult';
+import {scaleLinear} from "d3-scale";
+const h = scaleLinear()
+    .domain([0, 1])
+    .range(['white', '#1b6ae5']);
 
-import { XYFrame, Line, XAxis, YAxis, Contour } from 'occult';
+
 
 const colors = {
   'Ex Machina': '#ac58e5',
@@ -22,6 +27,16 @@ const AreaPage = props => {
     margin: { left: 60, bottom: 90, right: 10, top: 40 },
     width: 700,
     height: 400,
+    annotations: [
+      { type: 'react-annotation', label: 'a note', y: 100 },
+      {
+        type: AnnotationCalloutCircle,
+        note: { label: 'callout', title: 'important' },
+
+        score: 10,
+        subject: { radius: 30 }
+      }
+    ],
     title: (
       <text textAnchor="middle">
         Theaters showing <tspan fill={'#ac58e5'}>Ex Machina</tspan> vs{' '}
@@ -64,8 +79,32 @@ const AreaPage = props => {
     //   fillWeight: 3,
     //   hachureGap: 4
     // },
-    useCanvas: true
+    useCanvas: false
   };
+
+  const hexbinProps = {
+    xAccessor: d => d.theaterCount,
+    yAccessor: d => d.rank,
+    sAccessor: d => d.title,
+    xExtent: [0],
+    yExtent: [0],
+    data: TheaterSummaryData,
+    areaStyle: (e, i) => ({
+      stroke: colors[e.parentSummary.s],
+      fill: h(e.percent),
+      strokeWidth: 0.5
+    }),
+    pointStyle: d => ({
+      r: 2,
+      fill: colors[d.parentSummary.s]
+    }),
+    // areaRenderMode: {
+    //   renderMode: 'sketchy',
+    //   fillWeight: 3,
+    //   hachureGap: 4
+    // },
+    useCanvas: false
+  }
 
   return (
     <div>
@@ -82,7 +121,8 @@ const AreaPage = props => {
           <XAxis label={'Rank'} />
           <YAxis left={50} label={'Theaters'} />
           {/*<Line {...lineProps} />*/}
-          <Contour {...contourProps} />
+          <Hexbin {...hexbinProps} />
+          {/*<Contour {...contourProps} />*/}
         </XYFrame>
       </PapperBlock>
     </div>

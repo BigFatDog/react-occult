@@ -1,5 +1,6 @@
 import getExtent from './getExtent';
 import contouringProjection from '../plots/Contour/projection';
+import hexbinProjection from '../plots/Hexbin/projection';
 import toRenderedAreas from '../plots/Contour/toRenderedAreas';
 import { stringToFn } from '../archive/data/dataFunctions';
 import toRenderedPoints from '../plots/Contour/toRenderedPoints';
@@ -7,13 +8,9 @@ import toRenderedPoints from '../plots/Contour/toRenderedPoints';
 const emptyObjectReturnFunction = () => ({});
 const emptyStringReturnFunction = () => '';
 
-const toContourPipeline = props => {
+const toPipeline = props => {
   const {
     data,
-    threshold,
-    resolution,
-    bandWidth,
-    neighborhood,
     areaStyle,
     areaClass,
     areaRenderMode,
@@ -30,7 +27,9 @@ const toContourPipeline = props => {
     yExtent,
     showPoints,
     frameXScale: xScale,
-    frameYScale: yScale
+    frameYScale: yScale,
+    plotTye,
+    adjustedSize: size,
   } = props;
 
   // extents
@@ -42,20 +41,59 @@ const toContourPipeline = props => {
     yExtent
   });
 
-  // data projection
-  const { projectedAreas, projectedPoints } = contouringProjection({
-    threshold,
-    resolution,
-    bandWidth,
-    neighborhood,
-    data,
-    finalXExtent,
-    finalYExtent,
-    xAccessor,
-    yAccessor,
-    sAccessor,
-    showPoints
-  });
+  let projectedAreas, projectedPoints = [];
+  if (plotTye === 'Contour') {
+    const {
+      threshold,
+      resolution,
+      bandWidth,
+      neighborhood,
+    } = props;
+    // data projection
+    const { projectedAreas:areas, projectedPoints:points } = contouringProjection({
+      threshold,
+      resolution,
+      bandWidth,
+      neighborhood,
+      data,
+      finalXExtent,
+      finalYExtent,
+      xAccessor,
+      yAccessor,
+      sAccessor,
+      showPoints
+    });
+
+    projectedAreas = areas;
+    projectedPoints = points;
+  } else {
+    const {
+      bins,
+      cellPx,
+      binValue,
+      binMax,
+      customMark,
+    } = props;
+    // data projection
+    const { projectedAreas:areas, projectedPoints:points } = hexbinProjection({
+      bins,
+      cellPx,
+      binValue,
+      binMax,
+      customMark,
+      data,
+      finalXExtent,
+      finalYExtent,
+      xAccessor,
+      yAccessor,
+      sAccessor,
+      showPoints,
+      size
+    });
+
+    projectedAreas = areas;
+    projectedPoints = points;
+  }
 
   const { svgPipeline: areaSvg, canvasPipeline: areaCanvas } = toRenderedAreas({
     useCanvas,
@@ -90,4 +128,4 @@ const toContourPipeline = props => {
   };
 };
 
-export default toContourPipeline;
+export default toPipeline;

@@ -6,13 +6,18 @@ import {
   oneOfType,
   bool,
   node,
-  number
+  number,
+  func
 } from 'prop-types';
 import { scaleLinear } from 'd3-scale';
 
 import FilterDefs from './widgets/FilterDefs';
 import SpanOrDiv from './widgets/SpanOrDiv';
 import VisualizationLayer from './layers/VisualizationLayer';
+import AnnotationLayer from './layers/AnnotationLayer';
+import InteractionLayer from './layers/InteractionLayer';
+import {defaultHTMLRule, defaultSVGRule} from './layers/AnnotationLayer/rules';
+
 import {
   generateFrameTitle,
   getExtent,
@@ -21,6 +26,8 @@ import {
   toPipeline
 } from './frameUtils';
 import toAxes from './axis/toAxes';
+
+const isPLot = type => ['Hexbin', 'Contour'].includes(type);
 
 const getCanvasScale = context => {
   const devicePixelRatio = window.devicePixelRatio || 1;
@@ -87,6 +94,9 @@ const XYFrame = props => {
     foregroundGraphics,
     canvasPostProcess,
     renderOrder,
+    annotations,
+    annotationSettings,
+    hoverAnnotation,
     children
   } = props;
 
@@ -132,7 +142,7 @@ const XYFrame = props => {
 
   // frame scope scales
   const frameScopeExtent = React.Children.toArray(children)
-    .filter(d => d.type.name === 'Contour')
+    .filter(d => isPLot(d.type.name))
     .map(d => {
       return getExtent({
         data: d.props.data,
@@ -183,15 +193,58 @@ const XYFrame = props => {
     })
     .map(d => {
       return toPipeline({
+        plotTye: d.type.name,
         ...d.props,
         frameXScale,
         frameYScale,
-        frontCanvas
+        frontCanvas,
+        adjustedSize
       });
     })
     .reduce((acc, cur) => {
       return acc.concat(cur.areaPipe);
     }, []);
+
+  // annotations
+  const legendSettings = {};
+  const renderedLegend = {};
+  const areaAnnotations = [];
+
+  const totalAnnotations = annotations
+    ? [...annotations, ...areaAnnotations]
+    : areaAnnotations;
+
+  if (voronoiHover) {
+    if (Array.isArray(voronoiHover)) {
+      totalAnnotations.push(...voronoiHover);
+    } else {
+      totalAnnotations.push(voronoiHover);
+    }
+  }
+
+  const annotationLayer = ((totalAnnotations && totalAnnotations.length > 0) ||
+    legendSettings) && (
+    <AnnotationLayer
+      legendSettings={legendSettings}
+      margin={margin}
+      axes={axes}
+      voronoiHover={setVoronoiHover}
+      annotationHandling={annotationSettings}
+      pointSizeFunction={
+        annotationSettings.layout && annotationSettings.layout.pointSizeFunction
+      }
+      labelSizeFunction={
+        annotationSettings.layout && annotationSettings.layout.labelSizeFunction
+      }
+      annotations={totalAnnotations}
+      useSpans={useSpans}
+      size={adjustedSize}
+      position={[
+        adjustedPosition[0] + margin.left,
+        adjustedPosition[1] + margin.top
+      ]}
+    />
+  );
 
   return (
     <SpanOrDiv
@@ -274,9 +327,9 @@ const XYFrame = props => {
             height={height}
           >
             <FilterDefs
-              matte
+              matte={marginGraphic}
               key={matte && (frameKey || name)}
-              additionalDefs
+              additionalDefs={additionalDefs}
             />
             <VisualizationLayer
               title={generatedTitle}
@@ -295,16 +348,14 @@ const XYFrame = props => {
               voronoiHover={setVoronoiHover}
             >
               {React.Children.toArray(children)
-                .filter(d => {
-                  return (
-                    d.type.name === 'Contour' && d.props.useCanvas === false
-                  );
-                })
+                .filter(d => isPLot(d.type.name) && d.props.useCanvas === false)
                 .map(d =>
                   React.cloneElement(d, {
                     frameXScale,
                     frameYScale,
-                    frontCanvas
+                    frontCanvas,
+                    adjustedSize,
+                    size
                   })
                 )}
               {axes && (
@@ -322,8 +373,36 @@ const XYFrame = props => {
           </svg>
         </SpanOrDiv>
 
-        {/* interactionLayer */}
-        {/* annotationLayer */}
+        {/*<InteractionLayer*/}
+        {/*    useSpans={useSpans}*/}
+        {/*    hoverAnnotation={hoverAnnotation}*/}
+        {/*    projectedX={projectedCoordinateNames.x}*/}
+        {/*    projectedY={projectedCoordinateNames.y}*/}
+        {/*    projectedYMiddle={projectedYMiddle}*/}
+        {/*    interaction={interaction}*/}
+        {/*    voronoiHover={this.setVoronoi}*/}
+        {/*    customClickBehavior={customClickBehavior}*/}
+        {/*    customHoverBehavior={customHoverBehavior}*/}
+        {/*    customDoubleClickBehavior={customDoubleClickBehavior}*/}
+        {/*    points={points}*/}
+        {/*    showLinePoints={showLinePoints}*/}
+        {/*    canvasRendering={canvasRendering}*/}
+        {/*    position={adjustedPosition}*/}
+        {/*    margin={margin}*/}
+        {/*    size={adjustedSize}*/}
+        {/*    svgSize={size}*/}
+        {/*    xScale={xScale}*/}
+        {/*    yScale={yScale}*/}
+        {/*    enabled={true}*/}
+        {/*    overlay={overlay}*/}
+        {/*    oColumns={columns}*/}
+        {/*    rScale={rScale}*/}
+        {/*    projection={projection}*/}
+        {/*    interactionOverflow={interactionOverflow}*/}
+        {/*    disableCanvasInteraction={disableCanvasInteraction}*/}
+        {/*    renderPipeline={renderPipeline}*/}
+        {/*/>*/}
+        {annotationLayer}
         {afterElements && (
           <SpanOrDiv span={useSpans} className={`${name} frame-after-elements`}>
             {afterElements}
@@ -351,7 +430,10 @@ XYFrame.propTypes = {
   backgroundGraphics: oneOfType([node, object]),
   foregroundGraphics: oneOfType([node, object]),
   canvasPostProcess: string,
-  renderOrder: array
+  renderOrder: array,
+  annotations: array,
+  annotationSettings: object,
+  hoverAnnotation: func
 };
 
 XYFrame.defaultProps = {
@@ -369,7 +451,10 @@ XYFrame.defaultProps = {
   foregroundGraphics: null,
   additionalDefs: null,
   canvasPostProcess: 'chunkClose',
-  renderOrder: ['areas', 'lines', 'points']
+  renderOrder: ['areas', 'lines', 'points'],
+  annotations: [],
+  annotationSettings: {},
+  hoverAnnotation: null
 };
 
 export default XYFrame;
