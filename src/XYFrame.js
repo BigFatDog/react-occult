@@ -30,7 +30,7 @@ import {
 } from './frameUtils';
 import toAxes from './axis/toAxes';
 
-const isPLot = type => ['Hexbin', 'Contour'].includes(type);
+const isPLot = type => ['Hexbin', 'Contour', 'Heatmap'].includes(type);
 
 const getCanvasScale = context => {
   const devicePixelRatio = window.devicePixelRatio || 1;
@@ -208,6 +208,7 @@ const XYFrame = props => {
       return acc.concat(cur.areaPipe);
     }, []);
 
+  console.log(canvasPipeline)
   // annotations
   const legendSettings = {};
   const renderedLegend = {};

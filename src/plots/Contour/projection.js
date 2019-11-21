@@ -1,7 +1,7 @@
 import { contourDensity } from 'd3-contour';
 import { scaleLinear } from 'd3-scale';
-import shapeBounds from './shapeBounds';
 import { group } from 'd3-array';
+import shapeBounds from './shapeBounds';
 
 const contouringProjection = ({
   threshold,

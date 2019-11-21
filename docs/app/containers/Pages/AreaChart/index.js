@@ -5,7 +5,7 @@ import { TheaterSummaryData } from './ThreaterFlattenData';
 
 import brand from 'dan-api/dummy/brand';
 import { PapperBlock } from 'dan-components';
-import { XYFrame, Line, XAxis, YAxis, Contour, Hexbin } from 'occult';
+import { XYFrame, Line, XAxis, YAxis, Contour, Hexbin, Heatmap } from 'occult';
 import { scaleLinear } from 'd3-scale';
 const h = scaleLinear()
   .domain([0, 1])
@@ -104,6 +104,30 @@ const AreaPage = props => {
     useCanvas: false
   };
 
+  const heatmapProps = {
+    xAccessor: d => d.theaterCount,
+    yAccessor: d => d.rank,
+    sAccessor: d => d.title,
+    xExtent: [0],
+    yExtent: [0],
+    data: TheaterSummaryData,
+    areaStyle: (e, i) => ({
+      stroke: colors[e.parentSummary.s],
+      fill: h(e.percent),
+      strokeWidth: 0.5
+    }),
+    pointStyle: d => ({
+      r: 2,
+      fill: colors[d.parentSummary.s]
+    }),
+    areaRenderMode: {
+      renderMode: 'sketchy',
+      fillWeight: 3,
+      hachureGap: 4
+    },
+    useCanvas: true
+  }
+
   return (
     <div>
       <Helmet>
@@ -119,7 +143,8 @@ const AreaPage = props => {
           <XAxis label={'Rank'} />
           <YAxis left={50} label={'Theaters'} />
           {/*<Line {...lineProps} />*/}
-          <Hexbin {...hexbinProps} />
+          {/*<Hexbin {...hexbinProps} />*/}
+          <Heatmap {...heatmapProps} />
           {/*<Contour {...contourProps} />*/}
         </XYFrame>
       </PapperBlock>
