@@ -196,7 +196,7 @@ const XYFrame = props => {
     })
     .map(d => {
       return toPipeline({
-        plotTye: d.type.name,
+        plotType: d.type.name,
         ...d.props,
         frameXScale,
         frameYScale,

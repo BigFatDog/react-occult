@@ -29,7 +29,7 @@ const toPipeline = props => {
     showPoints,
     frameXScale: xScale,
     frameYScale: yScale,
-    plotTye,
+    plotType,
     adjustedSize: size
   } = props;
 
@@ -44,7 +44,7 @@ const toPipeline = props => {
 
   let projectedAreas,
     projectedPoints = [];
-  if (plotTye === 'Contour') {
+  if (plotType === 'Contour') {
     const { threshold, resolution, bandWidth, neighborhood } = props;
     // data projection
     const {
@@ -66,7 +66,7 @@ const toPipeline = props => {
 
     projectedAreas = areas;
     projectedPoints = points;
-  } else if (plotTye === 'Hexbin') {
+  } else if (plotType === 'Hexbin') {
     const { bins, cellPx, binValue, binMax, customMark } = props;
     // data projection
     const { projectedAreas: areas, projectedPoints: points } = hexbinProjection(
@@ -89,7 +89,7 @@ const toPipeline = props => {
 
     projectedAreas = areas;
     projectedPoints = points;
-  } else if (plotTye === 'Heatmap') {
+  } else if (plotType === 'Heatmap') {
     const {
       xBins,
       yBins,
