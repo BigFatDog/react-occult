@@ -156,7 +156,7 @@ Heatmap.defaultProps = {
   // heatmap config
   binValue: d => d.length,
   xBins: 0.05,
-  yBins: 0.05,
+  yBins: 0.05
 };
 
 export default Heatmap;

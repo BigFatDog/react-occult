@@ -208,7 +208,7 @@ const XYFrame = props => {
       return acc.concat(cur.areaPipe);
     }, []);
 
-  console.log(canvasPipeline)
+  console.log(canvasPipeline);
   // annotations
   const legendSettings = {};
   const renderedLegend = {};

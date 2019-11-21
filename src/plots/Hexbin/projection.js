@@ -16,7 +16,6 @@ const hexbinProjection = ({
   sAccessor,
   showPoints,
   size
-
 }) => {
   let projectedAreas = [];
   let projectedPoints = [];

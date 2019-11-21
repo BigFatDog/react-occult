@@ -126,7 +126,7 @@ const AreaPage = props => {
       hachureGap: 4
     },
     useCanvas: true
-  }
+  };
 
   return (
     <div>

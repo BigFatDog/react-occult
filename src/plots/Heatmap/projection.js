@@ -43,14 +43,18 @@ const heatmapProjection = ({
   const xBinPercent = xBins < 1 ? xBins : 1 / xBins;
   const yBinPercent = yBins < 1 ? yBins : 1 / yBins;
 
-  const heatmapBinXScale = scaleLinear().domain(finalXExtent).range([0, size[0]]);
-  const heatmapBinYScale = scaleLinear().domain(finalYExtent).range([size[1], 0]);
+  const heatmapBinXScale = scaleLinear()
+    .domain(finalXExtent)
+    .range([0, size[0]]);
+  const heatmapBinYScale = scaleLinear()
+    .domain(finalYExtent)
+    .range([size[1], 0]);
 
   const actualResolution = [
     Math.ceil(((xCellPx && xCellPx / size[0]) || xBinPercent) * size[0] * 10) /
-    10,
+      10,
     Math.ceil(((yCellPx && yCellPx / size[1]) || yBinPercent) * size[1] * 10) /
-    10
+      10
   ];
   let maxValue = -Infinity;
 
@@ -91,10 +95,10 @@ const heatmapProjection = ({
 
     heatmapData._xyCoordinates.forEach((d, di) => {
       const xCoordinate = Math.floor(
-          heatmapBinXScale(d.x) / actualResolution[0]
+        heatmapBinXScale(d.x) / actualResolution[0]
       );
       const yCoordinate = Math.floor(
-          heatmapBinYScale(d.y) / actualResolution[1]
+        heatmapBinYScale(d.y) / actualResolution[1]
       );
       grid[xCoordinate][yCoordinate].binItems.push(heatmapData._baseData[di]);
     });
@@ -107,18 +111,18 @@ const heatmapProjection = ({
     flatGrid.forEach(d => {
       d.percent = d.value / maxValue;
       d.customMark = customMark && (
-          <g transform={`translate(${d.gx},${d.gy})`}>
-            {customMark({
-              d,
-              baseMarkProps,
-              margin,
-              styleFn,
-              classFn,
-              renderFn,
-              chartSize,
-              adjustedSize: size
-            })}
-          </g>
+        <g transform={`translate(${d.gx},${d.gy})`}>
+          {customMark({
+            d,
+            baseMarkProps,
+            margin,
+            styleFn,
+            classFn,
+            renderFn,
+            chartSize,
+            adjustedSize: size
+          })}
+        </g>
       );
     });
 

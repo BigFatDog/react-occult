@@ -4,7 +4,7 @@ import hexbinProjection from '../plots/Hexbin/projection';
 import toRenderedAreas from '../plots/Contour/toRenderedAreas';
 import { stringToFn } from '../archive/data/dataFunctions';
 import toRenderedPoints from '../plots/Contour/toRenderedPoints';
-import heatmapProjection from "../plots/Heatmap/projection";
+import heatmapProjection from '../plots/Heatmap/projection';
 
 const emptyObjectReturnFunction = () => ({});
 const emptyStringReturnFunction = () => '';
@@ -97,27 +97,29 @@ const toPipeline = props => {
       yCellPx,
       binMax,
       binValue,
-      customMark, } = props;
+      customMark
+    } = props;
     // data projection
-    const { projectedAreas: areas, projectedPoints: points } = heatmapProjection(
-        {
-          xBins,
-          yBins,
-          xCellPx,
-          yCellPx,
-          binMax,
-          binValue,
-          customMark,
-          data,
-          finalXExtent,
-          finalYExtent,
-          xAccessor,
-          yAccessor,
-          sAccessor,
-          showPoints,
-          size
-        }
-    );
+    const {
+      projectedAreas: areas,
+      projectedPoints: points
+    } = heatmapProjection({
+      xBins,
+      yBins,
+      xCellPx,
+      yCellPx,
+      binMax,
+      binValue,
+      customMark,
+      data,
+      finalXExtent,
+      finalYExtent,
+      xAccessor,
+      yAccessor,
+      sAccessor,
+      showPoints,
+      size
+    });
 
     projectedAreas = areas;
     projectedPoints = points;
