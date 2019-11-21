@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  object,
-  number,
-} from 'prop-types';
+import { object, number } from 'prop-types';
 
 import SpanOrDiv from '../../widgets/SpanOrDiv';
 import getSVGAnnotations from './getSVGAnnotations';

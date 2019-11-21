@@ -24,7 +24,7 @@ const hexbinProjection = ({
   renderFn,
   chartSize
 }) => {
-  console.log('--------')
+  console.log('--------');
   if (processedData) {
     return baseData[0].coordinates;
   }

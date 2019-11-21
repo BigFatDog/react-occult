@@ -16,7 +16,10 @@ import SpanOrDiv from './widgets/SpanOrDiv';
 import VisualizationLayer from './layers/VisualizationLayer';
 import AnnotationLayer from './layers/AnnotationLayer';
 import InteractionLayer from './layers/InteractionLayer';
-import {defaultHTMLRule, defaultSVGRule} from './layers/AnnotationLayer/rules';
+import {
+  defaultHTMLRule,
+  defaultSVGRule
+} from './layers/AnnotationLayer/rules';
 
 import {
   generateFrameTitle,

@@ -29,7 +29,7 @@ const toPipeline = props => {
     frameXScale: xScale,
     frameYScale: yScale,
     plotTye,
-    adjustedSize: size,
+    adjustedSize: size
   } = props;
 
   // extents
@@ -41,16 +41,15 @@ const toPipeline = props => {
     yExtent
   });
 
-  let projectedAreas, projectedPoints = [];
+  let projectedAreas,
+    projectedPoints = [];
   if (plotTye === 'Contour') {
-    const {
-      threshold,
-      resolution,
-      bandWidth,
-      neighborhood,
-    } = props;
+    const { threshold, resolution, bandWidth, neighborhood } = props;
     // data projection
-    const { projectedAreas:areas, projectedPoints:points } = contouringProjection({
+    const {
+      projectedAreas: areas,
+      projectedPoints: points
+    } = contouringProjection({
       threshold,
       resolution,
       bandWidth,
@@ -67,29 +66,25 @@ const toPipeline = props => {
     projectedAreas = areas;
     projectedPoints = points;
   } else {
-    const {
-      bins,
-      cellPx,
-      binValue,
-      binMax,
-      customMark,
-    } = props;
+    const { bins, cellPx, binValue, binMax, customMark } = props;
     // data projection
-    const { projectedAreas:areas, projectedPoints:points } = hexbinProjection({
-      bins,
-      cellPx,
-      binValue,
-      binMax,
-      customMark,
-      data,
-      finalXExtent,
-      finalYExtent,
-      xAccessor,
-      yAccessor,
-      sAccessor,
-      showPoints,
-      size
-    });
+    const { projectedAreas: areas, projectedPoints: points } = hexbinProjection(
+      {
+        bins,
+        cellPx,
+        binValue,
+        binMax,
+        customMark,
+        data,
+        finalXExtent,
+        finalYExtent,
+        xAccessor,
+        yAccessor,
+        sAccessor,
+        showPoints,
+        size
+      }
+    );
 
     projectedAreas = areas;
     projectedPoints = points;

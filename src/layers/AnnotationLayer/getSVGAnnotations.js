@@ -4,7 +4,6 @@ import processAnnotations from './processAnnotations';
 import Annotation from './Annotation';
 import { defaultSVGRule } from './rules';
 
-
 const generateSVGAnnotations = (props, annotations) =>
   annotations
     .map((d, i) => defaultSVGRule(d, i, props))

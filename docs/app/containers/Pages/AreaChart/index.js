@@ -6,12 +6,10 @@ import { TheaterSummaryData } from './ThreaterFlattenData';
 import brand from 'dan-api/dummy/brand';
 import { PapperBlock } from 'dan-components';
 import { XYFrame, Line, XAxis, YAxis, Contour, Hexbin } from 'occult';
-import {scaleLinear} from "d3-scale";
+import { scaleLinear } from 'd3-scale';
 const h = scaleLinear()
-    .domain([0, 1])
-    .range(['white', '#1b6ae5']);
-
-
+  .domain([0, 1])
+  .range(['white', '#1b6ae5']);
 
 const colors = {
   'Ex Machina': '#ac58e5',
@@ -104,7 +102,7 @@ const AreaPage = props => {
     //   hachureGap: 4
     // },
     useCanvas: false
-  }
+  };
 
   return (
     <div>

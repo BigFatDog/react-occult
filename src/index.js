@@ -7,4 +7,13 @@ import Hexbin from './plots/Hexbin';
 import XAxis from './axis/XAxis';
 import YAxis from './axis/YAxis';
 
-export { CartesianFrame, DividedLine, XYFrame, Line, Contour, XAxis, YAxis, Hexbin };
+export {
+  CartesianFrame,
+  DividedLine,
+  XYFrame,
+  Line,
+  Contour,
+  XAxis,
+  YAxis,
+  Hexbin
+};

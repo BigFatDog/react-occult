@@ -1,6 +1,6 @@
 import { group } from 'd3-array';
-import {hexbin} from "d3-hexbin";
-import { scaleLinear } from 'd3-scale'
+import { hexbin } from 'd3-hexbin';
+import { scaleLinear } from 'd3-scale';
 
 const hexbinProjection = ({
   bins,
@@ -40,17 +40,21 @@ const hexbinProjection = ({
     }));
   }
 
-  const hexBinXScale = scaleLinear().domain(finalXExtent).range([0, size[0]]);
-  const hexBinYScale = scaleLinear().domain(finalYExtent).range([0, size[1]]);
+  const hexBinXScale = scaleLinear()
+    .domain(finalXExtent)
+    .range([0, size[0]]);
+  const hexBinYScale = scaleLinear()
+    .domain(finalYExtent)
+    .range([0, size[1]]);
 
   const actualResolution =
-      (cellPx && cellPx / 2) || ((bins > 1 ? 1 / bins : bins) * size[0]) / 2;
+    (cellPx && cellPx / 2) || ((bins > 1 ? 1 / bins : bins) * size[0]) / 2;
 
   const hexbinner = hexbin()
-      .x(d => hexBinXScale(d._xyPoint.x))
-      .y(d => hexBinYScale(d._xyPoint.y))
-      .radius(actualResolution)
-      .size(size);
+    .x(d => hexBinXScale(d._xyPoint.x))
+    .y(d => hexBinYScale(d._xyPoint.y))
+    .radius(actualResolution)
+    .size(size);
 
   let hexMax;
   const allHexes = hexbinner.centers();
@@ -58,10 +62,10 @@ const hexbinProjection = ({
   groupedData.forEach(hexbinData => {
     hexMax = 0;
     const hexes = hexbinner(
-        hexbinData._xyCoordinates.map((d, i) => ({
-          _xyPoint: d,
-          ...hexbinData._baseData[i]
-        }))
+      hexbinData._xyCoordinates.map((d, i) => ({
+        _xyPoint: d,
+        ...hexbinData._baseData[i]
+      }))
     );
 
     const centerHash = {};
@@ -111,28 +115,28 @@ const hexbinProjection = ({
       const percent = hexValue / hexMax;
       return {
         customMark: customMark && (
-            <g transform={`translate(${gx},${size[1] - gy})`}>
-              {customMark({
-                d: {
-                  ...d,
-                  binItems: d,
-                  percent,
-                  value: hexValue,
-                  radius: actualResolution,
-                  hexCoordinates: hexBase.map(d => [
-                    d[0] * actualResolution,
-                    d[1] * actualResolution
-                  ])
-                },
-                baseMarkProps,
-                margin,
-                styleFn,
-                classFn,
-                renderFn,
-                chartSize,
-                adjustedSize: size
-              })}
-            </g>
+          <g transform={`translate(${gx},${size[1] - gy})`}>
+            {customMark({
+              d: {
+                ...d,
+                binItems: d,
+                percent,
+                value: hexValue,
+                radius: actualResolution,
+                hexCoordinates: hexBase.map(d => [
+                  d[0] * actualResolution,
+                  d[1] * actualResolution
+                ])
+              },
+              baseMarkProps,
+              margin,
+              styleFn,
+              classFn,
+              renderFn,
+              chartSize,
+              adjustedSize: size
+            })}
+          </g>
         ),
         _xyCoordinates: hexacoordinates.map(p => [p[0] + d.x, p[1] + d.y]),
         value: hexValue,
