@@ -10,21 +10,22 @@ import {
   node
 } from 'prop-types';
 import getExtent from '../../frameUtils/getExtent';
-import heatmapProjection from './projection';
+import lineProjection from './projection';
 import { stringToFn } from '../../archive/data/dataFunctions';
-import toRenderedAreas from '../toRenderedAreas';
+import toRenderedLines from '../toRenderedLines';
 import toRenderedPoints from '../toRenderedPoints';
 
 const emptyObjectReturnFunction = () => ({});
 const emptyStringReturnFunction = () => '';
 
-const Heatmap = props => {
+const Line = props => {
   const {
     data,
-    areaStyle,
-    areaClass,
-    areaRenderMode,
-    areaCustomMarks,
+    lineType,
+    lineStyle,
+    lineClass,
+    lineCustomMarks,
+    lineRenderMode,
     pointStyle,
     pointClass,
     pointCustomMarks,
@@ -38,14 +39,7 @@ const Heatmap = props => {
     showPoints,
     frameXScale: xScale,
     frameYScale: yScale,
-    size,
-    binValue,
-    xBins,
-    yBins,
-    xCellPx,
-    yCellPx,
-    binMax,
-    customMark
+    size
   } = props;
 
   // extents
@@ -58,14 +52,7 @@ const Heatmap = props => {
   });
 
   // data projection
-  const { projectedAreas, projectedPoints } = heatmapProjection({
-    xBins,
-    yBins,
-    xCellPx,
-    yCellPx,
-    binMax,
-    binValue,
-    customMark,
+  const { projectedAreas, projectedPoints, projectedLines } = lineProjection({
     data,
     finalXExtent,
     finalYExtent,
@@ -76,14 +63,14 @@ const Heatmap = props => {
     size
   });
 
-  const { svgPipeline: areaSvg, canvasPipeline: areaCanvas } = toRenderedAreas({
+  const { svgPipeline: areaSvg, canvasPipeline: areaCanvas } = toRenderedLines({
     useCanvas,
     xScale,
     yScale,
-    styleFn: stringToFn(areaStyle, emptyObjectReturnFunction, true),
-    classFn: stringToFn(areaClass, emptyStringReturnFunction, true),
-    renderFn: stringToFn(areaRenderMode, undefined, true),
-    customMarks: areaCustomMarks,
+    styleFn: stringToFn(lineStyle, emptyObjectReturnFunction, true),
+    classFn: stringToFn(lineClass, emptyStringReturnFunction, true),
+    renderFn: stringToFn(lineRenderMode, undefined, true),
+    customMarks: lineCustomMarks,
     data: projectedAreas
   });
 
@@ -101,17 +88,20 @@ const Heatmap = props => {
     data: projectedPoints
   });
 
-  const contourSvgPipeline = [...areaSvg, ...pointsSvg];
-  const contourCanvasPipeline = [...areaCanvas, ...pointsCanvas];
-  return contourSvgPipeline;
+  const lineSvgPipeline = [...areaSvg, ...pointsSvg];
+  const lineCanvasPipeline = [...areaCanvas, ...pointsCanvas];
+  return lineSvgPipeline;
 };
 
-Heatmap.propTypes = {
+Line.propTypes = {
   data: array,
-  areaStyle: oneOfType([object, func]),
-  areaClass: oneOfType([object, func]),
-  areaRenderMode: oneOfType([object, func]),
-  areaCustomMarks: oneOfType([node, func]),
+  simpleLine,
+  bool,
+  lineType: string,
+  lineStyle: oneOfType([object, func]),
+  lineClass: oneOfType([object, func]),
+  lineRenderMode: oneOfType([object, func]),
+  lineCustomMarks: oneOfType([node, func]),
   pointStyle: oneOfType([object, func]),
   pointClass: oneOfType([object, func]),
   pointCustomMarks: oneOfType([node, func]),
@@ -122,41 +112,23 @@ Heatmap.propTypes = {
   yExtent: array,
   xAccessor: oneOfType([string, func]),
   yAccessor: oneOfType([string, func]),
-  sAccessor: oneOfType([string, func]),
-  bins: number,
-  // heatmap
-  cellPx: number,
-  binValue: func,
-  xBins: number,
-  yBins: number,
-  xCellPx: number,
-  yCellPx: number,
-  binMax: number,
-  customMark: oneOfType([object, func])
+  sAccessor: oneOfType([string, func])
 };
 
-Heatmap.defaultProps = {
+Line.defaultProps = {
   data: [],
-  resolution: 500,
-  threshold: 10,
-  bandWidth: 20,
-  areaStyle: {
+  simpleLine: false,
+  lineType: 'line',
+  lineStyle: {
     fill: 'none',
     stroke: 'red',
     strokeWidth: 0.5
   },
+  showPoints: true,
   pointStyle: {
     r: 2,
     fill: 'red'
-  },
-  areaRenderMode: null,
-  pointRenderMode: null,
-  showPoints: true,
-  useCanvas: true,
-  // heatmap config
-  binValue: d => d.length,
-  xBins: 0.05,
-  yBins: 0.05
+  }
 };
 
-export default Heatmap;
+export default Line;

@@ -160,7 +160,7 @@ const defaultSVGRule = ({
       xScale,
       yScale
     });
-  } else if (d.type === 'line') {
+  } else if (d.type === 'index.js') {
     return svgLineAnnotation({ d, i, screenCoordinates });
   } else if (d.type === 'area') {
     return svgAreaAnnotation({

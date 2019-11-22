@@ -13,14 +13,14 @@ import {
   curveNatural
 } from 'd3-shape';
 
-import clonedAppliedElement from './clonedAppliedElement';
+import clonedAppliedElement from '../archive/svg/behaviors/clonedAppliedElement';
 
 import {
   projectedX,
   projectedY,
   projectedYTop,
   projectedYBottom
-} from '../../constants/coordinateNames';
+} from '../constants/coordinateNames';
 
 export const curveHash = {
   step: curveStep,
@@ -67,10 +67,9 @@ export function lineGeneratorDecorator({
 const createLines = ({
   xScale,
   yScale,
-  canvasDrawing,
   data,
   customMark,
-  canvasRender,
+  useCanvas,
   styleFn,
   classFn,
   renderMode,
@@ -81,6 +80,9 @@ const createLines = ({
   ariaLabel,
   axesData = []
 }) => {
+  const canvasPipeline = [];
+  const svgPipeline = [];
+
   const xAxis = axesData.find(d => d.orient === 'bottom' || d.orient === 'top');
   const yAxis = axesData.find(d => d.orient === 'left' || d.orient === 'right');
 
@@ -122,7 +124,6 @@ const createLines = ({
       })) ||
     (() => lineGenerator);
 
-  const mappedLines = [];
   data.forEach((d, i) => {
     if (customMark && typeof customMark === 'function') {
       //shim to make customLineMark work until Semiotic 2
@@ -130,8 +131,8 @@ const createLines = ({
         ...d,
         data: d.data.map(p => ({ ...p.data, ...p }))
       };
-      mappedLines.push(
-        customMark({ d: compatibleData, i, xScale, yScale, canvasDrawing })
+      svgPipeline.push(
+        customMark({ d: compatibleData, i, xScale, yScale, canvasPipeline })
       );
     } else {
       const builtInDisplayProps = {};
@@ -173,9 +174,9 @@ const createLines = ({
           )} at ${xAxisFormatter(d.data[d.data.length - 1].x)}`
       };
 
-      if (canvasRender && canvasRender(d.data, i) === true) {
+      if (useCanvas === true) {
         const canvasLine = {
-          type: 'index.js',
+          type: 'line',
           baseClass: 'xyframe-line',
           tx: 0,
           ty: 0,
@@ -186,9 +187,9 @@ const createLines = ({
           renderFn: renderMode,
           classFn
         };
-        canvasDrawing.push(canvasLine);
+        canvasPipeline.push(canvasLine);
       } else {
-        mappedLines.push(
+        svgPipeline.push(
           clonedAppliedElement({
             baseClass: 'xyframe-line',
             d,
@@ -258,7 +259,7 @@ const createLines = ({
         style={{ fill: 'none', pointerEvents: 'none' }}
       />
     );
-    mappedLines.push(diffOverlayA);
+    svgPipeline.push(diffOverlayA);
 
     const diffOverlayB = (
       <Mark
@@ -269,9 +270,12 @@ const createLines = ({
         style={{ fill: 'none', pointerEvents: 'none' }}
       />
     );
-    mappedLines.push(diffOverlayB);
+    svgPipeline.push(diffOverlayB);
   }
 
-  return mappedLines;
+  return {
+    svgPipeline,
+    canvasPipeline
+  };
 };
 export default createLines;

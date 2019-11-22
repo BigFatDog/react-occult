@@ -30,11 +30,11 @@ import defaultXYHTMLRule from './utils/defaultXYHTMLRule';
 import toAxes from './z-helper/toAxes';
 
 const naturalLanguageLineType = {
-  line: { items: 'line', chart: 'line chart' },
+  line: { items: 'index.js', chart: 'line chart' },
   area: { items: 'area', chart: 'area chart' },
-  cumulative: { items: 'line', chart: 'cumulative chart' },
-  'cumulative-reverse': { items: 'line', chart: 'cumulative chart' },
-  linepercent: { items: 'line', chart: 'line chart' },
+  cumulative: { items: 'index.js', chart: 'cumulative chart' },
+  'cumulative-reverse': { items: 'index.js', chart: 'cumulative chart' },
+  linepercent: { items: 'index.js', chart: 'line chart' },
   stackedarea: { items: 'stacked area', chart: 'stacked area chart' },
   'stackedarea-invert': { items: 'stacked area', chart: 'stacked area chart' },
   stackedpercent: { items: 'stacked area', chart: 'stacked area chart' },
@@ -46,7 +46,7 @@ const naturalLanguageLineType = {
   'bumparea-invert': { items: 'ranked area', chart: 'ranked area chart' },
   bumpline: { items: 'ranked line', chart: 'ranked line chart' },
   difference: {
-    items: 'line',
+    items: 'index.js',
     chart: 'difference chart'
   }
 };
@@ -191,7 +191,7 @@ const CartesianFrame = props => {
   };
 
   annotatedSettings.lineType.simpleLine =
-    annotatedSettings.lineType.type === 'line' &&
+    annotatedSettings.lineType.type === 'index.js' &&
     !annotatedSettings.lineType.y1 &&
     annotatedSettings.lineType.simpleLine !== false;
 

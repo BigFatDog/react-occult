@@ -44,14 +44,17 @@ const AreaPage = props => {
   };
 
   const lineProps = {
-    data: [],
-    xAccessor: d => d.x,
-    yAccessor: d => d.y,
+    data: TheaterSummaryData,
+    xAccessor: d => d.theaterCount,
+    yAccessor: d => d.rank,
+    sAccessor: d => d.title,
+    xExtent: [0],
+    yExtent: [0],
     style: (d, i) => ({
       stroke: 'red',
       strokeWidth: 2
     }),
-    canvas: true
+    useCanvas: false
   };
 
   const contourProps = {
@@ -120,12 +123,12 @@ const AreaPage = props => {
       r: 2,
       fill: colors[d.parentSummary.s]
     }),
-    areaRenderMode: {
-      renderMode: 'sketchy',
-      fillWeight: 3,
-      hachureGap: 4
-    },
-    useCanvas: true
+    // areaRenderMode: {
+    //   renderMode: 'sketchy',
+    //   fillWeight: 3,
+    //   hachureGap: 4
+    // },
+    useCanvas: false
   };
 
   return (
@@ -142,10 +145,10 @@ const AreaPage = props => {
         <XYFrame {...frameProps}>
           <XAxis label={'Rank'} />
           <YAxis left={50} label={'Theaters'} />
-          {/*<Line {...lineProps} />*/}
-          {/*<Hexbin {...hexbinProps} />*/}
-          <Heatmap {...heatmapProps} />
+          <Line {...lineProps} />
+          {/*<Heatmap {...heatmapProps} />*/}
           {/*<Contour {...contourProps} />*/}
+          {/*<Hexbin {...hexbinProps} />*/}
         </XYFrame>
       </PapperBlock>
     </div>

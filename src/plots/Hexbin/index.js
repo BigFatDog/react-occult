@@ -12,8 +12,8 @@ import {
 import getExtent from '../../frameUtils/getExtent';
 import hexbinProjection from './projection';
 import { stringToFn } from '../../archive/data/dataFunctions';
-import toRenderedAreas from '../Contour/toRenderedAreas';
-import toRenderedPoints from '../Contour/toRenderedPoints';
+import toRenderedAreas from '../toRenderedAreas';
+import toRenderedPoints from '../toRenderedPoints';
 
 const emptyObjectReturnFunction = () => ({});
 const emptyStringReturnFunction = () => '';

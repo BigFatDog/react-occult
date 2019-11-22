@@ -12,8 +12,8 @@ import {
 import getExtent from '../../frameUtils/getExtent';
 import contouringProjection from './projection';
 import { stringToFn } from '../../archive/data/dataFunctions';
-import toRenderedAreas from './toRenderedAreas';
-import toRenderedPoints from './toRenderedPoints';
+import toRenderedAreas from '../toRenderedAreas';
+import toRenderedPoints from '../toRenderedPoints';
 
 const emptyObjectReturnFunction = () => ({});
 const emptyStringReturnFunction = () => '';

@@ -1,10 +1,11 @@
 import getExtent from './getExtent';
 import contouringProjection from '../plots/Contour/projection';
 import hexbinProjection from '../plots/Hexbin/projection';
-import toRenderedAreas from '../plots/Contour/toRenderedAreas';
+import toRenderedAreas from '../plots/toRenderedAreas';
 import { stringToFn } from '../archive/data/dataFunctions';
-import toRenderedPoints from '../plots/Contour/toRenderedPoints';
+import toRenderedPoints from '../plots/toRenderedPoints';
 import heatmapProjection from '../plots/Heatmap/projection';
+import lineProjection from '../plots/Line/projection';
 
 const emptyObjectReturnFunction = () => ({});
 const emptyStringReturnFunction = () => '';
@@ -123,6 +124,21 @@ const toPipeline = props => {
 
     projectedAreas = areas;
     projectedPoints = points;
+  } else if (plotType === 'Line') {
+    const {
+      projectedAreas: areas,
+      projectedPoints: points,
+      projectedLines: lines
+    } = lineProjection({
+      data,
+      finalXExtent,
+      finalYExtent,
+      xAccessor,
+      yAccessor,
+      sAccessor,
+      showPoints,
+      size
+    });
   }
 
   const { svgPipeline: areaSvg, canvasPipeline: areaCanvas } = toRenderedAreas({
