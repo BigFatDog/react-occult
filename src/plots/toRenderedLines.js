@@ -146,6 +146,7 @@ const createLines = ({
         d._xyCoordinates.map(p => Object.assign({}, p._data, p))
       );
 
+      console.log(pathString)
       if (
         pathString &&
         (!customLine.interpolator || interpolator === curveLinear)

@@ -71,13 +71,13 @@ const AreaPage = props => {
         <tspan fill={'#E0488B'}>Far from the Madding Crowd</tspan>
       </text>
     ),
-    style: { fill: 'url(#gradient' },
-    additionalDefs: { GradientDefs }
+    // style: { fill: 'url(#gradient' },
+    // additionalDefs: { GradientDefs }
   };
 
   const lineProps = {
     data: TheaterSummaryData,
-    xAccessor: d => d.week,
+    xAccessor: d => d.rank,
     yAccessor: d => d.theaterCount,
     sAccessor: d => d.title,
     xExtent: [0],
@@ -92,7 +92,7 @@ const AreaPage = props => {
       alpha: 0.4,
       strokeWidth: 1
     },
-    useCanvas: false
+    useCanvas: true
   };
 
   const contourProps = {

@@ -6,6 +6,7 @@ import { stringToFn } from '../archive/data/dataFunctions';
 import toRenderedPoints from '../plots/toRenderedPoints';
 import heatmapProjection from '../plots/Heatmap/projection';
 import lineProjection from '../plots/Line/projection';
+import toRenderedLines from "../plots/toRenderedLines";
 
 const emptyObjectReturnFunction = () => ({});
 const emptyStringReturnFunction = () => '';
@@ -13,6 +14,10 @@ const emptyStringReturnFunction = () => '';
 const toPipeline = props => {
   const {
     data,
+    lineStyle,
+    lineClass,
+    lineCustomMarks,
+    lineRenderMode,
     areaStyle,
     areaClass,
     areaRenderMode,
@@ -43,8 +48,9 @@ const toPipeline = props => {
     yExtent
   });
 
-  let projectedAreas,
-    projectedPoints = [];
+  let projectedLines = [];
+  let projectedAreas = [];
+  let projectedPoints = [];
   if (plotType === 'Contour') {
     const { threshold, resolution, bandWidth, neighborhood } = props;
     // data projection
@@ -139,7 +145,23 @@ const toPipeline = props => {
       showPoints,
       size
     });
+
+    projectedLines = lines;
+    projectedAreas = areas;
+    projectedPoints = points;
   }
+
+  const { svgPipeline: lineSvg, canvasPipeline: lineCanvas } = toRenderedLines({
+    useCanvas,
+    xScale,
+    yScale,
+    styleFn: stringToFn(lineStyle, emptyObjectReturnFunction, true),
+    classFn: stringToFn(lineClass, emptyStringReturnFunction, true),
+    renderFn: stringToFn(lineRenderMode, undefined, true),
+    customMarks: lineCustomMarks,
+    data: projectedLines
+  });
+
 
   const { svgPipeline: areaSvg, canvasPipeline: areaCanvas } = toRenderedAreas({
     useCanvas,
@@ -166,8 +188,8 @@ const toPipeline = props => {
     data: projectedPoints
   });
 
-  const svgPipe = [...areaSvg, ...pointsSvg];
-  const areaPipe = [...areaCanvas, ...pointsCanvas];
+  const svgPipe = [...areaSvg, ...lineSvg, ...pointsSvg];
+  const areaPipe = [...areaCanvas, ...lineCanvas, ...pointsCanvas];
   return {
     svgPipe,
     areaPipe
