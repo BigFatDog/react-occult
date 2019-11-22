@@ -63,7 +63,7 @@ const Line = props => {
     size
   });
 
-  const { svgPipeline: areaSvg, canvasPipeline: areaCanvas } = toRenderedLines({
+  const { svgPipeline: lineSvg, canvasPipeline: lineCanvas } = toRenderedLines({
     useCanvas,
     xScale,
     yScale,
@@ -88,8 +88,8 @@ const Line = props => {
     data: projectedPoints
   });
 
-  const lineSvgPipeline = [...areaSvg, ...pointsSvg];
-  const lineCanvasPipeline = [...areaCanvas, ...pointsCanvas];
+  const lineSvgPipeline = [...lineSvg, ...pointsSvg];
+  const lineCanvasPipeline = [...lineCanvas, ...pointsCanvas];
   return lineSvgPipeline;
 };
 
