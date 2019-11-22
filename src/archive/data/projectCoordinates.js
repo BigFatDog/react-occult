@@ -121,7 +121,6 @@ export const projectCoordinates = ({
     ];
   }
   if (lines) {
-    console.log('---');
     initialProjectedLines = projectLineData({
       data: lines,
       lineDataAccessor,

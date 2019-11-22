@@ -17,6 +17,36 @@ const colors = {
   'The Longest Ride': '#9fd0cb'
 };
 
+const theme = [
+  '#ac58e5',
+  '#E0488B',
+  '#9fd0cb',
+  '#e0d33a',
+  '#7566ff',
+  '#533f82',
+  '#7a255d',
+  '#365350',
+  '#a19a11',
+  '#3f4482'
+];
+
+const GradientDefs = [
+  <pattern
+      key="triangle"
+      id="triangle"
+      width="10"
+      height="10"
+      patternUnits="userSpaceOnUse"
+  >
+    <rect fill={'#9fd0cb'} width="10" height="10" />
+    <circle fill={'#7566ff'} r="5" cx="3" cy="3" />
+  </pattern>,
+  <linearGradient key="gradient" x1="0" x2="0" y1="0" y2="1" id="gradient">
+    <stop stopColor={'#ac58e5'} offset="0%" />
+    <stop stopColor={'#7566ff'} offset="100%" />
+  </linearGradient>
+];
+
 const AreaPage = props => {
   const title = brand.name + ' - Sample Area Chart';
   const description = brand.desc;
@@ -40,20 +70,28 @@ const AreaPage = props => {
         Theaters showing <tspan fill={'#ac58e5'}>Ex Machina</tspan> vs{' '}
         <tspan fill={'#E0488B'}>Far from the Madding Crowd</tspan>
       </text>
-    )
+    ),
+    style:{ fill: 'url(#gradient' },
+    additionalDefs: {GradientDefs}
   };
 
   const lineProps = {
     data: TheaterSummaryData,
-    xAccessor: d => d.theaterCount,
-    yAccessor: d => d.rank,
+    xAccessor: d => d.week,
+    yAccessor: d => d.theaterCount,
     sAccessor: d => d.title,
     xExtent: [0],
     yExtent: [0],
-    style: (d, i) => ({
-      stroke: 'red',
+    lineStyle: (d, i) => ({
+      stroke: theme[i],
       strokeWidth: 2
     }),
+
+    pointStyle:{
+      stroke: 'grey',
+      alpha: 0.4,
+      strokeWidth: 1
+    },
     useCanvas: false
   };
 

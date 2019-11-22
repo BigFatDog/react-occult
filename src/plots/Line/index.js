@@ -71,7 +71,7 @@ const Line = props => {
     classFn: stringToFn(lineClass, emptyStringReturnFunction, true),
     renderFn: stringToFn(lineRenderMode, undefined, true),
     customMarks: lineCustomMarks,
-    data: projectedAreas
+    data: projectedLines
   });
 
   const {
@@ -95,8 +95,7 @@ const Line = props => {
 
 Line.propTypes = {
   data: array,
-  simpleLine,
-  bool,
+  simpleLine: bool,
   lineType: string,
   lineStyle: oneOfType([object, func]),
   lineClass: oneOfType([object, func]),

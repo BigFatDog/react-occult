@@ -141,8 +141,9 @@ const createLines = ({
         builtInDisplayProps.stroke = 'black';
       }
 
+      console.log(d);
       let pathString = dynamicLineGenerator(d, i)(
-        d.data.map(p => Object.assign({}, p.data, p))
+        d._xyCoordinates.map(p => Object.assign({}, p._data, p))
       );
 
       if (
