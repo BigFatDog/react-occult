@@ -20,7 +20,7 @@ const lineProjection = ({
       y: yAccessor(e),
       yTop: yAccessor(e),
       yBottom: yAccessor(e),
-      _data: e,
+      _data: e
     })),
     _baseData: groupedMap.get(d)
   }));
@@ -32,7 +32,7 @@ const lineProjection = ({
       x: xAccessor(d),
       y: yAccessor(d),
       yTop: yAccessor(d),
-      yBottom: yAccessor(d),
+      yBottom: yAccessor(d)
     }));
   }
 

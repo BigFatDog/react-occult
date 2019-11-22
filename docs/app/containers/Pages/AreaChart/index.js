@@ -32,11 +32,11 @@ const theme = [
 
 const GradientDefs = [
   <pattern
-      key="triangle"
-      id="triangle"
-      width="10"
-      height="10"
-      patternUnits="userSpaceOnUse"
+    key="triangle"
+    id="triangle"
+    width="10"
+    height="10"
+    patternUnits="userSpaceOnUse"
   >
     <rect fill={'#9fd0cb'} width="10" height="10" />
     <circle fill={'#7566ff'} r="5" cx="3" cy="3" />
@@ -71,8 +71,8 @@ const AreaPage = props => {
         <tspan fill={'#E0488B'}>Far from the Madding Crowd</tspan>
       </text>
     ),
-    style:{ fill: 'url(#gradient' },
-    additionalDefs: {GradientDefs}
+    style: { fill: 'url(#gradient' },
+    additionalDefs: { GradientDefs }
   };
 
   const lineProps = {
@@ -87,7 +87,7 @@ const AreaPage = props => {
       strokeWidth: 2
     }),
 
-    pointStyle:{
+    pointStyle: {
       stroke: 'grey',
       alpha: 0.4,
       strokeWidth: 1
