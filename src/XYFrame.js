@@ -16,10 +16,6 @@ import SpanOrDiv from './widgets/SpanOrDiv';
 import VisualizationLayer from './layers/VisualizationLayer';
 import AnnotationLayer from './layers/AnnotationLayer';
 import InteractionLayer from './layers/InteractionLayer';
-import {
-  defaultHTMLRule,
-  defaultSVGRule
-} from './layers/AnnotationLayer/rules';
 
 import {
   generateFrameTitle,
@@ -194,7 +190,7 @@ const XYFrame = props => {
     .filter(d => d.props.useCanvas === true)
     .map(d => {
       return toPipeline({
-        plotType: d.type.name,
+        projection: d.type.projection,
         ...d.props,
         frameXScale,
         frameYScale,
@@ -377,11 +373,8 @@ const XYFrame = props => {
         {/*<InteractionLayer*/}
         {/*    useSpans={useSpans}*/}
         {/*    hoverAnnotation={hoverAnnotation}*/}
-        {/*    projectedX={projectedCoordinateNames.x}*/}
-        {/*    projectedY={projectedCoordinateNames.y}*/}
-        {/*    projectedYMiddle={projectedYMiddle}*/}
         {/*    interaction={interaction}*/}
-        {/*    voronoiHover={this.setVoronoi}*/}
+        {/*    voronoiHover={setVoronoiHover}*/}
         {/*    customClickBehavior={customClickBehavior}*/}
         {/*    customHoverBehavior={customHoverBehavior}*/}
         {/*    customDoubleClickBehavior={customDoubleClickBehavior}*/}
@@ -397,7 +390,6 @@ const XYFrame = props => {
         {/*    enabled={true}*/}
         {/*    overlay={overlay}*/}
         {/*    oColumns={columns}*/}
-        {/*    rScale={rScale}*/}
         {/*    projection={projection}*/}
         {/*    interactionOverflow={interactionOverflow}*/}
         {/*    disableCanvasInteraction={disableCanvasInteraction}*/}

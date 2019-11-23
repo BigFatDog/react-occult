@@ -60,4 +60,6 @@ Contour.defaultProps = {
   useCanvas: true
 };
 
+Contour.projection = contouringProjection;
+
 export default Contour;

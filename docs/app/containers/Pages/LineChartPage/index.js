@@ -64,7 +64,7 @@ const LinePage = props => {
       alpha: 0.4,
       strokeWidth: 1
     },
-    useCanvas: false
+    useCanvas: true
   };
 
   return (

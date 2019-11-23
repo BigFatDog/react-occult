@@ -69,4 +69,6 @@ Heatmap.defaultProps = {
   yBins: 0.05
 };
 
+Heatmap.projection = heatmapProjection;
+
 export default Heatmap;

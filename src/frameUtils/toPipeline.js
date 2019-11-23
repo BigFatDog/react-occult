@@ -35,7 +35,7 @@ const toPipeline = props => {
     showPoints,
     frameXScale: xScale,
     frameYScale: yScale,
-    plotType,
+    projection,
     adjustedSize: size
   } = props;
 
@@ -48,108 +48,11 @@ const toPipeline = props => {
     yExtent
   });
 
-  let projectedLines = [];
-  let projectedAreas = [];
-  let projectedPoints = [];
-  if (plotType === 'Contour') {
-    const { threshold, resolution, bandWidth, neighborhood } = props;
-    // data projection
-    const {
-      projectedAreas: areas,
-      projectedPoints: points
-    } = contouringProjection({
-      threshold,
-      resolution,
-      bandWidth,
-      neighborhood,
-      data,
-      finalXExtent,
-      finalYExtent,
-      xAccessor,
-      yAccessor,
-      sAccessor,
-      showPoints
-    });
-
-    projectedAreas = areas;
-    projectedPoints = points;
-  } else if (plotType === 'Hexbin') {
-    const { bins, cellPx, binValue, binMax, customMark } = props;
-    // data projection
-    const { projectedAreas: areas, projectedPoints: points } = hexbinProjection(
-      {
-        bins,
-        cellPx,
-        binValue,
-        binMax,
-        customMark,
-        data,
-        finalXExtent,
-        finalYExtent,
-        xAccessor,
-        yAccessor,
-        sAccessor,
-        showPoints,
-        size
-      }
-    );
-
-    projectedAreas = areas;
-    projectedPoints = points;
-  } else if (plotType === 'Heatmap') {
-    const {
-      xBins,
-      yBins,
-      xCellPx,
-      yCellPx,
-      binMax,
-      binValue,
-      customMark
-    } = props;
-    // data projection
-    const {
-      projectedAreas: areas,
-      projectedPoints: points
-    } = heatmapProjection({
-      xBins,
-      yBins,
-      xCellPx,
-      yCellPx,
-      binMax,
-      binValue,
-      customMark,
-      data,
-      finalXExtent,
-      finalYExtent,
-      xAccessor,
-      yAccessor,
-      sAccessor,
-      showPoints,
-      size
-    });
-
-    projectedAreas = areas;
-    projectedPoints = points;
-  } else if (plotType === 'Line') {
-    const {
-      projectedAreas: areas,
-      projectedPoints: points,
-      projectedLines: lines
-    } = lineProjection({
-      data,
-      finalXExtent,
-      finalYExtent,
-      xAccessor,
-      yAccessor,
-      sAccessor,
-      showPoints,
-      size
-    });
-
-    projectedLines = lines;
-    projectedAreas = areas;
-    projectedPoints = points;
-  }
+  const {
+    projectedLines,
+    projectedAreas,
+    projectedPoints
+  } = projection({finalXExtent, finalYExtent, ...props});
 
   const { svgPipeline: lineSvg, canvasPipeline: lineCanvas } = toRenderedLines({
     useCanvas,

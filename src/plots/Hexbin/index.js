@@ -62,4 +62,6 @@ Hexbin.defaultProps = {
   binValue: d => d.length
 };
 
+Hexbin.projection = hexbinProjection;
+
 export default Hexbin;

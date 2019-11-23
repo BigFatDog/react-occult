@@ -141,12 +141,10 @@ const toRenderedLines = ({
         builtInDisplayProps.stroke = 'black';
       }
 
-      console.log(d);
       let pathString = dynamicLineGenerator(d, i)(
         d._xyCoordinates.map(p => Object.assign({}, p._data, p))
       );
 
-      console.log(pathString);
       if (
         pathString &&
         (!customLine.interpolator || interpolator === curveLinear)
