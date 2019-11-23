@@ -191,9 +191,7 @@ const XYFrame = props => {
 
   // canvasPipeline
   const canvasPipeline = React.Children.toArray(children)
-    .filter(d => {
-      return d.props.useCanvas === true;
-    })
+    .filter(d => d.props.useCanvas === true)
     .map(d => {
       return toPipeline({
         plotType: d.type.name,

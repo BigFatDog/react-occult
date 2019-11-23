@@ -183,10 +183,10 @@ const AreaPage = props => {
         <XYFrame {...frameProps}>
           <XAxis label={'Rank'} />
           <YAxis left={50} label={'Theaters'} />
-          {/*<Line {...lineProps} />*/}
+          {/*<Hexbin {...hexbinProps} />*/}
+          <Line {...lineProps} />
           {/*<Heatmap {...heatmapProps} />*/}
           {/*<Contour {...contourProps} />*/}
-          <Hexbin {...hexbinProps} />
         </XYFrame>
       </PapperBlock>
     </div>
