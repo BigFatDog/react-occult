@@ -1,10 +1,6 @@
 import getExtent from '../plots/BasePlot/getExtent';
-import contouringProjection from '../plots/Contour/projection';
-import hexbinProjection from '../plots/Hexbin/projection';
 import toRenderedAreas from '../plots/BasePlot/toRenderedAreas';
 import toRenderedPoints from '../plots/BasePlot/toRenderedPoints';
-import heatmapProjection from '../plots/Heatmap/projection';
-import lineProjection from '../plots/Line/projection';
 import toRenderedLines from '../plots/BasePlot/toRenderedLines';
 import stringToFn from '../utils/stringToFn';
 
@@ -29,14 +25,11 @@ const toPipeline = props => {
     useCanvas,
     xAccessor,
     yAccessor,
-    sAccessor,
     xExtent,
     yExtent,
-    showPoints,
     frameXScale: xScale,
     frameYScale: yScale,
-    projection,
-    adjustedSize: size
+    projection
   } = props;
 
   // extents
@@ -48,11 +41,11 @@ const toPipeline = props => {
     yExtent
   });
 
-  const {
-    projectedLines,
-    projectedAreas,
-    projectedPoints
-  } = projection({finalXExtent, finalYExtent, ...props});
+  const { projectedLines, projectedAreas, projectedPoints } = projection({
+    finalXExtent,
+    finalYExtent,
+    ...props
+  });
 
   const { svgPipeline: lineSvg, canvasPipeline: lineCanvas } = toRenderedLines({
     useCanvas,
