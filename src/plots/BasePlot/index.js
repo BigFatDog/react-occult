@@ -1,7 +1,7 @@
 import React from 'react';
 import { object, func, array, oneOfType, bool, string, node } from 'prop-types';
 import getExtent from './getExtent';
-import { stringToFn } from './utils';
+import stringToFn from '../../utils/stringToFn';
 import toRenderedAreas from './toRenderedAreas';
 import toRenderedPoints from './toRenderedPoints';
 import toRenderedLines from './toRenderedLines';
@@ -9,7 +9,7 @@ import toRenderedLines from './toRenderedLines';
 const emptyObjectReturnFunction = () => ({});
 const emptyStringReturnFunction = () => '';
 
-const Index = props => {
+const Plot = props => {
   const {
     xAccessor,
     yAccessor,
@@ -106,7 +106,7 @@ const Index = props => {
   return svgPipeline;
 };
 
-Index.propTypes = {
+Plot.propTypes = {
   projection: func,
   data: array,
   lineStyle: oneOfType([object, func]),
@@ -132,23 +132,4 @@ Index.propTypes = {
   sAccessor: oneOfType([string, func])
 };
 
-// Plot.defaultProps = {
-//     data: [],
-//     lineStyle: () => {},
-//     lineClass: null,
-//     lineRenderMode: null,
-//     lineCustomMarks: null,
-//     pointStyle: () => {},
-//     pointClass: null,
-//     pointCustomMarks: null,
-//     pointRenderMode: null,
-//     useCanvas: true,
-//     showPoints: true,
-//     xExtent: null,
-//     yExtent: null,
-//     xAccessor: null,
-//     yAccessor: null,
-//     sAccessor: null
-// }
-
-export default Index;
+export default Plot;

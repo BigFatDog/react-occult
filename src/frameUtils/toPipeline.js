@@ -2,11 +2,11 @@ import getExtent from '../plots/BasePlot/getExtent';
 import contouringProjection from '../plots/Contour/projection';
 import hexbinProjection from '../plots/Hexbin/projection';
 import toRenderedAreas from '../plots/BasePlot/toRenderedAreas';
-import { stringToFn } from '../archive/data/dataFunctions';
 import toRenderedPoints from '../plots/BasePlot/toRenderedPoints';
 import heatmapProjection from '../plots/Heatmap/projection';
 import lineProjection from '../plots/Line/projection';
 import toRenderedLines from '../plots/BasePlot/toRenderedLines';
+import stringToFn from '../utils/stringToFn';
 
 const emptyObjectReturnFunction = () => ({});
 const emptyStringReturnFunction = () => '';

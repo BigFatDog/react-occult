@@ -1,4 +1,4 @@
-import clonedAppliedElement from '../../archive/svg/behaviors/clonedAppliedElement';
+import clonedAppliedElement from './clonedAppliedElement';
 
 import {
   projectedX,
