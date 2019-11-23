@@ -2,8 +2,6 @@ import { group } from 'd3-array';
 
 const lineProjection = ({
   data,
-  finalXExtent,
-  finalYExtent,
   xAccessor,
   yAccessor,
   sAccessor,

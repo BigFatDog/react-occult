@@ -5,7 +5,7 @@ import {
   projectedY,
   projectedYMiddle,
   projectedXMiddle
-} from '../../archive/constants/coordinateNames';
+} from '../../constants/coordinateNames';
 
 const toRenderedPoints = ({
   xScale,

@@ -13,7 +13,7 @@ import {
   curveNatural
 } from 'd3-shape';
 
-import clonedAppliedElement from '../../archive/svg/behaviors/clonedAppliedElement';
+import clonedAppliedElement from './clonedAppliedElement';
 
 import {
   projectedX,
@@ -64,7 +64,7 @@ export function lineGeneratorDecorator({
   }
 }
 
-const createLines = ({
+const toRenderedLines = ({
   xScale,
   yScale,
   data,
@@ -280,4 +280,4 @@ const createLines = ({
     canvasPipeline
   };
 };
-export default createLines;
+export default toRenderedLines;
