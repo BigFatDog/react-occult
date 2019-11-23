@@ -8,6 +8,7 @@ const emptyObjectReturnFunction = () => ({});
 const emptyStringReturnFunction = () => '';
 
 const toPipeline = props => {
+  const { projection, ...rest} = props;
   const {
     data,
     lineStyle,
@@ -29,7 +30,6 @@ const toPipeline = props => {
     yExtent,
     frameXScale: xScale,
     frameYScale: yScale,
-    projection
   } = props;
 
   // extents
@@ -44,7 +44,7 @@ const toPipeline = props => {
   const { projectedLines, projectedAreas, projectedPoints } = projection({
     finalXExtent,
     finalYExtent,
-    ...props
+    ...rest
   });
 
   const { svgPipeline: lineSvg, canvasPipeline: lineCanvas } = toRenderedLines({
