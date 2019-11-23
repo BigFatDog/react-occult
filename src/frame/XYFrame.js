@@ -11,11 +11,11 @@ import {
 } from 'prop-types';
 import { scaleLinear } from 'd3-scale';
 
-import FilterDefs from './widgets/FilterDefs';
-import SpanOrDiv from './widgets/SpanOrDiv';
-import VisualizationLayer from './layers/VisualizationLayer';
-import AnnotationLayer from './layers/AnnotationLayer';
-import InteractionLayer from './layers/InteractionLayer';
+import FilterDefs from '../widgets/FilterDefs';
+import SpanOrDiv from '../widgets/SpanOrDiv';
+import VisualizationLayer from '../layers/VisualizationLayer';
+import AnnotationLayer from '../layers/AnnotationLayer';
+import InteractionLayer from '../layers/InteractionLayer';
 
 import {
   generateFrameTitle,
@@ -23,8 +23,8 @@ import {
   getAdjustedPositionSize,
   toMarginGraphic,
   toPipeline
-} from './frameUtils';
-import toAxes from './axis/toAxes';
+} from './utils';
+import toAxes from '../axis/toAxes';
 
 const isPLot = type => ['Hexbin', 'Contour', 'Heatmap', 'Line'].includes(type);
 

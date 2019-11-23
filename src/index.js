@@ -1,4 +1,4 @@
-import XYFrame from './XYFrame';
+import XYFrame from './frame/XYFrame';
 import Line from './plots/Line';
 import Contour from './plots/Contour';
 import Hexbin from './plots/Hexbin';
