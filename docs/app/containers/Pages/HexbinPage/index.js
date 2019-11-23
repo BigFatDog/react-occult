@@ -29,6 +29,11 @@ const HexbinPage = props => {
     yAccessor: d => d.rank,
     yExtent: [0],
     xExtent: [0],
+    // summaryRenderMode: {
+    //   renderMode: 'sketchy',
+    //   fillWeight: 3,
+    //   hachureGap: 4
+    // },
     summaryStyle: (e, i) => {
       return {
         fill: h(e.percent),
@@ -36,11 +41,7 @@ const HexbinPage = props => {
         strokeWidth: 0.5
       };
     },
-    summaryRenderMode: {
-      renderMode: 'sketchy',
-      fillWeight: 3,
-      hachureGap: 4
-    },
+
     pointStyle: d => ({
       r: 2,
       fill: d && colors[d.title]
@@ -59,7 +60,7 @@ const HexbinPage = props => {
     canvasPoints: false,
     showLinePoints: true,
     showSummaryPoints: true,
-    canvasSummary: false
+    canvasSummary: true
   };
 
   return (

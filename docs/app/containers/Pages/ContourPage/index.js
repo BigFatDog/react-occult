@@ -33,6 +33,11 @@ const ContourPage = props => {
         strokeWidth: 0.5
       };
     },
+    // summaryRenderMode: {
+    //   renderMode: 'sketchy',
+    //   fillWeight: 3,
+    //   hachureGap: 4
+    // },
     pointStyle: d => ({
       r: 2,
       fill: d && colors[d.title]
@@ -49,9 +54,9 @@ const ContourPage = props => {
       { orient: 'bottom', label: { name: 'Theaters', locationDistance: 55 } }
     ],
     showLinePoints: true,
-    canvasPoints: true,
+    canvasPoints: false,
     showSummaryPoints: true,
-    canvasSummary: true
+    canvasSummary: false
   };
 
   return (

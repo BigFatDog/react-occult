@@ -22,7 +22,7 @@ module.exports = [
         link: '/centroid'
       },
       {
-        key: 'line',
+        key: 'Plot.js.js',
         name: 'Line Chart',
         link: '/line'
       },
@@ -35,6 +35,11 @@ module.exports = [
         key: 'contour',
         name: 'Contour',
         link: '/contour'
+      },
+      {
+        key: 'area',
+        name: 'Area',
+        link: '/area'
       },
       {
         key: 'hexbin',
