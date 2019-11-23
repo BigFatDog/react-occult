@@ -22,7 +22,7 @@ module.exports = [
         link: '/centroid'
       },
       {
-        key: 'index.js',
+        key: 'Plot.js.js',
         name: 'Line Chart',
         link: '/line'
       },

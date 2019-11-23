@@ -1,12 +1,12 @@
-import getExtent from './getExtent';
+import getExtent from '../plots/BasePlot/getExtent';
 import contouringProjection from '../plots/Contour/projection';
 import hexbinProjection from '../plots/Hexbin/projection';
-import toRenderedAreas from '../plots/toRenderedAreas';
+import toRenderedAreas from '../plots/BasePlot/toRenderedAreas';
 import { stringToFn } from '../archive/data/dataFunctions';
-import toRenderedPoints from '../plots/toRenderedPoints';
+import toRenderedPoints from '../plots/BasePlot/toRenderedPoints';
 import heatmapProjection from '../plots/Heatmap/projection';
 import lineProjection from '../plots/Line/projection';
-import toRenderedLines from "../plots/toRenderedLines";
+import toRenderedLines from '../plots/BasePlot/toRenderedLines';
 
 const emptyObjectReturnFunction = () => ({});
 const emptyStringReturnFunction = () => '';
@@ -161,7 +161,6 @@ const toPipeline = props => {
     customMarks: lineCustomMarks,
     data: projectedLines
   });
-
 
   const { svgPipeline: areaSvg, canvasPipeline: areaCanvas } = toRenderedAreas({
     useCanvas,

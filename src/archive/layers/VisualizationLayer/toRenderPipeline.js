@@ -48,7 +48,7 @@ const toRenderPipeline = props => {
   };
 
   annotatedSettings.lineType.simpleLine =
-    annotatedSettings.lineType.type === 'index.js' &&
+    annotatedSettings.lineType.type === 'Plot.js.js' &&
     !annotatedSettings.lineType.y1 &&
     annotatedSettings.lineType.simpleLine !== false;
 

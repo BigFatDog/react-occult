@@ -134,7 +134,8 @@ const heatmapProjection = ({
 
   return {
     projectedAreas,
-    projectedPoints
+    projectedPoints,
+    projectedLines: []
   };
 };
 

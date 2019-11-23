@@ -13,14 +13,14 @@ import {
   curveNatural
 } from 'd3-shape';
 
-import clonedAppliedElement from '../archive/svg/behaviors/clonedAppliedElement';
+import clonedAppliedElement from '../../archive/svg/behaviors/clonedAppliedElement';
 
 import {
   projectedX,
   projectedY,
   projectedYTop,
   projectedYBottom
-} from '../constants/coordinateNames';
+} from '../../constants/coordinateNames';
 
 export const curveHash = {
   step: curveStep,
@@ -146,7 +146,7 @@ const createLines = ({
         d._xyCoordinates.map(p => Object.assign({}, p._data, p))
       );
 
-      console.log(pathString)
+      console.log(pathString);
       if (
         pathString &&
         (!customLine.interpolator || interpolator === curveLinear)

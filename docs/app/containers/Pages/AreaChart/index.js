@@ -70,7 +70,7 @@ const AreaPage = props => {
         Theaters showing <tspan fill={'#ac58e5'}>Ex Machina</tspan> vs{' '}
         <tspan fill={'#E0488B'}>Far from the Madding Crowd</tspan>
       </text>
-    ),
+    )
     // style: { fill: 'url(#gradient' },
     // additionalDefs: { GradientDefs }
   };
@@ -92,7 +92,7 @@ const AreaPage = props => {
       alpha: 0.4,
       strokeWidth: 1
     },
-    useCanvas: true
+    useCanvas: false
   };
 
   const contourProps = {
@@ -183,10 +183,10 @@ const AreaPage = props => {
         <XYFrame {...frameProps}>
           <XAxis label={'Rank'} />
           <YAxis left={50} label={'Theaters'} />
-          <Line {...lineProps} />
+          {/*<Line {...lineProps} />*/}
           {/*<Heatmap {...heatmapProps} />*/}
           {/*<Contour {...contourProps} />*/}
-          {/*<Hexbin {...hexbinProps} />*/}
+          <Hexbin {...hexbinProps} />
         </XYFrame>
       </PapperBlock>
     </div>

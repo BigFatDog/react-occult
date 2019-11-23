@@ -151,7 +151,8 @@ const hexbinProjection = ({
 
   return {
     projectedAreas,
-    projectedPoints
+    projectedPoints,
+    projectedLines: []
   };
 };
 

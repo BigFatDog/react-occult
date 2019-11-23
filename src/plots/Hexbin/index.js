@@ -9,97 +9,11 @@ import {
   string,
   node
 } from 'prop-types';
-import getExtent from '../../frameUtils/getExtent';
 import hexbinProjection from './projection';
-import { stringToFn } from '../../archive/data/dataFunctions';
-import toRenderedAreas from '../toRenderedAreas';
-import toRenderedPoints from '../toRenderedPoints';
-
-const emptyObjectReturnFunction = () => ({});
-const emptyStringReturnFunction = () => '';
+import Plot from '../BasePlot';
 
 const Hexbin = props => {
-  const {
-    data,
-    areaStyle,
-    areaClass,
-    areaRenderMode,
-    areaCustomMarks,
-    pointStyle,
-    pointClass,
-    pointCustomMarks,
-    pointRenderMode,
-    useCanvas,
-    xAccessor,
-    yAccessor,
-    sAccessor,
-    xExtent,
-    yExtent,
-    showPoints,
-    frameXScale: xScale,
-    frameYScale: yScale,
-    size,
-    bins,
-    cellPx,
-    binValue,
-    binMax,
-    customMark
-  } = props;
-
-  // extents
-  const { finalXExtent, finalYExtent } = getExtent({
-    data,
-    xAccessor,
-    yAccessor,
-    xExtent,
-    yExtent
-  });
-
-  // data projection
-  const { projectedAreas, projectedPoints } = hexbinProjection({
-    bins,
-    cellPx,
-    binValue,
-    binMax,
-    customMark,
-    data,
-    finalXExtent,
-    finalYExtent,
-    xAccessor,
-    yAccessor,
-    sAccessor,
-    showPoints,
-    size
-  });
-
-  const { svgPipeline: areaSvg, canvasPipeline: areaCanvas } = toRenderedAreas({
-    useCanvas,
-    xScale,
-    yScale,
-    styleFn: stringToFn(areaStyle, emptyObjectReturnFunction, true),
-    classFn: stringToFn(areaClass, emptyStringReturnFunction, true),
-    renderFn: stringToFn(areaRenderMode, undefined, true),
-    customMarks: areaCustomMarks,
-    data: projectedAreas
-  });
-
-  const {
-    svgPipeline: pointsSvg,
-    canvasPipeline: pointsCanvas
-  } = toRenderedPoints({
-    useCanvas,
-    xScale,
-    yScale,
-    styleFn: stringToFn(pointStyle, emptyObjectReturnFunction, true),
-    classFn: stringToFn(pointClass, emptyStringReturnFunction, true),
-    renderFn: stringToFn(pointRenderMode, undefined, true),
-    customMarks: pointCustomMarks,
-    data: projectedPoints
-  });
-
-  const contourSvgPipeline = [...areaSvg, ...pointsSvg];
-  const contourCanvasPipeline = [...areaCanvas, ...pointsCanvas];
-  return contourSvgPipeline;
+  return <Plot projection={hexbinProjection} {...props} />;
 };
 
 Hexbin.propTypes = {

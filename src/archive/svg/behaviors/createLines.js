@@ -175,7 +175,7 @@ const createLines = ({
 
       if (canvasRender && canvasRender(d.data, i) === true) {
         const canvasLine = {
-          type: 'index.js',
+          type: 'Plot.js.js',
           baseClass: 'xyframe-line',
           tx: 0,
           ty: 0,
