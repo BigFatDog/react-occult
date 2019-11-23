@@ -1,10 +1,11 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { TheaterSummaryData } from '../ContourPage/ThreaterSummaryData';
+import { TheaterSummaryData } from '../AreaChart/ThreaterFlattenData';
 import { scaleLinear } from 'd3-scale';
 import brand from 'dan-api/dummy/brand';
 import { PapperBlock, SourceReader } from 'dan-components';
-import { CartesianFrame } from 'occult';
+import { XYFrame, Line, XAxis, YAxis, Contour, Hexbin, Heatmap } from 'occult';
+import { AnnotationCalloutCircle } from 'react-annotation';
 const h = scaleLinear()
   .domain([0, 1])
   .range(['white', '#ac58e5']);
@@ -20,47 +21,51 @@ const HexbinPage = props => {
   };
 
   const frameProps = {
-    summaries: TheaterSummaryData,
+    margin: { left: 60, bottom: 90, right: 10, top: 40 },
     width: 700,
     height: 400,
-    margin: { left: 60, bottom: 90, right: 10, top: 40 },
-    summaryType: 'hexbin',
-    xAccessor: d => d.theaterCount,
-    yAccessor: d => d.rank,
-    yExtent: [0],
-    xExtent: [0],
-    // summaryRenderMode: {
-    //   renderMode: 'sketchy',
-    //   fillWeight: 3,
-    //   hachureGap: 4
-    // },
-    summaryStyle: (e, i) => {
-      return {
-        fill: h(e.percent),
-        stroke: colors[e.parentSummary.title],
-        strokeWidth: 0.5
-      };
-    },
+    annotations: [
+      { type: 'react-annotation', label: 'a note', y: 100 },
+      {
+        type: AnnotationCalloutCircle,
+        note: { label: 'callout', title: 'important' },
 
-    pointStyle: d => ({
-      r: 2,
-      fill: d && colors[d.title]
-    }),
+        score: 10,
+        subject: { radius: 30 }
+      }
+    ],
     title: (
       <text textAnchor="middle">
         Theaters showing <tspan fill={'#ac58e5'}>Ex Machina</tspan> vs{' '}
         <tspan fill={'#E0488B'}>Far from the Madding Crowd</tspan>
       </text>
-    ),
-    frameKey: 'test',
-    axes: [
-      { orient: 'left', label: 'Rank' },
-      { orient: 'bottom', label: { name: 'Theaters', locationDistance: 55 } }
-    ],
-    canvasPoints: false,
-    showLinePoints: true,
-    showSummaryPoints: true,
-    canvasSummary: true
+    )
+    // style: { fill: 'url(#gradient' },
+    // additionalDefs: { GradientDefs }
+  };
+
+  const hexbinProps = {
+    xAccessor: d => d.theaterCount,
+    yAccessor: d => d.rank,
+    sAccessor: d => d.title,
+    xExtent: [0],
+    yExtent: [0],
+    data: TheaterSummaryData,
+    areaStyle: (e, i) => ({
+      stroke: colors[e.parentSummary.s],
+      fill: h(e.percent),
+      strokeWidth: 0.5
+    }),
+    pointStyle: d => ({
+      r: 2,
+      fill: colors[d.parentSummary.s]
+    }),
+    // areaRenderMode: {
+    //   renderMode: 'sketchy',
+    //   fillWeight: 3,
+    //   hachureGap: 4
+    // },
+    useCanvas: false
   };
 
   return (
@@ -74,7 +79,11 @@ const HexbinPage = props => {
         <meta property="twitter:description" content={description} />
       </Helmet>
       <PapperBlock title="Blank Page" desc="Some text description">
-        <CartesianFrame {...frameProps} />
+        <XYFrame {...frameProps}>
+          <XAxis label={'Rank'} />
+          <YAxis left={50} label={'Theaters'} />
+          <Hexbin {...hexbinProps} />
+        </XYFrame>
       </PapperBlock>
     </div>
   );
