@@ -5,17 +5,10 @@ import chuckCloseCanvasTransform from './chuckCloseCanvasTransform';
 
 const RoughCanvas = Rough.RoughCanvas;
 
-const drawCanvas = ({
-  props,
-  canvasDrawing,
-  focusedVisualizationGroup,
-  piecesGroup,
-  focusedPieceIndex
-}) => {
+const drawCanvas = ({ props, canvasDrawing }) => {
   if (props.frontCanvas && props.backCanvas) {
     const {
       frontCanvas,
-      backCanvas,
       margin,
       width,
       height,
@@ -31,7 +24,6 @@ const drawCanvas = ({
     ];
 
     const context = frontCanvas.getContext('2d');
-    const backContext = backCanvas.getContext('2d');
     context.setTransform(
       devicePixelRatio,
       0,
@@ -41,7 +33,7 @@ const drawCanvas = ({
       margin.top
     );
 
-    backContext.clearRect(-margin.left, -margin.top, size[0], size[1]);
+    context.clearRect(-margin.left, -margin.top, size[0], size[1]);
 
     let rc;
 
@@ -183,24 +175,6 @@ const drawCanvas = ({
       chuckCloseCanvasTransform(canvasContext, context, size);
     } else if (typeof canvasPostProcess === 'function') {
       canvasPostProcess(canvasContext, context, size);
-    }
-
-    if (
-      focusedVisualizationGroup !== null &&
-      piecesGroup[focusedVisualizationGroup] &&
-      focusedPieceIndex !== null
-    ) {
-      const focusElParent =
-        piecesGroup[focusedVisualizationGroup][focusedPieceIndex];
-
-      const focusEl =
-        (focusElParent &&
-          [...focusElParent.childNodes].find(child =>
-            child.getAttribute('aria-label')
-          )) ||
-        focusElParent;
-
-      focusEl && focusEl.focus && focusEl.focus();
     }
   }
 };

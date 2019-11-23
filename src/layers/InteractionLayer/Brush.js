@@ -1,5 +1,7 @@
-import * as React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { select } from 'd3-selection';
+
+import usePrevious from '../../hooks/usePrevious';
 
 const flatten = list =>
   list.reduce(
@@ -7,14 +9,14 @@ const flatten = list =>
     []
   );
 
-function flatShortArray(array) {
+const flatShortArray = array => {
   if (!Array.isArray(array)) return 'not-array';
   if (!Array.isArray(array[0])) {
     array = array.sort((a, b) => a - b);
   }
   const flat = flatten(array);
 
-  const stringifiedFlattened = flat
+  return flat
     .map(
       d =>
         (d instanceof Date && d.toString()) ||
@@ -22,68 +24,55 @@ function flatShortArray(array) {
         'empty'
     )
     .toString();
-  return stringifiedFlattened;
-}
+};
 
-class Brush extends React.Component {
-  constructor(props) {
-    super(props);
+const createBrush = (svgBrush, node, selectedExtent) => {
+  const brush = svgBrush;
+  select(node).call(brush);
 
-    this.createBrush = this.createBrush.bind(this);
+  let _selectedExtent = selectedExtent;
+  if (_selectedExtent) {
+    if (Array.isArray(_selectedExtent[0])) {
+      const sortedY = [_selectedExtent[0][1], _selectedExtent[1][1]].sort(
+        (a, b) => a - b
+      );
+      _selectedExtent = [
+        [_selectedExtent[0][0], sortedY[0]],
+        [_selectedExtent[1][0], sortedY[1]]
+      ];
+    }
+
+    select(node).call(brush.move, _selectedExtent);
   }
+};
 
-  node = null;
+const Brush = props => {
+  const { position = [0, 0], svgBrush, selectedExtent, extent } = props;
+  const node = useRef(null);
+  const {
+    extent: prevExtent,
+    selectedExtent: prevSelectedExtent
+  } = usePrevious({ extent, selectedExtent });
 
-  componentDidMount() {
-    this.createBrush();
-  }
-  componentDidUpdate(lastProps) {
+  useEffect(() => {
     if (
-      (lastProps.extent &&
-        this.props.extent &&
-        flatShortArray(lastProps.extent) !==
-          flatShortArray(this.props.extent)) ||
-      ((lastProps.selectedExtent &&
-        this.props.selectedExtent &&
-        flatShortArray(lastProps.selectedExtent) !==
-          flatShortArray(this.props.selectedExtent)) ||
-        (!lastProps.selectedExtent && this.props.selectedExtent) ||
-        (lastProps.selectedExtent && !this.props.selectedExtent))
+      (prevExtent &&
+        extent &&
+        flatShortArray(prevExtent) !== flatShortArray(extent)) ||
+      ((prevSelectedExtent &&
+        electedExtent &&
+        flatShortArray(prevSelectedExtent) !==
+          flatShortArray(selectedExtent)) ||
+        (!prevSelectedExtent && selectedExtent) ||
+        (prevSelectedExtent && !selectedExtent))
     ) {
-      this.createBrush();
+      createBrush(svgBrush, node, selectedExtent);
     }
-  }
+  });
 
-  createBrush() {
-    const node = this.node;
-    const brush = this.props.svgBrush;
-    select(node).call(brush);
-    if (this.props.selectedExtent) {
-      let selectedExtent = this.props.selectedExtent;
-      if (Array.isArray(this.props.selectedExtent[0])) {
-        const sortedY = [selectedExtent[0][1], selectedExtent[1][1]].sort(
-          (a, b) => a - b
-        );
-        selectedExtent = [
-          [selectedExtent[0][0], sortedY[0]],
-          [selectedExtent[1][0], sortedY[1]]
-        ];
-      }
-
-      select(node).call(brush.move, this.props.selectedExtent);
-    }
-  }
-
-  render() {
-    const { position = [0, 0] } = this.props;
-    return (
-      <g
-        transform={`translate(${position})`}
-        ref={node => (this.node = node)}
-        className="xybrush"
-      />
-    );
-  }
-}
+  return (
+    <g transform={`translate(${position})`} ref={node} className="xybrush" />
+  );
+};
 
 export default Brush;
