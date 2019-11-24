@@ -8,7 +8,7 @@ const emptyObjectReturnFunction = () => ({});
 const emptyStringReturnFunction = () => '';
 
 const toPipeline = props => {
-  const { projection, ...rest} = props;
+  const { projection, ...rest } = props;
   const {
     data,
     lineStyle,
@@ -29,7 +29,7 @@ const toPipeline = props => {
     xExtent,
     yExtent,
     frameXScale: xScale,
-    frameYScale: yScale,
+    frameYScale: yScale
   } = props;
 
   // extents

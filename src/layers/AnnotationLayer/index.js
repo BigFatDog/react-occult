@@ -6,7 +6,7 @@ import getSVGAnnotations from './getSVGAnnotations';
 import getHTMLAnnotations from './getHTMLAnnotations';
 
 const AnnotationLayer = props => {
-  const { width, height, useSpans, margin: userMargin, renderedLegend } = props;
+  const { size: [width, height], useSpans, margin: userMargin, renderedLegend } = props;
 
   const margin =
     typeof userMargin === 'number'
