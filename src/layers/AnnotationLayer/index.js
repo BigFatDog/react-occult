@@ -1,12 +1,17 @@
 import React from 'react';
-import { object, number } from 'prop-types';
+import { object, number, func, array } from 'prop-types';
 
 import SpanOrDiv from '../../widgets/SpanOrDiv';
 import getSVGAnnotations from './getSVGAnnotations';
 import getHTMLAnnotations from './getHTMLAnnotations';
 
 const AnnotationLayer = props => {
-  const { size: [width, height], useSpans, margin: userMargin, renderedLegend } = props;
+  const {
+    size: [width, height],
+    useSpans,
+    margin: userMargin,
+    renderedLegend
+  } = props;
 
   const margin =
     typeof userMargin === 'number'
@@ -61,7 +66,11 @@ const AnnotationLayer = props => {
 };
 
 AnnotationLayer.propTypes = {
-  renderedLegend: object
+  renderedLegend: object,
+    xScale: func,
+    yScale: func,
+    adjustedSize: array,
+    adjustedPosition: array
 };
 
 AnnotationLayer.defaultProps = {

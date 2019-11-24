@@ -56,13 +56,15 @@ const AreaPage = props => {
     width: 700,
     height: 400,
     annotations: [
-      { type: 'react-annotation', label: 'a note', y: 100 },
+      { type: 'y', label: 'a note',  y: 100 },
       {
         type: AnnotationCalloutCircle,
         note: { label: 'callout', title: 'important' },
 
         score: 10,
-        subject: { radius: 30 }
+        subject: { radius: 10 },
+        x: 100,
+        y: 200
       }
     ],
     title: (

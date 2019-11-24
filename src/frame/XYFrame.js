@@ -219,8 +219,7 @@ const XYFrame = props => {
     }
   }
 
-  const annotationLayer = ((totalAnnotations && totalAnnotations.length > 0) ||
-    legendSettings) && (
+  const annotationLayer = totalAnnotations && totalAnnotations.length > 0 && (
     <AnnotationLayer
       legendSettings={legendSettings}
       margin={margin}
@@ -240,6 +239,10 @@ const XYFrame = props => {
         adjustedPosition[0] + margin.left,
         adjustedPosition[1] + margin.top
       ]}
+      xScale={frameXScale}
+      yScale={frameYScale}
+      adjustedSize={adjustedSize}
+      adjustedPosition={adjustedPosition}
     />
   );
 

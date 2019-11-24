@@ -1,38 +1,96 @@
 import React from 'react';
-import Annotation from './Annotation';
+import { desaturationLayer } from './internal/baseRules';
+import {
+  svgXYAnnotation,
+  basicReactAnnotation,
+  svgEncloseAnnotation,
+  svgRectEncloseAnnotation,
+  svgHullEncloseAnnotation,
+  svgXAnnotation,
+  svgYAnnotation,
+  svgBoundsAnnotation,
+  svgLineAnnotation,
+  svgAreaAnnotation
+} from './internal/cartesianRules';
 
-const basicReactAnnotation = ({ screenCoordinates, d, i }) => {
-  const noteData = Object.assign(
-      {
-        dx: 0,
-        dy: 0,
-        note: { label: d.label, orientation: d.orientation, align: d.align },
-        connector: { end: "arrow" }
-      },
+const defaultSVGRule = (d, i, props) => {
+  const { xScale, yScale, size, adjustedSize, adjustedPosition } = props;
+  const screenCoordinates = [ d.x ? d.x : 0, d.y ? size[1] - d.y : size[1]];
+
+  if (d.type === 'desaturation-layer') {
+    return desaturationLayer({
+      style: d.style instanceof Function ? d.style(d, i) : d.style,
+      size: adjustedSize,
+      i,
+      key: d.key
+    });
+  } else if (d.type === 'xy' || d.type === 'frame-hover') {
+    return svgXYAnnotation({ d, i, screenCoordinates });
+  } else if (d.type === 'react-annotation' || typeof d.type === 'function') {
+    return basicReactAnnotation({ d, screenCoordinates, i });
+  } else if (d.type === 'enclose') {
+    return svgEncloseAnnotation({ d, screenCoordinates, i });
+  } else if (d.type === 'enclose-rect') {
+    return svgRectEncloseAnnotation({ d, screenCoordinates, i });
+  } else if (d.type === 'enclose-hull') {
+    return svgHullEncloseAnnotation({ d, screenCoordinates, i });
+  } else if (d.type === 'x') {
+    return svgXAnnotation({
       d,
-      {
-        type: d.type,
-        screenCoordinates,
-        i
-      }
-  )
-
-  noteData.x = noteData.fixedX ? noteData.fixedX : screenCoordinates[0]
-  noteData.y = noteData.fixedY ? noteData.fixedY : screenCoordinates[1]
-
-  return <Annotation key={d.key || `annotation-${i}`} noteData={noteData} />
-};
-
-const defaultSVGRule = (
-  d,
-  i,
-  props
-) => {
-  console.log('---' + d)
-  const { showLinePoints, defined, svgAnnotationRules } = props;
-  console.log(props)
-  const screenCoordinates = [];
-  return basicReactAnnotation({ d, screenCoordinates, i });
+      screenCoordinates,
+      i,
+      adjustedSize
+    });
+  } else if (d.type === 'y') {
+    return svgYAnnotation({
+      d,
+      screenCoordinates,
+      i,
+      adjustedSize,
+      adjustedPosition
+    });
+  } else if (d.type === 'bounds') {
+    return svgBoundsAnnotation({
+      d,
+      i,
+      adjustedSize,
+      xAccessor,
+      yAccessor,
+      xScale,
+      yScale
+    });
+  } else if (d.type === 'line') {
+    return svgLineAnnotation({ d, i, screenCoordinates });
+  } else if (d.type === 'area') {
+    return svgAreaAnnotation({
+      d,
+      i,
+      xScale,
+      xAccessor,
+      yScale,
+      yAccessor,
+      annotationLayer
+    });
+  } else if (d.type === 'horizontal-points') {
+    return svgHorizontalPointsAnnotation({
+      d,
+      lines: lines.data,
+      points: points.data,
+      xScale,
+      yScale,
+      pointStyle: points.styleFn
+    });
+  } else if (d.type === 'vertical-points') {
+    return svgVerticalPointsAnnotation({
+      d,
+      lines: lines.data,
+      points: points.data,
+      xScale,
+      yScale,
+      pointStyle: points.styleFn
+    });
+  }
+  return null;
 };
 
 const defaultHTMLRule = ({
