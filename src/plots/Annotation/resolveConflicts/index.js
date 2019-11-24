@@ -26,11 +26,7 @@ function marginOffsetFn(orient, axisSettings, marginOffset) {
   return 10;
 }
 
-const index = (
-  adjustableAnnotations,
-  annotationProcessor,
-  props
-) => {
+const index = (adjustableAnnotations, annotationProcessor, props) => {
   const { layout = { type: false } } = annotationProcessor;
   const { axes = [], margin } = props;
 
