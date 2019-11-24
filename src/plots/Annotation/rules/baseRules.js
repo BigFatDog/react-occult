@@ -3,7 +3,7 @@ import AnnotationCalloutCircle from 'react-annotation/lib/Types/AnnotationCallou
 import AnnotationCalloutRect from 'react-annotation/lib/Types/AnnotationCalloutRect';
 import AnnotationCalloutCustom from 'react-annotation/lib/Types/AnnotationCalloutCustom';
 
-import Annotation from '../Annotation';
+import Annotation from '../GenericAnnotation';
 import { polygonHull } from 'd3-polygon';
 import Offset from 'polygon-offset';
 

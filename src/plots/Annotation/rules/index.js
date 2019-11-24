@@ -1,5 +1,5 @@
 import React from 'react';
-import { desaturationLayer } from './internal/baseRules';
+import { desaturationLayer } from './baseRules';
 import {
   svgXYAnnotation,
   basicReactAnnotation,
@@ -11,11 +11,11 @@ import {
   svgBoundsAnnotation,
   svgLineAnnotation,
   svgAreaAnnotation
-} from './internal/cartesianRules';
+} from './cartesianRules';
 
 const defaultSVGRule = (d, i, props) => {
-  const { xScale, yScale, size, adjustedSize, adjustedPosition } = props;
-  const screenCoordinates = [ d.x ? d.x : 0, d.y ? size[1] - d.y : size[1]];
+  const { xScale, yScale, adjustedSize, adjustedPosition, margin } = props;
+  const screenCoordinates = [ d.x ? d.x : 0, d.y ? adjustedSize[1] - d.y : adjustedSize[1]];
 
   if (d.type === 'desaturation-layer') {
     return desaturationLayer({

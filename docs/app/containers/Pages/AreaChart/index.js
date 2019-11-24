@@ -179,7 +179,7 @@ const AreaPage = props => {
                                 score={10}
                                 subject={{radius: 10}}
                                 x={100}
-                                y={200}
+                                y={100}
                     />
                     {/*<Hexbin {...hexbinProps} />*/}
                     <Line {...lineProps} />

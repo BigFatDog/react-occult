@@ -3,7 +3,7 @@ import AnnotationLabel from 'react-annotation/lib/Types/AnnotationLabel';
 
 const interactivityFns = ['onDragEnd', 'onDragStart', 'onDrag'];
 
-const Annotation = props => {
+const GenericAnnotation = props => {
   const { noteData: baseNoteData } = props;
   const { screenCoordinates } = baseNoteData;
 
@@ -65,4 +65,4 @@ const Annotation = props => {
   return finalAnnotation;
 };
 
-export default Annotation;
+export default GenericAnnotation;

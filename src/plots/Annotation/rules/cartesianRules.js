@@ -6,7 +6,7 @@ import AnnotationXYThreshold from 'react-annotation/lib/Types/AnnotationXYThresh
 import { line, area } from 'd3-shape';
 import { packEnclose } from 'd3-hierarchy';
 import { extent } from 'd3-array';
-import Annotation from '../Annotation';
+import Annotation from '../GenericAnnotation';
 import {
   circleEnclosure,
   rectangleEnclosure,

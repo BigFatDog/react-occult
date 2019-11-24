@@ -26,7 +26,7 @@ function marginOffsetFn(orient, axisSettings, marginOffset) {
   return 10;
 }
 
-const processAnnotations = (
+const index = (
   adjustableAnnotations,
   annotationProcessor,
   props
@@ -268,4 +268,4 @@ const processAnnotations = (
   return adjustableAnnotations;
 };
 
-export default processAnnotations;
+export default index;
