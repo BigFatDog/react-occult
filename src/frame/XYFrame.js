@@ -93,9 +93,6 @@ const XYFrame = props => {
     foregroundGraphics,
     canvasPostProcess,
     renderOrder,
-    annotations,
-    annotationSettings,
-    hoverAnnotation,
     children
   } = props;
 
@@ -204,22 +201,13 @@ const XYFrame = props => {
 
   // annotations
   const legendSettings = {};
-  const renderedLegend = {};
-  const areaAnnotations = [];
+  const annotationSettings = {};
 
-  const totalAnnotations = annotations
-    ? [...annotations, ...areaAnnotations]
-    : areaAnnotations;
+  const annotations = React.Children.toArray(children)
+      .filter(d => d.type.name === 'Annotation')
+      .map(d => d.props);
 
-  if (voronoiHover) {
-    if (Array.isArray(voronoiHover)) {
-      totalAnnotations.push(...voronoiHover);
-    } else {
-      totalAnnotations.push(voronoiHover);
-    }
-  }
-
-  const annotationLayer = totalAnnotations && totalAnnotations.length > 0 && (
+  const annotationLayer = annotations && annotations.length > 0 && (
     <AnnotationLayer
       legendSettings={legendSettings}
       margin={margin}
@@ -232,7 +220,7 @@ const XYFrame = props => {
       labelSizeFunction={
         annotationSettings.layout && annotationSettings.layout.labelSizeFunction
       }
-      annotations={totalAnnotations}
+      annotations={annotations}
       useSpans={useSpans}
       size={adjustedSize}
       position={[
@@ -426,10 +414,7 @@ XYFrame.propTypes = {
   backgroundGraphics: oneOfType([node, object]),
   foregroundGraphics: oneOfType([node, object]),
   canvasPostProcess: string,
-  renderOrder: array,
-  annotations: array,
-  annotationSettings: object,
-  hoverAnnotation: func
+  renderOrder: array
 };
 
 XYFrame.defaultProps = {
@@ -448,9 +433,6 @@ XYFrame.defaultProps = {
   additionalDefs: null,
   canvasPostProcess: 'chunkClose',
   renderOrder: ['areas', 'lines', 'points'],
-  annotations: [],
-  annotationSettings: {},
-  hoverAnnotation: null
 };
 
 export default XYFrame;
