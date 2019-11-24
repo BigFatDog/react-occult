@@ -3,7 +3,6 @@ import { Helmet } from 'react-helmet';
 import { scaleTime } from 'd3-scale';
 import brand from 'dan-api/dummy/brand';
 import { PapperBlock, SourceReader } from 'dan-components';
-import { CartesianFrame, DividedLine } from 'occult';
 
 import { data } from './AppleStock';
 

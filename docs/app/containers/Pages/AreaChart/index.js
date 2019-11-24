@@ -5,8 +5,18 @@ import { TheaterSummaryData } from './ThreaterFlattenData';
 
 import brand from 'dan-api/dummy/brand';
 import { PapperBlock } from 'dan-components';
-import { XYFrame, Line, XAxis, YAxis, Contour, Hexbin, Heatmap } from 'occult';
+import {
+  XYFrame,
+  Line,
+  XAxis,
+  YAxis,
+  Contour,
+  Hexbin,
+  Heatmap,
+  Annotation
+} from 'occult';
 import { scaleLinear } from 'd3-scale';
+
 const h = scaleLinear()
   .domain([0, 1])
   .range(['white', '#1b6ae5']);
@@ -55,16 +65,6 @@ const AreaPage = props => {
     margin: { left: 60, bottom: 90, right: 10, top: 40 },
     width: 700,
     height: 400,
-    annotations: [
-      { type: 'react-annotation', label: 'a note', y: 100 },
-      {
-        type: AnnotationCalloutCircle,
-        note: { label: 'callout', title: 'important' },
-
-        score: 10,
-        subject: { radius: 30 }
-      }
-    ],
     title: (
       <text textAnchor="middle">
         Theaters showing <tspan fill={'#ac58e5'}>Ex Machina</tspan> vs{' '}
@@ -183,6 +183,15 @@ const AreaPage = props => {
         <XYFrame {...frameProps}>
           <XAxis label={'Rank'} />
           <YAxis left={50} label={'Theaters'} />
+          <Annotation type={'y'} label={'a note'} y={100} />
+          <Annotation
+            type={AnnotationCalloutCircle}
+            note={{ label: 'callout', title: 'important' }}
+            score={10}
+            subject={{ radius: 10 }}
+            x={100}
+            y={100}
+          />
           {/*<Hexbin {...hexbinProps} />*/}
           <Line {...lineProps} />
           {/*<Heatmap {...heatmapProps} />*/}

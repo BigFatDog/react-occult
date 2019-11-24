@@ -45,4 +45,6 @@ Line.defaultProps = {
   }
 };
 
+Line.projection = lineProjection;
+
 export default Line;
