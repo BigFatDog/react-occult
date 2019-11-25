@@ -1,6 +1,6 @@
 {
   "name": "react-occult",
-  "version": "0.0.1-alpha.3",
+  "version": "0.0.1-alpha",
   "description": "Layered Information Visualization based on React and D3",
   "main": "lib/react-occult.js",
   "unpkg": "dist/react-occult.js",
