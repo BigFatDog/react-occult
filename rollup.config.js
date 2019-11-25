@@ -9,7 +9,7 @@ export default [
   // CommonJS
   {
     input: 'src/index.js',
-    output: { file: 'lib/occult.js', format: 'cjs', indent: false },
+    output: { file: 'lib/react-occult.js', format: 'cjs', indent: false },
     external: [
       ...Object.keys(pkg.dependencies || {}),
       ...Object.keys(pkg.peerDependencies || {})
@@ -20,7 +20,7 @@ export default [
   // ES
   {
     input: 'src/index.js',
-    output: { file: 'es/occult.js', format: 'es', indent: false },
+    output: { file: 'es/react-occult.js', format: 'es', indent: false },
     external: [
       ...Object.keys(pkg.dependencies || {}),
       ...Object.keys(pkg.peerDependencies || {})
@@ -31,7 +31,7 @@ export default [
   // ES for Browsers
   {
     input: 'src/index.js',
-    output: { file: 'es/occult.esm.js', format: 'es', indent: false },
+    output: { file: 'es/react-occult.esm.js', format: 'es', indent: false },
     plugins: [
       nodeResolve({
         jsnext: true
@@ -54,7 +54,7 @@ export default [
   {
     input: 'src/index.js',
     output: {
-      file: 'dist/occult.js',
+      file: 'dist/react-occult.js',
       format: 'umd',
       name: 'Occult',
       indent: false
@@ -76,7 +76,7 @@ export default [
   {
     input: 'src/index.js',
     output: {
-      file: 'dist/occult.min.js',
+      file: 'dist/react-occult.min.js',
       format: 'umd',
       name: 'Occult',
       indent: false
