@@ -1,18 +1,21 @@
 import React from 'react';
 import resolveConflicts from './resolveConflicts';
 import Annotation from './GenericAnnotation';
-import DesaturationLayer from "./widgets/DesaturationLayer";
-import SvgXYAnnotation from "./widgets/SvgXYAnnotation";
-import BasicReactAnnotation from "./widgets/BasicReactAnnotation";
-import SvgEncloseAnnotation from "./widgets/SvgEncloseAnnotation";
-import SvgRectEncloseAnnotation from "./widgets/SvgRectEncloseAnnotation";
-import SvgHullEnclosure from "./widgets/SvgHullEncloseAnnotation";
-import SvgXAnnotation from "./widgets/SvgXAnnotation";
-import SvgYAnnotation from "./widgets/SvgYAnnotation";
-import SvgLineAnnotation from "./widgets/SvgLineAnnotation";
+import DesaturationLayer from './widgets/DesaturationLayer';
+import SvgXYAnnotation from './widgets/SvgXYAnnotation';
+import BasicReactAnnotation from './widgets/BasicReactAnnotation';
+import SvgEncloseAnnotation from './widgets/SvgEncloseAnnotation';
+import SvgRectEncloseAnnotation from './widgets/SvgRectEncloseAnnotation';
+import SvgHullEnclosure from './widgets/SvgHullEncloseAnnotation';
+import SvgXAnnotation from './widgets/SvgXAnnotation';
+import SvgYAnnotation from './widgets/SvgYAnnotation';
+import SvgLineAnnotation from './widgets/SvgLineAnnotation';
 import SvgBoundsAnnotation from './widgets/SvgBoundsAnnotation';
 import SvgAreaAnnotation from './widgets/SvgAreaAnnotation';
-import {SvgHorizontalPointsAnnotation, SvgVerticalPointsAnnotation} from "./widgets/PointsAlong";
+import {
+  SvgHorizontalPointsAnnotation,
+  SvgVerticalPointsAnnotation
+} from './widgets/PointsAlong';
 
 const TypeHash = {
   'desaturation-layer': DesaturationLayer,
@@ -47,7 +50,7 @@ const toAnnotations = (d, i, props) => {
   };
 
   const AnnotationType = TypeHash[d.type];
-  return AnnotationType ? <AnnotationType {...widgetProps}/> : null;
+  return AnnotationType ? <AnnotationType {...widgetProps} /> : null;
 };
 
 const renderAnnotations = (annotations, props) => {
