@@ -1,6 +1,6 @@
+import React from 'react';
 import { defaultSVGRule } from './rules';
 import resolveConflicts from './resolveConflicts';
-import React from 'react';
 import Annotation from './GenericAnnotation';
 
 const renderAnnotations = (annotations, props) => {

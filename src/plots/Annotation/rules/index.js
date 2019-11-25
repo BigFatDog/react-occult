@@ -1,240 +1,65 @@
 import React from 'react';
-import { desaturationLayer } from './baseRules';
+
+
+import SvgXYAnnotation from '../widgets/SvgXYAnnotation';
+import SvgXAnnotation from '../widgets/SvgXAnnotation';
+import HullEnclosure from '../widgets/HullEnclosure';
+import SvgHullEnclosure from "../widgets/SvgHullEncloseAnnotation";
+import SvgYAnnotation from "../widgets/SvgYAnnotation";
 import {
-  svgXYAnnotation,
-  basicReactAnnotation,
-  svgEncloseAnnotation,
-  svgRectEncloseAnnotation,
-  svgHullEncloseAnnotation,
-  svgXAnnotation,
-  svgYAnnotation,
-  svgBoundsAnnotation,
-  svgLineAnnotation,
-  svgAreaAnnotation
-} from './cartesianRules';
+  SvgHorizontalPointsAnnotation,
+  SvgVerticalPointsAnnotation
+} from '../widgets/PointsAlong';
+import BasicReactAnnotation from '../widgets/BasicReactAnnotation';
+import SvgLineAnnotation from '../widgets/SvgLineAnnotation';
+import SvgEncloseAnnotation from '../widgets/SvgEncloseAnnotation';
+import DesaturationLayer from "../widgets/DesaturationLayer";
+import SvgRectEncloseAnnotation from '../widgets/SvgRectEncloseAnnotation';
+
 
 const defaultSVGRule = (d, i, props) => {
-  const { xScale, yScale, adjustedSize, adjustedPosition } = props;
+  const { adjustedSize } = props;
   const screenCoordinates = [
     d.x ? d.x : 0,
     d.y ? adjustedSize[1] - d.y : adjustedSize[1]
   ];
 
+  const widgetProps = {
+    ...props,
+    d,
+    i,
+    screenCoordinates,
+  };
+
   if (d.type === 'desaturation-layer') {
-    return desaturationLayer({
-      style: d.style instanceof Function ? d.style(d, i) : d.style,
-      size: adjustedSize,
-      i,
-      key: d.key
-    });
+    return <DesaturationLayer {...widgetProps}/>;
   } else if (d.type === 'xy' || d.type === 'frame-hover') {
-    return svgXYAnnotation({ d, i, screenCoordinates });
+    return  <SvgXYAnnotation {...widgetProps} />;
   } else if (d.type === 'react-annotation' || typeof d.type === 'function') {
-    return basicReactAnnotation({ d, screenCoordinates, i });
+    return <BasicReactAnnotation {...widgetProps} />;
   } else if (d.type === 'enclose') {
-    return svgEncloseAnnotation({ d, screenCoordinates, i });
+    return <SvgEncloseAnnotation {...widgetProps}/>;
   } else if (d.type === 'enclose-rect') {
-    return svgRectEncloseAnnotation({ d, screenCoordinates, i });
+    return <SvgRectEncloseAnnotation {...widgetProps} />;
   } else if (d.type === 'enclose-hull') {
-    return svgHullEncloseAnnotation({ d, screenCoordinates, i });
+    return <SvgHullEnclosure {...widgetProps}/>
   } else if (d.type === 'x') {
-    return svgXAnnotation({
-      d,
-      screenCoordinates,
-      i,
-      adjustedSize
-    });
+    return <SvgXAnnotation {...widgetProps}/>;
   } else if (d.type === 'y') {
-    return svgYAnnotation({
-      d,
-      screenCoordinates,
-      i,
-      adjustedSize,
-      adjustedPosition
-    });
+    return <SvgYAnnotation {...widgetProps}/>;
   } else if (d.type === 'bounds') {
-    return svgBoundsAnnotation({
-      d,
-      i,
-      adjustedSize,
-      xAccessor,
-      yAccessor,
-      xScale,
-      yScale
-    });
+    return <SvgBoundsAnnotation {...widgetProps}/>;
   } else if (d.type === 'line') {
-    return svgLineAnnotation({ d, i, screenCoordinates });
+    return <SvgLineAnnotation {...widgetProps}/>;
   } else if (d.type === 'area') {
-    return svgAreaAnnotation({
-      d,
-      i,
-      xScale,
-      xAccessor,
-      yScale,
-      yAccessor,
-      annotationLayer
-    });
+    return <SvgAreaAnnotation {...widgetProps}/>
   } else if (d.type === 'horizontal-points') {
-    return svgHorizontalPointsAnnotation({
-      d,
-      lines: lines.data,
-      points: points.data,
-      xScale,
-      yScale,
-      pointStyle: points.styleFn
-    });
+    return <SvgHorizontalPointsAnnotation {...widgetProps}/>;
   } else if (d.type === 'vertical-points') {
-    return svgVerticalPointsAnnotation({
-      d,
-      lines: lines.data,
-      points: points.data,
-      xScale,
-      yScale,
-      pointStyle: points.styleFn
-    });
+    return <SvgVerticalPointsAnnotation {...widgetProps}/>;
   }
   return null;
 };
 
-const defaultHTMLRule = ({
-  adjustedPosition,
-  adjustedSize,
-  xAccessor,
-  yAccessor,
-  showLinePoints,
-  xScale,
-  yScale,
-  props,
-  annotatedSettings
-}) => ({ d: baseD, i, lines, summaries, points, annotationLayer }) => {
-  const { voronoiHover } = annotationLayer;
 
-  let screenCoordinates = [];
-
-  const {
-    useSpans,
-    tooltipContent,
-    optimizeCustomTooltipPosition,
-    htmlAnnotationRules,
-    size
-  } = props;
-
-  const idAccessor = annotatedSettings.lineIDAccessor;
-  const d = findPointByID({
-    point: baseD,
-    idAccessor,
-    lines,
-    xScale,
-    projectedX,
-    xAccessor
-  });
-
-  if (!d) {
-    return null;
-  }
-
-  const xCoord =
-    d[projectedXMiddle] ||
-    d[projectedX] ||
-    findFirstAccessorValue(xAccessor, d);
-  const yCoord =
-    d[projectedYMiddle] ||
-    d[projectedY] ||
-    findFirstAccessorValue(yAccessor, d);
-
-  const xString = xCoord && xCoord.toString ? xCoord.toString() : xCoord;
-  const yString = yCoord && yCoord.toString ? yCoord.toString() : yCoord;
-  if (!d.coordinates) {
-    screenCoordinates = [
-      xScale(xCoord) || 0,
-      relativeY({
-        point: d,
-        projectedYMiddle,
-        projectedY,
-        showLinePoints,
-        yAccessor,
-        yScale
-      }) || 0
-    ];
-  } else {
-    screenCoordinates = d.coordinates.map(p => {
-      const foundP = findPointByID({
-        point: { x: 0, y: 0, ...p },
-        idAccessor,
-        lines,
-        xScale,
-        projectedX,
-        xAccessor
-      });
-      return [
-        (xScale(findFirstAccessorValue(xAccessor, d)) || 0) +
-          adjustedPosition[0],
-        (relativeY({
-          point: foundP,
-          projectedYMiddle,
-          projectedY,
-          yAccessor,
-          yScale
-        }) || 0) + adjustedPosition[1]
-      ];
-    });
-  }
-
-  const customAnnotation =
-    htmlAnnotationRules &&
-    htmlAnnotationRules({
-      d,
-      i,
-      screenCoordinates,
-      xScale,
-      yScale,
-      xAccessor,
-      yAccessor,
-      xyFrameProps: props,
-      summaries,
-      points,
-      lines,
-      voronoiHover,
-      adjustedPosition,
-      adjustedSize,
-      annotationLayer
-    });
-
-  if (htmlAnnotationRules && customAnnotation !== null) {
-    return customAnnotation;
-  }
-  if (d.type === 'frame-hover') {
-    let content = (
-      <SpanOrDiv span={useSpans} className="tooltip-content">
-        <p key="html-annotation-content-1">{xString}</p>
-        <p key="html-annotation-content-2">{yString}</p>
-        {d.percent ? (
-          <p key="html-annotation-content-3">
-            {Math.floor(d.percent * 1000) / 10}%
-          </p>
-        ) : null}
-      </SpanOrDiv>
-    );
-
-    if (d.type === 'frame-hover' && tooltipContent) {
-      content = optimizeCustomTooltipPosition ? (
-        <TooltipPositioner
-          tooltipContent={tooltipContent}
-          tooltipContentArgs={d}
-        />
-      ) : (
-        tooltipContent(d)
-      );
-    }
-    return htmlTooltipAnnotation({
-      content,
-      screenCoordinates,
-      i,
-      d,
-      useSpans
-    });
-  }
-  return null;
-};
-
-export { defaultSVGRule, defaultHTMLRule };
+export { defaultSVGRule };
