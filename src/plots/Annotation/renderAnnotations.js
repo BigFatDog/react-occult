@@ -1,7 +1,54 @@
 import React from 'react';
-import { defaultSVGRule } from './rules';
 import resolveConflicts from './resolveConflicts';
 import Annotation from './GenericAnnotation';
+import DesaturationLayer from "./widgets/DesaturationLayer";
+import SvgXYAnnotation from "./widgets/SvgXYAnnotation";
+import BasicReactAnnotation from "./widgets/BasicReactAnnotation";
+import SvgEncloseAnnotation from "./widgets/SvgEncloseAnnotation";
+import SvgRectEncloseAnnotation from "./widgets/SvgRectEncloseAnnotation";
+import SvgHullEnclosure from "./widgets/SvgHullEncloseAnnotation";
+import SvgXAnnotation from "./widgets/SvgXAnnotation";
+import SvgYAnnotation from "./widgets/SvgYAnnotation";
+import SvgLineAnnotation from "./widgets/SvgLineAnnotation";
+import SvgBoundsAnnotation from './widgets/SvgBoundsAnnotation';
+import SvgAreaAnnotation from './widgets/SvgAreaAnnotation';
+import {SvgHorizontalPointsAnnotation, SvgVerticalPointsAnnotation} from "./widgets/PointsAlong";
+
+const TypeHash = {
+  'desaturation-layer': DesaturationLayer,
+  'xy': SvgXYAnnotation,
+  'frame-hover': SvgXYAnnotation,
+  'react-annotation': BasicReactAnnotation,
+  'function': BasicReactAnnotation,
+  'enclose': SvgEncloseAnnotation,
+  'enclose-rect': SvgRectEncloseAnnotation,
+  'enclose-hull': SvgHullEnclosure,
+  'x': SvgXAnnotation,
+  'y': SvgYAnnotation,
+  'bounds': SvgBoundsAnnotation,
+  'line': SvgLineAnnotation,
+  'area': SvgAreaAnnotation,
+  'horizontal-points': SvgHorizontalPointsAnnotation,
+  'vertical-points': SvgVerticalPointsAnnotation
+};
+
+const toAnnotations = (d, i, props) => {
+  const { adjustedSize } = props;
+  const screenCoordinates = [
+    d.x ? d.x : 0,
+    d.y ? adjustedSize[1] - d.y : adjustedSize[1]
+  ];
+
+  const widgetProps = {
+    ...props,
+    d,
+    i,
+    screenCoordinates
+  };
+
+  const AnnotationType = TypeHash[d.type];
+  return AnnotationType ? <AnnotationType {...widgetProps}/> : null;
+};
 
 const renderAnnotations = (annotations, props) => {
   const { annotationHandling = false } = props;
@@ -14,7 +61,7 @@ const renderAnnotations = (annotations, props) => {
       : { layout: { type: annotationHandling } };
 
   const initialSVGAnnotations = annotations
-    .map((d, i) => defaultSVGRule(d, i, props))
+    .map((d, i) => toAnnotations(d, i, props))
     .filter(d => d !== null && d !== undefined);
 
   const adjustableAnnotations = initialSVGAnnotations.filter(
