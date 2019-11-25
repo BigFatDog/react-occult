@@ -39,6 +39,15 @@ Other thoughts:
 npm install         // install dependencies
 npm run dev         // view demos in web browser at localhost:8080
 ```
+# Try in product
+run command: ``npm install react-occult --save``
 
 # Demo code
 code is at: [demo usage](https://github.com/BigFatDog/react-occult/tree/master/docs/app/containers/Pages)
+
+# Credits
+Heavily inspired by [semiotic](https://semiotic.nteract.io/guides/annotations)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
