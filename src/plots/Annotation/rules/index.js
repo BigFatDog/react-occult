@@ -1,11 +1,10 @@
 import React from 'react';
 
-
 import SvgXYAnnotation from '../widgets/SvgXYAnnotation';
 import SvgXAnnotation from '../widgets/SvgXAnnotation';
 import HullEnclosure from '../widgets/HullEnclosure';
-import SvgHullEnclosure from "../widgets/SvgHullEncloseAnnotation";
-import SvgYAnnotation from "../widgets/SvgYAnnotation";
+import SvgHullEnclosure from '../widgets/SvgHullEncloseAnnotation';
+import SvgYAnnotation from '../widgets/SvgYAnnotation';
 import {
   SvgHorizontalPointsAnnotation,
   SvgVerticalPointsAnnotation
@@ -13,9 +12,8 @@ import {
 import BasicReactAnnotation from '../widgets/BasicReactAnnotation';
 import SvgLineAnnotation from '../widgets/SvgLineAnnotation';
 import SvgEncloseAnnotation from '../widgets/SvgEncloseAnnotation';
-import DesaturationLayer from "../widgets/DesaturationLayer";
+import DesaturationLayer from '../widgets/DesaturationLayer';
 import SvgRectEncloseAnnotation from '../widgets/SvgRectEncloseAnnotation';
-
 
 const defaultSVGRule = (d, i, props) => {
   const { adjustedSize } = props;
@@ -28,38 +26,37 @@ const defaultSVGRule = (d, i, props) => {
     ...props,
     d,
     i,
-    screenCoordinates,
+    screenCoordinates
   };
 
   if (d.type === 'desaturation-layer') {
-    return <DesaturationLayer {...widgetProps}/>;
+    return <DesaturationLayer {...widgetProps} />;
   } else if (d.type === 'xy' || d.type === 'frame-hover') {
-    return  <SvgXYAnnotation {...widgetProps} />;
+    return <SvgXYAnnotation {...widgetProps} />;
   } else if (d.type === 'react-annotation' || typeof d.type === 'function') {
     return <BasicReactAnnotation {...widgetProps} />;
   } else if (d.type === 'enclose') {
-    return <SvgEncloseAnnotation {...widgetProps}/>;
+    return <SvgEncloseAnnotation {...widgetProps} />;
   } else if (d.type === 'enclose-rect') {
     return <SvgRectEncloseAnnotation {...widgetProps} />;
   } else if (d.type === 'enclose-hull') {
-    return <SvgHullEnclosure {...widgetProps}/>
+    return <SvgHullEnclosure {...widgetProps} />;
   } else if (d.type === 'x') {
-    return <SvgXAnnotation {...widgetProps}/>;
+    return <SvgXAnnotation {...widgetProps} />;
   } else if (d.type === 'y') {
-    return <SvgYAnnotation {...widgetProps}/>;
+    return <SvgYAnnotation {...widgetProps} />;
   } else if (d.type === 'bounds') {
-    return <SvgBoundsAnnotation {...widgetProps}/>;
+    return <SvgBoundsAnnotation {...widgetProps} />;
   } else if (d.type === 'line') {
-    return <SvgLineAnnotation {...widgetProps}/>;
+    return <SvgLineAnnotation {...widgetProps} />;
   } else if (d.type === 'area') {
-    return <SvgAreaAnnotation {...widgetProps}/>
+    return <SvgAreaAnnotation {...widgetProps} />;
   } else if (d.type === 'horizontal-points') {
-    return <SvgHorizontalPointsAnnotation {...widgetProps}/>;
+    return <SvgHorizontalPointsAnnotation {...widgetProps} />;
   } else if (d.type === 'vertical-points') {
-    return <SvgVerticalPointsAnnotation {...widgetProps}/>;
+    return <SvgVerticalPointsAnnotation {...widgetProps} />;
   }
   return null;
 };
-
 
 export { defaultSVGRule };
