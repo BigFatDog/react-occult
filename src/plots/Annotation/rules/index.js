@@ -14,7 +14,7 @@ import {
 } from './cartesianRules';
 
 const defaultSVGRule = (d, i, props) => {
-  const { xScale, yScale, adjustedSize, adjustedPosition, margin } = props;
+  const { xScale, yScale, adjustedSize, adjustedPosition } = props;
   const screenCoordinates = [
     d.x ? d.x : 0,
     d.y ? adjustedSize[1] - d.y : adjustedSize[1]
