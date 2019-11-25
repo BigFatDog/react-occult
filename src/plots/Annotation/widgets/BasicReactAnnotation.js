@@ -1,4 +1,4 @@
-import Annotation from '../GenericAnnotation';
+import Annotation from '../InternalAnnotation';
 import * as React from 'react';
 
 const BasicReactAnnotation = ({ screenCoordinates, d, i }) => {

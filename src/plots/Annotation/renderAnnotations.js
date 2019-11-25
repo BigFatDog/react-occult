@@ -1,6 +1,6 @@
 import React from 'react';
 import resolveConflicts from './resolveConflicts';
-import Annotation from './GenericAnnotation';
+import Annotation from './InternalAnnotation';
 import DesaturationLayer from './widgets/DesaturationLayer';
 import SvgXYAnnotation from './widgets/SvgXYAnnotation';
 import BasicReactAnnotation from './widgets/BasicReactAnnotation';

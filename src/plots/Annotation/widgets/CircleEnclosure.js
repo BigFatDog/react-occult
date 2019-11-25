@@ -1,5 +1,5 @@
 import AnnotationCalloutCircle from 'react-annotation/lib/Types/AnnotationCalloutCircle';
-import Annotation from '../GenericAnnotation';
+import Annotation from '../InternalAnnotation';
 import * as React from 'react';
 
 const CircleEnclosure = ({ d, i, circle }) => {

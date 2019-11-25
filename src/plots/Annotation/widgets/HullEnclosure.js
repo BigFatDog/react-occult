@@ -1,7 +1,7 @@
 import { polygonHull } from 'd3-polygon';
 import Offset from 'polygon-offset';
 import AnnotationCalloutCustom from 'react-annotation/lib/Types/AnnotationCalloutCustom';
-import Annotation from '../GenericAnnotation';
+import Annotation from '../InternalAnnotation';
 import * as React from 'react';
 
 const HullEnclosure = ({ points, d, i }) => {

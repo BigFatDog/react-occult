@@ -1,5 +1,5 @@
 import AnnotationCalloutRect from 'react-annotation/lib/Types/AnnotationCalloutRect';
-import Annotation from '../GenericAnnotation';
+import Annotation from '../InternalAnnotation';
 import * as React from 'react';
 
 const RectangleEnclosure = ({ bboxNodes, d, i }) => {

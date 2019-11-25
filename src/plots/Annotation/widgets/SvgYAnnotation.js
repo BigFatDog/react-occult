@@ -1,5 +1,5 @@
 import AnnotationXYThreshold from 'react-annotation/lib/Types/AnnotationXYThreshold';
-import Annotation from '../GenericAnnotation';
+import Annotation from '../InternalAnnotation';
 import * as React from 'react';
 
 const SvgYAnnotation = ({
