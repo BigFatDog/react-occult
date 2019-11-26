@@ -40,7 +40,9 @@ const contouringProjection = ({
 
   if (showPoints === true) {
     projectedPoints = data.map(d => ({
-      parentSummary: groupedData.find(e => sAccessor ? e.s === sAccessor(d) : e.s === DEFAULT_SERIES),
+      parentSummary: groupedData.find(e =>
+        sAccessor ? e.s === sAccessor(d) : e.s === DEFAULT_SERIES
+      ),
       _data: d,
       x: xAccessor(d),
       y: yAccessor(d)

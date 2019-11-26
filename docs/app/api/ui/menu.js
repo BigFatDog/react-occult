@@ -50,7 +50,7 @@ module.exports = [
         key: 'old_faithful',
         name: 'Old Faithful Contour',
         link: '/faithful'
-      },
+      }
     ]
   }
 ];

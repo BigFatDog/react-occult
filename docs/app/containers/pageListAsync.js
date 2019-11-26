@@ -6,7 +6,6 @@ export const BarChartPage = Loadable({
   loading: Loading
 });
 
-
 export const LineChartPage = Loadable({
   loader: () => import('./Pages/LineChartPage'),
   loading: Loading
