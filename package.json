@@ -110,6 +110,7 @@
     "cross-env": "^5.2.0",
     "css-loader": "2.1.1",
     "d3-dsv": "^1.1.1",
+    "d3-hsv": "^0.1.0",
     "enzyme": "3.9.0",
     "enzyme-adapter-react-16": "1.10.0",
     "enzyme-to-json": "3.3.5",

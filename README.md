@@ -1,8 +1,11 @@
-# EXPERIMENTAL, NOT PRODUCTION READY
-# React Occult
+# React Occult: EXPERIMENTAL, NOT PRODUCTION READY
+## Design 
 <img width="100%" alt="Design" src="design.jpg">
 
-# Quick Guide
+## A Working Demo
+<img width="100%" alt="Old Faithful Contour" src="old-faithful.png">
+
+## Quick Guide
 
 ```javascript 1.6
     <XYFrame {...frameProps}>

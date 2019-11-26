@@ -151,13 +151,19 @@ const XYFrame = props => {
     })
     .reduce(
       (acc, cur) => {
-        acc.xExtent[0] = Math.min(acc.xExtent[0], cur.finalXExtent[0]);
-        acc.xExtent[1] = Math.max(acc.xExtent[1], cur.finalXExtent[1]);
-        acc.yExtent[0] = Math.min(acc.yExtent[0], cur.finalYExtent[0]);
-        acc.yExtent[1] = Math.max(acc.yExtent[1], cur.finalYExtent[1]);
-        return acc;
+        if (!acc.xExtent || !acc.yExtent) {
+          acc.xExtent = cur.finalXExtent.slice();
+          acc.yExtent = cur.finalYExtent.slice();
+          return acc;
+        } else {
+          acc.xExtent[0] = Math.min(acc.xExtent[0], cur.finalXExtent[0]);
+          acc.xExtent[1] = Math.max(acc.xExtent[1], cur.finalXExtent[1]);
+          acc.yExtent[0] = Math.min(acc.yExtent[0], cur.finalYExtent[0]);
+          acc.yExtent[1] = Math.max(acc.yExtent[1], cur.finalYExtent[1]);
+          return acc;
+        }
       },
-      { xExtent: [0, 0], yExtent: [0, 0] }
+      { xExtent: null, yExtent: null }
     );
 
   const xDomain = [0, adjustedSize[0]];
