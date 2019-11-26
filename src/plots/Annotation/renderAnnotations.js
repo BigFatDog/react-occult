@@ -44,12 +44,13 @@ const toAnnotations = (d, i, props) => {
 
   const widgetProps = {
     ...props,
+    ...d,
     d,
     i,
     screenCoordinates
   };
 
-  const AnnotationType = TypeHash[d.type];
+  const AnnotationType = TypeHash[d.type] || d.type;
   return AnnotationType ? <AnnotationType {...widgetProps} /> : null;
 };
 

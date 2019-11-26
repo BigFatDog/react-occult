@@ -22,7 +22,7 @@ module.exports = [
         link: '/centroid'
       },
       {
-        key: 'Plot.js.js',
+        key: 'line',
         name: 'Line Chart',
         link: '/line'
       },
@@ -47,15 +47,10 @@ module.exports = [
         link: '/hexbin'
       },
       {
-        key: 'annotations',
-        name: 'Annotations',
-        link: '/annotations'
+        key: 'old_faithful',
+        name: 'Old Faithful Contour',
+        link: '/faithful'
       },
-      {
-        key: 'neighborhood',
-        name: 'Neighborhood Map',
-        link: '/neighborhood'
-      }
     ]
   }
 ];

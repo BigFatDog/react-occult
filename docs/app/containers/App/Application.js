@@ -9,6 +9,7 @@ import HexbinPage from '../Pages/HexbinPage';
 import AnnotationPage from '../Pages/AnnotationPage';
 import AreaPage from '../Pages/AreaChart';
 import NeighborhoodPage from '../Pages/Neighborhood';
+import OldFaithfulPage from '../Pages/OldFaithfulPage';
 
 import BlankPage from '../Pages/BlankPage';
 import { NotFound } from '../pageListAsync';
@@ -27,6 +28,7 @@ class Application extends React.Component {
           <Route path="/area" component={AreaPage} />
           <Route path="/annotations" component={AnnotationPage} />
           <Route path="/neighborhood" component={NeighborhoodPage} />
+          <Route path="/faithful" component={OldFaithfulPage} />
           <Route component={NotFound} />
         </Switch>
       </Dashboard>

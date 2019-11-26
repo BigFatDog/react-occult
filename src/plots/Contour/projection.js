@@ -3,6 +3,8 @@ import { scaleLinear } from 'd3-scale';
 import { group } from 'd3-array';
 import shapeBounds from './shapeBounds';
 
+const DEFAULT_SERIES = 'default';
+
 const contouringProjection = ({
   threshold,
   resolution,
@@ -19,8 +21,14 @@ const contouringProjection = ({
   let projectedAreas = [];
   let projectedPoints = [];
 
+  let groupedMap = new Map();
+  if (sAccessor) {
+    groupedMap = group(data, sAccessor);
+  } else {
+    groupedMap.set(DEFAULT_SERIES, data);
+  }
+
   // data
-  const groupedMap = group(data, sAccessor);
   const groupedData = Array.from(groupedMap.keys()).map(d => ({
     s: d,
     _xyCoordinates: groupedMap.get(d).map(e => ({
@@ -32,7 +40,7 @@ const contouringProjection = ({
 
   if (showPoints === true) {
     projectedPoints = data.map(d => ({
-      parentSummary: groupedData.find(e => e.s === sAccessor(d)),
+      parentSummary: groupedData.find(e => sAccessor ? e.s === sAccessor(d) : e.s === DEFAULT_SERIES),
       _data: d,
       x: xAccessor(d),
       y: yAccessor(d)
@@ -62,7 +70,8 @@ const contouringProjection = ({
 
     const max = Math.max(...contourProjectedAreas.map(d => d.value));
 
-    contourProjectedAreas.forEach(area => {
+    contourProjectedAreas.forEach((area, i) => {
+      area._data = contourData._baseData[i];
       area.parentSummary = contourData;
       area.bounds = [];
       area.percent = area.value / max;

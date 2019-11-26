@@ -1,6 +1,12 @@
 import Loadable from 'react-loadable';
 import Loading from 'dan-components/Loading';
 
+export const BarChartPage = Loadable({
+  loader: () => import('./Pages/ContourPage'),
+  loading: Loading
+});
+
+
 export const LineChartPage = Loadable({
   loader: () => import('./Pages/LineChartPage'),
   loading: Loading
