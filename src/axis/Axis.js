@@ -1,15 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 import { axisLabels, axisPieces, axisLines } from './axisMarks';
-import {
-  array,
-  func,
-  number,
-  object,
-  oneOfType,
-  string,
-  bool
-} from 'prop-types';
+const ORIENTATIONS = ['top', 'bottom', 'left', 'right'];
 
 const formatValue = (value, props) => {
   if (props.tickFormat) {
@@ -365,31 +358,30 @@ const Axis = props => {
 };
 
 Axis.propTypes = {
-  orient: string,
-  size: array,
-  footer: bool,
-  tickSize: number,
-  baseline: bool,
-  center: bool,
-  glyphFunction: func,
-  label: oneOfType([string, object]),
-  tickValues: array,
-  ticks: number,
-  tickFormat: func,
-  tickLineGenerator: func,
-  rotate: number,
-  padding: number,
-  scale: func,
-  annotationFunction: func,
-  className: string,
-  margin: object,
-  name: string
+  orient: PropTypes.oneOf(ORIENTATIONS),
+  size: PropTypes.array,
+  footer: PropTypes.bool,
+  tickSize: PropTypes.number,
+  baseline: PropTypes.bool,
+  center: PropTypes.bool,
+  glyphFunction: PropTypes.func,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  tickValues: PropTypes.array,
+  ticks: PropTypes.number,
+  tickFormat: PropTypes.func,
+  tickLineGenerator: PropTypes.func,
+  rotate: PropTypes.number,
+  padding: PropTypes.number,
+  scale: PropTypes.func,
+  annotationFunction: PropTypes.func,
+  className: PropTypes.string,
+  margin: PropTypes.object,
+  name: PropTypes.string
 };
 
 Axis.defaultProps = {
   rotate: 0,
   label: { position: false },
-  orient: 'left',
   tickFormat: d => d,
   size: null,
   className: '',

@@ -1,24 +1,15 @@
 import React from 'react';
-import {
-  object,
-  func,
-  array,
-  oneOfType,
-  bool,
-  string,
-  node,
-  number
-} from 'prop-types';
+import PropTypes from 'prop-types';
 
 const Annotation = props => {
   return null;
 };
 
 Annotation.propTypes = {
-  x: number,
-  y: number,
-  note: oneOfType([object, string]),
-  subject: object
+  x: PropTypes.number,
+  y: PropTypes.number,
+  note: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+  subject: PropTypes.object
 };
 
 export default Annotation;

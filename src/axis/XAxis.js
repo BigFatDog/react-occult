@@ -1,25 +1,14 @@
 import React from 'react';
-import { func, string, array, object, oneOfType, number } from 'prop-types';
+import PropTypes from 'prop-types';
+import Axis from './Axis';
 
 const XAxis = props => {
-  return <div />;
+  return <Axis {...props} />;
 };
 
 XAxis.propTypes = {
-  orient: string,
-  size: array,
-  label: oneOfType([string, object]),
-  tickValues: array,
-  ticks: number,
-  tickFormat: func,
-  tickLineGenerator: func,
-  rotate: number,
-  padding: number,
-  scale: func,
-  annotationFunction: func,
-  className: string,
-  margin: object,
-  name: string
+  ...Axis.propTypes,
+  orient: PropTypes.oneOf(['top', 'bottom'])
 };
 
 XAxis.defaultProps = {

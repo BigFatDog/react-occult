@@ -23,7 +23,9 @@ const toPipeline = props => {
     pointClass,
     pointCustomMarks,
     pointRenderMode,
-    useCanvas,
+    areaUseCanvas,
+    lineUseCanvas,
+    pointUseCanvas,
     xAccessor,
     yAccessor,
     xExtent,
@@ -48,7 +50,7 @@ const toPipeline = props => {
   });
 
   const { svgPipeline: lineSvg, canvasPipeline: lineCanvas } = toRenderedLines({
-    useCanvas,
+    useCanvas: lineUseCanvas,
     xScale,
     yScale,
     styleFn: stringToFn(lineStyle, emptyObjectReturnFunction, true),
@@ -59,7 +61,7 @@ const toPipeline = props => {
   });
 
   const { svgPipeline: areaSvg, canvasPipeline: areaCanvas } = toRenderedAreas({
-    useCanvas,
+    useCanvas: areaUseCanvas,
     xScale,
     yScale,
     styleFn: stringToFn(areaStyle, emptyObjectReturnFunction, true),
@@ -73,7 +75,7 @@ const toPipeline = props => {
     svgPipeline: pointsSvg,
     canvasPipeline: pointsCanvas
   } = toRenderedPoints({
-    useCanvas,
+    useCanvas: pointUseCanvas,
     xScale,
     yScale,
     styleFn: stringToFn(pointStyle, emptyObjectReturnFunction, true),
@@ -84,10 +86,11 @@ const toPipeline = props => {
   });
 
   const svgPipe = [...areaSvg, ...lineSvg, ...pointsSvg];
-  const areaPipe = [...areaCanvas, ...lineCanvas, ...pointsCanvas];
+  const canvasPipe = [...areaCanvas, ...lineCanvas, ...pointsCanvas];
+
   return {
     svgPipe,
-    areaPipe
+    canvasPipe
   };
 };
 

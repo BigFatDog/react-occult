@@ -1,25 +1,14 @@
 import React from 'react';
-import { array, func, object, oneOfType, string, number } from 'prop-types';
+import PropTypes from 'prop-types';
+import Axis from './Axis';
 
 const YAxis = props => {
-  return <div />;
+  return <Axis {...props} />;
 };
 
 YAxis.propTypes = {
-  orient: string,
-  size: array,
-  label: oneOfType([string, object]),
-  tickValues: array,
-  ticks: number,
-  tickFormat: func,
-  tickLineGenerator: func,
-  rotate: number,
-  padding: number,
-  scale: func,
-  annotationFunction: func,
-  className: string,
-  margin: object,
-  name: string
+  ...Axis.propTypes,
+  orient: PropTypes.oneOf(['left', 'right'])
 };
 
 YAxis.defaultProps = {

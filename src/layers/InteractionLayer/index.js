@@ -1,15 +1,5 @@
 import React, { useState } from 'react';
-
-import {
-  object,
-  string,
-  func,
-  array,
-  arrayOf,
-  oneOfType,
-  bool,
-  number
-} from 'prop-types';
+import PropTypes from 'prop-types';
 
 import SpanOrDiv from '../../widgets/SpanOrDiv';
 import renderCanvas from './helper/renderCanvas';
@@ -160,31 +150,36 @@ const InteractionLayer = props => {
 };
 
 InteractionLayer.propTypes = {
-  name: string,
-  interaction: object,
-  overlay: array,
-  oColumns: object,
-  xScale: func,
-  yScale: func,
-  rScale: func,
-  svgSize: array,
-  hoverAnnotation: oneOfType([bool, object, array, func]),
-  interactionOverflow: object,
-  size: arrayOf(number),
-  points: arrayOf(object),
-  position: arrayOf(number),
-  enabled: bool,
-  useSpans: bool,
-  margin: object,
-  projection: string,
-  customDoubleClickBehavior: func,
-  customClickBehavior: func,
-  customHoverBehavior: func,
-  voronoiHover: func,
-  canvasRendering: bool,
-  disableCanvasInteraction: bool,
-  showLinePoints: string,
-  renderPipeline: object
+  name: PropTypes.string,
+  interaction: PropTypes.object,
+  overlay: PropTypes.array,
+  oColumns: PropTypes.object,
+  xScale: PropTypes.func,
+  yScale: PropTypes.func,
+  rScale: PropTypes.func,
+  svgSize: PropTypes.array,
+  hoverAnnotation: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.object,
+    PropTypes.array,
+    PropTypes.func
+  ]),
+  interactionOverflow: PropTypes.object,
+  size: PropTypes.arrayOf(PropTypes.number),
+  points: PropTypes.arrayOf(PropTypes.object),
+  position: PropTypes.arrayOf(PropTypes.number),
+  enabled: PropTypes.bool,
+  useSpans: PropTypes.bool,
+  margin: PropTypes.object,
+  projection: PropTypes.string,
+  customDoubleClickBehavior: PropTypes.func,
+  customClickBehavior: PropTypes.func,
+  customHoverBehavior: PropTypes.func,
+  voronoiHover: PropTypes.func,
+  canvasRendering: PropTypes.bool,
+  disableCanvasInteraction: PropTypes.bool,
+  showLinePoints: PropTypes.string,
+  renderPipeline: PropTypes.object
 };
 
 InteractionLayer.defaultProps = {

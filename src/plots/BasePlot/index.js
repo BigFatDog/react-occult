@@ -1,5 +1,5 @@
 import React from 'react';
-import { object, func, array, oneOfType, bool, string, node } from 'prop-types';
+import PropTypes from 'prop-types';
 import getExtent from './getExtent';
 import stringToFn from '../../utils/stringToFn';
 import toRenderedAreas from './toRenderedAreas';
@@ -107,29 +107,36 @@ const Plot = props => {
 };
 
 Plot.propTypes = {
-  projection: func,
-  data: array,
-  lineStyle: oneOfType([object, func]),
-  lineClass: oneOfType([object, func]),
-  lineRenderMode: oneOfType([object, func]),
-  lineCustomMarks: oneOfType([node, func]),
-  lineUseCanvas: bool,
-  areaStyle: oneOfType([object, func]),
-  areaClass: oneOfType([object, func]),
-  areaRenderMode: oneOfType([object, func]),
-  areaCustomMarks: oneOfType([node, func]),
-  areaUseCanvas: bool,
-  pointStyle: oneOfType([object, func]),
-  pointClass: oneOfType([object, func]),
-  pointCustomMarks: oneOfType([node, func]),
-  pointRenderMode: oneOfType([object, func]),
-  pointUseCanvas: bool,
-  showPoints: bool,
-  xExtent: array,
-  yExtent: array,
-  xAccessor: oneOfType([string, func]),
-  yAccessor: oneOfType([string, func]),
-  sAccessor: oneOfType([string, func])
+  projection: PropTypes.func,
+  data: PropTypes.array,
+  lineStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  lineClass: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  lineRenderMode: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  lineCustomMarks: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+  lineUseCanvas: PropTypes.bool,
+  areaStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  areaClass: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  areaRenderMode: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  areaCustomMarks: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+  areaUseCanvas: PropTypes.bool,
+  pointStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  pointClass: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  pointRenderMode: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  pointCustomMarks: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+  pointUseCanvas: PropTypes.bool,
+  showPoints: PropTypes.bool,
+  xExtent: PropTypes.array,
+  yExtent: PropTypes.array,
+  xAccessor: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+  yAccessor: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+  sAccessor: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
+};
+
+Plot.defaultProps = {
+  showPoints: true,
+  pointUseCanvas: true,
+  lineUseCanvas: true,
+  areaUseCanvas: true
 };
 
 export default Plot;

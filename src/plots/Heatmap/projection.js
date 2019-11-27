@@ -1,5 +1,5 @@
-import { group } from 'd3-array';
 import { scaleLinear } from 'd3-scale';
+import groupData from '../data';
 
 const heatmapProjection = ({
   xBins,
@@ -9,37 +9,24 @@ const heatmapProjection = ({
   binMax,
   binValue,
   customMark,
-  data,
   finalXExtent,
   finalYExtent,
+  size,
+  data,
   xAccessor,
   yAccessor,
   sAccessor,
-  showPoints,
-  size
+  showPoints
 }) => {
   let projectedAreas = [];
-  let projectedPoints = [];
+  const { groupedData, projectedPoints } = groupData({
+    data,
+    xAccessor,
+    yAccessor,
+    sAccessor,
+    showPoints
+  });
 
-  // data
-  const groupedMap = group(data, sAccessor);
-  const groupedData = Array.from(groupedMap.keys()).map(d => ({
-    s: d,
-    _xyCoordinates: groupedMap.get(d).map(e => ({
-      x: xAccessor(e),
-      y: yAccessor(e)
-    })),
-    _baseData: groupedMap.get(d)
-  }));
-
-  if (showPoints === true) {
-    projectedPoints = data.map(d => ({
-      parentSummary: groupedData.find(e => e.s === sAccessor(d)),
-      _data: d,
-      x: xAccessor(d),
-      y: yAccessor(d)
-    }));
-  }
   const xBinPercent = xBins < 1 ? xBins : 1 / xBins;
   const yBinPercent = yBins < 1 ? yBins : 1 / yBins;
 

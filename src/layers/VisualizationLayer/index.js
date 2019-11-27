@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { node, func, string, array, object, oneOfType, bool } from 'prop-types';
+import PropTypes from 'prop-types';
 
 import drawCanvas from './drawCanvas';
 
@@ -57,22 +57,22 @@ VisualizationLayer.defaultProps = {
 };
 
 VisualizationLayer.propTypes = {
-  frameKey: string,
-  xScale: func,
-  yScale: func,
-  margin: object,
-  size: array,
-  position: array,
-  canvasPostProcess: oneOfType([string, func]),
-  title: oneOfType([object, string]),
-  ariaTitle: string,
-  matte: node,
-  matteClip: bool,
-  frontCanvas: object,
-  backCanvas: object,
-  renderOrder: array,
-  voronoiHover: func,
-  canvasPipeline: array
+  frameKey: PropTypes.string,
+  xScale: PropTypes.func,
+  yScale: PropTypes.func,
+  margin: PropTypes.object,
+  size: PropTypes.array,
+  position: PropTypes.array,
+  canvasPostProcess: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+  title: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+  ariaTitle: PropTypes.string,
+  matte: PropTypes.node,
+  matteClip: PropTypes.bool,
+  frontCanvas: PropTypes.object,
+  backCanvas: PropTypes.object,
+  renderOrder: PropTypes.array,
+  voronoiHover: PropTypes.func,
+  canvasPipeline: PropTypes.array
 };
 
 export default VisualizationLayer;

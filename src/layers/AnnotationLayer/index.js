@@ -1,5 +1,5 @@
 import React from 'react';
-import { object, number, func, array } from 'prop-types';
+import PropTypes from 'prop-types';
 
 import SpanOrDiv from '../../widgets/SpanOrDiv';
 
@@ -63,7 +63,9 @@ const AnnotationLayer = props => {
   );
 };
 
-AnnotationLayer.propTypes = {};
+AnnotationLayer.propTypes = {
+  margin: PropTypes.object
+};
 
 AnnotationLayer.defaultProps = {
   margin: { top: 0, bottom: 0, left: 0, right: 0 }

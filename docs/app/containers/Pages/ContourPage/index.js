@@ -57,13 +57,12 @@ const ContourPage = props => {
     pointStyle: d => ({
       r: 2,
       fill: colors[d.parentSummary.s]
-    }),
+    })
     // areaRenderMode: {
     //   renderMode: 'sketchy',
     //   fillWeight: 3,
     //   hachureGap: 4
     // },
-    useCanvas: false
   };
 
   return (

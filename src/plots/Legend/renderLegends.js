@@ -1,7 +1,7 @@
 import React from 'react';
-import Legend from './Legend';
+import Legend from './index';
 
-const getLegends = props => {
+const renderLegends = props => {
   const { legendSettings } = props;
 
   let renderedLegend;
@@ -22,4 +22,4 @@ const getLegends = props => {
   return renderedLegend;
 };
 
-export default getLegends;
+export default renderLegends;

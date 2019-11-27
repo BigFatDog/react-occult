@@ -1,104 +1,45 @@
-import nodeResolve from 'rollup-plugin-node-resolve'
-import babel from 'rollup-plugin-babel'
-import replace from 'rollup-plugin-replace'
-import { terser } from 'rollup-plugin-terser'
+import babel from 'rollup-plugin-babel';
+import peerDepsExternal from 'rollup-plugin-peer-deps-external';
+import resolve from 'rollup-plugin-node-resolve';
+import commonjs from 'rollup-plugin-commonjs';
+import postcss from 'rollup-plugin-postcss';
+import filesize from 'rollup-plugin-filesize';
+import autoprefixer from 'autoprefixer';
+import localResolve from 'rollup-plugin-local-resolve';
 
-import pkg from './package.json'
+let pkg = require('./package.json');
 
-export default [
-  // CommonJS
-  {
-    input: 'src/index.js',
-    output: { file: 'lib/react-occult.js', format: 'cjs', indent: false },
-    external: [
-      ...Object.keys(pkg.dependencies || {}),
-      ...Object.keys(pkg.peerDependencies || {})
-    ],
-    plugins: [babel()]
-  },
-
-  // ES
-  {
-    input: 'src/index.js',
-    output: { file: 'es/react-occult.js', format: 'es', indent: false },
-    external: [
-      ...Object.keys(pkg.dependencies || {}),
-      ...Object.keys(pkg.peerDependencies || {})
-    ],
-    plugins: [babel()]
-  },
-
-  // ES for Browsers
-  {
-    input: 'src/index.js',
-    output: { file: 'es/react-occult.esm.js', format: 'es', indent: false },
-    plugins: [
-      nodeResolve({
-        jsnext: true
-      }),
-      replace({
-        'process.env.NODE_ENV': JSON.stringify('production')
-      }),
-      terser({
-        compress: {
-          pure_getters: true,
-          unsafe: true,
-          unsafe_comps: true,
-          warnings: false
-        }
-      })
-    ]
-  },
-
-  // UMD Development
-  {
-    input: 'src/index.js',
-    output: {
-      file: 'dist/react-occult.js',
+const config = {
+  input: 'src/index.js',
+  output: [
+    {
+      file: pkg.browser,
       format: 'umd',
       name: 'Occult',
-      indent: false
     },
-    plugins: [
-      nodeResolve({
-        jsnext: true
-      }),
-      babel({
-        exclude: 'node_modules/**'
-      }),
-      replace({
-        'process.env.NODE_ENV': JSON.stringify('development')
-      })
-    ]
-  },
-
-  // UMD Production
-  {
-    input: 'src/index.js',
-    output: {
-      file: 'dist/react-occult.min.js',
-      format: 'umd',
+    {
+      file: pkg.main,
+      format: 'cjs',
       name: 'Occult',
-      indent: false
     },
-    plugins: [
-      nodeResolve({
-        jsnext: true
-      }),
-      babel({
-        exclude: 'node_modules/**'
-      }),
-      replace({
-        'process.env.NODE_ENV': JSON.stringify('production')
-      }),
-      terser({
-        compress: {
-          pure_getters: true,
-          unsafe: true,
-          unsafe_comps: true,
-          warnings: false
-        }
-      })
-    ]
-  }
-]
+    {
+      file: pkg.module,
+      format: 'es',
+    },
+  ],
+  external: [
+    'react',
+    'react-dom',
+  ],
+  plugins: [
+    peerDepsExternal(),
+    postcss({ extract: true, plugins: [autoprefixer] }),
+    localResolve(),
+    resolve(),
+    babel({ exclude: 'node_modules/**' }),
+    commonjs(),
+    filesize(),
+  ],
+};
+
+export default config;

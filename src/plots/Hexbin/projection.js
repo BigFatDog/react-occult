@@ -1,6 +1,6 @@
-import { group } from 'd3-array';
 import { hexbin } from 'd3-hexbin';
 import { scaleLinear } from 'd3-scale';
+import groupData from '../data';
 
 const hexbinProjection = ({
   bins,
@@ -8,37 +8,23 @@ const hexbinProjection = ({
   binValue,
   binMax,
   customMark,
-  data,
   finalXExtent,
   finalYExtent,
+  size,
+  data,
   xAccessor,
   yAccessor,
   sAccessor,
-  showPoints,
-  size
+  showPoints
 }) => {
   let projectedAreas = [];
-  let projectedPoints = [];
-
-  // data
-  const groupedMap = group(data, sAccessor);
-  const groupedData = Array.from(groupedMap.keys()).map(d => ({
-    s: d,
-    _xyCoordinates: groupedMap.get(d).map(e => ({
-      x: xAccessor(e),
-      y: yAccessor(e)
-    })),
-    _baseData: groupedMap.get(d)
-  }));
-
-  if (showPoints === true) {
-    projectedPoints = data.map(d => ({
-      parentSummary: groupedData.find(e => e.s === sAccessor(d)),
-      _data: d,
-      x: xAccessor(d),
-      y: yAccessor(d)
-    }));
-  }
+  const { groupedData, projectedPoints } = groupData({
+    data,
+    xAccessor,
+    yAccessor,
+    sAccessor,
+    showPoints
+  });
 
   const hexBinXScale = scaleLinear()
     .domain(finalXExtent)

@@ -1,14 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import {
-  object,
-  string,
-  array,
-  oneOfType,
-  bool,
-  node,
-  number,
-  func
-} from 'prop-types';
+import PropTypes from 'prop-types';
 import { scaleLinear } from 'd3-scale';
 
 import FilterDefs from '../widgets/FilterDefs';
@@ -27,7 +18,7 @@ import {
 import toAxes from '../axis/toAxes';
 import renderAnnotations from '../plots/Annotation/renderAnnotations';
 
-const isPLot = type => ['Hexbin', 'Contour', 'Heatmap', 'Line'].includes(type);
+const isPlot = type => ['Hexbin', 'Contour', 'Heatmap', 'Line'].includes(type);
 
 const getCanvasScale = context => {
   const devicePixelRatio = window.devicePixelRatio || 1;
@@ -82,7 +73,6 @@ const XYFrame = props => {
     name,
     className,
     frameKey,
-    renderKey,
     title,
     useSpans,
     additionalDefs,
@@ -139,7 +129,7 @@ const XYFrame = props => {
 
   // frame scope scales
   const frameScopeExtent = React.Children.toArray(children)
-    .filter(d => isPLot(d.type.name))
+    .filter(d => isPlot(d.type.name))
     .map(d => {
       return getExtent({
         data: d.props.data,
@@ -191,10 +181,14 @@ const XYFrame = props => {
 
   // canvasPipeline
   const canvasPipeline = React.Children.toArray(children)
-    .filter(d => d.props.useCanvas === true)
+    .filter(
+      d =>
+        d.props.pointUseCanvas === true ||
+        d.props.areaUseCanvas === true ||
+        d.props.lineUseCanvas === true
+    )
     .map(d => {
       return toPipeline({
-        projection: d.type.projection,
         ...d.props,
         frameXScale,
         frameYScale,
@@ -203,7 +197,7 @@ const XYFrame = props => {
       });
     })
     .reduce((acc, cur) => {
-      return acc.concat(cur.areaPipe);
+      return acc.concat(cur.canvasPipe);
     }, []);
 
   const annotations = React.Children.toArray(children)
@@ -334,7 +328,7 @@ const XYFrame = props => {
               voronoiHover={setVoronoiHover}
             >
               {React.Children.toArray(children)
-                .filter(d => isPLot(d.type.name) && d.props.useCanvas === false)
+                .filter(d => isPlot(d.type.name) && d.props.useCanvas === false)
                 .map(d =>
                   React.cloneElement(d, {
                     frameXScale,
@@ -396,23 +390,23 @@ const XYFrame = props => {
 };
 
 XYFrame.propTypes = {
-  width: number,
-  height: number,
-  name: string,
-  className: string,
-  frameKey: string,
-  renderKey: string,
-  title: oneOfType([string, object]),
-  useSpans: bool,
-  additionalDefs: array,
-  margin: oneOfType([number, object]),
-  matte: oneOfType([bool, node]),
-  beforeElements: object,
-  afterElements: object,
-  backgroundGraphics: oneOfType([node, object]),
-  foregroundGraphics: oneOfType([node, object]),
-  canvasPostProcess: string,
-  renderOrder: array
+  width: PropTypes.number,
+  height: PropTypes.number,
+  name: PropTypes.string,
+  className: PropTypes.string,
+  frameKey: PropTypes.string,
+  renderKey: PropTypes.string,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  useSpans: PropTypes.bool,
+  additionalDefs: PropTypes.array,
+  margin: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
+  matte: PropTypes.oneOfType([PropTypes.bool, PropTypes.node]),
+  beforeElements: PropTypes.object,
+  afterElements: PropTypes.object,
+  backgroundGraphics: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
+  foregroundGraphics: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
+  canvasPostProcess: PropTypes.string,
+  renderOrder: PropTypes.array
 };
 
 XYFrame.defaultProps = {

@@ -19,18 +19,18 @@ import {
 
 const TypeHash = {
   'desaturation-layer': DesaturationLayer,
-  'xy': SvgXYAnnotation,
+  xy: SvgXYAnnotation,
   'frame-hover': SvgXYAnnotation,
   'react-annotation': BasicReactAnnotation,
-  'function': BasicReactAnnotation,
-  'enclose': SvgEncloseAnnotation,
+  function: BasicReactAnnotation,
+  enclose: SvgEncloseAnnotation,
   'enclose-rect': SvgRectEncloseAnnotation,
   'enclose-hull': SvgHullEnclosure,
-  'x': SvgXAnnotation,
-  'y': SvgYAnnotation,
-  'bounds': SvgBoundsAnnotation,
-  'line': SvgLineAnnotation,
-  'area': SvgAreaAnnotation,
+  x: SvgXAnnotation,
+  y: SvgYAnnotation,
+  bounds: SvgBoundsAnnotation,
+  line: SvgLineAnnotation,
+  area: SvgAreaAnnotation,
   'horizontal-points': SvgHorizontalPointsAnnotation,
   'vertical-points': SvgVerticalPointsAnnotation
 };

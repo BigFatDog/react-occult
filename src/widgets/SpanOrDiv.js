@@ -1,5 +1,5 @@
 import React from 'react';
-import { object, bool, string } from 'prop-types';
+import PropTypes from 'prop-types';
 
 const SpanOrDiv = props => {
   const { style, className, children, span } = props;
@@ -16,9 +16,9 @@ const SpanOrDiv = props => {
 };
 
 SpanOrDiv.propTypes = {
-  style: object,
-  className: string,
-  span: bool
+  style: PropTypes.object,
+  className: PropTypes.string,
+  span: PropTypes.bool
 };
 
 export default SpanOrDiv;
