@@ -14,7 +14,6 @@ const SvgHighlight = ({
   xyFrameRender,
   defined
 }) => {
-  console.log('-----');
   let dID;
   const baseID = idAccessor({ ...d, ...d.data }, i);
   if (baseID !== undefined) {
