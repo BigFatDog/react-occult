@@ -1,90 +1,82 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import SpanOrDiv from '../../widgets/SpanOrDiv';
 import renderCanvas from './helper/renderCanvas';
-import { changeVoronoi } from './helper/voronoi';
 import calculateOverlay from './helper/calculateOverlay';
+import { changeVoronoi } from './helper/voronoi';
 import { createBrush } from './helper/brushEvents';
 
 const InteractionLayer = props => {
-  let interactionContext = null;
-  let canvasMap = new Map();
+  let interactionCanvas = null;
+  // let interactionContext = null;
+  // let canvasMap = new Map();
 
-  const [overlayRegions, setOverlayRegions] = useState(calculateOverlay(props));
+  const overlayRegions = calculateOverlay(props);
+  // const generateInteractionCanvas = props => {
+  //   return (
+  //     <canvas
+  //       className="frame-canvas-interaction"
+  //       ref={canvasContext => {
+  //         const newMap = {};
+  //         for (const i in canvasMap) {
+  //           newMap[i] = myMap[i];
+  //         }
+  //
+  //         const boundCanvasEvent = canvasEvent.bind(
+  //           null,
+  //           canvasContext,
+  //           overlayRegions,
+  //           newMap
+  //         );
+  //         if (canvasContext) {
+  //           canvasContext.onmousemove = e => {
+  //             const overlay = boundCanvasEvent(e);
+  //             if (overlay && overlay.props) {
+  //               overlay.props.onMouseEnter();
+  //             } else {
+  //               changeVoronoi({});
+  //             }
+  //           };
+  //           canvasContext.onclick = e => {
+  //             const overlay = boundCanvasEvent(e);
+  //             if (overlay && overlay.props) {
+  //               overlay.props.onClick();
+  //             }
+  //           };
+  //           canvasContext.ondblclick = e => {
+  //             const overlay = boundCanvasEvent(e);
+  //             if (overlay && overlay.props) {
+  //               overlay.props.onDoubleClick();
+  //             }
+  //           };
+  //         }
+  //         interactionContext = canvasContext;
+  //       }}
+  //       style={{
+  //         position: 'absolute',
+  //         left: `0px`,
+  //         top: `0px`,
+  //         imageRendering: 'pixelated',
+  //         pointerEvents: 'all',
+  //         opacity: 0
+  //       }}
+  //       width={props.svgSize[0]}
+  //       height={props.svgSize[1]}
+  //     />
+  //   );
+  // };
 
-  const generateInteractionCanvas = props => {
-    return (
-      <canvas
-        className="frame-canvas-interaction"
-        ref={canvasContext => {
-          const newMap = {};
-          for (const i in canvasMap) {
-            newMap[i] = myMap[i];
-          }
 
-          const boundCanvasEvent = canvasEvent.bind(
-            null,
-            canvasContext,
-            overlayRegions,
-            newMap
-          );
-          if (canvasContext) {
-            canvasContext.onmousemove = e => {
-              const overlay = boundCanvasEvent(e);
-              if (overlay && overlay.props) {
-                overlay.props.onMouseEnter();
-              } else {
-                changeVoronoi({});
-              }
-            };
-            canvasContext.onclick = e => {
-              const overlay = boundCanvasEvent(e);
-              if (overlay && overlay.props) {
-                overlay.props.onClick();
-              }
-            };
-            canvasContext.ondblclick = e => {
-              const overlay = boundCanvasEvent(e);
-              if (overlay && overlay.props) {
-                overlay.props.onDoubleClick();
-              }
-            };
-          }
-          interactionContext = canvasContext;
-        }}
-        style={{
-          position: 'absolute',
-          left: `0px`,
-          top: `0px`,
-          imageRendering: 'pixelated',
-          pointerEvents: 'all',
-          opacity: 0
-        }}
-        width={props.svgSize[0]}
-        height={props.svgSize[1]}
-      />
-    );
-  };
-
-  const [interactionCanvas, setInteractionCanvas] = useState(
-    generateInteractionCanvas(props)
-  );
-
-  useEffect(() => {
-    setOverlayRegions(calculateOverlay(props));
-    setInteractionCanvas(generateInteractionCanvas(props));
-  }, [overlay, points, xScale, yScale, hoverAnnotation]);
-
-  useEffect(() => {
-    renderCanvas({
-      props,
-      canvasMap,
-      interactionCanvas,
-      overlayRegions,
-      interactionContext
-    });
-  });
+  // useEffect(() => {
+  //   renderCanvas({
+  //     props,
+  //     canvasMap,
+  //     interactionCanvas,
+  //     overlayRegions,
+  //     interactionContext
+  //   });
+  // });
 
   let semioticBrush = null;
   const {
@@ -92,7 +84,6 @@ const InteractionLayer = props => {
     svgSize,
     margin,
     useSpans,
-    canvasRendering,
     disableCanvasInteraction,
     enabled: userEnabled
   } = props;
@@ -115,7 +106,6 @@ const InteractionLayer = props => {
 
   const _interactionCanvas =
     !disableCanvasInteraction &&
-    canvasRendering &&
     overlayRegions &&
     interactionCanvas;
 
@@ -166,20 +156,15 @@ InteractionLayer.propTypes = {
   ]),
   interactionOverflow: PropTypes.object,
   size: PropTypes.arrayOf(PropTypes.number),
-  points: PropTypes.arrayOf(PropTypes.object),
   position: PropTypes.arrayOf(PropTypes.number),
   enabled: PropTypes.bool,
   useSpans: PropTypes.bool,
   margin: PropTypes.object,
-  projection: PropTypes.string,
   customDoubleClickBehavior: PropTypes.func,
   customClickBehavior: PropTypes.func,
   customHoverBehavior: PropTypes.func,
   voronoiHover: PropTypes.func,
-  canvasRendering: PropTypes.bool,
-  disableCanvasInteraction: PropTypes.bool,
-  showLinePoints: PropTypes.string,
-  renderPipeline: PropTypes.object
+  disableCanvasInteraction: PropTypes.bool
 };
 
 InteractionLayer.defaultProps = {

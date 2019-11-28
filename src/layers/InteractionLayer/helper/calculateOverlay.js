@@ -10,8 +10,7 @@ const calculateOverlay = props => {
   const {
     xScale,
     yScale,
-    points,
-    showLinePoints,
+    data,
     size,
     overlay,
     interactionOverflow = { top: 0, bottom: 0, left: 0, right: 0 },
@@ -19,31 +18,19 @@ const calculateOverlay = props => {
     customDoubleClickBehavior,
     hoverAnnotation
   } = props;
-  const whichPoints = {
-    top: projectedYTop,
-    bottom: projectedYBottom
-  };
-
   const pointerStyle =
     customClickBehavior || customDoubleClickBehavior
       ? { cursor: 'pointer' }
       : {};
 
-  if (points && hoverAnnotation && !overlay) {
+  if (data && hoverAnnotation && !overlay) {
     const voronoiDataset = [];
     const voronoiUniqueHash = {};
 
-    points.forEach(d => {
-      const xValue = Math.floor(xScale(d[projectedX]));
-      const yValue = Math.floor(
-        yScale(
-          showLinePoints && d[whichPoints[showLinePoints]] !== undefined
-            ? d[whichPoints[showLinePoints]]
-            : d[projectedYMiddle] !== undefined
-            ? d[projectedYMiddle]
-            : d[projectedY]
-        )
-      );
+    data.forEach(d => {
+      const xValue = Math.floor(xScale(d.x));
+      const yValue = Math.floor(yScale(d.y));
+
       if (
         xValue >= 0 &&
         xValue <= size[0] &&
@@ -58,6 +45,7 @@ const calculateOverlay = props => {
         if (!voronoiUniqueHash[pointKey]) {
           const voronoiPoint = {
             ...d,
+            points: data,
             coincidentPoints: [d],
             voronoiX: xValue,
             voronoiY: yValue

@@ -6,6 +6,20 @@ import brand from 'dan-api/dummy/brand';
 import { PapperBlock } from 'dan-components';
 import { AnnotationCalloutCircle } from 'react-annotation';
 
+const gradient = (
+  <linearGradient x1="0" x2="0" y1="0" y2="1" id="paleWoodGradient">
+    <stop stopColor="#FF4E50" offset="0%" />
+    <stop stopColor="#F9D423" offset="100%" />
+  </linearGradient>
+);
+
+const trianglePattern = (
+  <pattern id="Triangle" width="10" height="10" patternUnits="userSpaceOnUse">
+    <rect fill="#b3331d" width="10" height="10" />
+    <circle fill="rgb(211, 135, 121)" r="5" cx="3" cy="3" />
+  </pattern>
+);
+
 const ContourPage = props => {
   const title = brand.name + ' - K-Means Centroid Deviation';
   const description = brand.desc;
@@ -20,24 +34,13 @@ const ContourPage = props => {
     margin: { left: 60, bottom: 90, right: 10, top: 40 },
     width: 700,
     height: 400,
-    annotations: [
-      { type: 'react-annotation', label: 'a note', y: 100 },
-      {
-        type: AnnotationCalloutCircle,
-        note: { label: 'callout', title: 'important' },
-
-        score: 10,
-        subject: { radius: 30 }
-      }
-    ],
     title: (
       <text textAnchor="middle">
         Theaters showing <tspan fill={'#ac58e5'}>Ex Machina</tspan> vs{' '}
         <tspan fill={'#E0488B'}>Far from the Madding Crowd</tspan>
       </text>
-    )
-    // style: { fill: 'url(#gradient' },
-    // additionalDefs: { GradientDefs }
+    ),
+    additionalDefs: [trianglePattern, gradient]
   };
 
   const contourProps = {
@@ -50,7 +53,7 @@ const ContourPage = props => {
     threshold: 10,
     bandWidth: 15,
     areaStyle: (e, i) => ({
-      fill: 'none',
+      fill: 'url(#Triangle)',
       stroke: colors[e.parentSummary.s],
       strokeWidth: 0.5
     }),

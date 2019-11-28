@@ -64,7 +64,8 @@ const AnnotationLayer = props => {
 };
 
 AnnotationLayer.propTypes = {
-  margin: PropTypes.object
+  margin: PropTypes.object,
+  voronoiHover: PropTypes.func
 };
 
 AnnotationLayer.defaultProps = {

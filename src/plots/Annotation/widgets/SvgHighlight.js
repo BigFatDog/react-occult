@@ -1,6 +1,6 @@
+import * as React from 'react';
 import { area } from 'd3-shape';
 import { curveHash } from '../../BasePlot/toRenderedLines';
-import * as React from 'react';
 
 const SvgHighlight = ({
   d,
@@ -14,6 +14,7 @@ const SvgHighlight = ({
   xyFrameRender,
   defined
 }) => {
+    console.log('-----')
   let dID;
   const baseID = idAccessor({ ...d, ...d.data }, i);
   if (baseID !== undefined) {

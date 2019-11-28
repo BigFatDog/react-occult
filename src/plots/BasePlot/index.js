@@ -45,7 +45,6 @@ const Plot = props => {
   });
 
   const {
-    useCanvas,
     frameXScale: xScale,
     frameYScale: yScale,
     // line
@@ -53,20 +52,23 @@ const Plot = props => {
     lineClass,
     lineRenderMode,
     lineCustomMarks,
+    lineUseCanvas,
     //area
     areaStyle,
     areaClass,
     areaRenderMode,
     areaCustomMarks,
+    areaUseCanvas,
     // points
     pointStyle,
     pointClass,
     pointRenderMode,
-    pointCustomMarks
+    pointCustomMarks,
+    pointUseCanvas
   } = props;
 
   const { svgPipeline: lineSvg, canvasPipeline: lineCanvas } = toRenderedLines({
-    useCanvas,
+    useCanvas: lineUseCanvas,
     xScale,
     yScale,
     styleFn: stringToFn(lineStyle, emptyObjectReturnFunction, true),
@@ -77,7 +79,7 @@ const Plot = props => {
   });
 
   const { svgPipeline: areaSvg, canvasPipeline: areaCanvas } = toRenderedAreas({
-    useCanvas,
+    useCanvas: areaUseCanvas,
     xScale,
     yScale,
     styleFn: stringToFn(areaStyle, emptyObjectReturnFunction, true),
@@ -91,7 +93,7 @@ const Plot = props => {
     svgPipeline: pointsSvg,
     canvasPipeline: pointsCanvas
   } = toRenderedPoints({
-    useCanvas,
+    useCanvas: pointUseCanvas,
     xScale,
     yScale,
     styleFn: stringToFn(pointStyle, emptyObjectReturnFunction, true),

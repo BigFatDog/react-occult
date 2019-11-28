@@ -12,6 +12,7 @@ import SvgYAnnotation from './widgets/SvgYAnnotation';
 import SvgLineAnnotation from './widgets/SvgLineAnnotation';
 import SvgBoundsAnnotation from './widgets/SvgBoundsAnnotation';
 import SvgAreaAnnotation from './widgets/SvgAreaAnnotation';
+import SvgHighlight from './widgets/SvgHighlight';
 import {
   SvgHorizontalPointsAnnotation,
   SvgVerticalPointsAnnotation
@@ -32,7 +33,8 @@ const TypeHash = {
   line: SvgLineAnnotation,
   area: SvgAreaAnnotation,
   'horizontal-points': SvgHorizontalPointsAnnotation,
-  'vertical-points': SvgVerticalPointsAnnotation
+  'vertical-points': SvgVerticalPointsAnnotation,
+  highlight: SvgHighlight
 };
 
 const toAnnotations = (d, i, props) => {

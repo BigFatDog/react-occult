@@ -18,6 +18,20 @@ const i1 = interpolateHsvLong(hsv(60, 1, 0.9), hsv(0, 0, 0.95));
 const interpolateTerrain = t => (t < 0.5 ? i0(t * 2) : i1((t - 0.5) * 2));
 const color = scaleSequential(interpolateCool).domain([35, 90]);
 
+const gradient = (
+  <linearGradient x1="0" x2="0" y1="0" y2="1" id="paleWoodGradient">
+    <stop stopColor="#FF4E50" offset="0%" />
+    <stop stopColor="#F9D423" offset="100%" />
+  </linearGradient>
+);
+
+const trianglePattern = (
+  <pattern id="Triangle" width="10" height="10" patternUnits="userSpaceOnUse">
+    <rect fill="#b3331d" width="10" height="10" />
+    <circle fill="rgb(211, 135, 121)" r="5" cx="3" cy="3" />
+  </pattern>
+);
+
 const OldFaithfulPage = props => {
   const title = brand.name + ' - Sample Area Chart';
   const description = brand.desc;
@@ -31,7 +45,23 @@ const OldFaithfulPage = props => {
         Old Faithful at{' '}
         <tspan fill={'#FF851B'}>Yellowstone National Park</tspan>
       </text>
-    )
+    ),
+    additionalDefs: [gradient, trianglePattern],
+      hoverAnnotation: [
+          {
+              type: 'highlight',
+              style: d => {
+                  return { stroke: theme[d.key], strokeWidth: 5, fill: 'none' };
+              }
+          },
+          {
+              type: 'desaturation-layer',
+              style: {
+                  fill: 'white',
+                  opacity: 0.6
+              }
+          }
+      ]
   };
 
   const contourProps = {
@@ -45,7 +75,8 @@ const OldFaithfulPage = props => {
     bandWidth: 30,
     areaStyle: (e, i) => ({
       opacity: 0.7,
-      fill: color(e._data.waiting),
+      fill: 'url(#paleWoodGradient)',
+      // fill: color(e._data.waiting),
       stroke: 'steelblue',
       strokeWidth: i % 5 ? 0.5 : 3
     }),
@@ -59,7 +90,7 @@ const OldFaithfulPage = props => {
       fillWeight: 3,
       hachureGap: 4
     },
-    useCanvas: true
+    areaUseCanvas: false,
   };
 
   return (
@@ -128,5 +159,4 @@ const OldFaithfulPage = props => {
     </div>
   );
 };
-
 export default OldFaithfulPage;
