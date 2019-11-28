@@ -47,21 +47,21 @@ const OldFaithfulPage = props => {
       </text>
     ),
     additionalDefs: [gradient, trianglePattern],
-      hoverAnnotation: [
-          {
-              type: 'highlight',
-              style: d => {
-                  return { stroke: theme[d.key], strokeWidth: 5, fill: 'none' };
-              }
-          },
-          {
-              type: 'desaturation-layer',
-              style: {
-                  fill: 'white',
-                  opacity: 0.6
-              }
-          }
-      ]
+    hoverAnnotation: [
+      {
+        type: 'highlight',
+        style: d => {
+          return { stroke: theme[d.key], strokeWidth: 5, fill: 'none' };
+        }
+      },
+      {
+        type: 'desaturation-layer',
+        style: {
+          fill: 'white',
+          opacity: 0.6
+        }
+      }
+    ]
   };
 
   const contourProps = {
@@ -90,7 +90,7 @@ const OldFaithfulPage = props => {
       fillWeight: 3,
       hachureGap: 4
     },
-    areaUseCanvas: false,
+    areaUseCanvas: false
   };
 
   return (

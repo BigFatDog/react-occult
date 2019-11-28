@@ -67,7 +67,6 @@ const InteractionLayer = props => {
   //   );
   // };
 
-
   // useEffect(() => {
   //   renderCanvas({
   //     props,
@@ -105,9 +104,7 @@ const InteractionLayer = props => {
   }
 
   const _interactionCanvas =
-    !disableCanvasInteraction &&
-    overlayRegions &&
-    interactionCanvas;
+    !disableCanvasInteraction && overlayRegions && interactionCanvas;
 
   return (
     <SpanOrDiv
