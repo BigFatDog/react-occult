@@ -103,8 +103,8 @@ const Plot = props => {
     data: projectedPoints
   });
 
-  const svgPipeline = [...lineSvg, areaSvg, ...pointsSvg];
-  const canvasPipeline = [...lineCanvas, areaCanvas, ...pointsCanvas];
+  const svgPipeline = [...lineSvg, ...areaSvg, ...pointsSvg];
+  const canvasPipeline = [...lineCanvas, ...areaCanvas, ...pointsCanvas];
   return svgPipeline;
 };
 
@@ -138,7 +138,7 @@ Plot.defaultProps = {
   showPoints: true,
   pointUseCanvas: true,
   lineUseCanvas: true,
-  areaUseCanvas: true
+  areaUseCanvas: true,
 };
 
 export default Plot;

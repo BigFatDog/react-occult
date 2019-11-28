@@ -11,7 +11,7 @@ const heatmapProjection = ({
   customMark,
   finalXExtent,
   finalYExtent,
-  size,
+  adjustedSize,
   data,
   xAccessor,
   yAccessor,
@@ -26,6 +26,8 @@ const heatmapProjection = ({
     sAccessor,
     showPoints
   });
+
+  const size = adjustedSize;
 
   const xBinPercent = xBins < 1 ? xBins : 1 / xBins;
   const yBinPercent = yBins < 1 ? yBins : 1 / yBins;

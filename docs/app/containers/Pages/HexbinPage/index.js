@@ -40,8 +40,6 @@ const HexbinPage = props => {
         <tspan fill={'#E0488B'}>Far from the Madding Crowd</tspan>
       </text>
     )
-    // style: { fill: 'url(#gradient' },
-    // additionalDefs: { GradientDefs }
   };
 
   const hexbinProps = {
@@ -60,12 +58,8 @@ const HexbinPage = props => {
       r: 2,
       fill: colors[d.parentSummary.s]
     }),
-    // areaRenderMode: {
-    //   renderMode: 'sketchy',
-    //   fillWeight: 3,
-    //   hachureGap: 4
-    // },
-    useCanvas: false
+    areaUseCanvas: false,
+    pointUseCanvas: false
   };
 
   return (

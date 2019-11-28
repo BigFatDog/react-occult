@@ -202,12 +202,9 @@ const XYFrame = props => {
   });
 
   // canvasPipeline
-  const canvasPipeline = React.Children.toArray(children)
+  const { canvasPipeline, svgPipeline } = React.Children.toArray(children)
     .filter(
-      d =>
-        d.props.pointUseCanvas === true ||
-        d.props.areaUseCanvas === true ||
-        d.props.lineUseCanvas === true
+      d => isPlot(d.type.name)
     )
     .map(d => {
       return toPipeline({
@@ -215,12 +212,20 @@ const XYFrame = props => {
         frameXScale,
         frameYScale,
         frontCanvas,
-        adjustedSize
+        margin,
+        adjustedSize,
+        size
       });
     })
     .reduce((acc, cur) => {
-      return acc.concat(cur.canvasPipe);
-    }, []);
+      console.log(cur.canvasPipe);
+      acc.canvasPipeline = acc.canvasPipeline.concat(cur.canvasPipe);
+      acc.svgPipeline = acc.svgPipeline.concat(cur.svgPipe);
+      return acc;
+    }, {canvasPipeline: [], svgPipeline: [] });
+
+  console.log(canvasPipeline)
+
 
   const annotations = React.Children.toArray(children)
     .filter(d => d.type.name === 'Annotation')
@@ -366,7 +371,8 @@ const XYFrame = props => {
                     frameYScale,
                     frontCanvas,
                     adjustedSize,
-                    size
+                    size,
+                    margin
                   })
                 )}
               {axes && (

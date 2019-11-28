@@ -19,6 +19,7 @@ Heatmap.propTypes = {
 };
 
 Heatmap.defaultProps = {
+  ...Plot.defaultProps,
   binValue: d => d.length,
   xBins: 0.05,
   yBins: 0.05,
