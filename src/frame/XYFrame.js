@@ -224,9 +224,6 @@ const XYFrame = props => {
       return acc;
     }, {canvasPipeline: [], svgPipeline: [] });
 
-  console.log(canvasPipeline)
-
-
   const annotations = React.Children.toArray(children)
     .filter(d => d.type.name === 'Annotation')
     .map(d => d.props);
