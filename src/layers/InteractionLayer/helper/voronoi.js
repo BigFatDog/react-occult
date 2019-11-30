@@ -37,7 +37,6 @@ const clickVoronoi = (d, props) => {
 };
 
 const doubleclickVoronoi = (d, props) => {
-  //Until semiotic 2
   const dataObject = constructDataObject(d, props);
 
   if (props.customDoubleClickBehavior)

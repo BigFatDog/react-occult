@@ -218,7 +218,6 @@ const XYFrame = props => {
       });
     })
     .reduce((acc, cur) => {
-      console.log(cur.canvasPipe);
       acc.canvasPipeline = acc.canvasPipeline.concat(cur.canvasPipe);
       acc.svgPipeline = acc.svgPipeline.concat(cur.svgPipe);
       return acc;
