@@ -93,7 +93,8 @@ const XYFrame = props => {
     overlay,
     columns,
     interactionOverflow,
-    disableCanvasInteraction
+    disableCanvasInteraction,
+    tooltipContent
   } = props;
 
   const size = [width, height];
@@ -203,9 +204,7 @@ const XYFrame = props => {
 
   // canvasPipeline
   const { canvasPipeline, svgPipeline } = React.Children.toArray(children)
-    .filter(
-      d => isPlot(d.type.name)
-    )
+    .filter(d => isPlot(d.type.name))
     .map(d => {
       return toPipeline({
         ...d.props,
@@ -217,11 +216,14 @@ const XYFrame = props => {
         size
       });
     })
-    .reduce((acc, cur) => {
-      acc.canvasPipeline = acc.canvasPipeline.concat(cur.canvasPipe);
-      acc.svgPipeline = acc.svgPipeline.concat(cur.svgPipe);
-      return acc;
-    }, {canvasPipeline: [], svgPipeline: [] });
+    .reduce(
+      (acc, cur) => {
+        acc.canvasPipeline = acc.canvasPipeline.concat(cur.canvasPipe);
+        acc.svgPipeline = acc.svgPipeline.concat(cur.svgPipe);
+        return acc;
+      },
+      { canvasPipeline: [], svgPipeline: [] }
+    );
 
   const annotations = React.Children.toArray(children)
     .filter(d => d.type.name === 'Annotation')
@@ -444,7 +446,8 @@ XYFrame.propTypes = {
   overlay: PropTypes.object,
   columns: PropTypes.object,
   interactionOverflow: PropTypes.func,
-  disableCanvasInteraction: PropTypes.func
+  disableCanvasInteraction: PropTypes.func,
+  tooltipContent: PropTypes.func
 };
 
 XYFrame.defaultProps = {

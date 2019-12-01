@@ -180,9 +180,6 @@ const mapDispatchToProps = dispatch => ({
   closeAll: () => dispatch(closeAllAction)
 });
 
-const MainMenuMapped = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MainMenu);
+const MainMenuMapped = connect(mapStateToProps, mapDispatchToProps)(MainMenu);
 
 export default withTheme()(withStyles(styles)(MainMenuMapped));

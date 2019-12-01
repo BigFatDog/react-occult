@@ -79,7 +79,4 @@ PapperBlock.defaultProps = {
   icon: 'ios-bookmark-outline'
 };
 
-export default compose(
-  withTheme(),
-  withStyles(styles)
-)(PapperBlock);
+export default compose(withTheme(), withStyles(styles))(PapperBlock);

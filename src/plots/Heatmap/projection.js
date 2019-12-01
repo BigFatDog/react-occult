@@ -72,7 +72,12 @@ const heatmapProjection = ({
           y: (y + y1) / 2,
           binItems: [],
           value: 0,
-          _xyCoordinates: [[x, y], [x1, y], [x1, y1], [x, y1]],
+          _xyCoordinates: [
+            [x, y],
+            [x1, y],
+            [x1, y1],
+            [x, y1]
+          ],
           parentSummary: heatmapData
         };
         gridColumn.push(cell);

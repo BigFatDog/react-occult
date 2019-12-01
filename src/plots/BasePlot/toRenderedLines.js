@@ -141,9 +141,10 @@ const toRenderedLines = ({
         builtInDisplayProps.stroke = 'black';
       }
 
-      let pathString = dynamicLineGenerator(d, i)(
-        d._xyCoordinates.map(p => Object.assign({}, p._data, p))
-      );
+      let pathString = dynamicLineGenerator(
+        d,
+        i
+      )(d._xyCoordinates.map(p => Object.assign({}, p._data, p)));
 
       if (
         pathString &&

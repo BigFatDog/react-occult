@@ -59,12 +59,12 @@ const Brush = props => {
       (prevExtent &&
         extent &&
         flatShortArray(prevExtent) !== flatShortArray(extent)) ||
-      ((prevSelectedExtent &&
+      (prevSelectedExtent &&
         electedExtent &&
         flatShortArray(prevSelectedExtent) !==
           flatShortArray(selectedExtent)) ||
-        (!prevSelectedExtent && selectedExtent) ||
-        (prevSelectedExtent && !selectedExtent))
+      (!prevSelectedExtent && selectedExtent) ||
+      (prevSelectedExtent && !selectedExtent)
     ) {
       createBrush(svgBrush, node, selectedExtent);
     }

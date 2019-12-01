@@ -138,7 +138,7 @@ Plot.defaultProps = {
   showPoints: true,
   pointUseCanvas: true,
   lineUseCanvas: true,
-  areaUseCanvas: true,
+  areaUseCanvas: true
 };
 
 export default Plot;

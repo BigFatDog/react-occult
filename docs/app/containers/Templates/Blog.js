@@ -120,9 +120,6 @@ const mapDispatchToProps = dispatch => ({
   loadTransition: bindActionCreators(playTransitionAction, dispatch)
 });
 
-const BlogMapped = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Blog);
+const BlogMapped = connect(mapStateToProps, mapDispatchToProps)(Blog);
 
 export default withStyles(styles)(BlogMapped);

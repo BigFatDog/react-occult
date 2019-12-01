@@ -27,11 +27,7 @@ const ThemeThumb = props => {
           <div
             className={classes.decoration}
             style={{
-              backgroundImage: `linear-gradient(-45deg, ${
-                themePalette[value].palette.primary.main
-              } 0%, ${themePalette[value].palette.primary.main} 33%, ${
-                themePalette[value].palette.secondary.main
-              } 100%)`
+              backgroundImage: `linear-gradient(-45deg, ${themePalette[value].palette.primary.main} 0%, ${themePalette[value].palette.primary.main} 33%, ${themePalette[value].palette.secondary.main} 100%)`
             }}
           />
           <ul>

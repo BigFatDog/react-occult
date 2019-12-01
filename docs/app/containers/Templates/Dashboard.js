@@ -220,9 +220,6 @@ const mapDispatchToProps = dispatch => ({
   loadTransition: bindActionCreators(playTransitionAction, dispatch)
 });
 
-const DashboardMaped = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Dashboard);
+const DashboardMaped = connect(mapStateToProps, mapDispatchToProps)(Dashboard);
 
 export default withStyles(styles)(DashboardMaped);

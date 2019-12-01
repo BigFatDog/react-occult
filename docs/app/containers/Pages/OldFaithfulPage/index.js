@@ -33,18 +33,17 @@ const trianglePattern = (
 );
 
 const theme = [
-    '#ac58e5',
-    '#E0488B',
-    '#9fd0cb',
-    '#e0d33a',
-    '#7566ff',
-    '#533f82',
-    '#7a255d',
-    '#365350',
-    '#a19a11',
-    '#3f4482'
+  '#ac58e5',
+  '#E0488B',
+  '#9fd0cb',
+  '#e0d33a',
+  '#7566ff',
+  '#533f82',
+  '#7a255d',
+  '#365350',
+  '#a19a11',
+  '#3f4482'
 ];
-
 
 const OldFaithfulPage = props => {
   const title = brand.name + ' - Sample Area Chart';
@@ -61,13 +60,19 @@ const OldFaithfulPage = props => {
       </text>
     ),
     additionalDefs: [gradient, trianglePattern],
+    tooltipContent:(d) => (
+        <div className="tooltip-content">
+            <p>Name: {d.name}</p>
+            <p>Salary: {d.salary}</p>
+        </div>
+    ),
     hoverAnnotation: [
       {
         type: 'highlight',
         style: d => {
           return { stroke: theme[d.key], strokeWidth: 5, fill: 'none' };
         }
-      },
+      }
       // {
       //   type: 'desaturation-layer',
       //   style: {
