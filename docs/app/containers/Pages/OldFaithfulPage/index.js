@@ -59,28 +59,28 @@ const OldFaithfulPage = props => {
         <tspan fill={'#FF851B'}>Yellowstone National Park</tspan>
       </text>
     ),
-    additionalDefs: [gradient, trianglePattern],
-    tooltipContent:(d) => (
-        <div className="tooltip-content">
-            <p>Name: {d.name}</p>
-            <p>Salary: {d.salary}</p>
-        </div>
-    ),
-    hoverAnnotation: [
-      {
-        type: 'highlight',
-        style: d => {
-          return { stroke: theme[d.key], strokeWidth: 5, fill: 'none' };
-        }
-      }
-      // {
-      //   type: 'desaturation-layer',
-      //   style: {
-      //     fill: 'white',
-      //     opacity: 0.6
-      //   }
-      // }
-    ]
+    // additionalDefs: [gradient, trianglePattern],
+    // tooltipContent:(d) => (
+    //     <div className="tooltip-content">
+    //         <p>Name: {d.name}</p>
+    //         <p>Salary: {d.salary}</p>
+    //     </div>
+    // ),
+    // hoverAnnotation: [
+    //   {
+    //     type: 'highlight',
+    //     style: d => {
+    //       return { stroke: theme[d.key], strokeWidth: 5, fill: 'none' };
+    //     }
+    //   }
+    //   // {
+    //   //   type: 'desaturation-layer',
+    //   //   style: {
+    //   //     fill: 'white',
+    //   //     opacity: 0.6
+    //   //   }
+    //   // }
+    // ]
   };
 
   const contourProps = {
