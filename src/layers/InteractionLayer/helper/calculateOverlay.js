@@ -96,7 +96,7 @@ const calculateOverlay = props => {
           style={{
             fillOpacity: 0,
             strokeOpacity: 0.5,
-            stroke: 'blue',
+            stroke: 'none',
             ...pointerStyle
           }}
         />
