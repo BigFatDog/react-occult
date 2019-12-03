@@ -27,7 +27,7 @@ const AnnotationLayer = props => {
         tooltipContentArgs={d}
       />
     );
-    const htmlTooltip = (
+    return (
       <HTMLTooltipAnnotation
         content={tooltip}
         screenCoordinates={tooltipData}
@@ -36,7 +36,6 @@ const AnnotationLayer = props => {
         useSpans={useSpans}
       />
     );
-    return htmlTooltip;
   });
 
   return (
