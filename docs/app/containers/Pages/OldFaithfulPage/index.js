@@ -32,6 +32,23 @@ const trianglePattern = (
   </pattern>
 );
 
+const tooltipStyles = {
+    header: {
+        fontWeight: "bold",
+        borderBottom: "thin solid black",
+        marginBottom: "10px",
+        textAlign: "center"
+    },
+    lineItem: { position: "relative", display: "block", textAlign: "left" },
+    title: { display: "inline-block", margin: "0 5px 0 15px" },
+    value: { display: "inline-block", fontWeight: "bold", margin: "0" },
+    wrapper: {
+        background: "rgba(255,255,255,0.8)",
+        minWidth: "max-content",
+        whiteSpace: "nowrap"
+    }
+}
+
 const theme = [
   '#ac58e5',
   '#E0488B',
@@ -59,28 +76,30 @@ const OldFaithfulPage = props => {
         <tspan fill={'#FF851B'}>Yellowstone National Park</tspan>
       </text>
     ),
-    // additionalDefs: [gradient, trianglePattern],
-    // tooltipContent:(d) => (
-    //     <div className="tooltip-content">
-    //         <p>Name: {d.name}</p>
-    //         <p>Salary: {d.salary}</p>
-    //     </div>
-    // ),
-    // hoverAnnotation: [
-    //   {
-    //     type: 'highlight',
-    //     style: d => {
-    //       return { stroke: theme[d.key], strokeWidth: 5, fill: 'none' };
-    //     }
-    //   }
-    //   // {
-    //   //   type: 'desaturation-layer',
-    //   //   style: {
-    //   //     fill: 'white',
-    //   //     opacity: 0.6
-    //   //   }
-    //   // }
-    // ]
+    additionalDefs: [gradient, trianglePattern],
+    tooltipContent:(d) => {
+        return (
+            <div className="tooltip-content">
+                <p>Eruptions: {d.eruptions}</p>
+                <p>Waiting: {d.waiting}</p>
+            </div>
+        );
+    },
+    hoverAnnotation: [
+      {
+        type: 'highlight',
+        style: d => {
+          return { stroke: theme[d.key], strokeWidth: 5, fill: 'none' };
+        }
+      }
+      // {
+      //   type: 'desaturation-layer',
+      //   style: {
+      //     fill: 'white',
+      //     opacity: 0.6
+      //   }
+      // }
+    ]
   };
 
   const contourProps = {
@@ -109,7 +128,8 @@ const OldFaithfulPage = props => {
       fillWeight: 3,
       hachureGap: 4
     },
-    areaUseCanvas: false
+    areaUseCanvas: false,
+    pointUseCanvas: false
   };
 
   return (

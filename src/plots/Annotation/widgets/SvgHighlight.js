@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { area } from 'd3-shape';
 import { curveHash } from '../../BasePlot/toRenderedLines';
 

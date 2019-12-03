@@ -141,6 +141,7 @@ const XYFrame = props => {
     .filter(d => isPlot(d.type.name))
     .map(d =>
       d.props.data.map(e => ({
+        ...e,
         x: d.props.xAccessor(e),
         y: d.props.yAccessor(e)
       }))
@@ -229,6 +230,20 @@ const XYFrame = props => {
     .filter(d => d.type.name === 'Annotation')
     .map(d => d.props);
 
+  console.log(voronoiHover);
+  const tooltipAllData = allData.filter(e => {
+    if (voronoiHover && voronoiHover.length === 1) {
+      const v = voronoiHover[0];
+      return v.x === e.x && v.y === e.y;
+    }
+
+    return false;
+  }).map(d => ({
+    ...d,
+    x: frameXScale(d.x),
+    y: frameYScale(d.y)
+  }));
+
   if (voronoiHover) {
     if (Array.isArray(voronoiHover)) {
       annotations.push(...voronoiHover);
@@ -240,6 +255,8 @@ const XYFrame = props => {
   const annotationLayer = annotations && annotations.length > 0 && (
     <AnnotationLayer
       voronoiHover={setVoronoiHover}
+      tooltipData={tooltipAllData}
+      tooltipContent={tooltipContent}
       margin={margin}
       useSpans={useSpans}
       size={adjustedSize}

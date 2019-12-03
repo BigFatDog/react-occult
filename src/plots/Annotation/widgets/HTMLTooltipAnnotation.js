@@ -1,3 +1,5 @@
+import React from 'react';
+import SpanOrDiv from '../../../widgets/SpanOrDiv';
 const HTMLTooltipAnnotation = ({
   content,
   screenCoordinates,
@@ -13,8 +15,8 @@ const HTMLTooltipAnnotation = ({
       className={`annotation annotation-xy-label ${d.className || ''} `}
       style={{
         position: 'absolute',
-        top: `${screenCoordinates[1]}px`,
-        left: `${screenCoordinates[0]}px`
+        top: `${d.y}px`,
+        left: `${d.x}px`
       }}
     >
       {content}

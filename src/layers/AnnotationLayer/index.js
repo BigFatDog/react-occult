@@ -2,12 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import SpanOrDiv from '../../widgets/SpanOrDiv';
+import TooltipPositioner from '../InteractionLayer/TooltipPositioner';
+import HTMLTooltipAnnotation from "../../plots/Annotation/widgets/HTMLTooltipAnnotation";
 
 const AnnotationLayer = props => {
   const {
     size: [width, height],
     useSpans,
     margin: userMargin,
+    tooltipContent,
+  tooltipData,
     children
   } = props;
 
@@ -15,6 +19,21 @@ const AnnotationLayer = props => {
     typeof userMargin === 'number'
       ? { top: userMargin, left: margin, right: userMargin, bottom: userMargin }
       : userMargin;
+
+
+    const allTooltips = tooltipData.map((d, i) => {
+        const tooltip = (<TooltipPositioner
+            tooltipContent={tooltipContent}
+            tooltipContentArgs={d}/>);
+        const htmlTooltip = <HTMLTooltipAnnotation
+            content={tooltip}
+            screenCoordinates={tooltipData}
+            i={i}
+            d={d}
+            useSpans={useSpans} />;
+        return htmlTooltip;
+    });
+
 
   return (
     <SpanOrDiv
@@ -57,7 +76,7 @@ const AnnotationLayer = props => {
           top: `${margin.top}px`
         }}
       >
-        {/*{getHTMLAnnotations(props)}*/}
+        {allTooltips}
       </SpanOrDiv>
     </SpanOrDiv>
   );
@@ -65,7 +84,8 @@ const AnnotationLayer = props => {
 
 AnnotationLayer.propTypes = {
   margin: PropTypes.object,
-  voronoiHover: PropTypes.func
+  voronoiHover: PropTypes.func,
+  tooltipContent: PropTypes.func
 };
 
 AnnotationLayer.defaultProps = {

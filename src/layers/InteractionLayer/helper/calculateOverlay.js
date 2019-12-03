@@ -19,6 +19,7 @@ const calculateOverlay = props => {
     hoverAnnotation,
     voronoiHover
   } = props;
+  console.log(data);
   const pointerStyle =
     customClickBehavior || customDoubleClickBehavior
       ? { cursor: 'pointer' }
@@ -56,6 +57,8 @@ const calculateOverlay = props => {
         } else voronoiUniqueHash[pointKey].coincidentPoints.push(d);
       }
     });
+
+    console.log('--------------')
 
     const voronoiXExtent = d3Extent(voronoiDataset.map(d => d.voronoiX));
     const voronoiYExtent = d3Extent(voronoiDataset.map(d => d.voronoiY));
@@ -96,7 +99,7 @@ const calculateOverlay = props => {
           style={{
             fillOpacity: 0,
             strokeOpacity: 0.5,
-            stroke: 'none',
+            stroke: 'blue',
             ...pointerStyle
           }}
         />
