@@ -17,8 +17,7 @@ import {
 } from './utils';
 import toAxes from '../axis/toAxes';
 import renderAnnotations from '../plots/Annotation/renderAnnotations';
-import TooltipPositioner from "../layers/InteractionLayer/TooltipPositioner";
-import HTMLTooltipAnnotation from "../plots/Annotation/widgets/HTMLTooltipAnnotation";
+import HTMLTooltipAnnotation from '../plots/Annotation/widgets/HTMLTooltipAnnotation';
 
 const isPlot = type => ['Hexbin', 'Contour', 'Heatmap', 'Line'].includes(type);
 
@@ -232,7 +231,6 @@ const XYFrame = props => {
     .filter(d => d.type.name === 'Annotation')
     .map(d => d.props);
 
-
   if (voronoiHover) {
     if (Array.isArray(voronoiHover)) {
       annotations.push(...voronoiHover);
@@ -241,28 +239,33 @@ const XYFrame = props => {
     }
   }
 
-  const tooltipAllData = allData
-      .filter(e => {
-        if (voronoiHover && voronoiHover.length === 1) {
-          const v = voronoiHover[0];
-          return v.x === e.x && v.y === e.y;
-        }
+  const htmlAnnotations = tooltipContent
+    ? allData
+        .filter(e => {
+          if (voronoiHover && voronoiHover.length === 1) {
+            return voronoiHover[0].x === e.x && voronoiHover[0].y === e.y;
+          }
 
-        return false;
-      })
-      .map(d => ({
-        ...d,
-        x: frameXScale(d.x),
-        y: frameYScale(d.y)
-      }));
+          return false;
+        })
+        .map((d, i) => {
+          const _data = {
+            ...d,
+            x: frameXScale(d.x),
+            y: frameYScale(d.y)
+          };
 
-  const htmlAnnotations = tooltipAllData.map((d, i) => (<HTMLTooltipAnnotation
-      tooltipContent={tooltipContent}
-      tooltipContentArgs={d}
-      i={i}
-      d={d}
-      useSpans={useSpans}
-  />));
+          return (
+            <HTMLTooltipAnnotation
+              tooltipContent={tooltipContent}
+              tooltipContentArgs={_data}
+              i={i}
+              d={_data}
+              useSpans={useSpans}
+            />
+          );
+        })
+    : [];
 
   const svgAnnotations = renderAnnotations(annotations, {
     xScale: frameXScale,
@@ -286,8 +289,7 @@ const XYFrame = props => {
         adjustedPosition[0] + margin.left,
         adjustedPosition[1] + margin.top
       ]}
-    >
-    </AnnotationLayer>
+    ></AnnotationLayer>
   );
 
   return (

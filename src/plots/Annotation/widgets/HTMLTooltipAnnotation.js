@@ -1,13 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SpanOrDiv from '../../../widgets/SpanOrDiv';
-import TooltipPositioner from "../../../layers/InteractionLayer/TooltipPositioner";
-const HTMLTooltipAnnotation = ({
-  tooltipContent,
-  i,
-  d,
-  useSpans
-}) => {
+import TooltipPositioner from '../../../layers/InteractionLayer/TooltipPositioner';
+const HTMLTooltipAnnotation = ({ tooltipContent, i, d, useSpans }) => {
   //To string because React gives a DOM error if it gets a date
   return (
     <SpanOrDiv
@@ -20,19 +15,19 @@ const HTMLTooltipAnnotation = ({
         left: `${d.x}px`
       }}
     >
-        <TooltipPositioner
-            tooltipContent={tooltipContent}
-            tooltipContentArgs={d}
-        />
+      <TooltipPositioner
+        tooltipContent={tooltipContent}
+        tooltipContentArgs={d}
+      />
     </SpanOrDiv>
   );
 };
 
 HTMLTooltipAnnotation.propTypes = {
-    tooltipContent: PropTypes.func,
-    i: PropTypes.number,
-    d: PropTypes.object,
-    useSpans: PropTypes.bool
+  tooltipContent: PropTypes.func,
+  i: PropTypes.number,
+  d: PropTypes.object,
+  useSpans: PropTypes.bool
 };
 
 export default HTMLTooltipAnnotation;

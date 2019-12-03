@@ -10,16 +10,14 @@ const AnnotationLayer = props => {
     size: [width, height],
     useSpans,
     margin: userMargin,
-      htmlAnnotations,
-      svgAnnotations,
+    htmlAnnotations,
+    svgAnnotations
   } = props;
 
   const margin =
     typeof userMargin === 'number'
       ? { top: userMargin, left: margin, right: userMargin, bottom: userMargin }
       : userMargin;
-
-
 
   return (
     <SpanOrDiv
