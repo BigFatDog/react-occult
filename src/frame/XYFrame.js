@@ -17,6 +17,7 @@ import {
 } from './utils';
 import toAxes from '../axis/toAxes';
 import renderAnnotations from '../plots/Annotation/renderAnnotations';
+import HTMLTooltipAnnotation from '../plots/Annotation/widgets/HTMLTooltipAnnotation';
 
 const isPlot = type => ['Hexbin', 'Contour', 'Heatmap', 'Line'].includes(type);
 
@@ -93,7 +94,8 @@ const XYFrame = props => {
     overlay,
     columns,
     interactionOverflow,
-    disableCanvasInteraction
+    disableCanvasInteraction,
+    tooltipContent
   } = props;
 
   const size = [width, height];
@@ -140,6 +142,7 @@ const XYFrame = props => {
     .filter(d => isPlot(d.type.name))
     .map(d =>
       d.props.data.map(e => ({
+        ...e,
         x: d.props.xAccessor(e),
         y: d.props.yAccessor(e)
       }))
@@ -202,25 +205,27 @@ const XYFrame = props => {
   });
 
   // canvasPipeline
-  const canvasPipeline = React.Children.toArray(children)
-    .filter(
-      d =>
-        d.props.pointUseCanvas === true ||
-        d.props.areaUseCanvas === true ||
-        d.props.lineUseCanvas === true
-    )
+  const { canvasPipeline, svgPipeline } = React.Children.toArray(children)
+    .filter(d => isPlot(d.type.name))
     .map(d => {
       return toPipeline({
         ...d.props,
         frameXScale,
         frameYScale,
         frontCanvas,
-        adjustedSize
+        margin,
+        adjustedSize,
+        size
       });
     })
-    .reduce((acc, cur) => {
-      return acc.concat(cur.canvasPipe);
-    }, []);
+    .reduce(
+      (acc, cur) => {
+        acc.canvasPipeline = acc.canvasPipeline.concat(cur.canvasPipe);
+        acc.svgPipeline = acc.svgPipeline.concat(cur.svgPipe);
+        return acc;
+      },
+      { canvasPipeline: [], svgPipeline: [] }
+    );
 
   const annotations = React.Children.toArray(children)
     .filter(d => d.type.name === 'Annotation')
@@ -234,9 +239,49 @@ const XYFrame = props => {
     }
   }
 
+  const htmlAnnotations = tooltipContent
+    ? allData
+        .filter(e => {
+          if (voronoiHover && voronoiHover.length === 1) {
+            return voronoiHover[0].x === e.x && voronoiHover[0].y === e.y;
+          }
+
+          return false;
+        })
+        .map((d, i) => {
+          const _data = {
+            ...d,
+            x: frameXScale(d.x),
+            y: frameYScale(d.y)
+          };
+
+          return (
+            <HTMLTooltipAnnotation
+              tooltipContent={tooltipContent}
+              tooltipContentArgs={_data}
+              i={i}
+              d={_data}
+              useSpans={useSpans}
+            />
+          );
+        })
+    : [];
+
+  const svgAnnotations = renderAnnotations(annotations, {
+    xScale: frameXScale,
+    yScale: frameYScale,
+    frontCanvas,
+    adjustedSize,
+    adjustedPosition,
+    size,
+    margin
+  });
+
   const annotationLayer = annotations && annotations.length > 0 && (
     <AnnotationLayer
       voronoiHover={setVoronoiHover}
+      htmlAnnotations={htmlAnnotations}
+      svgAnnotations={svgAnnotations}
       margin={margin}
       useSpans={useSpans}
       size={adjustedSize}
@@ -244,17 +289,7 @@ const XYFrame = props => {
         adjustedPosition[0] + margin.left,
         adjustedPosition[1] + margin.top
       ]}
-    >
-      {renderAnnotations(annotations, {
-        xScale: frameXScale,
-        yScale: frameYScale,
-        frontCanvas,
-        adjustedSize,
-        adjustedPosition,
-        size,
-        margin
-      })}
-    </AnnotationLayer>
+    ></AnnotationLayer>
   );
 
   return (
@@ -366,7 +401,8 @@ const XYFrame = props => {
                     frameYScale,
                     frontCanvas,
                     adjustedSize,
-                    size
+                    size,
+                    margin
                   })
                 )}
               {axes && (
@@ -442,7 +478,8 @@ XYFrame.propTypes = {
   overlay: PropTypes.object,
   columns: PropTypes.object,
   interactionOverflow: PropTypes.func,
-  disableCanvasInteraction: PropTypes.func
+  disableCanvasInteraction: PropTypes.func,
+  tooltipContent: PropTypes.func
 };
 
 XYFrame.defaultProps = {

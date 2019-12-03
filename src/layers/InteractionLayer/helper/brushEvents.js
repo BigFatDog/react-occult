@@ -168,7 +168,10 @@ const createBrush = (interaction, props) => {
   }
 
   semioticBrush
-    .extent([[0, 0], [props.size[0], props.size[1]]])
+    .extent([
+      [0, 0],
+      [props.size[0], props.size[1]]
+    ])
     .on('start', () =>
       brushStart(mappingFn(event.selection), undefined, brushData, props)
     )

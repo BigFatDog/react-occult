@@ -1,10 +1,9 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { TheaterSummaryData } from '../AreaChart/ThreaterFlattenData';
-import { XYFrame, Line, XAxis, YAxis, Contour, Hexbin, Heatmap } from 'occult';
+import { XYFrame, XAxis, YAxis, Contour } from 'occult';
 import brand from 'dan-api/dummy/brand';
 import { PapperBlock } from 'dan-components';
-import { AnnotationCalloutCircle } from 'react-annotation';
 
 const gradient = (
   <linearGradient x1="0" x2="0" y1="0" y2="1" id="paleWoodGradient">
@@ -53,7 +52,7 @@ const ContourPage = props => {
     threshold: 10,
     bandWidth: 15,
     areaStyle: (e, i) => ({
-      fill: 'url(#Triangle)',
+      fill: 'none',
       stroke: colors[e.parentSummary.s],
       strokeWidth: 0.5
     }),
@@ -61,11 +60,6 @@ const ContourPage = props => {
       r: 2,
       fill: colors[d.parentSummary.s]
     })
-    // areaRenderMode: {
-    //   renderMode: 'sketchy',
-    //   fillWeight: 3,
-    //   hachureGap: 4
-    // },
   };
 
   return (

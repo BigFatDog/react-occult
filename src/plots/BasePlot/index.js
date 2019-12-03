@@ -103,8 +103,8 @@ const Plot = props => {
     data: projectedPoints
   });
 
-  const svgPipeline = [...lineSvg, areaSvg, ...pointsSvg];
-  const canvasPipeline = [...lineCanvas, areaCanvas, ...pointsCanvas];
+  const svgPipeline = [...lineSvg, ...areaSvg, ...pointsSvg];
+  const canvasPipeline = [...lineCanvas, ...areaCanvas, ...pointsCanvas];
   return svgPipeline;
 };
 

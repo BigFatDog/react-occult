@@ -18,6 +18,7 @@ import 'sanitize.css/sanitize.css';
 // Import root app
 import App from 'containers/App';
 import './styles/layout/base.scss';
+import './styles/global.css';
 
 // Load the favicon and the .htaccess file
 /* eslint-disable import/no-unresolved, import/extensions */

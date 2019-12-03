@@ -141,9 +141,6 @@ const mapDispatchToProps = dispatch => ({
   openSubMenu: bindActionCreators(openAction, dispatch)
 });
 
-const MainMenuMapped = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MainMenu);
+const MainMenuMapped = connect(mapStateToProps, mapDispatchToProps)(MainMenu);
 
 export default withTheme()(withStyles(styles)(MainMenuMapped));

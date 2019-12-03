@@ -16,8 +16,10 @@ const calculateOverlay = props => {
     interactionOverflow = { top: 0, bottom: 0, left: 0, right: 0 },
     customClickBehavior,
     customDoubleClickBehavior,
-    hoverAnnotation
+    hoverAnnotation,
+    voronoiHover
   } = props;
+  console.log(data);
   const pointerStyle =
     customClickBehavior || customDoubleClickBehavior
       ? { cursor: 'pointer' }
@@ -56,6 +58,8 @@ const calculateOverlay = props => {
       }
     });
 
+    console.log('--------------');
+
     const voronoiXExtent = d3Extent(voronoiDataset.map(d => d.voronoiX));
     const voronoiYExtent = d3Extent(voronoiDataset.map(d => d.voronoiY));
 
@@ -89,11 +93,13 @@ const calculateOverlay = props => {
               props
             })
           }
-          onMouseLeave={() => changeVoronoi({})}
+          onMouseLeave={() => voronoiHover([])}
           key={`interactionVoronoi${i}`}
           d={`M${d.join('L')}Z`}
           style={{
             fillOpacity: 0,
+            strokeOpacity: 0.5,
+            stroke: 'blue',
             ...pointerStyle
           }}
         />
@@ -112,7 +118,7 @@ const calculateOverlay = props => {
               customHoverTypes: props.hoverAnnotation,
               props
             }),
-          onMouseLeave: () => changeVoronoi({}),
+          onMouseLeave: () => voronoiHover([]),
           onClick: () => clickVoronoi(overlayData, props),
           onDoubleClick: () => doubleclickVoronoi(overlayData, props),
           style: { opacity: 0, ...pointerStyle }
@@ -131,7 +137,7 @@ const calculateOverlay = props => {
                 props
               })
             }
-            onMouseLeave={() => changeVoronoi({})}
+            onMouseLeave={() => voronoiHover([])}
             onClick={() => clickVoronoi(overlayData, props)}
             onDoubleClick={() => doubleclickVoronoi(overlayData, props)}
             style={{ opacity: 0, ...pointerStyle }}

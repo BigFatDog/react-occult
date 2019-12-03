@@ -191,9 +191,6 @@ const mapDispatchToProps = dispatch => ({
   closeAll: () => dispatch(closeAllAction)
 });
 
-const MegaMenuMapped = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MegaMenu);
+const MegaMenuMapped = connect(mapStateToProps, mapDispatchToProps)(MegaMenu);
 
 export default withTheme()(withStyles(styles)(MegaMenuMapped));

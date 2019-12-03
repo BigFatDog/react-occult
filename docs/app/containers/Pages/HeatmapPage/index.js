@@ -8,9 +8,7 @@ import { PapperBlock } from 'dan-components';
 import { scaleLinear } from 'd3-scale';
 import { AnnotationCalloutCircle } from 'react-annotation';
 
-const h = scaleLinear()
-  .domain([0, 1])
-  .range(['white', '#ac58e5']);
+const h = scaleLinear().range(['white', '#ac58e5']);
 
 const HeatmapPage = props => {
   const title = brand.name + ' - K-Means Centroid Deviation';
@@ -42,8 +40,6 @@ const HeatmapPage = props => {
         <tspan fill={'#E0488B'}>Far from the Madding Crowd</tspan>
       </text>
     )
-    // style: { fill: 'url(#gradient' },
-    // additionalDefs: { GradientDefs }
   };
 
   const heatmapProps = {
@@ -62,12 +58,8 @@ const HeatmapPage = props => {
       r: 2,
       fill: colors[d.parentSummary.s]
     }),
-    // areaRenderMode: {
-    //   renderMode: 'sketchy',
-    //   fillWeight: 3,
-    //   hachureGap: 4
-    // },
-    useCanvas: false
+    areaUseCanvas: false,
+    pointUseCanvas: false
   };
 
   return (

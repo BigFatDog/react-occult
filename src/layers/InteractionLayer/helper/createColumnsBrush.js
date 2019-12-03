@@ -45,7 +45,10 @@ const createColumnsBrush = (interaction, props) => {
       brushPosition = [0, columnHash[c].x];
       semioticBrush = brushX();
       semioticBrush
-        .extent([[rRange[0], 0], [rRange[1], columnHash[c].width]])
+        .extent([
+          [rRange[0], 0],
+          [rRange[1], columnHash[c].width]
+        ])
         .on('start', () =>
           brushStart(mappingFn(event.selection), c, brushData, props)
         )
@@ -62,7 +65,10 @@ const createColumnsBrush = (interaction, props) => {
       brushPosition = [columnHash[c].x, 0];
       semioticBrush = brushY();
       semioticBrush
-        .extent([[0, rRange[0]], [columnHash[c].width, rRange[1]]])
+        .extent([
+          [0, rRange[0]],
+          [columnHash[c].width, rRange[1]]
+        ])
         .on('start', () =>
           brushStart(mappingFn(event.selection), c, brushData, props)
         )

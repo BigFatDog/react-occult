@@ -8,7 +8,8 @@ const AnnotationLayer = props => {
     size: [width, height],
     useSpans,
     margin: userMargin,
-    children
+    htmlAnnotations,
+    svgAnnotations
   } = props;
 
   const margin =
@@ -41,7 +42,7 @@ const AnnotationLayer = props => {
       >
         <g>
           {/*{renderedLegend}*/}
-          {children}
+          {svgAnnotations}
         </g>
       </svg>
       <SpanOrDiv
@@ -57,7 +58,7 @@ const AnnotationLayer = props => {
           top: `${margin.top}px`
         }}
       >
-        {/*{getHTMLAnnotations(props)}*/}
+        {htmlAnnotations}
       </SpanOrDiv>
     </SpanOrDiv>
   );
@@ -65,7 +66,9 @@ const AnnotationLayer = props => {
 
 AnnotationLayer.propTypes = {
   margin: PropTypes.object,
-  voronoiHover: PropTypes.func
+  voronoiHover: PropTypes.func,
+  htmlAnnotations: PropTypes.array,
+  svgAnnotations: PropTypes.array
 };
 
 AnnotationLayer.defaultProps = {

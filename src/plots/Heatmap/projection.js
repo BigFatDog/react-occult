@@ -11,7 +11,7 @@ const heatmapProjection = ({
   customMark,
   finalXExtent,
   finalYExtent,
-  size,
+  adjustedSize,
   data,
   xAccessor,
   yAccessor,
@@ -26,6 +26,8 @@ const heatmapProjection = ({
     sAccessor,
     showPoints
   });
+
+  const size = adjustedSize;
 
   const xBinPercent = xBins < 1 ? xBins : 1 / xBins;
   const yBinPercent = yBins < 1 ? yBins : 1 / yBins;
@@ -70,7 +72,12 @@ const heatmapProjection = ({
           y: (y + y1) / 2,
           binItems: [],
           value: 0,
-          _xyCoordinates: [[x, y], [x1, y], [x1, y1], [x, y1]],
+          _xyCoordinates: [
+            [x, y],
+            [x1, y],
+            [x1, y1],
+            [x, y1]
+          ],
           parentSummary: heatmapData
         };
         gridColumn.push(cell);
