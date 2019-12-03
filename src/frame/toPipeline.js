@@ -49,7 +49,7 @@ const toPipeline = props => {
     ...rest
   });
 
-  console.log(projectedPoints)
+  console.log(projectedPoints);
 
   const { svgPipeline: lineSvg, canvasPipeline: lineCanvas } = toRenderedLines({
     useCanvas: lineUseCanvas,
@@ -87,7 +87,7 @@ const toPipeline = props => {
     data: projectedPoints
   });
 
-  console.log(pointsSvg)
+  console.log(pointsSvg);
   const svgPipe = [...areaSvg, ...lineSvg, ...pointsSvg];
   const canvasPipe = [...areaCanvas, ...lineCanvas, ...pointsCanvas];
 

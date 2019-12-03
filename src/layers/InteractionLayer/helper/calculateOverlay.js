@@ -58,7 +58,7 @@ const calculateOverlay = props => {
       }
     });
 
-    console.log('--------------')
+    console.log('--------------');
 
     const voronoiXExtent = d3Extent(voronoiDataset.map(d => d.voronoiX));
     const voronoiYExtent = d3Extent(voronoiDataset.map(d => d.voronoiY));

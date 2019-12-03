@@ -230,19 +230,20 @@ const XYFrame = props => {
     .filter(d => d.type.name === 'Annotation')
     .map(d => d.props);
 
-  console.log(voronoiHover);
-  const tooltipAllData = allData.filter(e => {
-    if (voronoiHover && voronoiHover.length === 1) {
-      const v = voronoiHover[0];
-      return v.x === e.x && v.y === e.y;
-    }
+  const tooltipAllData = allData
+    .filter(e => {
+      if (voronoiHover && voronoiHover.length === 1) {
+        const v = voronoiHover[0];
+        return v.x === e.x && v.y === e.y;
+      }
 
-    return false;
-  }).map(d => ({
-    ...d,
-    x: frameXScale(d.x),
-    y: frameYScale(d.y)
-  }));
+      return false;
+    })
+    .map(d => ({
+      ...d,
+      x: frameXScale(d.x),
+      y: frameYScale(d.y)
+    }));
 
   if (voronoiHover) {
     if (Array.isArray(voronoiHover)) {
