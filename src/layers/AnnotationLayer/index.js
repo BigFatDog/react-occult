@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import SpanOrDiv from '../../widgets/SpanOrDiv';
-import TooltipPositioner from '../InteractionLayer/TooltipPositioner';
-import HTMLTooltipAnnotation from '../../plots/Annotation/widgets/HTMLTooltipAnnotation';
 
 const AnnotationLayer = props => {
   const {
@@ -69,7 +67,8 @@ const AnnotationLayer = props => {
 AnnotationLayer.propTypes = {
   margin: PropTypes.object,
   voronoiHover: PropTypes.func,
-  tooltipContent: PropTypes.func
+  htmlAnnotations: PropTypes.array,
+  svgAnnotations: PropTypes.array
 };
 
 AnnotationLayer.defaultProps = {
