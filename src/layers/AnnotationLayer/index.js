@@ -10,9 +10,8 @@ const AnnotationLayer = props => {
     size: [width, height],
     useSpans,
     margin: userMargin,
-    tooltipContent,
-    tooltipData,
-    children
+      htmlAnnotations,
+      svgAnnotations,
   } = props;
 
   const margin =
@@ -20,23 +19,7 @@ const AnnotationLayer = props => {
       ? { top: userMargin, left: margin, right: userMargin, bottom: userMargin }
       : userMargin;
 
-  const allTooltips = tooltipData.map((d, i) => {
-    const tooltip = (
-      <TooltipPositioner
-        tooltipContent={tooltipContent}
-        tooltipContentArgs={d}
-      />
-    );
-    return (
-      <HTMLTooltipAnnotation
-        content={tooltip}
-        screenCoordinates={tooltipData}
-        i={i}
-        d={d}
-        useSpans={useSpans}
-      />
-    );
-  });
+
 
   return (
     <SpanOrDiv
@@ -63,7 +46,7 @@ const AnnotationLayer = props => {
       >
         <g>
           {/*{renderedLegend}*/}
-          {children}
+          {svgAnnotations}
         </g>
       </svg>
       <SpanOrDiv
@@ -79,7 +62,7 @@ const AnnotationLayer = props => {
           top: `${margin.top}px`
         }}
       >
-        {allTooltips}
+        {htmlAnnotations}
       </SpanOrDiv>
     </SpanOrDiv>
   );

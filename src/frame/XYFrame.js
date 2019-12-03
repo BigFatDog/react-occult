@@ -17,6 +17,8 @@ import {
 } from './utils';
 import toAxes from '../axis/toAxes';
 import renderAnnotations from '../plots/Annotation/renderAnnotations';
+import TooltipPositioner from "../layers/InteractionLayer/TooltipPositioner";
+import HTMLTooltipAnnotation from "../plots/Annotation/widgets/HTMLTooltipAnnotation";
 
 const isPlot = type => ['Hexbin', 'Contour', 'Heatmap', 'Line'].includes(type);
 
@@ -230,20 +232,6 @@ const XYFrame = props => {
     .filter(d => d.type.name === 'Annotation')
     .map(d => d.props);
 
-  const tooltipAllData = allData
-    .filter(e => {
-      if (voronoiHover && voronoiHover.length === 1) {
-        const v = voronoiHover[0];
-        return v.x === e.x && v.y === e.y;
-      }
-
-      return false;
-    })
-    .map(d => ({
-      ...d,
-      x: frameXScale(d.x),
-      y: frameYScale(d.y)
-    }));
 
   if (voronoiHover) {
     if (Array.isArray(voronoiHover)) {
@@ -253,11 +241,44 @@ const XYFrame = props => {
     }
   }
 
+  const tooltipAllData = allData
+      .filter(e => {
+        if (voronoiHover && voronoiHover.length === 1) {
+          const v = voronoiHover[0];
+          return v.x === e.x && v.y === e.y;
+        }
+
+        return false;
+      })
+      .map(d => ({
+        ...d,
+        x: frameXScale(d.x),
+        y: frameYScale(d.y)
+      }));
+
+  const htmlAnnotations = tooltipAllData.map((d, i) => (<HTMLTooltipAnnotation
+      tooltipContent={tooltipContent}
+      tooltipContentArgs={d}
+      i={i}
+      d={d}
+      useSpans={useSpans}
+  />));
+
+  const svgAnnotations = renderAnnotations(annotations, {
+    xScale: frameXScale,
+    yScale: frameYScale,
+    frontCanvas,
+    adjustedSize,
+    adjustedPosition,
+    size,
+    margin
+  });
+
   const annotationLayer = annotations && annotations.length > 0 && (
     <AnnotationLayer
       voronoiHover={setVoronoiHover}
-      tooltipData={tooltipAllData}
-      tooltipContent={tooltipContent}
+      htmlAnnotations={htmlAnnotations}
+      svgAnnotations={svgAnnotations}
       margin={margin}
       useSpans={useSpans}
       size={adjustedSize}
@@ -266,15 +287,6 @@ const XYFrame = props => {
         adjustedPosition[1] + margin.top
       ]}
     >
-      {renderAnnotations(annotations, {
-        xScale: frameXScale,
-        yScale: frameYScale,
-        frontCanvas,
-        adjustedSize,
-        adjustedPosition,
-        size,
-        margin
-      })}
     </AnnotationLayer>
   );
 

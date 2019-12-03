@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import SpanOrDiv from '../../../widgets/SpanOrDiv';
+import TooltipPositioner from "../../../layers/InteractionLayer/TooltipPositioner";
 const HTMLTooltipAnnotation = ({
-  content,
-  screenCoordinates,
+  tooltipContent,
   i,
   d,
   useSpans
@@ -19,9 +20,19 @@ const HTMLTooltipAnnotation = ({
         left: `${d.x}px`
       }}
     >
-      {content}
+        <TooltipPositioner
+            tooltipContent={tooltipContent}
+            tooltipContentArgs={d}
+        />
     </SpanOrDiv>
   );
+};
+
+HTMLTooltipAnnotation.propTypes = {
+    tooltipContent: PropTypes.func,
+    i: PropTypes.number,
+    d: PropTypes.object,
+    useSpans: PropTypes.bool
 };
 
 export default HTMLTooltipAnnotation;
