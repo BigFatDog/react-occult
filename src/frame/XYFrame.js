@@ -84,8 +84,8 @@ const XYFrame = props => {
     backgroundGraphics,
     foregroundGraphics,
     canvasPostProcess,
-    renderOrder,
     children,
+    // interactions
     hoverAnnotation,
     interaction,
     customClickBehavior,
@@ -95,6 +95,7 @@ const XYFrame = props => {
     columns,
     interactionOverflow,
     disableCanvasInteraction,
+    //tooltip
     tooltipContent
   } = props;
 
@@ -138,19 +139,23 @@ const XYFrame = props => {
     margin
   });
 
-  const allData = React.Children.toArray(children)
+  const idMap = {};
+  const plotChildren = React.Children.toArray(children)
     .filter(d => isPlot(d.type.name))
-    .map(d =>
-      d.props.data.map(e => ({
-        ...e,
-        x: d.props.xAccessor(e),
-        y: d.props.yAccessor(e)
-      }))
-    )
-    .reduce((acc, cur) => {
-      acc = [...acc, ...cur];
-      return acc;
-    }, []);
+    .map(d => {
+      const baseKey = d.type.name;
+      if (!d.key) {
+        if (idMap[baseKey] !== undefined && idMap[baseKey] !== null) {
+          d.key = baseKey + '-' + idMap[baseKey];
+          idMap[baseKey]++;
+        } else {
+          d.key = baseKey + '-' + 0;
+          idMap[baseKey] = 0;
+        }
+      }
+
+      return d;
+    });
 
   // frame scope scales
   const frameScopeExtent = React.Children.toArray(children)
@@ -205,10 +210,9 @@ const XYFrame = props => {
   });
 
   // canvasPipeline
-  const { canvasPipeline, svgPipeline } = React.Children.toArray(children)
-    .filter(d => isPlot(d.type.name))
-    .map(d => {
-      return toPipeline({
+  const { canvasPipeline, svgPipeline } = plotChildren
+    .map(d =>
+      toPipeline({
         ...d.props,
         frameXScale,
         frameYScale,
@@ -216,8 +220,8 @@ const XYFrame = props => {
         margin,
         adjustedSize,
         size
-      });
-    })
+      })
+    )
     .reduce(
       (acc, cur) => {
         acc.canvasPipeline = acc.canvasPipeline.concat(cur.canvasPipe);
@@ -239,8 +243,22 @@ const XYFrame = props => {
     }
   }
 
+  const screenCoordinates = plotChildren
+    .map(d =>
+      d.props.data.map(e => ({
+        ...e,
+        x: d.props.xAccessor(e),
+        y: d.props.yAccessor(e),
+        key: d.key
+      }))
+    )
+    .reduce((acc, cur) => {
+      acc = [...acc, ...cur];
+      return acc;
+    }, []);
+
   const htmlAnnotations = tooltipContent
-    ? allData
+    ? screenCoordinates
         .filter(e => {
           if (voronoiHover && voronoiHover.length === 1) {
             return voronoiHover[0].x === e.x && voronoiHover[0].y === e.y;
@@ -390,21 +408,18 @@ const XYFrame = props => {
               margin={margin}
               canvasPostProcess={canvasPostProcess}
               canvasPipeline={canvasPipeline}
-              renderOrder={renderOrder}
               voronoiHover={setVoronoiHover}
             >
-              {React.Children.toArray(children)
-                .filter(d => isPlot(d.type.name))
-                .map(d =>
-                  React.cloneElement(d, {
-                    frameXScale,
-                    frameYScale,
-                    frontCanvas,
-                    adjustedSize,
-                    size,
-                    margin
-                  })
-                )}
+              {plotChildren.map(d =>
+                React.cloneElement(d, {
+                  frameXScale,
+                  frameYScale,
+                  frontCanvas,
+                  adjustedSize,
+                  size,
+                  margin
+                })
+              )}
               {axes && (
                 <g key="visualization-axis-labels" className="axis axis-labels">
                   {axes}
@@ -434,7 +449,7 @@ const XYFrame = props => {
           svgSize={size}
           xScale={frameXScale}
           yScale={frameYScale}
-          data={allData}
+          data={screenCoordinates}
           enabled={true}
           overlay={overlay}
           oColumns={columns}
@@ -469,7 +484,6 @@ XYFrame.propTypes = {
   backgroundGraphics: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
   foregroundGraphics: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
   canvasPostProcess: PropTypes.string,
-  renderOrder: PropTypes.array,
   hoverAnnotation: PropTypes.oneOfType([PropTypes.func, PropTypes.array]),
   interaction: PropTypes.func,
   customClickBehavior: PropTypes.func,
@@ -496,8 +510,7 @@ XYFrame.defaultProps = {
   backgroundGraphics: null,
   foregroundGraphics: null,
   additionalDefs: null,
-  canvasPostProcess: 'chunkClose',
-  renderOrder: ['areas', 'lines', 'points']
+  canvasPostProcess: 'chunkClose'
 };
 
 export default XYFrame;

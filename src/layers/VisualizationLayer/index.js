@@ -70,9 +70,9 @@ VisualizationLayer.propTypes = {
   matteClip: PropTypes.bool,
   frontCanvas: PropTypes.object,
   backCanvas: PropTypes.object,
-  renderOrder: PropTypes.array,
   voronoiHover: PropTypes.func,
-  canvasPipeline: PropTypes.array
+  canvasPipeline: PropTypes.array,
+  svgPipeline: PropTypes.array
 };
 
 export default VisualizationLayer;
