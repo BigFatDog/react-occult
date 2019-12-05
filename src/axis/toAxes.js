@@ -40,7 +40,7 @@ const toAxes = ({ margin, axesDefs, adjustedSize, yScale, xScale }) => {
         footer: d.footer,
         tickSize: d.tickSize
       });
-      const tickLineGroup = (
+      const tickLineGroup = d.showLineTicks !== false && (
         <g key={`axes-tick-lines-${i}`} className={`axis ${axisClassname}`}>
           {axisLines({
             axisParts,

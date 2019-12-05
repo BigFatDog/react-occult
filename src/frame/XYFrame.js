@@ -19,7 +19,8 @@ import toAxes from '../axis/toAxes';
 import renderAnnotations from '../plots/Annotation/renderAnnotations';
 import HTMLTooltipAnnotation from '../plots/Annotation/widgets/HTMLTooltipAnnotation';
 
-const isPlot = type => ['Hexbin', 'Contour', 'Heatmap', 'Line'].includes(type);
+const isPlot = type =>
+  ['Hexbin', 'Contour', 'Heatmap', 'Line', 'Scatter'].includes(type);
 
 const getCanvasScale = context => {
   const devicePixelRatio = window.devicePixelRatio || 1;
@@ -96,7 +97,9 @@ const XYFrame = props => {
     interactionOverflow,
     disableCanvasInteraction,
     //tooltip
-    tooltipContent
+    tooltipContent,
+    xScaleType,
+    yScaleType
   } = props;
 
   const size = [width, height];
@@ -158,8 +161,7 @@ const XYFrame = props => {
     });
 
   // frame scope scales
-  const frameScopeExtent = React.Children.toArray(children)
-    .filter(d => isPlot(d.type.name))
+  const frameScopeExtent = plotChildren
     .map(d => {
       return getExtent({
         data: d.props.data,
@@ -189,10 +191,10 @@ const XYFrame = props => {
   const xDomain = [0, adjustedSize[0]];
   const yDomain = [adjustedSize[1], 0];
 
-  const frameXScale = scaleLinear()
+  const frameXScale = xScaleType()
     .domain(frameScopeExtent.xExtent)
     .range(xDomain);
-  const frameYScale = scaleLinear()
+  const frameYScale = yScaleType()
     .domain(frameScopeExtent.yExtent)
     .range(yDomain);
 
@@ -261,7 +263,12 @@ const XYFrame = props => {
     ? screenCoordinates
         .filter(e => {
           if (voronoiHover && voronoiHover.length === 1) {
-            return voronoiHover[0].x === e.x && voronoiHover[0].y === e.y;
+            if (typeof voronoiHover[0].x.getMonth === 'function') {
+              // is date
+              return voronoiHover[0].x.toISOString() === e.x.toISOString() && voronoiHover[0].y === e.y;
+            } else {
+              return voronoiHover[0].x === e.x && voronoiHover[0].y === e.y;
+            }
           }
 
           return false;
@@ -307,17 +314,11 @@ const XYFrame = props => {
         adjustedPosition[0] + margin.left,
         adjustedPosition[1] + margin.top
       ]}
-    ></AnnotationLayer>
+    />
   );
 
   return (
-    <SpanOrDiv
-      span={useSpans}
-      className={`${className} frame ${name}`}
-      style={{
-        background: 'none'
-      }}
-    >
+    <SpanOrDiv span={useSpans} className={`${className} frame ${name}`}>
       {beforeElements && (
         <SpanOrDiv span={useSpans} className={`${name} frame-before-elements`}>
           {beforeElements}
@@ -493,7 +494,9 @@ XYFrame.propTypes = {
   columns: PropTypes.object,
   interactionOverflow: PropTypes.func,
   disableCanvasInteraction: PropTypes.func,
-  tooltipContent: PropTypes.func
+  tooltipContent: PropTypes.func,
+  xScaleType: PropTypes.func,
+  yScaleType: PropTypes.func
 };
 
 XYFrame.defaultProps = {
@@ -510,7 +513,9 @@ XYFrame.defaultProps = {
   backgroundGraphics: null,
   foregroundGraphics: null,
   additionalDefs: null,
-  canvasPostProcess: 'chunkClose'
+  canvasPostProcess: 'chunkClose',
+  xScaleType: scaleLinear,
+  yScaleType: scaleLinear
 };
 
 export default XYFrame;

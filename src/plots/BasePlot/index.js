@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { scaleLinear } from 'd3-scale';
 import getExtent from './getExtent';
 import stringToFn from '../../utils/stringToFn';
 import toRenderedAreas from './toRenderedAreas';

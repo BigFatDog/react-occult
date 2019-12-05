@@ -47,6 +47,11 @@ module.exports = [
         link: '/hexbin'
       },
       {
+        key: 'scatter',
+        name: 'Scatter',
+        link: '/scatter'
+      },
+      {
         key: 'old_faithful',
         name: 'Old Faithful Contour',
         link: '/faithful'
