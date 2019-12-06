@@ -502,7 +502,7 @@ XYFrame.propTypes = {
   backgroundGraphics: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
   foregroundGraphics: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
   canvasPostProcess: PropTypes.string,
-  hoverAnnotation: PropTypes.oneOfType([PropTypes.func, PropTypes.array]),
+  hoverAnnotation: PropTypes.oneOfType([PropTypes.func, PropTypes.array, PropTypes.bool]),
   interaction: PropTypes.func,
   customClickBehavior: PropTypes.func,
   customHoverBehavior: PropTypes.func,
