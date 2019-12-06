@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { XYFrame, Scatter, XAxis, YAxis } from 'occult';
 import brand from 'dan-api/dummy/brand';
 import { PapperBlock } from 'dan-components';
 import { withStyles } from '@material-ui/core/styles';
 import { Data } from './data';
-import { timeParse, timeFormat } from 'd3-time-format';
 import { scaleSequential, scaleLog, scaleTime, scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
+import { csvParse } from 'd3-dsv';
+import * as d3 from 'd3';
 
 const styles = {
   frame: {
@@ -19,26 +20,35 @@ const styles = {
   }
 };
 
-const parser = timeParse('%d/%m/%y');
-const formatter = timeFormat('%B');
 const ScatterPage = props => {
   const { classes } = props;
   const title = brand.name + ' - K-Means Centroid Deviation';
   const description = brand.desc;
-  const ext = extent(Data, d => d.exp_amo);
-  const colorScale = scaleSequential(['#79e70f', '#10d9ec', '#1f97e7']).domain(
-    ext
-  );
-  const rScale = scaleLinear()
-    .domain(ext)
-    .range([4, 20]);
+
+  const [diamonds, setDiamonds] = useState([]);
+
+  useEffect(() => {
+    fetch(`/data/diamonds.csv`)
+      .then(response => response.text())
+      .then(data => {
+        const parsedDiamonds = [];
+        csvParse(data).forEach(d => {
+          parsedDiamonds.push({
+            price: +d.price,
+            carat: +d.carat,
+            size: +d.table,
+            cut: d.cut,
+            clarity: d.clarity
+          });
+        });
+        setDiamonds(parsedDiamonds);
+      });
+  });
 
   const frameProps = {
     margin: { left: 100, bottom: 90, right: 10, top: 40 },
     width: 1000,
     height: 500,
-    xScaleType: scaleTime,
-    yScaleType: scaleLog,
     title: (
       <text textAnchor="middle">
         Theaters showing <tspan fill={'#ac58e5'}>Ex Machina</tspan> vs{' '}
@@ -49,27 +59,25 @@ const ScatterPage = props => {
     tooltipContent: d => {
       return (
         <div className="tooltip-content">
-          <p>Expire Date: {d.exp_dat}</p>
-          <p>Expire Amount: {d.exp_amo}</p>
-          <p>Spec id: {d.spe_id}</p>
-          <p>Person Name: {d.can_nam}</p>
-          <p>Purchase: {d.pur}</p>
-          <p>Payment: {d.pay}</p>
+          <p>price: {d.price}</p>
+          <p>carat: {d.carat}</p>
+          <p>size: {d.size}</p>
+          <p>cut: {d.cut}</p>
+          <p>clarity: {d.clarity}</p>
         </div>
       );
     }
   };
 
   const scatterProps = {
-    data: Data,
-    xAccessor: d => parser(d.exp_dat),
-    yAccessor: d => d.exp_amo,
+    data: diamonds,
+    xAccessor: d => d.price,
+    yAccessor: d => d.carat,
     pointStyle: (d, i) => ({
-      r: rScale(d._data.exp_amo),
-      fill: colorScale(d._data.exp_amo),
+      r: 5,
+      fill: 'red',
       opacity: 0.5
     }),
-
     pointUseCanvas: true
   };
 
@@ -85,22 +93,8 @@ const ScatterPage = props => {
       </Helmet>
       <PapperBlock title="Blank Page" desc="Some text description">
         <XYFrame {...frameProps} className={classes.frame}>
-          <XAxis
-            label={'Expire Date'}
-            baseline={false}
-            paddingOuter={50}
-            tickFormat={d => formatter(d)}
-            showLineTicks={false}
-          />
-          <YAxis
-            margin={{ top: 100 }}
-            label={'Expire Amount'}
-            tickValues={[225, 1000000, 2000000, 4000000, 6000000]}
-            tickFormat={val => {
-              const formatted = +val === 225 ? 0 : val / 1000000;
-              return '$' + formatted + 'M';
-            }}
-          />
+          <XAxis label={'Price'} rotate={60} />
+          <YAxis label={'Caret'} />
           <Scatter {...scatterProps} />
         </XYFrame>
       </PapperBlock>

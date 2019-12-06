@@ -251,6 +251,10 @@ const XYFrame = props => {
         ...e,
         x: d.props.xAccessor(e),
         y: d.props.yAccessor(e),
+        screenCoordinates: [
+          frameXScale(d.props.xAccessor(e)),
+          frameYScale(d.props.yAccessor(e))
+        ],
         key: d.key
       }))
     )
@@ -262,12 +266,24 @@ const XYFrame = props => {
   const htmlAnnotations = tooltipContent
     ? screenCoordinates
         .filter(e => {
-          if (voronoiHover && voronoiHover.length === 1) {
-            if (typeof voronoiHover[0].x.getMonth === 'function') {
-              // is date
-              return voronoiHover[0].x.toISOString() === e.x.toISOString() && voronoiHover[0].y === e.y;
+          if (voronoiHover) {
+            const hoverObj =
+              Array.isArray(voronoiHover) && voronoiHover.length > 0
+                ? voronoiHover[0]
+                : Object.assign({}, voronoiHover);
+
+            if (hoverObj.hasOwnProperty('x') && hoverObj.hasOwnProperty('y')) {
+              if (typeof hoverObj.x.getMonth === 'function') {
+                // is date
+                return (
+                  hoverObj.x.toISOString() === e.x.toISOString() &&
+                  hoverObj.y === e.y
+                );
+              } else {
+                return hoverObj.x === e.x && hoverObj.y === e.y;
+              }
             } else {
-              return voronoiHover[0].x === e.x && voronoiHover[0].y === e.y;
+              return false;
             }
           }
 
@@ -452,6 +468,7 @@ const XYFrame = props => {
           yScale={frameYScale}
           data={screenCoordinates}
           enabled={true}
+          useCanvas={canvasPipeline.length > 0}
           overlay={overlay}
           oColumns={columns}
           interactionOverflow={interactionOverflow}

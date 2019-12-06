@@ -162,6 +162,8 @@ module.exports = options => ({
       'dan-core': path.resolve(__dirname, './docs/app/core/'),
       'dan-demo': path.resolve(__dirname, './docs/demo/'),
       'occult': path.resolve(__dirname, './src/'),
+      'react-dom': 'react-dom/profiling',
+      'schedule/tracking': 'schedule/tracking-profiling',
     }
   },
   devtool: options.devtool,

@@ -1,7 +1,6 @@
 const renderCanvas = ({
   props,
   canvasMap,
-  interactionCanvas,
   overlayRegions,
   interactionContext
 }) => {
@@ -11,7 +10,7 @@ const renderCanvas = ({
 
   canvasMap.clear();
 
-  interactionContext = interactionCanvas.getContext('2d');
+  interactionContext = interactionContext.getContext('2d');
 
   interactionContext.imageSmoothingEnabled = false;
   interactionContext.setTransform(1, 0, 0, 1, margin.left, margin.top);
