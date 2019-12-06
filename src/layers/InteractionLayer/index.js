@@ -13,7 +13,16 @@ const InteractionLayer = props => {
   const [interactionContext, setInteractionContext] = useState(null);
   const [overlayRegions, setOverlayRegions] = useState([]);
 
-  const { xScale, yScale, data, size, overlay, hoverAnnotation, useCanvas } = props;
+  const {
+    xScale,
+    yScale,
+    data,
+    size,
+    overlay,
+    hoverAnnotation,
+    useCanvas,
+    voronoiHover
+  } = props;
 
   useEffect(() => {
     setOverlayRegions(calculateOverlay(props));
@@ -107,7 +116,10 @@ const InteractionLayer = props => {
   }
 
   const _interactionCanvas =
-    !disableCanvasInteraction && useCanvas && overlayRegions && interactionCanvas;
+    !disableCanvasInteraction &&
+    useCanvas &&
+    overlayRegions &&
+    interactionCanvas;
 
   return (
     <SpanOrDiv
