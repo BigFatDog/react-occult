@@ -3,8 +3,8 @@ import { Helmet } from 'react-helmet';
 import { XYFrame, Line, XAxis, YAxis, Contour, Hexbin, Heatmap } from 'occult';
 import brand from 'dan-api/dummy/brand';
 import { PapperBlock } from 'dan-components';
-import { TheaterSummaryData } from '../AreaChart/ThreaterFlattenData';
-import { AnnotationCalloutCircle } from 'react-annotation';
+import { LineData } from './lineData';
+import { TData } from './TData';
 
 const theme = [
   '#ac58e5',
@@ -27,44 +27,61 @@ const LinePage = props => {
     margin: { left: 60, bottom: 90, right: 10, top: 40 },
     width: 700,
     height: 400,
-    annotations: [
-      { type: 'react-annotation', label: 'a note', y: 100 },
-      {
-        type: AnnotationCalloutCircle,
-        note: { label: 'callout', title: 'important' },
-
-        score: 10,
-        subject: { radius: 30 }
-      }
-    ],
     title: (
       <text textAnchor="middle">
         Theaters showing <tspan fill={'#ac58e5'}>Ex Machina</tspan> vs{' '}
         <tspan fill={'#E0488B'}>Far from the Madding Crowd</tspan>
       </text>
     )
-    // style: { fill: 'url(#gradient' },
-    // additionalDefs: { GradientDefs }
   };
 
-  const lineProps = {
-    data: TheaterSummaryData,
-    xAccessor: d => d.rank,
+  const lineProps2 = {
+    data: TData.map(d => d.coordinates.map(e => {
+      e.title = d.title;
+      return e;
+    })).reduce((acc, cur) => {
+      acc = [...acc, ...cur];
+      return acc;
+    }, []),
+    xAccessor: d => d.week,
     yAccessor: d => d.theaterCount,
     sAccessor: d => d.title,
-    xExtent: [0],
-    yExtent: [0],
     lineStyle: (d, i) => ({
       stroke: theme[i],
-      strokeWidth: 2
+      strokeWidth: 2,
+      fill: "none"
     }),
 
+    lineType: 'stackedarea',
     pointStyle: {
       stroke: 'grey',
       alpha: 0.4,
       strokeWidth: 1
     },
-    useCanvas: true
+    showPoints: false,
+    lineUseCanvas: false
+  };
+
+  const lineProps = {
+    data: LineData,
+    xAccessor: d => d.year,
+    yAccessor: d => d.n,
+    sAccessor: d => d.name,
+    yExtent: [0],
+    lineStyle: (d, i) => ({
+      stroke: theme[i],
+      strokeWidth: 2,
+      fill: "none"
+    }),
+
+    lineType: 'bumpline',
+    pointStyle: {
+      stroke: 'grey',
+      alpha: 0.4,
+      strokeWidth: 1
+    },
+    showPoints: false,
+    lineUseCanvas: false
   };
 
   return (
@@ -81,7 +98,7 @@ const LinePage = props => {
         <XYFrame {...frameProps}>
           <XAxis label={'Rank'} />
           <YAxis left={50} label={'Theaters'} />
-          <Line {...lineProps} />
+          <Line {...lineProps2} />
         </XYFrame>
       </PapperBlock>
     </div>

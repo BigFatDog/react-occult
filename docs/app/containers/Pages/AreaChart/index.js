@@ -84,15 +84,17 @@ const AreaPage = props => {
     yExtent: [0],
     lineStyle: (d, i) => ({
       stroke: theme[i],
-      strokeWidth: 2
+      strokeWidth: 2,
+      fill: 'red',
+      fillOpacity: 0.6
     }),
-
+    lineType: 'cumulative',
     pointStyle: {
       stroke: 'grey',
       alpha: 0.4,
       strokeWidth: 1
     },
-    useCanvas: false
+    lineUseCanvas: false
   };
 
   const contourProps = {
