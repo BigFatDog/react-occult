@@ -46,6 +46,8 @@ const toAnnotations = (d, i, props) => {
     screenCoordinates: d.screenCoordinates
   };
 
+  console.log(d);
+
   const AnnotationType = TypeHash[d.type] || d.type;
   return AnnotationType ? <AnnotationType {...widgetProps} /> : null;
 };

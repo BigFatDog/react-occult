@@ -9,7 +9,7 @@ const Line = props => {
 
 Line.propTypes = {
   ...Plot.propTypes,
-  type: PropTypes.oneOf([
+  lineType: PropTypes.oneOf([
     'stackedarea',
     'stackedarea-invert',
     'stackedpercent',

@@ -43,23 +43,25 @@ const LinePage = props => {
       acc = [...acc, ...cur];
       return acc;
     }, []),
+    yExtent: [0.4, 3.6],
     xAccessor: d => d.week,
     yAccessor: d => d.theaterCount,
     sAccessor: d => d.title,
     lineStyle: (d, i) => ({
       stroke: theme[i],
-      strokeWidth: 2,
-      fill: "none"
+      strokeWidth: 18,
+      fill: "none",
+      opacity: 0.7
     }),
 
-    lineType: 'stackedarea',
+    lineType: 'bumpline',
     pointStyle: {
       stroke: 'grey',
       alpha: 0.4,
       strokeWidth: 1
     },
     showPoints: false,
-    lineUseCanvas: false
+    lineUseCanvas: true
   };
 
   const lineProps = {
@@ -67,7 +69,8 @@ const LinePage = props => {
     xAccessor: d => d.year,
     yAccessor: d => d.n,
     sAccessor: d => d.name,
-    yExtent: [0],
+    xExtent: [1],
+    yExtent: [0, 4],
     lineStyle: (d, i) => ({
       stroke: theme[i],
       strokeWidth: 2,
@@ -81,7 +84,7 @@ const LinePage = props => {
       strokeWidth: 1
     },
     showPoints: false,
-    lineUseCanvas: false
+    lineUseCanvas: true
   };
 
   return (

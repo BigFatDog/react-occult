@@ -1,4 +1,3 @@
-import getExtent from '../plots/BasePlot/getExtent';
 import toRenderedAreas from '../plots/BasePlot/toRenderedAreas';
 import toRenderedPoints from '../plots/BasePlot/toRenderedPoints';
 import toRenderedLines from '../plots/BasePlot/toRenderedLines';
@@ -7,10 +6,9 @@ import stringToFn from '../utils/stringToFn';
 const emptyObjectReturnFunction = () => ({});
 const emptyStringReturnFunction = () => '';
 
+
 const toPipeline = props => {
-  const { projection, ...rest } = props;
   const {
-    data,
     lineStyle,
     lineClass,
     lineCustomMarks,
@@ -26,26 +24,15 @@ const toPipeline = props => {
     areaUseCanvas,
     lineUseCanvas,
     pointUseCanvas,
-    xAccessor,
-    yAccessor,
-    xExtent,
-    yExtent,
     frameXScale: xScale,
-    frameYScale: yScale
+    frameYScale: yScale,
   } = props;
 
-  // extents
-  const { finalXExtent, finalYExtent } = getExtent({
-    data,
-    xAccessor,
-    yAccessor,
-    xExtent,
-    yExtent
-  });
+  const { projection, ...rest } = props;
 
   const { projectedLines, projectedAreas, projectedPoints } = projection({
-    finalXExtent,
-    finalYExtent,
+    frameXScale: xScale,
+    frameYScale: yScale,
     ...rest
   });
 
@@ -90,7 +77,7 @@ const toPipeline = props => {
 
   return {
     svgPipe,
-    canvasPipe
+    canvasPipe,
   };
 };
 

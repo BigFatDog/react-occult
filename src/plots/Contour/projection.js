@@ -8,8 +8,8 @@ const contouringProjection = ({
   resolution,
   bandWidth,
   neighborhood,
-  finalXExtent,
-  finalYExtent,
+  frameXScale,
+  frameYScale,
   data,
   xAccessor,
   yAccessor,
@@ -26,11 +26,11 @@ const contouringProjection = ({
   });
 
   const xScale = scaleLinear()
-    .domain(finalXExtent)
+    .domain(frameXScale.domain())
     .rangeRound([0, resolution])
     .nice();
   const yScale = scaleLinear()
-    .domain(finalYExtent)
+    .domain(frameYScale.domain())
     .rangeRound([resolution, 0])
     .nice();
 

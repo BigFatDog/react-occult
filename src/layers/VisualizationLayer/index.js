@@ -11,8 +11,9 @@ const VisualizationLayer = props => {
     margin,
     title,
     ariaTitle,
-    children,
+    svgPipeline,
     voronoiHover,
+    children,
     canvasPipeline
   } = props;
 
@@ -32,8 +33,8 @@ const VisualizationLayer = props => {
   const ariaLabel = `Visualization ${_title}. Use arrow keys to navigate elements.`;
 
   return (
-    children &&
-    children.length > 0 && (
+    svgPipeline &&
+    svgPipeline.length > 0 && (
       <g
         className="data-visualization"
         key="visualization-clip-path"
@@ -44,6 +45,7 @@ const VisualizationLayer = props => {
         }
         transform={`translate(${margin.left},${margin.top})`}
       >
+        {svgPipeline}
         {children}
         {matte}
       </g>
