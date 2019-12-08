@@ -1,7 +1,6 @@
 const datesForUnique = d => (d instanceof Date ? d.getTime() : d);
 
 export const bumpline = ({ type = 'bumpline', data }) => {
-  console.log('------');
   const uniqXValues = data
     .map(d => d._xyCoordinates.map(p => datesForUnique(p.x)))
     .reduce((a, b) => a.concat(b), [])
