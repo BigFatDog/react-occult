@@ -6,7 +6,6 @@ import stringToFn from '../utils/stringToFn';
 const emptyObjectReturnFunction = () => ({});
 const emptyStringReturnFunction = () => '';
 
-
 const toPipeline = props => {
   const {
     lineStyle,
@@ -25,7 +24,7 @@ const toPipeline = props => {
     lineUseCanvas,
     pointUseCanvas,
     frameXScale: xScale,
-    frameYScale: yScale,
+    frameYScale: yScale
   } = props;
 
   const { projection, ...rest } = props;
@@ -77,7 +76,7 @@ const toPipeline = props => {
 
   return {
     svgPipe,
-    canvasPipe,
+    canvasPipe
   };
 };
 

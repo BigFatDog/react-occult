@@ -13,20 +13,22 @@ import {
   getFrameScopeExtent,
   getAdjustedPositionSize,
   toMarginGraphic,
-  toPipeline, trimExtent
+  toPipeline,
+  trimExtent
 } from './utils';
 import toAxes from '../axis/toAxes';
 import renderAnnotations from '../plots/Annotation/renderAnnotations';
 import HTMLTooltipAnnotation from '../plots/Annotation/widgets/HTMLTooltipAnnotation';
-import {extent} from "d3-array";
+import { extent } from 'd3-array';
 
 const isPlot = type =>
   ['Hexbin', 'Contour', 'Heatmap', 'Line', 'Scatter'].includes(type);
 
-const flatten = arr => arr.reduce((acc, cur) => Array.isArray(cur) ? acc.concat(cur) : acc.concat(cur), []);
-
-
-
+const flatten = arr =>
+  arr.reduce(
+    (acc, cur) => (Array.isArray(cur) ? acc.concat(cur) : acc.concat(cur)),
+    []
+  );
 
 const getCanvasScale = context => {
   const devicePixelRatio = window.devicePixelRatio || 1;
@@ -167,7 +169,6 @@ const XYFrame = props => {
       return d;
     });
 
-
   const frameScopeExtent = getFrameScopeExtent(plotChildren);
   const xRange = [0, adjustedSize[0]];
   const yRange = [adjustedSize[1], 0];
@@ -176,7 +177,7 @@ const XYFrame = props => {
     .domain(frameScopeExtent.xExtent)
     .range(xRange);
   const frameYScale = yScaleType()
-     .domain(frameScopeExtent.yExtent)
+    .domain(frameScopeExtent.yExtent)
     .range(yRange);
 
   // canvasPipeline
@@ -188,7 +189,7 @@ const XYFrame = props => {
         frameYScale,
         margin,
         adjustedSize,
-        size,
+        size
       })
     )
     .reduce(
@@ -202,23 +203,22 @@ const XYFrame = props => {
     );
 
   const screenCoordinates = plotChildren
-      .map(d =>
-          d.props.data.map(e => ({
-            ...e,
-            x: d.props.xAccessor(e),
-            y: d.props.yAccessor(e),
-            screenCoordinates: [
-              frameXScale(d.props.xAccessor(e)),
-              frameYScale(d.props.yAccessor(e))
-            ],
-            key: d.key
-          }))
-      )
-      .reduce((acc, cur) => {
-        acc = [...acc, ...cur];
-        return acc;
-      }, []);
-
+    .map(d =>
+      d.props.data.map(e => ({
+        ...e,
+        x: d.props.xAccessor(e),
+        y: d.props.yAccessor(e),
+        screenCoordinates: [
+          frameXScale(d.props.xAccessor(e)),
+          frameYScale(d.props.yAccessor(e))
+        ],
+        key: d.key
+      }))
+    )
+    .reduce((acc, cur) => {
+      acc = [...acc, ...cur];
+      return acc;
+    }, []);
 
   const annotations = React.Children.toArray(children)
     .filter(d => d.type.name === 'Annotation')
@@ -232,11 +232,10 @@ const XYFrame = props => {
     }
   }
 
-
   // axisPipeline
   const axesDefs = React.Children.toArray(children)
-      .filter(d => d.type.name === 'XAxis' || d.type.name === 'YAxis')
-      .map(d => d.props);
+    .filter(d => d.type.name === 'XAxis' || d.type.name === 'YAxis')
+    .map(d => d.props);
 
   const { axes, axesTickLines } = toAxes({
     axesDefs,
@@ -245,7 +244,6 @@ const XYFrame = props => {
     xScale: frameXScale,
     yScale: frameYScale
   });
-
 
   const htmlAnnotations = tooltipContent
     ? screenCoordinates
@@ -317,6 +315,7 @@ const XYFrame = props => {
     />
   );
 
+  console.log(axes);
   return (
     <SpanOrDiv span={useSpans} className={`${className} frame ${name}`}>
       {beforeElements && (

@@ -1,5 +1,5 @@
 const differenceLine = ({ data, yProp, yPropTop, yPropBottom }) => {
-    console.log('-------------')
+  console.log('-------------');
   data.forEach((l, i) => {
     l.data.forEach((point, q) => {
       const otherLine = i === 0 ? 1 : 0;

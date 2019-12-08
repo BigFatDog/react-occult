@@ -11,10 +11,10 @@ const VisualizationLayer = props => {
     margin,
     title,
     ariaTitle,
-    svgPipeline,
     voronoiHover,
     children,
-    canvasPipeline
+    canvasPipeline,
+    svgPipeline,
   } = props;
 
   useEffect(() => {

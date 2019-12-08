@@ -84,8 +84,10 @@ const hexbinProjection = ({
       [-0.866, -0.5]
     ];
 
-    const hexWidth = hexBinXScale.invert(actualResolution) - frameXScale.domain()[0];
-    const hexHeight = hexBinYScale.invert(actualResolution) - frameYScale.domain()[0];
+    const hexWidth =
+      hexBinXScale.invert(actualResolution) - frameXScale.domain()[0];
+    const hexHeight =
+      hexBinYScale.invert(actualResolution) - frameYScale.domain()[0];
 
     const hexacoordinates = hexBase.map(d => [
       d[0] * hexWidth,

@@ -10,7 +10,7 @@ const heatmapProjection = ({
   binValue,
   customMark,
   frameXScale,
-    frameYScale,
+  frameYScale,
   adjustedSize,
   data,
   xAccessor,

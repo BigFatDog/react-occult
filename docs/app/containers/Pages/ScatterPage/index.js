@@ -45,19 +45,19 @@ const ScatterPage = props => {
         <tspan fill={'#E0488B'}>Far from the Madding Crowd</tspan>
       </text>
     ),
-    hoverAnnotation: true,
-    tooltipContent: d => {
-      return (
-        <div className="tooltip-content">
-          <p>Expire Date: {d.exp_dat}</p>
-          <p>Expire Amount: {d.exp_amo}</p>
-          <p>Spec id: {d.spe_id}</p>
-          <p>Person Name: {d.can_nam}</p>
-          <p>Purchase: {d.pur}</p>
-          <p>Payment: {d.pay}</p>
-        </div>
-      );
-    }
+    // hoverAnnotation: true,
+    // tooltipContent: d => {
+    //   return (
+    //     <div className="tooltip-content">
+    //       <p>Expire Date: {d.exp_dat}</p>
+    //       <p>Expire Amount: {d.exp_amo}</p>
+    //       <p>Spec id: {d.spe_id}</p>
+    //       <p>Person Name: {d.can_nam}</p>
+    //       <p>Purchase: {d.pur}</p>
+    //       <p>Payment: {d.pay}</p>
+    //     </div>
+    //   );
+    // }
   };
 
   const scatterProps = {
@@ -70,7 +70,7 @@ const ScatterPage = props => {
       opacity: 0.5
     }),
 
-    pointUseCanvas: true
+    pointUseCanvas: false
   };
 
   return (

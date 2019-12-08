@@ -36,10 +36,12 @@ const LinePage = props => {
   };
 
   const lineProps2 = {
-    data: TData.map(d => d.coordinates.map(e => {
-      e.title = d.title;
-      return e;
-    })).reduce((acc, cur) => {
+    data: TData.map(d =>
+      d.coordinates.map(e => {
+        e.title = d.title;
+        return e;
+      })
+    ).reduce((acc, cur) => {
       acc = [...acc, ...cur];
       return acc;
     }, []),
@@ -50,7 +52,7 @@ const LinePage = props => {
     lineStyle: (d, i) => ({
       stroke: theme[i],
       strokeWidth: 18,
-      fill: "none",
+      fill: 'none',
       opacity: 0.7
     }),
 
@@ -74,7 +76,7 @@ const LinePage = props => {
     lineStyle: (d, i) => ({
       stroke: theme[i],
       strokeWidth: 2,
-      fill: "none"
+      fill: 'none'
     }),
 
     lineType: 'bumpline',

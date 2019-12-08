@@ -94,7 +94,6 @@ const AreaPage = props => {
     lineUseCanvas: false
   };
 
-
   return (
     <div>
       <Helmet>

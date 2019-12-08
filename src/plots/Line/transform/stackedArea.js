@@ -40,12 +40,8 @@ const stackedArea = ({
       .map(d => d._xyCoordinates.filter(p => datesForUnique(p.x) === xValue))
       .reduce((a, b) => a.concat(b), []);
 
-    const positiveStepTotal = sum(
-      stepValues.map(d => (d.y > 0 ? d.y : 0))
-    );
-    const negativeStepTotal = sum(
-      stepValues.map(d => (d.y < 0 ? d.y : 0))
-    );
+    const positiveStepTotal = sum(stepValues.map(d => (d.y > 0 ? d.y : 0)));
+    const negativeStepTotal = sum(stepValues.map(d => (d.y < 0 ? d.y : 0)));
 
     stepValues.forEach(l => {
       if (l.y < 0) {
