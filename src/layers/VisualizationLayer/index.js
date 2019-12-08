@@ -11,7 +11,6 @@ const VisualizationLayer = props => {
     margin,
     title,
     ariaTitle,
-    voronoiHover,
     children,
     canvasPipeline
   } = props;
