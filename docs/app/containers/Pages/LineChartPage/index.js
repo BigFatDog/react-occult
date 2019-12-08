@@ -4,20 +4,28 @@ import { XYFrame, Line, XAxis, YAxis, Contour, Hexbin, Heatmap } from 'occult';
 import brand from 'dan-api/dummy/brand';
 import { PapperBlock } from 'dan-components';
 import { LineData } from './lineData';
-import { TData } from './TData';
+import * as d3 from "d3";
 
-const theme = [
-  '#ac58e5',
-  '#E0488B',
-  '#9fd0cb',
-  '#e0d33a',
-  '#7566ff',
-  '#533f82',
-  '#7a255d',
-  '#365350',
-  '#a19a11',
-  '#3f4482'
+const TheMetLight = [
+  '#F44336',
+  '#E91E63',
+  '#9C27B0',
+  '#673AB7',
+  '#3F51B5',
+  '#2196F3',
+  '#03A9F4',
+  '#00BCD4',
+  '#009688',
+  '#4CAF50',
+  '#8BC34A',
+  '#CDDC39',
+  '#FFEB3B',
+  '#FFC107',
+  '#FF9800',
+  '#FF5722',
 ];
+
+const colorScale = d3.scaleOrdinal().range(TheMetLight);
 
 const LinePage = props => {
   const title = brand.name + ' - K-Means Centroid Deviation';
@@ -35,51 +43,23 @@ const LinePage = props => {
     )
   };
 
-  const lineProps2 = {
-    data: TData.map(d =>
-      d.coordinates.map(e => {
-        e.title = d.title;
-        return e;
-      })
-    ).reduce((acc, cur) => {
-      acc = [...acc, ...cur];
-      return acc;
-    }, []),
-    yExtent: [0.4, 3.6],
-    xAccessor: d => d.week,
-    yAccessor: d => d.theaterCount,
-    sAccessor: d => d.title,
-    lineStyle: (d, i) => ({
-      stroke: theme[i],
-      strokeWidth: 18,
-      fill: 'none',
-      opacity: 0.7
-    }),
-
-    lineType: 'bumpline',
-    pointStyle: {
-      stroke: 'grey',
-      alpha: 0.4,
-      strokeWidth: 1
-    },
-    showPoints: false,
-    lineUseCanvas: true
-  };
-
   const lineProps = {
     data: LineData,
     xAccessor: d => d.year,
     yAccessor: d => d.n,
     sAccessor: d => d.name,
-    xExtent: [1],
-    yExtent: [0, 4],
+    yExtent: [0, 1],
     lineStyle: (d, i) => ({
-      stroke: theme[i],
-      strokeWidth: 2,
+      stroke: colorScale(d.s),
+      strokeWidth: 4,
+      opacity: 0.7,
       fill: 'none'
     }),
 
-    lineType: 'bumpline',
+    lineType: {
+      type: 'linepercent',
+      interpolator: d3.curveBasisOpen
+    },
     pointStyle: {
       stroke: 'grey',
       alpha: 0.4,
@@ -103,7 +83,7 @@ const LinePage = props => {
         <XYFrame {...frameProps}>
           <XAxis label={'Rank'} />
           <YAxis left={50} label={'Theaters'} />
-          <Line {...lineProps2} />
+          <Line {...lineProps} />
         </XYFrame>
       </PapperBlock>
     </div>

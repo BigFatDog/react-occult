@@ -32,8 +32,8 @@ const BumplinePage = props => {
 
     const frameProps = {
         margin: { left: 60, bottom: 90, right: 10, top: 40 },
-        width: 1000,
-        height: 600,
+        width: 800,
+        height: 500,
         title: (
             <text textAnchor="middle">
                 Theaters showing <tspan fill={'#ac58e5'}>Ex Machina</tspan> vs{' '}

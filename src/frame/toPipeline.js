@@ -12,6 +12,7 @@ const toPipeline = props => {
     lineClass,
     lineCustomMarks,
     lineRenderMode,
+    lineType,
     areaStyle,
     areaClass,
     areaRenderMode,
@@ -24,7 +25,7 @@ const toPipeline = props => {
     lineUseCanvas,
     pointUseCanvas,
     frameXScale: xScale,
-    frameYScale: yScale
+    frameYScale: yScale,
   } = props;
 
   const { projection, ...rest } = props;
@@ -43,6 +44,7 @@ const toPipeline = props => {
     classFn: stringToFn(lineClass, emptyStringReturnFunction, true),
     renderFn: stringToFn(lineRenderMode, undefined, true),
     customMarks: lineCustomMarks,
+    type: lineType,
     data: projectedLines
   });
 
