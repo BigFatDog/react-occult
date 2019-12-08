@@ -43,7 +43,10 @@ const toAnnotations = (d, i, props) => {
     ...d,
     d,
     i,
-    screenCoordinates: d.screenCoordinates
+    screenCoordinates: d.screenCoordinates || [
+      d.x ? d.x : 0,
+      d.y ? props.adjustedSize[1] - d.y : props.adjustedSize[1]
+    ],
   };
 
   console.log(d);
