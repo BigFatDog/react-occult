@@ -44,7 +44,7 @@ const ScatterPage = props => {
         Theaters showing <tspan fill={'#ac58e5'}>Ex Machina</tspan> vs{' '}
         <tspan fill={'#E0488B'}>Far from the Madding Crowd</tspan>
       </text>
-    ),
+    )
     // hoverAnnotation: true,
     // tooltipContent: d => {
     //   return (

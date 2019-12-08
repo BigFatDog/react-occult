@@ -91,7 +91,7 @@ const AreaPage = props => {
       alpha: 0.4,
       strokeWidth: 1
     },
-    lineUseCanvas: false
+    lineUseCanvas: true
   };
 
   return (

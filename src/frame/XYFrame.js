@@ -315,7 +315,6 @@ const XYFrame = props => {
     />
   );
 
-  console.log(axes);
   return (
     <SpanOrDiv span={useSpans} className={`${className} frame ${name}`}>
       {beforeElements && (
@@ -408,9 +407,9 @@ const XYFrame = props => {
               margin={margin}
               canvasPostProcess={canvasPostProcess}
               canvasPipeline={canvasPipeline}
-              svgPipeline={svgPipeline}
               voronoiHover={setVoronoiHover}
             >
+              {svgPipeline}
               {axes && (
                 <g key="visualization-axis-labels" className="axis axis-labels">
                   {axes}
