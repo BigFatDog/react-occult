@@ -22,11 +22,6 @@ module.exports = [
         link: '/centroid'
       },
       {
-        key: 'line',
-        name: 'Line Chart',
-        link: '/line'
-      },
-      {
         key: 'heatmap',
         name: 'Heatmap',
         link: '/heatmap'
@@ -37,14 +32,34 @@ module.exports = [
         link: '/contour'
       },
       {
+        key: 'hexbin',
+        name: 'Hexbin',
+        link: '/hexbin'
+      },
+      {
+        key: 'scatter',
+        name: 'Scatter',
+        link: '/scatter'
+      },
+      {
         key: 'area',
         name: 'Area',
         link: '/area'
       },
       {
-        key: 'hexbin',
-        name: 'Hexbin',
-        link: '/hexbin'
+        key: 'line',
+        name: 'Line Chart',
+        link: '/line'
+      },
+      {
+        key: 'bumpline',
+        name: 'Bumpline',
+        link: '/bumpline'
+      },
+      {
+        key: 'linepercentage',
+        name: 'Line Percentage',
+        link: '/linepercentage'
       },
       {
         key: 'old_faithful',

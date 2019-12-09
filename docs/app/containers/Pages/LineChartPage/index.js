@@ -3,21 +3,29 @@ import { Helmet } from 'react-helmet';
 import { XYFrame, Line, XAxis, YAxis, Contour, Hexbin, Heatmap } from 'occult';
 import brand from 'dan-api/dummy/brand';
 import { PapperBlock } from 'dan-components';
-import { TheaterSummaryData } from '../AreaChart/ThreaterFlattenData';
-import { AnnotationCalloutCircle } from 'react-annotation';
+import { LineData } from './lineData';
+import * as d3 from 'd3';
 
-const theme = [
-  '#ac58e5',
-  '#E0488B',
-  '#9fd0cb',
-  '#e0d33a',
-  '#7566ff',
-  '#533f82',
-  '#7a255d',
-  '#365350',
-  '#a19a11',
-  '#3f4482'
+const TheMetLight = [
+  '#F44336',
+  '#E91E63',
+  '#9C27B0',
+  '#673AB7',
+  '#3F51B5',
+  '#2196F3',
+  '#03A9F4',
+  '#00BCD4',
+  '#009688',
+  '#4CAF50',
+  '#8BC34A',
+  '#CDDC39',
+  '#FFEB3B',
+  '#FFC107',
+  '#FF9800',
+  '#FF5722'
 ];
+
+const colorScale = d3.scaleOrdinal().range(TheMetLight);
 
 const LinePage = props => {
   const title = brand.name + ' - K-Means Centroid Deviation';
@@ -27,44 +35,36 @@ const LinePage = props => {
     margin: { left: 60, bottom: 90, right: 10, top: 40 },
     width: 700,
     height: 400,
-    annotations: [
-      { type: 'react-annotation', label: 'a note', y: 100 },
-      {
-        type: AnnotationCalloutCircle,
-        note: { label: 'callout', title: 'important' },
-
-        score: 10,
-        subject: { radius: 30 }
-      }
-    ],
     title: (
       <text textAnchor="middle">
         Theaters showing <tspan fill={'#ac58e5'}>Ex Machina</tspan> vs{' '}
         <tspan fill={'#E0488B'}>Far from the Madding Crowd</tspan>
       </text>
     )
-    // style: { fill: 'url(#gradient' },
-    // additionalDefs: { GradientDefs }
   };
 
   const lineProps = {
-    data: TheaterSummaryData,
-    xAccessor: d => d.rank,
-    yAccessor: d => d.theaterCount,
-    sAccessor: d => d.title,
-    xExtent: [0],
-    yExtent: [0],
+    data: LineData,
+    xAccessor: d => d.year,
+    yAccessor: d => d.n,
+    sAccessor: d => d.name,
     lineStyle: (d, i) => ({
-      stroke: theme[i],
-      strokeWidth: 2
+      stroke: colorScale(d.s),
+      fill: colorScale(d.s),
+      fillOpacity: 0.6
     }),
 
+    lineType: {
+      type: 'stackedarea',
+      interpolator: d3.curveCatmullRom
+    },
     pointStyle: {
       stroke: 'grey',
       alpha: 0.4,
       strokeWidth: 1
     },
-    useCanvas: true
+    showPoints: true,
+    lineUseCanvas: true
   };
 
   return (

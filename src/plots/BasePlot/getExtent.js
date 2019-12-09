@@ -3,10 +3,12 @@ import { extent } from 'd3-array';
 const extentValue = extent =>
   (extent && extent.extent) || (Array.isArray(extent) && extent) || [];
 
-const getExtent = ({ data, xExtent, yExtent, xAccessor, yAccessor }) => {
-  const calculatedXExtent = extent(data, xAccessor);
-  const calculatedYExtent = extent(data, yAccessor);
-
+const trimExtent = ({
+  xExtent,
+  yExtent,
+  calculatedXExtent,
+  calculatedYExtent
+}) => {
   const userDefinedXExtent = extentValue(xExtent);
   const userDefinedYExtent = extentValue(yExtent);
 
@@ -32,9 +34,37 @@ const getExtent = ({ data, xExtent, yExtent, xAccessor, yAccessor }) => {
   const finalXExtent = [xMin, xMax];
 
   return {
-    finalYExtent,
-    finalXExtent
+    yExtent: finalYExtent,
+    xExtent: finalXExtent
   };
 };
 
-export default getExtent;
+const getFrameScopeExtent = plotChildren => {
+  // frame scope scales
+  return plotChildren
+    .map(d => {
+      const calculatedXExtent = extent(d.props.data, d.props.xAccessor);
+      const calculatedYExtent = extent(d.props.data, d.props.yAccessor);
+
+      return trimExtent({
+        xExtent: d.props.xExtent,
+        yExtent: d.props.yExtent,
+        calculatedXExtent,
+        calculatedYExtent
+      });
+    })
+    .reduce((acc, cur) => {
+      if (acc === null) {
+        acc = Object.assign({}, cur);
+      } else {
+        acc.xExtent[0] = Math.min(acc.xExtent[0], cur.xExtent[0]);
+        acc.xExtent[1] = Math.max(acc.xExtent[1], cur.xExtent[1]);
+        acc.yExtent[0] = Math.min(acc.yExtent[0], cur.yExtent[0]);
+        acc.yExtent[1] = Math.max(acc.yExtent[1], cur.yExtent[1]);
+      }
+
+      return acc;
+    }, null);
+};
+
+export { getFrameScopeExtent };

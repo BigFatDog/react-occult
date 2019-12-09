@@ -6,7 +6,6 @@ import { Mark } from 'semiotic-mark';
 import { changeVoronoi, clickVoronoi, doubleclickVoronoi } from './voronoi';
 
 const calculateOverlay = props => {
-  let voronoiPaths = [];
   const {
     xScale,
     yScale,
@@ -19,7 +18,8 @@ const calculateOverlay = props => {
     hoverAnnotation,
     voronoiHover
   } = props;
-  console.log(data);
+
+  let voronoiPaths = [];
   const pointerStyle =
     customClickBehavior || customDoubleClickBehavior
       ? { cursor: 'pointer' }
@@ -57,8 +57,6 @@ const calculateOverlay = props => {
         } else voronoiUniqueHash[pointKey].coincidentPoints.push(d);
       }
     });
-
-    console.log('--------------');
 
     const voronoiXExtent = d3Extent(voronoiDataset.map(d => d.voronoiX));
     const voronoiYExtent = d3Extent(voronoiDataset.map(d => d.voronoiY));
@@ -98,8 +96,8 @@ const calculateOverlay = props => {
           d={`M${d.join('L')}Z`}
           style={{
             fillOpacity: 0,
-            strokeOpacity: 0.5,
-            stroke: 'blue',
+            strokeOpacity: 0,
+            stroke: 'none',
             ...pointerStyle
           }}
         />

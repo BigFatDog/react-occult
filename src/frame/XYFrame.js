@@ -10,16 +10,25 @@ import InteractionLayer from '../layers/InteractionLayer';
 
 import {
   generateFrameTitle,
-  getExtent,
+  getFrameScopeExtent,
   getAdjustedPositionSize,
   toMarginGraphic,
-  toPipeline
+  toPipeline,
+  trimExtent
 } from './utils';
 import toAxes from '../axis/toAxes';
 import renderAnnotations from '../plots/Annotation/renderAnnotations';
 import HTMLTooltipAnnotation from '../plots/Annotation/widgets/HTMLTooltipAnnotation';
+import { extent } from 'd3-array';
 
-const isPlot = type => ['Hexbin', 'Contour', 'Heatmap', 'Line'].includes(type);
+const isPlot = type =>
+  ['Hexbin', 'Contour', 'Heatmap', 'Line', 'Scatter'].includes(type);
+
+const flatten = arr =>
+  arr.reduce(
+    (acc, cur) => (Array.isArray(cur) ? acc.concat(cur) : acc.concat(cur)),
+    []
+  );
 
 const getCanvasScale = context => {
   const devicePixelRatio = window.devicePixelRatio || 1;
@@ -84,8 +93,8 @@ const XYFrame = props => {
     backgroundGraphics,
     foregroundGraphics,
     canvasPostProcess,
-    renderOrder,
     children,
+    // interactions
     hoverAnnotation,
     interaction,
     customClickBehavior,
@@ -95,7 +104,10 @@ const XYFrame = props => {
     columns,
     interactionOverflow,
     disableCanvasInteraction,
-    tooltipContent
+    //tooltip
+    tooltipContent,
+    xScaleType,
+    yScaleType
   } = props;
 
   const size = [width, height];
@@ -138,13 +150,69 @@ const XYFrame = props => {
     margin
   });
 
-  const allData = React.Children.toArray(children)
+  // assign key
+  const idMap = {};
+  const plotChildren = React.Children.toArray(children)
     .filter(d => isPlot(d.type.name))
+    .map(d => {
+      const baseKey = d.type.name;
+      if (!d.key) {
+        if (idMap[baseKey] !== undefined && idMap[baseKey] !== null) {
+          d.key = baseKey + '-' + idMap[baseKey];
+          idMap[baseKey]++;
+        } else {
+          d.key = baseKey + '-' + 0;
+          idMap[baseKey] = 0;
+        }
+      }
+
+      return d;
+    });
+
+  const frameScopeExtent = getFrameScopeExtent(plotChildren);
+  const xRange = [0, adjustedSize[0]];
+  const yRange = [adjustedSize[1], 0];
+
+  const frameXScale = xScaleType()
+    .domain(frameScopeExtent.xExtent)
+    .range(xRange);
+  const frameYScale = yScaleType()
+    .domain(frameScopeExtent.yExtent)
+    .range(yRange);
+
+  // canvasPipeline
+  const { canvasPipeline, svgPipeline } = plotChildren
+    .map((d, i) =>
+      toPipeline({
+        ...d.props,
+        frameXScale,
+        frameYScale,
+        margin,
+        adjustedSize,
+        size
+      })
+    )
+    .reduce(
+      (acc, cur) => {
+        acc.canvasPipeline = acc.canvasPipeline.concat(cur.canvasPipe);
+        acc.svgPipeline = acc.svgPipeline.concat(cur.svgPipe);
+
+        return acc;
+      },
+      { canvasPipeline: [], svgPipeline: [] }
+    );
+
+  const screenCoordinates = plotChildren
     .map(d =>
       d.props.data.map(e => ({
         ...e,
         x: d.props.xAccessor(e),
-        y: d.props.yAccessor(e)
+        y: d.props.yAccessor(e),
+        screenCoordinates: [
+          frameXScale(d.props.xAccessor(e)),
+          frameYScale(d.props.yAccessor(e))
+        ],
+        key: d.key
       }))
     )
     .reduce((acc, cur) => {
@@ -152,44 +220,17 @@ const XYFrame = props => {
       return acc;
     }, []);
 
-  // frame scope scales
-  const frameScopeExtent = React.Children.toArray(children)
-    .filter(d => isPlot(d.type.name))
-    .map(d => {
-      return getExtent({
-        data: d.props.data,
-        xAccessor: d.props.xAccessor,
-        yAccessor: d.props.yAccessor,
-        xExtent: d.props.xExtent,
-        yExtent: d.props.yExtent
-      });
-    })
-    .reduce(
-      (acc, cur) => {
-        if (!acc.xExtent || !acc.yExtent) {
-          acc.xExtent = cur.finalXExtent.slice();
-          acc.yExtent = cur.finalYExtent.slice();
-          return acc;
-        } else {
-          acc.xExtent[0] = Math.min(acc.xExtent[0], cur.finalXExtent[0]);
-          acc.xExtent[1] = Math.max(acc.xExtent[1], cur.finalXExtent[1]);
-          acc.yExtent[0] = Math.min(acc.yExtent[0], cur.finalYExtent[0]);
-          acc.yExtent[1] = Math.max(acc.yExtent[1], cur.finalYExtent[1]);
-          return acc;
-        }
-      },
-      { xExtent: null, yExtent: null }
-    );
+  const annotations = React.Children.toArray(children)
+    .filter(d => d.type.name === 'Annotation')
+    .map(d => d.props);
 
-  const xDomain = [0, adjustedSize[0]];
-  const yDomain = [adjustedSize[1], 0];
-
-  const frameXScale = scaleLinear()
-    .domain(frameScopeExtent.xExtent)
-    .range(xDomain);
-  const frameYScale = scaleLinear()
-    .domain(frameScopeExtent.yExtent)
-    .range(yDomain);
+  if (voronoiHover) {
+    if (Array.isArray(voronoiHover)) {
+      annotations.push(...voronoiHover);
+    } else {
+      annotations.push(voronoiHover);
+    }
+  }
 
   // axisPipeline
   const axesDefs = React.Children.toArray(children)
@@ -204,46 +245,28 @@ const XYFrame = props => {
     yScale: frameYScale
   });
 
-  // canvasPipeline
-  const { canvasPipeline, svgPipeline } = React.Children.toArray(children)
-    .filter(d => isPlot(d.type.name))
-    .map(d => {
-      return toPipeline({
-        ...d.props,
-        frameXScale,
-        frameYScale,
-        frontCanvas,
-        margin,
-        adjustedSize,
-        size
-      });
-    })
-    .reduce(
-      (acc, cur) => {
-        acc.canvasPipeline = acc.canvasPipeline.concat(cur.canvasPipe);
-        acc.svgPipeline = acc.svgPipeline.concat(cur.svgPipe);
-        return acc;
-      },
-      { canvasPipeline: [], svgPipeline: [] }
-    );
-
-  const annotations = React.Children.toArray(children)
-    .filter(d => d.type.name === 'Annotation')
-    .map(d => d.props);
-
-  if (voronoiHover) {
-    if (Array.isArray(voronoiHover)) {
-      annotations.push(...voronoiHover);
-    } else {
-      annotations.push(voronoiHover);
-    }
-  }
-
   const htmlAnnotations = tooltipContent
-    ? allData
+    ? screenCoordinates
         .filter(e => {
-          if (voronoiHover && voronoiHover.length === 1) {
-            return voronoiHover[0].x === e.x && voronoiHover[0].y === e.y;
+          if (voronoiHover) {
+            const hoverObj =
+              Array.isArray(voronoiHover) && voronoiHover.length > 0
+                ? voronoiHover[0]
+                : Object.assign({}, voronoiHover);
+
+            if (hoverObj.hasOwnProperty('x') && hoverObj.hasOwnProperty('y')) {
+              if (typeof hoverObj.x.getMonth === 'function') {
+                // is date
+                return (
+                  hoverObj.x.toISOString() === e.x.toISOString() &&
+                  hoverObj.y === e.y
+                );
+              } else {
+                return hoverObj.x === e.x && hoverObj.y === e.y;
+              }
+            } else {
+              return false;
+            }
           }
 
           return false;
@@ -289,17 +312,11 @@ const XYFrame = props => {
         adjustedPosition[0] + margin.left,
         adjustedPosition[1] + margin.top
       ]}
-    ></AnnotationLayer>
+    />
   );
 
   return (
-    <SpanOrDiv
-      span={useSpans}
-      className={`${className} frame ${name}`}
-      style={{
-        background: 'none'
-      }}
-    >
+    <SpanOrDiv span={useSpans} className={`${className} frame ${name}`}>
       {beforeElements && (
         <SpanOrDiv span={useSpans} className={`${name} frame-before-elements`}>
           {beforeElements}
@@ -390,21 +407,9 @@ const XYFrame = props => {
               margin={margin}
               canvasPostProcess={canvasPostProcess}
               canvasPipeline={canvasPipeline}
-              renderOrder={renderOrder}
               voronoiHover={setVoronoiHover}
             >
-              {React.Children.toArray(children)
-                .filter(d => isPlot(d.type.name))
-                .map(d =>
-                  React.cloneElement(d, {
-                    frameXScale,
-                    frameYScale,
-                    frontCanvas,
-                    adjustedSize,
-                    size,
-                    margin
-                  })
-                )}
+              {svgPipeline}
               {axes && (
                 <g key="visualization-axis-labels" className="axis axis-labels">
                   {axes}
@@ -434,8 +439,9 @@ const XYFrame = props => {
           svgSize={size}
           xScale={frameXScale}
           yScale={frameYScale}
-          data={allData}
+          data={screenCoordinates}
           enabled={true}
+          useCanvas={canvasPipeline.length > 0}
           overlay={overlay}
           oColumns={columns}
           interactionOverflow={interactionOverflow}
@@ -469,8 +475,11 @@ XYFrame.propTypes = {
   backgroundGraphics: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
   foregroundGraphics: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
   canvasPostProcess: PropTypes.string,
-  renderOrder: PropTypes.array,
-  hoverAnnotation: PropTypes.oneOfType([PropTypes.func, PropTypes.array]),
+  hoverAnnotation: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.array,
+    PropTypes.bool
+  ]),
   interaction: PropTypes.func,
   customClickBehavior: PropTypes.func,
   customHoverBehavior: PropTypes.func,
@@ -479,7 +488,9 @@ XYFrame.propTypes = {
   columns: PropTypes.object,
   interactionOverflow: PropTypes.func,
   disableCanvasInteraction: PropTypes.func,
-  tooltipContent: PropTypes.func
+  tooltipContent: PropTypes.func,
+  xScaleType: PropTypes.func,
+  yScaleType: PropTypes.func
 };
 
 XYFrame.defaultProps = {
@@ -497,7 +508,8 @@ XYFrame.defaultProps = {
   foregroundGraphics: null,
   additionalDefs: null,
   canvasPostProcess: 'chunkClose',
-  renderOrder: ['areas', 'lines', 'points']
+  xScaleType: scaleLinear,
+  yScaleType: scaleLinear
 };
 
 export default XYFrame;

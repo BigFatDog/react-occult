@@ -71,8 +71,6 @@ const AreaPage = props => {
         <tspan fill={'#E0488B'}>Far from the Madding Crowd</tspan>
       </text>
     )
-    // style: { fill: 'url(#gradient' },
-    // additionalDefs: { GradientDefs }
   };
 
   const lineProps = {
@@ -84,89 +82,16 @@ const AreaPage = props => {
     yExtent: [0],
     lineStyle: (d, i) => ({
       stroke: theme[i],
-      strokeWidth: 2
+      strokeWidth: 2,
+      fill: 'red',
+      fillOpacity: 0.6
     }),
-
     pointStyle: {
       stroke: 'grey',
       alpha: 0.4,
       strokeWidth: 1
     },
-    useCanvas: false
-  };
-
-  const contourProps = {
-    xAccessor: d => d.theaterCount,
-    yAccessor: d => d.rank,
-    sAccessor: d => d.title,
-    xExtent: [0],
-    yExtent: [0],
-    data: TheaterSummaryData,
-    threshold: 10,
-    bandWidth: 15,
-    areaStyle: (e, i) => ({
-      fill: 'none',
-      stroke: colors[e.parentSummary.s],
-      strokeWidth: 0.5
-    }),
-    pointStyle: d => ({
-      r: 2,
-      fill: colors[d.parentSummary.s]
-    }),
-    // areaRenderMode: {
-    //   renderMode: 'sketchy',
-    //   fillWeight: 3,
-    //   hachureGap: 4
-    // },
-    useCanvas: false
-  };
-
-  const hexbinProps = {
-    xAccessor: d => d.theaterCount,
-    yAccessor: d => d.rank,
-    sAccessor: d => d.title,
-    xExtent: [0],
-    yExtent: [0],
-    data: TheaterSummaryData,
-    areaStyle: (e, i) => ({
-      stroke: colors[e.parentSummary.s],
-      fill: h(e.percent),
-      strokeWidth: 0.5
-    }),
-    pointStyle: d => ({
-      r: 2,
-      fill: colors[d.parentSummary.s]
-    }),
-    // areaRenderMode: {
-    //   renderMode: 'sketchy',
-    //   fillWeight: 3,
-    //   hachureGap: 4
-    // },
-    useCanvas: false
-  };
-
-  const heatmapProps = {
-    xAccessor: d => d.theaterCount,
-    yAccessor: d => d.rank,
-    sAccessor: d => d.title,
-    xExtent: [0],
-    yExtent: [0],
-    data: TheaterSummaryData,
-    areaStyle: (e, i) => ({
-      stroke: colors[e.parentSummary.s],
-      fill: h(e.percent),
-      strokeWidth: 0.5
-    }),
-    pointStyle: d => ({
-      r: 2,
-      fill: colors[d.parentSummary.s]
-    }),
-    // areaRenderMode: {
-    //   renderMode: 'sketchy',
-    //   fillWeight: 3,
-    //   hachureGap: 4
-    // },
-    useCanvas: false
+    lineUseCanvas: true
   };
 
   return (
@@ -192,10 +117,7 @@ const AreaPage = props => {
             x={100}
             y={100}
           />
-          {/*<Hexbin {...hexbinProps} />*/}
           <Line {...lineProps} />
-          {/*<Heatmap {...heatmapProps} />*/}
-          {/*<Contour {...contourProps} />*/}
         </XYFrame>
       </PapperBlock>
     </div>

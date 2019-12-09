@@ -12,7 +12,6 @@ const VisualizationLayer = props => {
     title,
     ariaTitle,
     children,
-    voronoiHover,
     canvasPipeline
   } = props;
 
@@ -70,7 +69,6 @@ VisualizationLayer.propTypes = {
   matteClip: PropTypes.bool,
   frontCanvas: PropTypes.object,
   backCanvas: PropTypes.object,
-  renderOrder: PropTypes.array,
   voronoiHover: PropTypes.func,
   canvasPipeline: PropTypes.array
 };

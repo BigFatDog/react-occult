@@ -76,7 +76,7 @@ const toRenderedLines = ({
   renderKeyFn,
   type,
   defined,
-  baseMarkProps,
+  baseMarkProps = {},
   ariaLabel,
   axesData = []
 }) => {
@@ -90,11 +90,14 @@ const toRenderedLines = ({
   const yAxisFormatter = (yAxis && yAxis.tickFormat) || (d => d);
 
   const customLine = typeof type === 'object' ? type : { type };
-
   const interpolator =
     typeof customLine.interpolator === 'string'
       ? curveHash[customLine.interpolator]
       : customLine.interpolator || curveLinear;
+
+  if (customLine.type === 'area' || customLine.type === 'stackedarea') {
+    customLine.simpleLine = false;
+  }
 
   const lineGenerator = customLine.simpleLine ? line() : area();
 
@@ -144,7 +147,7 @@ const toRenderedLines = ({
       let pathString = dynamicLineGenerator(
         d,
         i
-      )(d._xyCoordinates.map(p => Object.assign({}, p._data, p)));
+      )(d._xyCoordinates.map(p => Object.assign({}, p.data, p)));
 
       if (
         pathString &&
@@ -158,21 +161,31 @@ const toRenderedLines = ({
         pathString = splitPath.map(d => d.join(',')).join('L');
       }
 
+      const _baseMarkProps = Object.assign(baseMarkProps, {
+        'aria-label': (ariaLabel && ariaLabel.items) || 'dataviz-element',
+        role: 'img',
+        tabIndex: -1
+      });
+
       const markProps = {
         ...builtInDisplayProps,
-        ...baseMarkProps,
+        ..._baseMarkProps,
         markType: 'path',
         d: pathString,
         'aria-label':
-          d.data &&
-          d.data.length > 0 &&
-          `${d.data.length} point ${
+          d._xyCoordinates &&
+          d._xyCoordinates.length > 0 &&
+          `${d._xyCoordinates.length} point ${
             ariaLabel.items
-          } starting value ${yAxisFormatter(d.data[0].y)} at ${xAxisFormatter(
-            d.data[0].x
+          } starting value ${yAxisFormatter(
+            d._xyCoordinates[0].y
+          )} at ${xAxisFormatter(
+            d._xyCoordinates[0].x
           )} ending value ${yAxisFormatter(
-            d.data[d.data.length - 1].y
-          )} at ${xAxisFormatter(d.data[d.data.length - 1].x)}`
+            d._xyCoordinates[d._xyCoordinates.length - 1].y
+          )} at ${xAxisFormatter(
+            d._xyCoordinates[d._xyCoordinates.length - 1].x
+          )}`
       };
 
       if (useCanvas === true) {

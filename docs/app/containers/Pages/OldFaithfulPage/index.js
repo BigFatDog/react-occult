@@ -76,6 +76,19 @@ const OldFaithfulPage = props => {
         <tspan fill={'#FF851B'}>Yellowstone National Park</tspan>
       </text>
     ),
+    foregroundGraphics: (
+      <g>
+        <g transform="translate(20,165)">
+          <rect fill={'#E0488B'} x={1000} y={300} width={120} height={55} />
+          <text fontWeight="700" fill="white" x={1025} y={325}>
+            OCCULT
+          </text>
+          <text fontWeight="200" fill="white" x={1013} y={340}>
+            Sample Label
+          </text>
+        </g>
+      </g>
+    ),
     additionalDefs: [gradient, trianglePattern],
     tooltipContent: d => {
       return (

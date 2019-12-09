@@ -8,8 +8,8 @@ const hexbinProjection = ({
   binValue,
   binMax,
   customMark,
-  finalXExtent,
-  finalYExtent,
+  frameXScale,
+  frameYScale,
   size,
   data,
   xAccessor,
@@ -27,10 +27,10 @@ const hexbinProjection = ({
   });
 
   const hexBinXScale = scaleLinear()
-    .domain(finalXExtent)
+    .domain(frameXScale.domain())
     .range([0, size[0]]);
   const hexBinYScale = scaleLinear()
-    .domain(finalYExtent)
+    .domain(frameYScale.domain())
     .range([0, size[1]]);
 
   const actualResolution =
@@ -84,8 +84,10 @@ const hexbinProjection = ({
       [-0.866, -0.5]
     ];
 
-    const hexWidth = hexBinXScale.invert(actualResolution) - finalXExtent[0];
-    const hexHeight = hexBinYScale.invert(actualResolution) - finalYExtent[0];
+    const hexWidth =
+      hexBinXScale.invert(actualResolution) - frameXScale.domain()[0];
+    const hexHeight =
+      hexBinYScale.invert(actualResolution) - frameYScale.domain()[0];
 
     const hexacoordinates = hexBase.map(d => [
       d[0] * hexWidth,

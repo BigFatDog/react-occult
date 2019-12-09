@@ -376,7 +376,8 @@ Axis.propTypes = {
   annotationFunction: PropTypes.func,
   className: PropTypes.string,
   margin: PropTypes.object,
-  name: PropTypes.string
+  name: PropTypes.string,
+  showLineTicks: PropTypes.bool
 };
 
 Axis.defaultProps = {
@@ -387,14 +388,13 @@ Axis.defaultProps = {
   className: '',
   padding: 0,
   tickValues: null,
-  scale: null,
   ticks: null,
   footer: false,
   tickSize: -10,
-  tickLineGenerator: null,
   baseline: true,
   margin: { top: 0, bottom: 0, left: 0, right: 0 },
-  center: false
+  center: false,
+  showLineTicks: true
 };
 
 export default Axis;

@@ -38,18 +38,15 @@ const TypeHash = {
 };
 
 const toAnnotations = (d, i, props) => {
-  const { adjustedSize } = props;
-  const screenCoordinates = [
-    d.x ? d.x : 0,
-    d.y ? adjustedSize[1] - d.y : adjustedSize[1]
-  ];
-
   const widgetProps = {
     ...props,
     ...d,
     d,
     i,
-    screenCoordinates
+    screenCoordinates: d.screenCoordinates || [
+      d.x ? d.x : 0,
+      d.y ? props.adjustedSize[1] - d.y : props.adjustedSize[1]
+    ]
   };
 
   const AnnotationType = TypeHash[d.type] || d.type;

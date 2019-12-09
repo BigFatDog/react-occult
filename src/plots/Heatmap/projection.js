@@ -9,8 +9,8 @@ const heatmapProjection = ({
   binMax,
   binValue,
   customMark,
-  finalXExtent,
-  finalYExtent,
+  frameXScale,
+  frameYScale,
   adjustedSize,
   data,
   xAccessor,
@@ -33,10 +33,10 @@ const heatmapProjection = ({
   const yBinPercent = yBins < 1 ? yBins : 1 / yBins;
 
   const heatmapBinXScale = scaleLinear()
-    .domain(finalXExtent)
+    .domain(frameXScale.domain())
     .range([0, size[0]]);
   const heatmapBinYScale = scaleLinear()
-    .domain(finalYExtent)
+    .domain(frameYScale.domain())
     .range([size[1], 0]);
 
   const actualResolution = [
