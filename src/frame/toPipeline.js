@@ -61,11 +61,12 @@ const toPipeline = props => {
   });
 
   const lineAriaLabel =
-    lineType && lineType.type !== undefined &&
+    lineType &&
+    lineType.type !== undefined &&
     typeof lineType.type === 'string' &&
     naturalLanguageLineType[lineType.type];
 
-  if(lineType && lineType.type && (lineType.type === 'stackedarea')) {
+  if (lineType && lineType.type && lineType.type === 'stackedarea') {
     const maxY = projectedLines.map(d => max(d._xyCoordinates, d => d.yTop));
     yScale.domain([0, Math.max(...maxY)]);
   }
