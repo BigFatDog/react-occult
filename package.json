@@ -1,6 +1,6 @@
 {
   "name": "react-occult",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Layered Information Visualization based on React and D3",
   "main": "lib/react-occult.cjs.js",
   "browser": "lib/react-occult.js",
