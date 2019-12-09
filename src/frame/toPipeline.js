@@ -6,6 +6,29 @@ import stringToFn from '../utils/stringToFn';
 const emptyObjectReturnFunction = () => ({});
 const emptyStringReturnFunction = () => '';
 
+const naturalLanguageLineType = {
+  line: { items: 'line', chart: 'line chart' },
+  area: { items: 'summary', chart: 'summary chart' },
+  summary: { items: 'summary', chart: 'summary chart' },
+  cumulative: { items: 'line', chart: 'cumulative chart' },
+  'cumulative-reverse': { items: 'line', chart: 'cumulative chart' },
+  linepercent: { items: 'line', chart: 'line chart' },
+  stackedarea: { items: 'stacked area', chart: 'stacked area chart' },
+  'stackedarea-invert': { items: 'stacked area', chart: 'stacked area chart' },
+  stackedpercent: { items: 'stacked area', chart: 'stacked area chart' },
+  'stackedpercent-invert': {
+    items: 'stacked area',
+    chart: 'stacked area chart'
+  },
+  bumparea: { items: 'ranked area', chart: 'ranked area chart' },
+  'bumparea-invert': { items: 'ranked area', chart: 'ranked area chart' },
+  bumpline: { items: 'ranked line', chart: 'ranked line chart' },
+  difference: {
+    items: 'line',
+    chart: 'difference chart'
+  }
+};
+
 const toPipeline = props => {
   const {
     lineStyle,
@@ -25,7 +48,7 @@ const toPipeline = props => {
     lineUseCanvas,
     pointUseCanvas,
     frameXScale: xScale,
-    frameYScale: yScale,
+    frameYScale: yScale
   } = props;
 
   const { projection, ...rest } = props;
@@ -36,6 +59,11 @@ const toPipeline = props => {
     ...rest
   });
 
+  const lineAriaLabel =
+    lineType.type !== undefined &&
+    typeof lineType.type === 'string' &&
+    naturalLanguageLineType[lineType.type];
+
   const { svgPipeline: lineSvg, canvasPipeline: lineCanvas } = toRenderedLines({
     useCanvas: lineUseCanvas,
     xScale,
@@ -45,7 +73,9 @@ const toPipeline = props => {
     renderFn: stringToFn(lineRenderMode, undefined, true),
     customMarks: lineCustomMarks,
     type: lineType,
-    data: projectedLines
+    data: projectedLines,
+    ariaLabel: lineAriaLabel,
+    baseMarkProps: {}
   });
 
   const { svgPipeline: areaSvg, canvasPipeline: areaCanvas } = toRenderedAreas({

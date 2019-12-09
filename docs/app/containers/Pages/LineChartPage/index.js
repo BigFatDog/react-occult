@@ -4,7 +4,7 @@ import { XYFrame, Line, XAxis, YAxis, Contour, Hexbin, Heatmap } from 'occult';
 import brand from 'dan-api/dummy/brand';
 import { PapperBlock } from 'dan-components';
 import { LineData } from './lineData';
-import * as d3 from "d3";
+import * as d3 from 'd3';
 
 const TheMetLight = [
   '#F44336',
@@ -22,7 +22,7 @@ const TheMetLight = [
   '#FFEB3B',
   '#FFC107',
   '#FF9800',
-  '#FF5722',
+  '#FF5722'
 ];
 
 const colorScale = d3.scaleOrdinal().range(TheMetLight);
@@ -48,16 +48,14 @@ const LinePage = props => {
     xAccessor: d => d.year,
     yAccessor: d => d.n,
     sAccessor: d => d.name,
-    yExtent: [0, 1],
     lineStyle: (d, i) => ({
       stroke: colorScale(d.s),
-      strokeWidth: 4,
-      opacity: 0.7,
-      fill: 'none'
+      fill: colorScale(d.s),
+      fillOpacity: 0.6
     }),
 
     lineType: {
-      type: 'linepercent',
+      type: 'area',
       interpolator: d3.curveBasisOpen
     },
     pointStyle: {
@@ -66,7 +64,7 @@ const LinePage = props => {
       strokeWidth: 1
     },
     showPoints: false,
-    lineUseCanvas: true
+    lineUseCanvas: false
   };
 
   return (
