@@ -12,6 +12,7 @@ import AreaPage from '../Pages/AreaChart';
 import NeighborhoodPage from '../Pages/Neighborhood';
 import OldFaithfulPage from '../Pages/OldFaithfulPage';
 import Bumpline from '../Pages/Bumpline';
+import LinePercentage from '../Pages/LinePercentage';
 
 import BlankPage from '../Pages/BlankPage';
 import { NotFound } from '../pageListAsync';
@@ -33,6 +34,7 @@ class Application extends React.Component {
           <Route path="/neighborhood" component={NeighborhoodPage} />
           <Route path="/faithful" component={OldFaithfulPage} />
           <Route path="/bumpline" component={Bumpline} />
+          <Route path="/linepercentage" component={LinePercentage} />
           <Route component={NotFound} />
         </Switch>
       </Dashboard>

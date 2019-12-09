@@ -57,6 +57,11 @@ module.exports = [
         link: '/bumpline'
       },
       {
+        key: 'linepercentage',
+        name: 'Line Percentage',
+        link: '/linepercentage'
+      },
+      {
         key: 'old_faithful',
         name: 'Old Faithful Contour',
         link: '/faithful'
