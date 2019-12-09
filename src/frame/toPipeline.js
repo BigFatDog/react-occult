@@ -2,6 +2,7 @@ import toRenderedAreas from '../plots/BasePlot/toRenderedAreas';
 import toRenderedPoints from '../plots/BasePlot/toRenderedPoints';
 import toRenderedLines from '../plots/BasePlot/toRenderedLines';
 import stringToFn from '../utils/stringToFn';
+import { max } from 'd3-array';
 
 const emptyObjectReturnFunction = () => ({});
 const emptyStringReturnFunction = () => '';
@@ -63,6 +64,11 @@ const toPipeline = props => {
     lineType && lineType.type !== undefined &&
     typeof lineType.type === 'string' &&
     naturalLanguageLineType[lineType.type];
+
+  if(lineType && lineType.type && (lineType.type === 'stackedarea')) {
+    const maxY = projectedLines.map(d => max(d._xyCoordinates, d => d.yTop));
+    yScale.domain([0, Math.max(...maxY)]);
+  }
 
   const { svgPipeline: lineSvg, canvasPipeline: lineCanvas } = toRenderedLines({
     useCanvas: lineUseCanvas,

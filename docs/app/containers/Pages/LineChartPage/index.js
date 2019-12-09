@@ -55,16 +55,16 @@ const LinePage = props => {
     }),
 
     lineType: {
-      type: 'area',
-      interpolator: d3.curveBasisOpen
+      type: 'stackedarea',
+      interpolator: d3.curveCatmullRom
     },
     pointStyle: {
       stroke: 'grey',
       alpha: 0.4,
       strokeWidth: 1
     },
-    showPoints: false,
-    lineUseCanvas: false
+    showPoints: true,
+    lineUseCanvas: true
   };
 
   return (
