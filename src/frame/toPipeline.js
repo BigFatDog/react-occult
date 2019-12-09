@@ -60,7 +60,7 @@ const toPipeline = props => {
   });
 
   const lineAriaLabel =
-    lineType.type !== undefined &&
+    lineType && lineType.type !== undefined &&
     typeof lineType.type === 'string' &&
     naturalLanguageLineType[lineType.type];
 

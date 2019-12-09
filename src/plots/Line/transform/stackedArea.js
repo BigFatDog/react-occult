@@ -4,12 +4,7 @@ const datesForUnique = d => (d instanceof Date ? d.getTime() : d);
 const stackedArea = ({
   type = 'stackedarea',
   data,
-  xProp,
-  yProp,
-  yPropMiddle,
   sort,
-  yPropTop,
-  yPropBottom
 }) => {
   const uniqXValues = data
     .map(d => d._xyCoordinates.map(p => datesForUnique(p.x)))

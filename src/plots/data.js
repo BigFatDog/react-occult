@@ -18,7 +18,7 @@ const groupData = ({ data, xAccessor, yAccessor, sAccessor, showPoints }) => {
       x: xAccessor(e),
       y: yAccessor(e),
       yTop: yAccessor(e),
-      yBottom: yAccessor(e),
+      yBottom: 0,
       data: e
     })),
     _baseData: groupedMap.get(d)
