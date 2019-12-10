@@ -33,7 +33,7 @@ const groupData = ({ data, xAccessor, yAccessor, sAccessor, showPoints }) => {
       x: xAccessor(d),
       y: yAccessor(d),
       yTop: yAccessor(d),
-      yBottom: yAccessor(d)
+      yBottom: 0
     }));
   }
 

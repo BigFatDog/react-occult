@@ -1,5 +1,4 @@
 const cumulativeLine = ({ data, type = 'cumulative' }) => {
-  console.log('cumulative');
   data.forEach(d => {
     let cumulativeValue = 0;
     const dataArray =

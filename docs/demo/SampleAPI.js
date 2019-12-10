@@ -2,7 +2,7 @@ import React from 'react';
 
 const Sample = props => {
   return (
-    <CartesianFrame
+    <XYFrame
       width={1200}
       height={800}
       title={'K-Means Centroid Deviation'}
@@ -34,7 +34,7 @@ const Sample = props => {
         className="first-series"
         data={overrideData}
       />
-    </CartesianFrame>
+    </XYFrame>
   );
 };
 

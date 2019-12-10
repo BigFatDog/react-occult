@@ -13,22 +13,14 @@ import {
   getFrameScopeExtent,
   getAdjustedPositionSize,
   toMarginGraphic,
-  toPipeline,
-  trimExtent
+  toPipeline
 } from './utils';
 import toAxes from '../axis/toAxes';
 import renderAnnotations from '../plots/Annotation/renderAnnotations';
 import HTMLTooltipAnnotation from '../plots/Annotation/widgets/HTMLTooltipAnnotation';
-import { extent } from 'd3-array';
 
 const isPlot = type =>
   ['Hexbin', 'Contour', 'Heatmap', 'Line', 'Scatter'].includes(type);
-
-const flatten = arr =>
-  arr.reduce(
-    (acc, cur) => (Array.isArray(cur) ? acc.concat(cur) : acc.concat(cur)),
-    []
-  );
 
 const getCanvasScale = context => {
   const devicePixelRatio = window.devicePixelRatio || 1;
@@ -181,7 +173,7 @@ const XYFrame = props => {
     .range(yRange);
 
   // canvasPipeline
-  const { canvasPipeline, svgPipeline } = plotChildren
+  const { canvasPipeline, svgPipeline, xyPoints } = plotChildren
     .map((d, i) =>
       toPipeline({
         ...d.props,
@@ -196,10 +188,11 @@ const XYFrame = props => {
       (acc, cur) => {
         acc.canvasPipeline = acc.canvasPipeline.concat(cur.canvasPipe);
         acc.svgPipeline = acc.svgPipeline.concat(cur.svgPipe);
+        acc.xyPoints = acc.xyPoints.concat(cur.xyPoints);
 
         return acc;
       },
-      { canvasPipeline: [], svgPipeline: [] }
+      { canvasPipeline: [], svgPipeline: [], xyPoints: [] }
     );
 
   const screenCoordinates = plotChildren
@@ -242,7 +235,8 @@ const XYFrame = props => {
     margin,
     adjustedSize,
     xScale: frameXScale,
-    yScale: frameYScale
+    yScale: frameYScale,
+    xyPoints
   });
 
   const htmlAnnotations = tooltipContent

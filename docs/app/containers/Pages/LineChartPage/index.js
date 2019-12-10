@@ -1,71 +1,78 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { XYFrame, Line, XAxis, YAxis, Contour, Hexbin, Heatmap } from 'occult';
+import { XYFrame, Line, XAxis, YAxis } from 'occult';
 import brand from 'dan-api/dummy/brand';
 import { PapperBlock } from 'dan-components';
-import { LineData } from './lineData';
-import * as d3 from 'd3';
-
-const TheMetLight = [
-  '#F44336',
-  '#E91E63',
-  '#9C27B0',
-  '#673AB7',
-  '#3F51B5',
-  '#2196F3',
-  '#03A9F4',
-  '#00BCD4',
-  '#009688',
-  '#4CAF50',
-  '#8BC34A',
-  '#CDDC39',
-  '#FFEB3B',
-  '#FFC107',
-  '#FF9800',
-  '#FF5722'
-];
-
-const colorScale = d3.scaleOrdinal().range(TheMetLight);
+import {
+  CumulativeReverse,
+  Cumulative,
+  Area,
+  Line as lineProps,
+  Bumpline,
+  Bumparea,
+  BumpareaInvert,
+  Difference,
+  Linepercent,
+  StackedpercentInvert,
+  Stackedpercent,
+  StackedareaInvert,
+  Stackedarea
+} from './types';
 
 const LinePage = props => {
-  const title = brand.name + ' - K-Means Centroid Deviation';
+  const title = brand.name + ' - Lines';
   const description = brand.desc;
 
-  const frameProps = {
+  const frameProps = name => ({
     margin: { left: 60, bottom: 90, right: 10, top: 40 },
     width: 700,
     height: 400,
     title: (
       <text textAnchor="middle">
-        Theaters showing <tspan fill={'#ac58e5'}>Ex Machina</tspan> vs{' '}
-        <tspan fill={'#E0488B'}>Far from the Madding Crowd</tspan>
+        <tspan fill={'#03A9F4'}>{name}</tspan>
       </text>
     )
-  };
+  });
 
-  const lineProps = {
-    data: LineData,
-    xAccessor: d => d.year,
-    yAccessor: d => d.n,
-    sAccessor: d => d.name,
-    lineStyle: (d, i) => ({
-      stroke: colorScale(d.s),
-      fill: colorScale(d.s),
-      fillOpacity: 0.6
-    }),
-
-    lineType: {
-      type: 'stackedarea',
-      interpolator: d3.curveCatmullRom
-    },
-    pointStyle: {
-      stroke: 'grey',
-      alpha: 0.4,
-      strokeWidth: 1
-    },
-    showPoints: true,
-    lineUseCanvas: true
-  };
+  const types = [
+    { name: 'Line', type: lineProps },
+    { name: 'Area', type: Area },
+    { name: 'CumulativeReverse', type: CumulativeReverse },
+    { name: 'Cumulative', type: Cumulative },
+    { name: 'Bumpline', type: Bumpline },
+    { name: 'Bumparea', type: Bumparea },
+    { name: 'BumpareaInvert', type: BumpareaInvert },
+    { name: 'Difference', type: Difference },
+    { name: 'Linepercent', type: Linepercent },
+    { name: 'StackedpercentInvert', type: StackedpercentInvert },
+    { name: 'Stackedpercent', type: Stackedpercent },
+    { name: 'StackedareaInvert', type: StackedareaInvert },
+    { name: 'Stackedarea', type: Stackedarea }
+  ];
+  const rendered = types.map(d => {
+    return (
+      <XYFrame {...frameProps(d.name)}>
+        <XAxis label={'Rank'} tickValues={[]} />
+        <YAxis
+          label={'Theaters'}
+          baseline={'under'}
+          tickLineGenerator={({ xy }) => (
+            <path
+              style={{
+                fill: '#efefef',
+                stroke: '#ccc',
+                strokeDasharray: '2 2'
+              }}
+              d={`M${xy.x1},${xy.y1 - 5}L${xy.x2},${xy.y1 - 5}L${
+                xy.x2
+              },${xy.y1 + 5}L${xy.x1},${xy.y1 + 5}Z`}
+            />
+          )}
+        />
+        <Line {...d.type} />
+      </XYFrame>
+    );
+  });
 
   return (
     <div>
@@ -77,12 +84,8 @@ const LinePage = props => {
         <meta property="twitter:title" content={title} />
         <meta property="twitter:description" content={description} />
       </Helmet>
-      <PapperBlock title="Blank Page" desc="Some text description">
-        <XYFrame {...frameProps}>
-          <XAxis label={'Rank'} />
-          <YAxis left={50} label={'Theaters'} />
-          <Line {...lineProps} />
-        </XYFrame>
+      <PapperBlock title="Lines" desc="Explore Line Types">
+        {rendered}
       </PapperBlock>
     </div>
   );

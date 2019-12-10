@@ -2,7 +2,14 @@ import React from 'react';
 import { axisLines, axisPieces } from './axisMarks';
 import Axis from './Axis';
 
-const toAxes = ({ margin, axesDefs, adjustedSize, yScale, xScale }) => {
+const toAxes = ({
+  margin,
+  axesDefs,
+  adjustedSize,
+  yScale,
+  xScale,
+  xyPoints
+}) => {
   let axes = [];
   const axesTickLines = [];
   const existingBaselines = {};
@@ -52,6 +59,7 @@ const toAxes = ({ margin, axesDefs, adjustedSize, yScale, xScale }) => {
         </g>
       );
       axesTickLines.push(tickLineGroup);
+
       return (
         <Axis
           label={d.label}
@@ -74,6 +82,7 @@ const toAxes = ({ margin, axesDefs, adjustedSize, yScale, xScale }) => {
           dynamicLabelPosition={d.dynamicLabelPosition}
           center={d.center}
           marginalSummaryType={d.marginalSummaryType}
+          xyPoints={xyPoints}
         />
       );
     });

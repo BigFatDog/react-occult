@@ -1,3 +1,6 @@
+import React from 'react';
+import { Mark } from 'semiotic-mark';
+
 import {
   line,
   area,
@@ -219,12 +222,12 @@ const toRenderedLines = ({
     }
   });
 
-  if (customLine.type === 'difference' && data.length === 2) {
+  if (customLine.type === 'difference' && data.length >= 2) {
+    svgPipeline.length = 0;
     //Create the overlay line for the difference chart
-
-    const diffdataA = data[0].data.map((basedata, baseI) => {
+    const diffdataA = data[0]._xyCoordinates.map((basedata, baseI) => {
       const linePoint =
-        basedata.yTop > data[1].data[baseI].yTop
+        basedata.yTop > data[1]._xyCoordinates[baseI].yTop
           ? basedata.yTop
           : basedata.yBottom;
       return {
@@ -235,11 +238,11 @@ const toRenderedLines = ({
       };
     });
 
-    const diffdataB = data[0].data.map((basedata, baseI) => {
+    const diffdataB = data[0]._xyCoordinates.map((basedata, baseI) => {
       const linePoint =
-        data[1].data[baseI].yTop > basedata.yTop
-          ? data[1].data[baseI].yTop
-          : data[1].data[baseI].yBottom;
+        data[1]._xyCoordinates[baseI].yTop > basedata.yTop
+          ? data[1]._xyCoordinates[baseI].yTop
+          : data[1]._xyCoordinates[baseI].yBottom;
       return {
         x: basedata.x,
         y: linePoint,
