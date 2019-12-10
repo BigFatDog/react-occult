@@ -68,3 +68,5 @@ const lineProjection = ({
 };
 
 export default lineProjection;
+
+export { builtInTransformations };

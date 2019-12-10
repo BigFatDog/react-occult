@@ -10,7 +10,6 @@ const emptyStringReturnFunction = () => '';
 const naturalLanguageLineType = {
   line: { items: 'line', chart: 'line chart' },
   area: { items: 'summary', chart: 'summary chart' },
-  summary: { items: 'summary', chart: 'summary chart' },
   cumulative: { items: 'line', chart: 'cumulative chart' },
   'cumulative-reverse': { items: 'line', chart: 'cumulative chart' },
   linepercent: { items: 'line', chart: 'line chart' },
@@ -66,7 +65,11 @@ const toPipeline = props => {
     typeof lineType.type === 'string' &&
     naturalLanguageLineType[lineType.type];
 
-  if (lineType && lineType.type && lineType.type === 'stackedarea') {
+  if (
+    lineType &&
+    lineType.type &&
+    Object.keys(naturalLanguageLineType).includes(lineType.type)
+  ) {
     const maxY = projectedLines.map(d => max(d._xyCoordinates, d => d.yTop));
     yScale.domain([0, Math.max(...maxY)]);
   }
@@ -115,7 +118,8 @@ const toPipeline = props => {
 
   return {
     svgPipe,
-    canvasPipe
+    canvasPipe,
+    xyPoints: projectedPoints
   };
 };
 

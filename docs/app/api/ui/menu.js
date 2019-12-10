@@ -65,6 +65,16 @@ module.exports = [
         key: 'old_faithful',
         name: 'Old Faithful Contour',
         link: '/faithful'
+      },
+      {
+        key: 'margin',
+        name: 'Margin',
+        link: '/margin'
+      },
+      {
+        key: 'geo',
+        name: 'Geo',
+        link: '/geo'
       }
     ]
   }

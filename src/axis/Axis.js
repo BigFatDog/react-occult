@@ -2,7 +2,14 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { axisLabels, axisPieces, axisLines } from './axisMarks';
+import drawSummaries from './drawSummaries';
 const ORIENTATIONS = ['top', 'bottom', 'left', 'right'];
+
+const marginalPointMapper = (orient, width, data) => {
+  const xMod = orient === 'left' || orient === 'right' ? width / 2 : 0;
+  const yMod = orient === 'bottom' || orient === 'top' ? width / 2 : 0;
+  return data.map(p => [p.xy.x + xMod, p.xy.y + yMod]);
+};
 
 const formatValue = (value, props) => {
   if (props.tickFormat) {
@@ -51,7 +58,6 @@ const Axis = props => {
     rotate,
     label,
     orient,
-    tickFormat,
     size,
     width,
     height,
@@ -67,7 +73,9 @@ const Axis = props => {
     margin,
     center,
     annotationFunction,
-    glyphFunction
+    glyphFunction,
+    marginalSummaryType,
+    tickFormat = marginalSummaryType ? () => '' : d => d
   } = props;
 
   let { axisParts, position = [0, 0] } = props;
@@ -238,6 +246,143 @@ const Axis = props => {
     );
   }
 
+  // margin Summaries
+  let summaryGraphic;
+
+  const { xyPoints } = props;
+  if (marginalSummaryType && xyPoints) {
+    const summaryWidth = Math.max(margin[orient] - 6, 5);
+
+    const decoratedSummaryType =
+      typeof marginalSummaryType === 'string'
+        ? { type: marginalSummaryType }
+        : marginalSummaryType;
+
+    if (
+      decoratedSummaryType.flip === undefined &&
+      (orient === 'bottom' || orient === 'right')
+    ) {
+      decoratedSummaryType.flip = true;
+    }
+
+    const summaryStyle = decoratedSummaryType.summaryStyle
+      ? typeof decoratedSummaryType.summaryStyle === 'function'
+        ? decoratedSummaryType.summaryStyle
+        : () => decoratedSummaryType.summaryStyle
+      : () => ({
+          fill: 'black',
+          fillOpacity: 0.5,
+          stroke: 'black',
+          strokeDasharray: '0'
+        });
+
+    const summaryRenderMode = decoratedSummaryType.renderMode
+      ? () => decoratedSummaryType.renderMode
+      : () => undefined;
+
+    const summaryClass = decoratedSummaryType.summaryClass
+      ? () => decoratedSummaryType.summaryClass
+      : () => '';
+
+    const dataFilter = decoratedSummaryType.filter || (() => true);
+
+    const forSummaryData = xyPoints
+      .filter(p => p.x !== undefined && p.y !== undefined && dataFilter(p.data))
+      .map(d => ({
+        ...d,
+        xy: {
+          x: orient === 'top' || orient === 'bottom' ? scale(d.x) : 0,
+          y: orient === 'left' || orient === 'right' ? scale(d.y) : 0
+        },
+        piece: {
+          scaledVerticalValue: scale(d.y),
+          scaledValue: scale(d.x)
+        },
+        value:
+          orient === 'top' || orient === 'bottom' ? scale(d.y) : scale(d.x),
+        scaledValue: scale(d.x),
+        scaledVerticalValue: scale(d.y)
+      }));
+
+    const renderedSummary = drawSummaries({
+      data: {
+        column: {
+          middle: summaryWidth / 2,
+          pieceData: forSummaryData,
+          width: summaryWidth,
+          xyData: forSummaryData
+        }
+      },
+      type: decoratedSummaryType,
+      renderMode: summaryRenderMode,
+      eventListenersGenerator:
+        decoratedSummaryType.eventListenersGenerator || (() => ({})),
+      styleFn: summaryStyle,
+      classFn: summaryClass,
+      positionFn: () => [0, 0],
+      projection:
+        orient === 'top' || orient === 'bottom' ? 'horizontal' : 'vertical',
+      adjustedSize: size,
+      margin: { top: 0, bottom: 0, left: 0, right: 0 },
+      baseMarkProps: {}
+    });
+
+    let points;
+
+    if (decoratedSummaryType.showPoints === true) {
+      const mappedPoints = marginalPointMapper(
+        orient,
+        summaryWidth,
+        forSummaryData
+      );
+
+      points = mappedPoints.map((d, i) => (
+        <circle
+          key={`axis-summary-point-${i}`}
+          cx={d[0]}
+          cy={d[1]}
+          r={decoratedSummaryType.r || 3}
+          style={
+            decoratedSummaryType.pointStyle || {
+              fill: 'black',
+              fillOpacity: 0.1
+            }
+          }
+        />
+      ));
+    }
+
+    const translation = {
+      left: [-margin.left + 2, 0],
+      right: [size[0] + 2, 0],
+      top: [0, -margin.top + 2],
+      bottom: [0, size[1] + 2]
+    };
+
+    summaryGraphic = (
+      <g transform={`translate(${translation[orient]})`}>
+        <g
+          transform={`translate(${
+            (decoratedSummaryType.type === 'contour' ||
+              decoratedSummaryType.type === 'boxplot') &&
+            (orient === 'left' || orient === 'right')
+              ? summaryWidth / 2
+              : 0
+          },${
+            (decoratedSummaryType.type === 'contour' ||
+              decoratedSummaryType.type === 'boxplot') &&
+            (orient === 'top' || orient === 'bottom')
+              ? summaryWidth / 2
+              : 0
+          })`}
+        >
+          {renderedSummary.marks}
+        </g>
+        {points}
+      </g>
+    );
+  }
+
   let axisTitle;
 
   const axisTickLabels = axisLabels({
@@ -248,7 +393,7 @@ const Axis = props => {
     center
   });
   if (label) {
-    const labelName = label.name || label;
+    const labelName = label.name || '';
     const labelPosition = label.position || {};
     const locationMod = labelPosition.location || 'outside';
     let anchorMod = labelPosition.anchor || 'middle';
@@ -306,6 +451,7 @@ const Axis = props => {
       anchorMod = 'start';
     }
 
+    console.log(labelName);
     axisTitle = (
       <g
         className={`axis-title ${className}`}
@@ -353,6 +499,7 @@ const Axis = props => {
         />
       ) : null}
       {axisTitle}
+      {summaryGraphic}
     </g>
   );
 };
@@ -377,7 +524,8 @@ Axis.propTypes = {
   className: PropTypes.string,
   margin: PropTypes.object,
   name: PropTypes.string,
-  showLineTicks: PropTypes.bool
+  showLineTicks: PropTypes.bool,
+  xyPoints: PropTypes.array
 };
 
 Axis.defaultProps = {

@@ -9,10 +9,11 @@ import HexbinPage from '../Pages/HexbinPage';
 import ScatterPage from '../Pages/ScatterPage';
 import AnnotationPage from '../Pages/AnnotationPage';
 import AreaPage from '../Pages/AreaChart';
-import NeighborhoodPage from '../Pages/Neighborhood';
 import OldFaithfulPage from '../Pages/OldFaithfulPage';
 import Bumpline from '../Pages/Bumpline';
 import LinePercentage from '../Pages/LinePercentage';
+import MarginPage from '../Pages/MarginSummaryPage';
+import GeoProjectionPage from '../Pages/GeoProjection';
 
 import BlankPage from '../Pages/BlankPage';
 import { NotFound } from '../pageListAsync';
@@ -31,10 +32,11 @@ class Application extends React.Component {
           <Route path="/heatmap" component={HeatmapPage} />
           <Route path="/area" component={AreaPage} />
           <Route path="/annotations" component={AnnotationPage} />
-          <Route path="/neighborhood" component={NeighborhoodPage} />
           <Route path="/faithful" component={OldFaithfulPage} />
           <Route path="/bumpline" component={Bumpline} />
           <Route path="/linepercentage" component={LinePercentage} />
+          <Route path="/margin" component={MarginPage} />
+          <Route path="/geo" component={GeoProjectionPage} />
           <Route component={NotFound} />
         </Switch>
       </Dashboard>

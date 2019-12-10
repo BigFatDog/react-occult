@@ -22,7 +22,7 @@
   "license": "MIT",
   "scripts": {
     "clean": "rimraf lib dist es coverage",
-    "dev": "webpack-dev-server --config ./webpack.dev.babel.js --content-base docs/public/ --mode development --history-api-fallback",
+    "dev": "webpack-dev-server --config ./webpack.dev.babel.js --content-base docs/public/ --mode development --history-api-fallback --host 192.168.1.151",
     "format": "prettier --write \"{src,test,docs}/**/*.{js,ts}\" \"**/*.md\"",
     "format:check": "prettier --list-different \"{src,test,docs}/**/*.{js,ts}\" \"**/*.md\"",
     "lint": "eslint src test docs",
