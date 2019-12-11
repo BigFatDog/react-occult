@@ -17,9 +17,24 @@ module.exports = [
     icon: 'ios-analytics-outline',
     child: [
       {
-        key: 'centroid',
-        name: 'Centroid Deviation',
-        link: '/centroid'
+        key: 'old_faithful',
+        name: 'Old Faithful Contour',
+        link: '/faithful'
+      },
+      {
+        key: 'margin',
+        name: 'Margin',
+        link: '/margin'
+      },
+      {
+        key: 'scatter',
+        name: 'Scatter',
+        link: '/scatter'
+      },
+      {
+        key: 'area',
+        name: 'Area',
+        link: '/area'
       },
       {
         key: 'heatmap',
@@ -36,19 +51,10 @@ module.exports = [
         name: 'Hexbin',
         link: '/hexbin'
       },
-      {
-        key: 'scatter',
-        name: 'Scatter',
-        link: '/scatter'
-      },
-      {
-        key: 'area',
-        name: 'Area',
-        link: '/area'
-      },
+
       {
         key: 'line',
-        name: 'Line Chart',
+        name: 'Line Charts',
         link: '/line'
       },
       {
@@ -61,21 +67,18 @@ module.exports = [
         name: 'Line Percentage',
         link: '/linepercentage'
       },
+
       {
-        key: 'old_faithful',
-        name: 'Old Faithful Contour',
-        link: '/faithful'
+        key: 'trendline',
+        name: 'Trendline',
+        link: '/trendline'
       },
-      {
-        key: 'margin',
-        name: 'Margin',
-        link: '/margin'
-      },
+
       {
         key: 'geo',
         name: 'Geo',
         link: '/geo'
-      }
+      },
     ]
   }
 ];

@@ -6,6 +6,7 @@ import Hexbin from './plots/Hexbin';
 import Heatmap from './plots/Heatmap';
 import XAxis from './axis/XAxis';
 import YAxis from './axis/YAxis';
+import Trendline from './plots/Trendline';
 import Annotation from './plots/Annotation';
 
 export {
@@ -17,5 +18,6 @@ export {
   YAxis,
   Hexbin,
   Heatmap,
+  Trendline,
   Annotation
 };

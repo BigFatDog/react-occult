@@ -31,19 +31,25 @@ class PapperBlock extends React.Component {
           )}
           elevation={0}
         >
-          <div className={classes.descBlock}>
-            <span className={classes.iconTitle}>
-              <Ionicon icon={icon} />
-            </span>
-            <div className={classes.titleText}>
-              <Typography variant="h6" component="h2" className={classes.title}>
-                {title}
-              </Typography>
-              <Typography component="p" className={classes.description}>
-                {desc}
-              </Typography>
+          {(title || desc) && (
+            <div className={classes.descBlock}>
+              <span className={classes.iconTitle}>
+                <Ionicon icon={icon} />
+              </span>
+              <div className={classes.titleText}>
+                <Typography
+                  variant="h6"
+                  component="h2"
+                  className={classes.title}
+                >
+                  {title}
+                </Typography>
+                <Typography component="p" className={classes.description}>
+                  {desc}
+                </Typography>
+              </div>
             </div>
-          </div>
+          )}
           <section
             className={classNames(
               classes.content,

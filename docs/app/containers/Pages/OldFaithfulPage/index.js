@@ -1,22 +1,8 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
 import { AnnotationLabel, AnnotationCallout } from 'react-annotation';
 import { OldFaithful } from './data';
-import { hsv, interpolateHsvLong } from 'd3-hsv';
-import {
-  interpolateCool,
-  interpolateWarm,
-  interpolateCubehelixDefault
-} from 'd3-scale-chromatic';
-import { scaleSequential } from 'd3-scale';
-import brand from 'dan-api/dummy/brand';
 import { PapperBlock } from 'dan-components';
 import { XYFrame, XAxis, YAxis, Contour, Annotation } from 'occult';
-
-const i0 = interpolateHsvLong(hsv(120, 1, 0.65), hsv(60, 1, 0.9));
-const i1 = interpolateHsvLong(hsv(60, 1, 0.9), hsv(0, 0, 0.95));
-const interpolateTerrain = t => (t < 0.5 ? i0(t * 2) : i1((t - 0.5) * 2));
-const color = scaleSequential(interpolateCool).domain([35, 90]);
 
 const gradient = (
   <linearGradient x1="0" x2="0" y1="0" y2="1" id="paleWoodGradient">
@@ -63,9 +49,6 @@ const theme = [
 ];
 
 const OldFaithfulPage = props => {
-  const title = brand.name + ' - Sample Area Chart';
-  const description = brand.desc;
-
   const frameProps = {
     margin: { left: 60, bottom: 90, right: 10, top: 40 },
     width: 1200,
@@ -105,13 +88,6 @@ const OldFaithfulPage = props => {
           return { stroke: theme[d.key], strokeWidth: 5, fill: 'none' };
         }
       }
-      // {
-      //   type: 'desaturation-layer',
-      //   style: {
-      //     fill: 'white',
-      //     opacity: 0.6
-      //   }
-      // }
     ]
   };
 
@@ -147,14 +123,6 @@ const OldFaithfulPage = props => {
 
   return (
     <div>
-      <Helmet>
-        <title>{title}</title>
-        <meta name="description" content={description} />
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta property="twitter:title" content={title} />
-        <meta property="twitter:description" content={description} />
-      </Helmet>
       <PapperBlock
         title="Old Faithful Contour"
         desc="This chart shows the relationship between idle and eruption times for Old Faithful."
@@ -165,7 +133,7 @@ const OldFaithfulPage = props => {
           <Annotation
             type={AnnotationLabel}
             x={340}
-            y={280}
+            y={180}
             dy={-170}
             dx={-120}
             color={'#9610ff'}
@@ -188,7 +156,7 @@ const OldFaithfulPage = props => {
           <Annotation
             type={AnnotationCallout}
             x={680}
-            y={290}
+            y={210}
             dy={80}
             dx={50}
             color={'#9610ff'}

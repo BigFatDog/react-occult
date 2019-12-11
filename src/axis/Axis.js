@@ -451,7 +451,6 @@ const Axis = props => {
       anchorMod = 'start';
     }
 
-    console.log(labelName);
     axisTitle = (
       <g
         className={`axis-title ${className}`}

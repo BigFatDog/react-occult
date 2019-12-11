@@ -1,22 +1,18 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { scaleLinear } from 'd3-scale';
+import { XYFrame, XAxis, YAxis, Trendline } from 'occult';
 import brand from 'dan-api/dummy/brand';
 import { PapperBlock } from 'dan-components';
-import { XYFrame, XAxis, YAxis, Hexbin } from 'occult';
-import { OldFaithful } from '../OldFaithfulPage/data';
-const h = scaleLinear()
-  .domain([0, 1])
-  .range(['white', '#ac58e5']);
+import { OldFaithful } from './OldFaithfulPage/data';
 
-const HexbinPage = props => {
-  const title = brand.name + ' - Hexbin';
+const ContourPage = props => {
+  const title = brand.name + ' - K-Means Centroid Deviation';
   const description = brand.desc;
 
   const frameProps = {
-    margin: { left: 60, bottom: 90, right: 10, top: 40 },
-    width: 800,
-    height: 700,
+    margin: 50,
+    width: 1000,
+    height: 500,
     title: (
       <text textAnchor="middle">
         Old Faithful at{' '}
@@ -25,21 +21,20 @@ const HexbinPage = props => {
     )
   };
 
-  const hexbinProps = {
+  const contourProps = {
     yAccessor: d => d.eruptions,
     xAccessor: d => d.waiting,
-    xExtent: [35, 100],
-    yExtent: [1.1, 6],
     data: OldFaithful.slice(),
     areaStyle: (e, i) => ({
-      stroke: '#ccc',
-      fill: h(e.percent),
-      strokeWidth: 0.5
+      fill: 'none',
+      stroke: '#E61D8C',
+      strokeWidth: 2,
+      opacity: 0.7
     }),
     pointStyle: d => ({
-      r: 2,
-      fill: '#2884B8',
-      fillOpacity: 0.5
+      r: 4,
+      fill: '#6E45E1',
+      opacity: 0.5
     }),
     areaUseCanvas: false,
     pointUseCanvas: false
@@ -55,15 +50,15 @@ const HexbinPage = props => {
         <meta property="twitter:title" content={title} />
         <meta property="twitter:description" content={description} />
       </Helmet>
-      <PapperBlock>
+      <PapperBlock title="Blank Page" desc="Some text description">
         <XYFrame {...frameProps}>
           <XAxis label={'Rank'} />
-          <YAxis left={50} label={'Theaters'} />
-          <Hexbin {...hexbinProps} />
+          <YAxis label={'Theaters'} />
+          <Trendline {...contourProps} />
         </XYFrame>
       </PapperBlock>
     </div>
   );
 };
 
-export default HexbinPage;
+export default ContourPage;

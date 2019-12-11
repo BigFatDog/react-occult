@@ -13,3 +13,13 @@ circle.frame-hover {
     stroke: #aaa;
     r: 4;
 }
+
+.show-bg-black .annotation-note-bg {
+    fill: black;
+    fill-opacity: .5;
+}
+
+.show-bg .annotation-note-bg {
+    fill: blue;
+    fill-opacity: .02;
+}

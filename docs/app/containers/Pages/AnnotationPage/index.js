@@ -4,7 +4,7 @@ import { scaleTime } from 'd3-scale';
 import brand from 'dan-api/dummy/brand';
 import { PapperBlock, SourceReader } from 'dan-components';
 
-import { data } from './AppleStock';
+import { data } from '../data/AppleStock';
 
 const chartAxes = [
   { orient: 'left', tickFormat: d => `$${d}` },

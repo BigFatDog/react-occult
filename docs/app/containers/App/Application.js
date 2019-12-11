@@ -14,6 +14,7 @@ import Bumpline from '../Pages/Bumpline';
 import LinePercentage from '../Pages/LinePercentage';
 import MarginPage from '../Pages/MarginSummaryPage';
 import GeoProjectionPage from '../Pages/GeoProjection';
+import TrendlinePage from '../Pages/TrendlinePage';
 
 import BlankPage from '../Pages/BlankPage';
 import { NotFound } from '../pageListAsync';
@@ -35,6 +36,7 @@ class Application extends React.Component {
           <Route path="/faithful" component={OldFaithfulPage} />
           <Route path="/bumpline" component={Bumpline} />
           <Route path="/linepercentage" component={LinePercentage} />
+          <Route path="/trendline" component={TrendlinePage} />
           <Route path="/margin" component={MarginPage} />
           <Route path="/geo" component={GeoProjectionPage} />
           <Route component={NotFound} />

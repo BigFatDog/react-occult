@@ -4,21 +4,17 @@ import { XYFrame, XAxis, YAxis, Contour, Annotation } from 'occult';
 import brand from 'dan-api/dummy/brand';
 import { PapperBlock } from 'dan-components';
 import { OldFaithful } from './OldFaithfulPage/data';
-import { hsv, interpolateHsvLong } from 'd3-hsv';
 import { scaleSequential } from 'd3-scale';
 import { interpolateCool } from 'd3-scale-chromatic';
 import { AnnotationCallout, AnnotationLabel } from 'react-annotation';
 
-const i0 = interpolateHsvLong(hsv(120, 1, 0.65), hsv(60, 1, 0.9));
-const i1 = interpolateHsvLong(hsv(60, 1, 0.9), hsv(0, 0, 0.95));
-const interpolateTerrain = t => (t < 0.5 ? i0(t * 2) : i1((t - 0.5) * 2));
 const color = scaleSequential(interpolateCool).domain([35, 90]);
 
 const MarginSummaryPage = props => {
   const title = brand.name + ' - MarginStyle';
   const description = brand.desc;
 
-  const scatterProps = {
+  const contourProps = {
     data: OldFaithful,
     yAccessor: d => d.eruptions,
     xAccessor: d => d.waiting,
@@ -30,8 +26,9 @@ const MarginSummaryPage = props => {
       stroke: 'steelblue',
       strokeWidth: i % 5 ? 0.5 : 3
     }),
-    pointStyle: { fill: 'none', r: 4 },
-    areaUseCanvas: false,
+    pointStyle: { fill: 'none', r: 4, stroke: 'steelblue' },
+    showPoints: true,
+    areaUseCanvas: true,
     pointUseCanvas: true
   };
 
@@ -102,11 +99,11 @@ const MarginSummaryPage = props => {
           <YAxis {...yAxisProps} />
           <XAxis {...x0Props} />
           <YAxis {...y0Props} />
-          <Contour {...scatterProps} />
+          <Contour {...contourProps} />
           <Annotation
             type={AnnotationLabel}
             x={340}
-            y={280}
+            y={350}
             dy={-170}
             dx={-120}
             color={'#9610ff'}
@@ -128,10 +125,10 @@ const MarginSummaryPage = props => {
 
           <Annotation
             type={AnnotationCallout}
-            x={350}
-            y={490}
-            dy={80}
-            dx={50}
+            x={450}
+            y={410}
+            dy={110}
+            dx={120}
             color={'#9610ff'}
             connector={{ type: 'elbow', end: 'dot' }}
             className="show-bg"
