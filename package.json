@@ -22,7 +22,7 @@
   "license": "MIT",
   "scripts": {
     "clean": "rimraf lib dist es coverage",
-    "dev": "webpack-dev-server --config ./webpack.dev.babel.js --content-base docs/public/ --mode development --history-api-fallback --host 192.168.1.151",
+    "dev": "webpack-dev-server --config ./webpack.dev.babel.js --content-base docs/public/ --mode development --history-api-fallback",
     "format": "prettier --write \"{src,test,docs}/**/*.{js,ts}\" \"**/*.md\"",
     "format:check": "prettier --list-different \"{src,test,docs}/**/*.{js,ts}\" \"**/*.md\"",
     "lint": "eslint src test docs",
@@ -57,6 +57,7 @@
     "d3-voronoi": "^1.1.4",
     "polygon-offset": "0.3.1",
     "prop-types": "15.7.2",
+    "regression": "^2.0.1",
     "roughjs-es5": "^0.1.0",
     "semiotic-mark": "0.4.3",
     "svg-path-bounding-box": "1.0.4",

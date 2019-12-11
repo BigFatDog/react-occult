@@ -33,11 +33,11 @@ const LinePage = props => {
 
   const frameProps = {
     margin: { left: 60, bottom: 90, right: 10, top: 40 },
-    width: 700,
-    height: 400,
+    width: 1000,
+    height: 600,
     title: (
       <text textAnchor="middle">
-        T<tspan fill={'#8BC34A'}>Line Percentage</tspan>
+        <tspan fill={'#8BC34A'}>Line Percentage</tspan>
       </text>
     )
   };
@@ -78,9 +78,9 @@ const LinePage = props => {
         <meta property="twitter:title" content={title} />
         <meta property="twitter:description" content={description} />
       </Helmet>
-      <PapperBlock title="Blank Page" desc="Some text description">
+      <PapperBlock>
         <XYFrame {...frameProps}>
-          <XAxis label={'Rank'} />
+          <XAxis label={'Rank'} rotate={30} />
           <YAxis label={'Theaters'} />
           <Line {...lineProps} />
         </XYFrame>

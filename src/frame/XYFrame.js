@@ -20,7 +20,9 @@ import renderAnnotations from '../plots/Annotation/renderAnnotations';
 import HTMLTooltipAnnotation from '../plots/Annotation/widgets/HTMLTooltipAnnotation';
 
 const isPlot = type =>
-  ['Hexbin', 'Contour', 'Heatmap', 'Line', 'Scatter'].includes(type);
+  ['Hexbin', 'Contour', 'Heatmap', 'Line', 'Scatter', 'Trendline'].includes(
+    type
+  );
 
 const getCanvasScale = context => {
   const devicePixelRatio = window.devicePixelRatio || 1;
@@ -463,7 +465,12 @@ XYFrame.propTypes = {
   useSpans: PropTypes.bool,
   additionalDefs: PropTypes.array,
   margin: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
-  matte: PropTypes.oneOfType([PropTypes.bool, PropTypes.node]),
+  matte: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.node,
+    PropTypes.func,
+    PropTypes.object
+  ]),
   beforeElements: PropTypes.object,
   afterElements: PropTypes.object,
   backgroundGraphics: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
@@ -492,7 +499,6 @@ XYFrame.defaultProps = {
   height: 600,
   name: '',
   className: '',
-  frameKey: '',
   margin: { top: 0, bottom: 0, left: 0, right: 0 },
   title: { title: '', orient: 'top' },
   useSpans: false,

@@ -8,6 +8,7 @@ const Annotation = props => {
 Annotation.propTypes = {
   x: PropTypes.number,
   y: PropTypes.number,
+  coordinates: PropTypes.array,
   note: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   subject: PropTypes.object
 };

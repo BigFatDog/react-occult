@@ -38,15 +38,26 @@ const TypeHash = {
 };
 
 const toAnnotations = (d, i, props) => {
+  let screenCoordinates = [];
+
+  if ((d.y === undefined || d.y === null) && d.xData && d.yData) {
+    const { xScale, yScale } = props;
+    screenCoordinates = [xScale(d.xData), yScale(d.yData)];
+  } else {
+    screenCoordinates = d.screenCoordinates || [
+      d.x ? d.x : 0,
+      d.y ? props.adjustedSize[1] - d.y : props.adjustedSize[1]
+    ];
+  }
+
   const widgetProps = {
     ...props,
     ...d,
     d,
     i,
-    screenCoordinates: d.screenCoordinates || [
-      d.x ? d.x : 0,
-      d.y ? props.adjustedSize[1] - d.y : props.adjustedSize[1]
-    ]
+    x: screenCoordinates[0],
+    y: screenCoordinates[1],
+    screenCoordinates
   };
 
   const AnnotationType = TypeHash[d.type] || d.type;
