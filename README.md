@@ -1,10 +1,11 @@
 # React Occult: EXPERIMENTAL, NOT PRODUCTION READY
 ## Design 
-<img width="100%" alt="Design" src="design.jpg">
+<img width="100%" alt="Design" src="img/design.jpg">
 
 ## A Working Demo
-<img width="100%" alt="Old Faithful Contour" src="contour.png">
-<img width="100%" alt="Old Faithful Contour" src="old-faithful.png">
+<img width="100%" alt="Old Faithful Contour with Graphical Axes" src="img/contour.png">
+<img width="100%" alt="Old Faithful Contour" src="img/old-faithful.png">
+<img width="100%" alt="Area" src="img/area.png">
 
 Full source code is at: [Old Faithful Contour](https://github.com/BigFatDog/react-occult/blob/e0967a2ff9906159873024b2daf0bfb4dd0c3360/docs/app/containers/Pages/OldFaithfulPage/index.js#L77)
 
