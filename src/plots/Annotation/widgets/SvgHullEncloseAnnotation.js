@@ -1,3 +1,4 @@
+import React from 'react';
 import HullEnclosure from './HullEnclosure';
 
 const SvgHullEnclosure = ({ screenCoordinates, d, i }) => {

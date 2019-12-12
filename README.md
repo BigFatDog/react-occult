@@ -2,7 +2,7 @@
 ## Design 
 <img width="100%" alt="Design" src="img/design.jpg">
 
-## A Working Demo
+## Contour with Violin/Heatmap, Axes
 <img width="100%" alt="Old Faithful Contour with Graphical Axes" src="img/contour.png">
 <img width="100%" alt="Old Faithful Contour" src="img/old-faithful.png">
 <img width="100%" alt="Area" src="img/area.png">

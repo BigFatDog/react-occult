@@ -23,3 +23,14 @@ circle.frame-hover {
     fill: blue;
     fill-opacity: .02;
 }
+
+.tick-line {
+    fill: none;
+}
+
+.brushed-area .subject {
+    fill: #0074D9;
+    fill-opacity: 0.15;
+    stroke: none;
+}
+

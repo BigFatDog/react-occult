@@ -1,20 +1,23 @@
+import React from 'react';
 import AnnotationCalloutRect from 'react-annotation/lib/Types/AnnotationCalloutRect';
 import Annotation from '../InternalAnnotation';
-import * as React from 'react';
+import findFirstAccessorValue from '../findFirstAccessorValue';
 
 const SvgBoundsAnnotation = ({
   d,
   i,
   adjustedSize,
-  xAccessor,
-  yAccessor,
   xScale,
-  yScale
+  yScale,
+  screenCoordinates,
+  xAccessors,
+  yAccessors
 }) => {
-  const startXValue = findFirstAccessorValue(xAccessor, d.bounds[0]);
-  const startYValue = findFirstAccessorValue(yAccessor, d.bounds[0]);
-  const endXValue = findFirstAccessorValue(xAccessor, d.bounds[1]);
-  const endYValue = findFirstAccessorValue(yAccessor, d.bounds[1]);
+  console.log(screenCoordinates);
+  const startXValue = findFirstAccessorValue(xAccessors, d.bounds[0]);
+  const startYValue = findFirstAccessorValue(yAccessors, d.bounds[0]);
+  const endXValue = findFirstAccessorValue(xAccessors, d.bounds[1]);
+  const endYValue = findFirstAccessorValue(yAccessors, d.bounds[1]);
 
   const x0Position = startXValue ? xScale(startXValue) : 0;
   const y0Position = startYValue ? yScale(startYValue) : adjustedSize[1];

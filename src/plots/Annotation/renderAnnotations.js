@@ -18,6 +18,8 @@ import {
   SvgVerticalPointsAnnotation
 } from './widgets/PointsAlong';
 
+import findFirstAccessorValue from './findFirstAccessorValue';
+
 const TypeHash = {
   'desaturation-layer': DesaturationLayer,
   xy: SvgXYAnnotation,
@@ -39,10 +41,27 @@ const TypeHash = {
 
 const toAnnotations = (d, i, props) => {
   let screenCoordinates = [];
-
-  if ((d.y === undefined || d.y === null) && d.xData && d.yData) {
-    const { xScale, yScale } = props;
-    screenCoordinates = [xScale(d.xData), yScale(d.yData)];
+  const { xScale, yScale, accessors } = props;
+  const xAccessors = accessors.map(d => d.xAccessor);
+  const yAccessors = accessors.map(d => d.yAccessor);
+  if (d.coordinates) {
+    if (!Array.isArray(d.coordinates)) {
+      const xData = findFirstAccessorValue(xAccessors, d.coordinates);
+      const yData = findFirstAccessorValue(yAccessors, d.coordinates);
+      if (xData) {
+        screenCoordinates[0] = xScale(xData);
+      }
+      screenCoordinates[1] = yData ? yScale(yData) : props.adjustedSize[1];
+    } else {
+      screenCoordinates = d.coordinates.map(e => {
+        const xData = findFirstAccessorValue(xAccessors, e);
+        const yData = findFirstAccessorValue(yAccessors, e);
+        return {
+          x: xData ? xScale(xData) : null,
+          y: yData ? yScale(yData) : null
+        };
+      });
+    }
   } else {
     screenCoordinates = d.screenCoordinates || [
       d.x ? d.x : 0,
@@ -57,7 +76,9 @@ const toAnnotations = (d, i, props) => {
     i,
     x: screenCoordinates[0],
     y: screenCoordinates[1],
-    screenCoordinates
+    screenCoordinates,
+    xAccessors,
+    yAccessors
   };
 
   const AnnotationType = TypeHash[d.type] || d.type;

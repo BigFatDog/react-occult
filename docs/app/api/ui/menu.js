@@ -78,7 +78,7 @@ module.exports = [
         key: 'geo',
         name: 'Geo',
         link: '/geo'
-      },
+      }
     ]
   }
 ];
