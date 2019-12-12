@@ -31,7 +31,7 @@ const ScatterPage = props => {
     .range([2, 10]);
 
   const frameProps = {
-    margin: { left: 70, bottom: 50, right: 30, top: 40 },
+    margin: { left: 70, bottom: 30, right: 30, top: 40 },
     width: 1000,
     height: 500,
     xScaleType: scaleTime,
@@ -66,17 +66,19 @@ const ScatterPage = props => {
         <XYFrame {...frameProps} className={classes.frame}>
           <XAxis
             label={'Expire Date'}
+            baseline={'under'}
             tickFormat={d => formatter(d)}
             showLineTicks={false}
-            rotate={30}
+            // rotate={30}
           />
           <YAxis
             label={'Expire Amount'}
-            tickValues={[225, 1000000, 2000000, 4000000, 6000000]}
+            tickValues={[500, 1000000, 2000000, 4000000, 6000000]}
             tickFormat={val => {
-              const formatted = +val === 225 ? 0 : val / 1000000;
+              const formatted = +val === 500 ? 0 : val / 1000000;
               return '$' + formatted + 'M';
             }}
+            jaggedBase={true}
           />
           <Scatter {...scatterProps} />
         </XYFrame>

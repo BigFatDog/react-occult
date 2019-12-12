@@ -7,6 +7,7 @@ import { OldFaithful } from './OldFaithfulPage/data';
 import { scaleSequential } from 'd3-scale';
 import { interpolateCool } from 'd3-scale-chromatic';
 import { AnnotationCallout, AnnotationLabel } from 'react-annotation';
+import * as d3 from 'd3';
 
 const color = scaleSequential(interpolateCool).domain([35, 90]);
 
@@ -48,8 +49,9 @@ const MarginSummaryPage = props => {
     orient: 'top',
     baseline: false,
     marginalSummaryType: {
-      type: 'ridgeline',
-      bins: 8,
+      type: 'histogram',
+      bins: 40,
+      // useBins: false,
       summaryStyle: (d, i, f) => {
         return { fill: '#fbd3e9', fillOpacity: 0.5, stroke: '#bb377d' };
       },
@@ -72,6 +74,7 @@ const MarginSummaryPage = props => {
     orient: 'bottom',
     marginalSummaryType: {
       type: 'violin',
+      curve: d3.curveCatmullRom,
       summaryStyle: { fill: '#606c88', fillOpacity: 0.5, stroke: '#3f4c6b' }
     }
   };
@@ -79,7 +82,8 @@ const MarginSummaryPage = props => {
     orient: 'left',
     marginalSummaryType: {
       type: 'ridgeline',
-      summaryStyle: { fill: '#add100', fillOpacity: 0.5, stroke: '#7b920a' }
+      summaryStyle: { fill: '#add100', fillOpacity: 0.5, stroke: '#7b920a' },
+      showPoints: true,
     }
   };
 

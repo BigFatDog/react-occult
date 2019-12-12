@@ -52,7 +52,7 @@ const LinePage = props => {
   const rendered = types.map(d => {
     return (
       <XYFrame {...frameProps(d.name)}>
-        <XAxis label={'Rank'} tickValues={[]} />
+        <XAxis label={'Rank'} />
         <YAxis
           label={'Theaters'}
           baseline={'under'}

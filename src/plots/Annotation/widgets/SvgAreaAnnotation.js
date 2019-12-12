@@ -1,27 +1,28 @@
+import React from 'react';
 import { extent } from 'd3-array';
 import { Mark } from 'semiotic-mark';
-import * as React from 'react';
+import findFirstAccessorValue from '../findFirstAccessorValue';
 
 const SvgAreaAnnotation = ({
   d,
   i,
   xScale,
-  xAccessor,
   yScale,
-  yAccessor,
+  xAccessors,
+  yAccessors,
   annotationLayer
 }) => {
   const mappedCoordinates = `M${d.coordinates
     .map(p => [
-      xScale(findFirstAccessorValue(xAccessor, p)),
-      yScale(findFirstAccessorValue(yAccessor, p))
+      xScale(findFirstAccessorValue(xAccessors, p)),
+      yScale(findFirstAccessorValue(yAccessors, p))
     ])
     .join('L')}Z`;
   const xBounds = extent(
-    d.coordinates.map(p => xScale(findFirstAccessorValue(xAccessor, p)))
+    d.coordinates.map(p => xScale(findFirstAccessorValue(xAccessors, p)))
   );
   const yBounds = extent(
-    d.coordinates.map(p => yScale(findFirstAccessorValue(yAccessor, p)))
+    d.coordinates.map(p => yScale(findFirstAccessorValue(yAccessors, p)))
   );
   const xCenter = (xBounds[0] + xBounds[1]) / 2;
   const yCenter = (yBounds[0] + yBounds[1]) / 2;

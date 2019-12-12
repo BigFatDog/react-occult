@@ -54,7 +54,8 @@ const toAxes = ({
             orient: d.orient,
             tickLineGenerator: d.tickLineGenerator,
             baseMarkProps: d.baseMarkProps,
-            className: axisClassname
+            className: axisClassname,
+            jaggedBase: d.jaggedBase
           })}
         </g>
       );

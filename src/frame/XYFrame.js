@@ -286,6 +286,11 @@ const XYFrame = props => {
         })
     : [];
 
+  const accessors = plotChildren.map(d => ({
+    xAccessor: d.props.xAccessor,
+    yAccessor: d.props.yAccessor
+  }));
+
   const svgAnnotations = renderAnnotations(annotations, {
     xScale: frameXScale,
     yScale: frameYScale,
@@ -293,7 +298,8 @@ const XYFrame = props => {
     adjustedSize,
     adjustedPosition,
     size,
-    margin
+    margin,
+    accessors
   });
 
   const annotationLayer = annotations && annotations.length > 0 && (

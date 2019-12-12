@@ -1,25 +1,68 @@
 import * as React from 'react';
 import { Mark } from 'semiotic-mark';
 
+const horizontalTornTickGenerator = (width, ticks, y, orient) => {
+  const step = width / ticks;
+  let currentStep = 0;
+  let tickPath = `M0,${y}`;
+  const mod = orient === 'right' ? -1 : 1;
+  while (currentStep <= width) {
+    tickPath += `L${currentStep},${y}`;
+    if (currentStep < width) {
+      tickPath += `L${currentStep + step / 2},${y + 10 * mod}`;
+    }
+    currentStep += step;
+  }
+  return tickPath;
+};
+
+const generateTornBaseline = (orient, baselineSettings) => {
+  let tornD = '';
+  const { x1, x2, y1, y2 } = baselineSettings;
+  if (orient === 'left' || orient === 'right') {
+    const calcWidth = Math.abs(x2 - x1);
+    const ticks = Math.ceil(calcWidth / 40);
+    tornD = horizontalTornTickGenerator(
+      calcWidth,
+      ticks,
+      orient === 'right' ? 0 : y1,
+      orient
+    );
+  } else {
+    const calcHeight = Math.abs(y2 - y1);
+    const ticks = Math.ceil(calcHeight / 40);
+    tornD = verticalTornTickGenerator(calcHeight, ticks, x1, orient);
+  }
+  return tornD;
+};
+
 const defaultTickLineGenerator = ({
   xy,
   orient,
   i,
   baseMarkProps,
-  className = ''
-}) => (
-  <Mark
-    key={i}
-    markType="path"
-    renderMode={xy.renderMode}
-    stroke="black"
-    strokeWidth="1px"
-    simpleInterpolate={true}
-    d={`M${xy.x1},${xy.y1}L${xy.x2},${xy.y2}`}
-    className={`tick-line tick ${orient} ${className}`}
-    {...baseMarkProps}
-  />
-);
+  className = '',
+  jaggedBase
+}) => {
+  const genD =
+    jaggedBase && i === 0
+      ? generateTornBaseline(orient, xy)
+      : `M${xy.x1},${xy.y1}L${xy.x2},${xy.y2}`;
+
+  return (
+    <Mark
+      key={i}
+      markType="path"
+      renderMode={xy.renderMode}
+      stroke="black"
+      strokeWidth="1px"
+      simpleInterpolate={true}
+      d={genD}
+      className={`tick-line tick ${orient} ${className}`}
+      {...baseMarkProps}
+    />
+  );
+};
 
 export function generateTickValues(tickValues, ticks, scale) {
   const axisSize = Math.abs(scale.range()[1] - scale.range()[0]);
@@ -178,9 +221,17 @@ export const axisLines = ({
   orient,
   tickLineGenerator = defaultTickLineGenerator,
   baseMarkProps,
-  className
+  className,
+  jaggedBase
 }) => {
   return axisParts.map((axisPart, i) =>
-    tickLineGenerator({ xy: axisPart, orient, i, baseMarkProps, className })
+    tickLineGenerator({
+      xy: axisPart,
+      orient,
+      i,
+      baseMarkProps,
+      className,
+      jaggedBase
+    })
   );
 };

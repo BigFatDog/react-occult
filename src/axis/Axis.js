@@ -75,7 +75,8 @@ const Axis = props => {
     annotationFunction,
     glyphFunction,
     marginalSummaryType,
-    tickFormat = marginalSummaryType ? () => '' : d => d
+    tickFormat = marginalSummaryType ? () => '' : d => d,
+    jaggedBase
   } = props;
 
   let { axisParts, position = [0, 0] } = props;
@@ -95,7 +96,13 @@ const Axis = props => {
     });
     axisTickLines = (
       <g className={`axis ${className}`}>
-        {axisLines({ axisParts, orient, tickLineGenerator, className })}
+        {axisLines({
+          axisParts,
+          orient,
+          tickLineGenerator,
+          className,
+          jaggedBase
+        })}
       </g>
     );
   }
@@ -524,7 +531,8 @@ Axis.propTypes = {
   margin: PropTypes.object,
   name: PropTypes.string,
   showLineTicks: PropTypes.bool,
-  xyPoints: PropTypes.array
+  xyPoints: PropTypes.array,
+  jaggedBase: PropTypes.bool
 };
 
 Axis.defaultProps = {
@@ -541,7 +549,8 @@ Axis.defaultProps = {
   baseline: true,
   margin: { top: 0, bottom: 0, left: 0, right: 0 },
   center: false,
-  showLineTicks: true
+  showLineTicks: true,
+  jaggedBase: false
 };
 
 export default Axis;
