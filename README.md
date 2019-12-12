@@ -6,7 +6,7 @@
 Contour with Violin/Heatmap, Axes
 <img width="100%" alt="Old Faithful Contour with Graphical Axes" src="img/contour.png">
 Stock chart with annotations
-<img width="100%" alt="Area" src="img/stock.png">
+<img width="100%" alt="Area" src="img/stock-1.png">
 Plain Contour
 <img width="100%" alt="Old Faithful Contour" src="img/old-faithful.png">
 
