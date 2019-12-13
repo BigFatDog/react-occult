@@ -1,11 +1,19 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
-
-import brand from 'dan-api/dummy/brand';
 import { PapperBlock } from 'dan-components';
 import NeighbourData from './data/neighbourhood.json';
 import { XYFrame, Contour, XAxis, YAxis, Annotation, Hexbin } from 'occult';
 import * as d3 from 'd3';
+import {withStyles} from "@material-ui/core";
+
+const styles = {
+  frame: {
+    // background: 'linear-gradient(to top, #a8edea 0%, #fed6e3 100%)',
+    border: 0,
+    borderRadius: 6,
+    boxShadow: '0 3px 5px 2px white',
+  }
+};
+
 
 const TheMetLight = [
   '#F44336',
@@ -26,8 +34,8 @@ const TheMetLight = [
   '#FF5722'
 ];
 
-const color = d3.scaleOrdinal().range(TheMetLight);
 const NeighbourPage = props => {
+  const { classes } = props;
   const frameProps = {
     margin: { left: 60, bottom: 60, right: 30, top: 50 },
     width: 1000,
@@ -143,7 +151,7 @@ const NeighbourPage = props => {
   return (
     <div>
       <PapperBlock title="Area Chart" desc="Basic Area Chart">
-        <XYFrame {...frameProps}>
+        <XYFrame {...frameProps} className={classes.frame}>
           {/*<XAxis label={'Rank'} />*/}
           {/*<YAxis label={'Theaters'} />*/}
           {/*<Annotation type={'y'} label={'a note'} y={100} />*/}
@@ -166,4 +174,4 @@ const NeighbourPage = props => {
   );
 };
 
-export default NeighbourPage;
+export default withStyles(styles)(NeighbourPage);
