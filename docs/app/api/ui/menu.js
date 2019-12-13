@@ -37,6 +37,16 @@ module.exports = [
         link: '/area'
       },
       {
+        key: 'trendline',
+        name: 'Trendline',
+        link: '/trendline'
+      },
+      {
+        key: 'neighbour',
+        name: 'Neighbourhood',
+        link: '/neighbour'
+      },
+      {
         key: 'heatmap',
         name: 'Heatmap',
         link: '/heatmap'
@@ -68,11 +78,7 @@ module.exports = [
         link: '/linepercentage'
       },
 
-      {
-        key: 'trendline',
-        name: 'Trendline',
-        link: '/trendline'
-      },
+
 
       {
         key: 'geo',

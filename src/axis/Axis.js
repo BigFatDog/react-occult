@@ -253,6 +253,7 @@ const Axis = props => {
     );
   }
 
+  console.log('i-----')
   // margin Summaries
   let summaryGraphic;
 

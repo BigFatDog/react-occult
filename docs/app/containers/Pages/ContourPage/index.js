@@ -26,7 +26,7 @@ const ContourPage = props => {
 
   const frameProps = {
     margin: { left: 60, bottom: 90, right: 10, top: 40 },
-    width: 1000,
+    width: 600,
     height: 600,
     title: (
       <text textAnchor="middle">
@@ -40,6 +40,7 @@ const ContourPage = props => {
   const contourProps = {
     threshold: 10,
     bandWidth: 15,
+    neighbourd: true,
     yAccessor: d => d.eruptions,
     xAccessor: d => d.waiting,
     xExtent: [35, 100],

@@ -48,7 +48,8 @@ const toPipeline = props => {
     lineUseCanvas,
     pointUseCanvas,
     frameXScale: xScale,
-    frameYScale: yScale
+    frameYScale: yScale,
+    showPoints
   } = props;
 
   const { projection, ...rest } = props;
@@ -56,7 +57,8 @@ const toPipeline = props => {
   const { projectedLines, projectedAreas, projectedPoints } = projection({
     frameXScale: xScale,
     frameYScale: yScale,
-    ...rest
+    ...rest,
+    showPoints: true
   });
 
   const lineAriaLabel =
@@ -102,7 +104,7 @@ const toPipeline = props => {
   const {
     svgPipeline: pointsSvg,
     canvasPipeline: pointsCanvas
-  } = toRenderedPoints({
+  } = showPoints === true ? toRenderedPoints({
     useCanvas: pointUseCanvas,
     xScale,
     yScale,
@@ -111,7 +113,7 @@ const toPipeline = props => {
     renderFn: stringToFn(pointRenderMode, undefined, true),
     customMarks: pointCustomMarks,
     data: projectedPoints
-  });
+  }) : { svgPipeline: [], canvasPipeline: []};
 
   const svgPipe = [...areaSvg, ...lineSvg, ...pointsSvg];
   const canvasPipe = [...areaCanvas, ...lineCanvas, ...pointsCanvas];
