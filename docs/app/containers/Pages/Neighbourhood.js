@@ -54,8 +54,8 @@ const NeighbourPage = props => {
         <stop stopColor="rgb(255,255,0)" offset="1" />
       </linearGradient>,
       <linearGradient x1="0" x2="0" y1="0" y2="1" id="paleWoodGradient">
-        <stop stopColor="#FF4E50" offset="0%" />
-        <stop stopColor="#F9D423" offset="100%" />
+        <stop stopColor="#6f86d6" offset="0%" />
+        <stop stopColor="#74ebd5" offset="100%" />
       </linearGradient>,
       <linearGradient x1="0" x2="1" y1="0" y2="0" id="paleWoodGradient3">
         <stop stopColor="#F9D423" offset="0%" />
