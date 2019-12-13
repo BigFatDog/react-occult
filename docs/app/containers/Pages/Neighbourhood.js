@@ -3,17 +3,16 @@ import { PapperBlock } from 'dan-components';
 import NeighbourData from './data/neighbourhood.json';
 import { XYFrame, Contour, XAxis, YAxis, Annotation, Hexbin } from 'occult';
 import * as d3 from 'd3';
-import {withStyles} from "@material-ui/core";
+import { withStyles } from '@material-ui/core';
 
 const styles = {
   frame: {
     // background: 'linear-gradient(to top, #a8edea 0%, #fed6e3 100%)',
     border: 0,
     borderRadius: 6,
-    boxShadow: '0 3px 5px 2px white',
+    boxShadow: '0 3px 5px 2px white'
   }
 };
-
 
 const TheMetLight = [
   '#F44336',

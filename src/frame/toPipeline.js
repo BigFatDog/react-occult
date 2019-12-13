@@ -47,9 +47,10 @@ const toPipeline = props => {
     areaUseCanvas,
     lineUseCanvas,
     pointUseCanvas,
+    showPoints,
     frameXScale: xScale,
     frameYScale: yScale,
-    showPoints
+    yExtent
   } = props;
 
   const { projection, ...rest } = props;
@@ -73,7 +74,11 @@ const toPipeline = props => {
     Object.keys(naturalLanguageLineType).includes(lineType.type)
   ) {
     const maxY = projectedLines.map(d => max(d._xyCoordinates, d => d.yTop));
-    yScale.domain([0, Math.max(...maxY)]);
+    if (yExtent && yExtent.length > 0) {
+      yScale.domain([yExtent[0], Math.max(...maxY)]);
+    } else {
+      yScale.domain([0, Math.max(...maxY)]);
+    }
   }
 
   const { svgPipeline: lineSvg, canvasPipeline: lineCanvas } = toRenderedLines({

@@ -16,6 +16,7 @@ import MarginPage from '../Pages/MarginSummaryPage';
 import GeoProjectionPage from '../Pages/GeoProjection';
 import TrendlinePage from '../Pages/TrendlinePage';
 import NeighbourPage from '../Pages/Neighbourhood';
+import DifferencePage from '../Pages/Difference';
 
 import BlankPage from '../Pages/BlankPage';
 import { NotFound } from '../pageListAsync';
@@ -41,6 +42,7 @@ class Application extends React.Component {
           <Route path="/margin" component={MarginPage} />
           <Route path="/geo" component={GeoProjectionPage} />
           <Route path="/neighbour" component={NeighbourPage} />
+          <Route path="/difference" component={DifferencePage} />
           <Route component={NotFound} />
         </Switch>
       </Dashboard>

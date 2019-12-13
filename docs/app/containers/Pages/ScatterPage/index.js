@@ -66,7 +66,6 @@ const ScatterPage = props => {
         <XYFrame {...frameProps} className={classes.frame}>
           <XAxis
             label={'Expire Date'}
-            baseline={'under'}
             tickFormat={d => formatter(d)}
             showLineTicks={false}
             // rotate={30}

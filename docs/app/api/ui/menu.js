@@ -47,6 +47,11 @@ module.exports = [
         link: '/neighbour'
       },
       {
+        key: 'difference',
+        name: 'Difference',
+        link: '/difference'
+      },
+      {
         key: 'heatmap',
         name: 'Heatmap',
         link: '/heatmap'
