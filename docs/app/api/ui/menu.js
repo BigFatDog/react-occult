@@ -78,8 +78,6 @@ module.exports = [
         link: '/linepercentage'
       },
 
-
-
       {
         key: 'geo',
         name: 'Geo',

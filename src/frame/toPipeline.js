@@ -101,19 +101,19 @@ const toPipeline = props => {
     data: projectedAreas
   });
 
-  const {
-    svgPipeline: pointsSvg,
-    canvasPipeline: pointsCanvas
-  } = showPoints === true ? toRenderedPoints({
-    useCanvas: pointUseCanvas,
-    xScale,
-    yScale,
-    styleFn: stringToFn(pointStyle, emptyObjectReturnFunction, true),
-    classFn: stringToFn(pointClass, emptyStringReturnFunction, true),
-    renderFn: stringToFn(pointRenderMode, undefined, true),
-    customMarks: pointCustomMarks,
-    data: projectedPoints
-  }) : { svgPipeline: [], canvasPipeline: []};
+  const { svgPipeline: pointsSvg, canvasPipeline: pointsCanvas } =
+    showPoints === true
+      ? toRenderedPoints({
+          useCanvas: pointUseCanvas,
+          xScale,
+          yScale,
+          styleFn: stringToFn(pointStyle, emptyObjectReturnFunction, true),
+          classFn: stringToFn(pointClass, emptyStringReturnFunction, true),
+          renderFn: stringToFn(pointRenderMode, undefined, true),
+          customMarks: pointCustomMarks,
+          data: projectedPoints
+        })
+      : { svgPipeline: [], canvasPipeline: [] };
 
   const svgPipe = [...areaSvg, ...lineSvg, ...pointsSvg];
   const canvasPipe = [...areaCanvas, ...lineCanvas, ...pointsCanvas];

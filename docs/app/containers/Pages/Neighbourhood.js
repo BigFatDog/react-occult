@@ -23,7 +23,7 @@ const TheMetLight = [
   '#FFEB3B',
   '#FFC107',
   '#FF9800',
-  '#FF5722',
+  '#FF5722'
 ];
 
 const color = d3.scaleOrdinal().range(TheMetLight);
@@ -33,7 +33,15 @@ const NeighbourPage = props => {
     width: 1000,
     height: 1000,
     additionalDefs: [
-      <linearGradient id="line-gradient" x1="40" y1="210" x2="460" y2="210" gradientUnits="userSpaceOnUse" gradientTransform="rotate(90)">
+      <linearGradient
+        id="line-gradient"
+        x1="40"
+        y1="210"
+        x2="460"
+        y2="210"
+        gradientUnits="userSpaceOnUse"
+        gradientTransform="rotate(90)"
+      >
         <stop stopColor="rgb(255,0,0)" offset="0" />
         <stop stopColor="rgb(255,255,0)" offset="1" />
       </linearGradient>,
@@ -49,7 +57,12 @@ const NeighbourPage = props => {
         <stop stopColor="#f79d00" offset="0%" />
         <stop stopColor="#64f38c" offset="100%" />
       </linearGradient>,
-      <pattern id="Triangle" width="10" height="10" patternUnits="userSpaceOnUse">
+      <pattern
+        id="Triangle"
+        width="10"
+        height="10"
+        patternUnits="userSpaceOnUse"
+      >
         <rect fill="#b3331d" width="10" height="10" />
         <circle fill="rgb(211, 135, 121)" r="5" cx="3" cy="3" />
       </pattern>
@@ -62,7 +75,11 @@ const NeighbourPage = props => {
     marginalSummaryType: {
       type: 'boxplot',
       summaryStyle: (d, i, f) => {
-        return { fill: 'url(#paleWoodGradient3)', fillOpacity: 0.7, stroke: '#FF4E50' };
+        return {
+          fill: 'url(#paleWoodGradient3)',
+          fillOpacity: 0.7,
+          stroke: '#FF4E50'
+        };
       },
       showPoints: false,
       pointStyle: { stroke: '#e0d33a', strokeOpacity: 0.75, fill: 'none' }
@@ -84,14 +101,22 @@ const NeighbourPage = props => {
     marginalSummaryType: {
       type: 'violin',
       curve: d3.curveCatmullRom,
-      summaryStyle: { fill: 'url(#paleWoodGradient2)', fillOpacity: 0.5, stroke: 'none' }
+      summaryStyle: {
+        fill: 'url(#paleWoodGradient2)',
+        fillOpacity: 0.5,
+        stroke: 'none'
+      }
     }
   };
   const y0Props = {
     orient: 'left',
     marginalSummaryType: {
       type: 'contour',
-      summaryStyle: { fill: 'url(#paleWoodGradient)', fillOpacity: 0.5, stroke: 'none' },
+      summaryStyle: {
+        fill: 'url(#paleWoodGradient)',
+        fillOpacity: 0.5,
+        stroke: 'none'
+      },
       showPoints: true
     }
   };
@@ -102,11 +127,11 @@ const NeighbourPage = props => {
     yAccessor: d => d.posY,
     sAccessor: d => d.hood,
     areaStyle: (e, i) => {
-      return ({
+      return {
         opacity: 0.25,
         fill: TheMetLight[+e.parentSummary.s % 16],
         stroke: 'none'
-      })
+      };
     },
     areaUseCanvas: false,
     showPoints: false,
