@@ -222,6 +222,7 @@ const OrdinalFrame = props => {
     margin
   });
 
+  console.log('-----------------')
   // --------------- same as xy  - close
 
   const originalRAccessor = Array.isArray(baseRAccessor)

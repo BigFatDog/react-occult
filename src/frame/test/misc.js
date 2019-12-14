@@ -21,7 +21,7 @@ export function stringToArrayFn(accessor, defaultAccessor, raw) {
   return arrayOfAccessors.map(a => stringToFn(a, defaultAccessor, raw));
 }
 
-export const stringToFn = (accessor, defaultAccessor, raw) => (d, i) => {
+export const stringToFn = (accessor, defaultAccessor, raw) => {
   if (!accessor && defaultAccessor) {
     return defaultAccessor;
   } else if (typeof accessor === 'object') {
@@ -37,6 +37,34 @@ export const stringToFn = (accessor, defaultAccessor, raw) => (d, i) => {
 
   return () => undefined;
 };
+
+import { axisLines, axisPieces } from '../../axis/axisMarks';
+import Axis from '../../axis/Axis';
+import React from 'react';
+export const baselineGenerator = (orient, size, className) => {
+  const offsets = {
+    left: { x: 0, y: 0, width: 0, height: size[1] },
+    right: { x: size[0], y: 0, width: 0, height: size[1] },
+    top: { x: 0, y: 0, width: size[0], height: 0 },
+    bottom: { x: 0, y: size[1], width: size[0], height: 0 }
+  }
+
+  const orientOffset = offsets[orient]
+
+  return (
+      <line
+          key="baseline"
+          className={`axis-baseline ${className}`}
+          stroke="black"
+          strokeLinecap="square"
+          x1={orientOffset.x}
+          x2={orientOffset.x + orientOffset.width}
+          y1={orientOffset.y}
+          y2={orientOffset.y + orientOffset.height}
+      />
+  )
+}
+
 
 export const orFrameAxisGenerator = ({
   projection,
@@ -140,6 +168,7 @@ export const orFrameAxisGenerator = ({
           orient={orient}
           size={adjustedSize}
           position={axisPosition}
+          baseline={true}
           tickValues={tickValues}
           scale={axisScale}
           className={axisClassname}

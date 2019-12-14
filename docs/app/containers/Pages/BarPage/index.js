@@ -33,6 +33,7 @@ const LinePage = props => {
       { user: 'Betty', tweets: 30, retweets: 20, favorites: 10 }
     ],
     margin: { left: 60, bottom: 90, right: 10, top: 40 },
+    axis: { orient: "left", baseline: "under" },
     width: 1000,
     height: 600,
     title: (

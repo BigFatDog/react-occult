@@ -1,6 +1,6 @@
 const keyAndObjectifyBarData = ({
   data,
-  renderKey,
+  renderKey = (d, i) => i,
   oAccessor,
   rAccessor: baseRAccessor,
   originalRAccessor,
@@ -16,9 +16,7 @@ const keyAndObjectifyBarData = ({
         .domain(ext)
         .range([0, 1])
     );
-    rAccessor = rScales.map((scale, i) => d => {
-      return scale(baseRAccessor[i](d));
-    });
+    rAccessor = rScales.map((scale, i) => d => scale(baseRAccessor[i](d)));
   } else {
     rAccessor = baseRAccessor;
   }
