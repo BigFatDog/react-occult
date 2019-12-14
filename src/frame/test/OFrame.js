@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { scaleBand, scaleLinear, scaleOrdinal } from 'd3-scale';
 import keyAndObjectifyBarData from './keyAndObjectifyBarData';
 import {
@@ -26,7 +26,11 @@ import {
 } from './oLayout';
 
 import { pointOnArcAtAngle, renderLaidOutPieces } from './oPieceDrawing';
-import { drawSummaries } from '../../axis/drawSummaries';
+import drawSummaries from '../../axis/drawSummaries';
+import SpanOrDiv from '../../widgets/SpanOrDiv';
+import FilterDefs from '../../widgets/FilterDefs';
+import VisualizationLayer from '../../layers/VisualizationLayer';
+import InteractionLayer from '../../layers/InteractionLayer';
 const renderLaidOutSummaries = ({ data }) => {
   return data;
 };
@@ -44,7 +48,19 @@ const naturalLanguageTypes = {
   timeline: { items: 'bar', chart: 'timeline' }
 };
 
-const projectedCoordinatesObject = { y: 'y', x: 'x' };
+const getCanvasScale = context => {
+  const devicePixelRatio = window.devicePixelRatio || 1;
+
+  const backingStoreRatio =
+    context.webkitBackingStorePixelRatio ||
+    context.mozBackingStorePixelRatio ||
+    context.msBackingStorePixelRatio ||
+    context.oBackingStorePixelRatio ||
+    context.backingStorePixelRatio ||
+    1;
+
+  return devicePixelRatio / backingStoreRatio;
+};
 
 const defaultOverflow = { top: 0, bottom: 0, left: 0, right: 0 };
 
@@ -231,13 +247,13 @@ const OrdinalFrame = props => {
   if (Array.isArray(baseAxis)) {
     arrayWrappedAxis = baseAxis.map(axisFnOrObject =>
       typeof axisFnOrObject === 'function'
-        ? axisFnOrObject({ size: currentProps.size })
+        ? axisFnOrObject({ size })
         : axisFnOrObject
     );
   } else if (baseAxis) {
     arrayWrappedAxis = [baseAxis].map(axisFnOrObject =>
       typeof axisFnOrObject === 'function'
-        ? axisFnOrObject({ size: currentProps.size })
+        ? axisFnOrObject({ size })
         : axisFnOrObject
     );
   }
@@ -1178,269 +1194,212 @@ const OrdinalFrame = props => {
     oExtentSettings.onChange(calculatedOExtent);
   }
 
-  const defaultORSVGRule = ({ d, i, annotationLayer }) => {
-    const { projection } = this.props;
-
-    const {
-      adjustedPosition,
-      adjustedSize,
-      oAccessor,
-      rAccessor,
-      oScale,
-      rScale,
-      projectedColumns,
-      orFrameRender,
-      pieceIDAccessor,
-      rScaleType
-    } = this.state;
-
-    let screenCoordinates = [0, 0];
-
-    //TODO: Support radial??
-    if (d.coordinates || (d.type === 'enclose' && d.neighbors)) {
-      screenCoordinates = (d.coordinates || d.neighbors).map(p => {
-        const pO = findFirstAccessorValue(oAccessor, p) || p.column;
-        const oColumn = projectedColumns[pO];
-        const idPiece = findIDPiece(pieceIDAccessor, oColumn, p);
-
-        return screenProject({
-          p,
-          adjustedSize,
-          rScale,
-          rAccessor,
-          idPiece,
-          projection,
-          oColumn,
-          rScaleType
-        });
-      });
-    } else {
-      const pO = findFirstAccessorValue(oAccessor, d) || d.column;
-      const oColumn = projectedColumns[pO];
-      const idPiece = findIDPiece(pieceIDAccessor, oColumn, d);
-
-      screenCoordinates = screenProject({
-        p: d,
-        adjustedSize,
-        rScale,
-        rAccessor,
-        idPiece,
-        projection,
-        oColumn,
-        rScaleType
-      });
-    }
-
-    const { voronoiHover } = annotationLayer;
-
-    //TODO: Process your rules first
-    const customAnnotation =
-      this.props.svgAnnotationRules &&
-      this.props.svgAnnotationRules({
-        d,
-        i,
-        oScale,
-        rScale,
-        oAccessor,
-        rAccessor,
-        orFrameProps: this.props,
-        orFrameState: this.state,
-        screenCoordinates,
-        adjustedPosition,
-        adjustedSize,
-        annotationLayer,
-        categories: this.state.projectedColumns,
-        voronoiHover
-      });
-    if (this.props.svgAnnotationRules && customAnnotation !== null) {
-      return customAnnotation;
-    } else if (d.type === 'desaturation-layer') {
-      return desaturationLayer({
-        style: d.style instanceof Function ? d.style(d, i) : d.style,
-        size: adjustedSize,
-        i,
-        key: d.key
-      });
-    } else if (d.type === 'ordinal-line') {
-      return svgOrdinalLine({ d, screenCoordinates, voronoiHover });
-    } else if (d.type === 'or') {
-      return svgORRule({ d, i, screenCoordinates, projection });
-    } else if (d.type === 'highlight') {
-      return svgHighlightRule({
-        d,
-        pieceIDAccessor,
-        orFrameRender,
-        oAccessor
-      });
-    } else if (d.type === 'react-annotation' || typeof d.type === 'function') {
-      return basicReactAnnotationRule({ d, i, screenCoordinates });
-    } else if (d.type === 'enclose') {
-      return svgEncloseRule({ d, i, screenCoordinates });
-    } else if (d.type === 'enclose-rect') {
-      return svgRectEncloseRule({ d, screenCoordinates, i });
-    } else if (d.type === 'r') {
-      return svgRRule({
-        d,
-        i,
-        screenCoordinates,
-        rScale,
-        rAccessor,
-        projection,
-        adjustedSize,
-        adjustedPosition
-      });
-    } else if (d.type === 'category') {
-      return svgCategoryRule({
-        projection,
-        d,
-        i,
-        categories: this.state.projectedColumns,
-        adjustedSize
-      });
-    }
-    return null;
-  };
-
-  const defaultORHTMLRule = ({ d, i, annotationLayer }) => {
-    const {
-      adjustedPosition,
-      adjustedSize,
-      oAccessor,
-      rAccessor,
-      oScale,
-      rScale,
-      projectedColumns,
-      summaryType,
-      type,
-      pieceIDAccessor,
-      rScaleType
-    } = this.state;
-    const {
-      htmlAnnotationRules,
-      tooltipContent,
-      optimizeCustomTooltipPosition,
-      projection,
-      size,
-      useSpans
-    } = this.props;
-    let screenCoordinates = [0, 0];
-
-    const { voronoiHover } = annotationLayer;
-
-    if (d.coordinates || (d.type === 'enclose' && d.neighbors)) {
-      screenCoordinates = (d.coordinates || d.neighbors).map(p => {
-        const pO = findFirstAccessorValue(oAccessor, p) || p.column;
-        const oColumn = projectedColumns[pO];
-        const idPiece = findIDPiece(pieceIDAccessor, oColumn, p);
-
-        return screenProject({
-          p,
-          adjustedSize,
-          rScale,
-          rAccessor,
-          idPiece,
-          projection,
-          oColumn,
-          rScaleType
-        });
-      });
-    } else if (d.type === 'column-hover') {
-      const {
-        coordinates: [xPosition, yPosition]
-      } = getColumnScreenCoordinates({
-        d,
-        projectedColumns,
-        oAccessor,
-        summaryType,
-        type,
-        projection,
-        adjustedPosition,
-        adjustedSize
-      });
-      screenCoordinates = [xPosition, yPosition];
-    } else {
-      const pO = findFirstAccessorValue(oAccessor, d) || d.column;
-      const oColumn = projectedColumns[pO];
-      const idPiece = findIDPiece(pieceIDAccessor, oColumn, d);
-
-      screenCoordinates = screenProject({
-        p: d,
-        adjustedSize,
-        rScale,
-        rAccessor,
-        idPiece,
-        projection,
-        oColumn,
-        rScaleType
-      });
-    }
-
-    const flippedRScale =
-      projection === 'vertical'
-        ? rScaleType.domain(rScale.domain()).range(rScale.range().reverse())
-        : rScale;
-    //TODO: Process your rules first
-    const customAnnotation =
-      htmlAnnotationRules &&
-      htmlAnnotationRules({
-        d,
-        i,
-        oScale,
-        rScale: flippedRScale,
-        oAccessor,
-        rAccessor,
-        orFrameProps: this.props,
-        screenCoordinates,
-        adjustedPosition,
-        adjustedSize,
-        annotationLayer,
-        orFrameState: this.state,
-        categories: this.state.projectedColumns,
-        voronoiHover
-      });
-
-    if (htmlAnnotationRules && customAnnotation !== null) {
-      return customAnnotation;
-    }
-
-    if (d.type === 'frame-hover') {
-      return htmlFrameHoverRule({
-        d,
-        i,
-        rAccessor,
-        oAccessor,
-        projection,
-        tooltipContent,
-        optimizeCustomTooltipPosition,
-        projectedColumns,
-        useSpans,
-        pieceIDAccessor,
-        adjustedSize,
-        rScale,
-        type,
-        rScaleType
-      });
-    } else if (d.type === 'column-hover') {
-      return htmlColumnHoverRule({
-        d,
-        i,
-        summaryType,
-        oAccessor,
-        projectedColumns,
-        type,
-        adjustedPosition,
-        adjustedSize,
-        projection,
-        tooltipContent,
-        optimizeCustomTooltipPosition,
-        useSpans
-      });
-    }
-    return null;
-  };
-
   console.log(orFrameRender);
-  return null;
+  const frontCanvasRef = useRef(null);
+  const backCanvasRef = useRef(null);
+  const [frontCanvas, setFrontCanvas] = useState(null);
+  const [backCanvas, setBackCanvas] = useState(null);
+  const [voronoiHover, setVoronoiHover] = useState(null);
+
+  const updateCanvas = () => {
+    if (frontCanvasRef && frontCanvasRef.current) {
+      const _frontContext = frontCanvasRef.current.getContext('2d');
+      const canvasScale = getCanvasScale(_frontContext);
+      _frontContext.scale(canvasScale, canvasScale);
+      setFrontCanvas(frontCanvasRef.current);
+    }
+
+    if (backCanvasRef && backCanvasRef.current) {
+      const _backContext = backCanvasRef.current.getContext('2d');
+
+      _backContext.mozImageSmoothingEnabled = false;
+      _backContext.webkitImageSmoothingEnabled = false;
+      _backContext.msImageSmoothingEnabled = false;
+      _backContext.imageSmoothingEnabled = false;
+
+      const canvasScale = getCanvasScale(_backContext);
+      _backContext.scale(canvasScale, canvasScale);
+      setBackCanvas(backCanvasRef.current);
+    }
+  };
+
+  useEffect(() => {
+    updateCanvas();
+  }, []);
+  const frameKey = '0';
+  const canvasPipeline = [];
+  const svgPipeline = [];
+  const frameXScale = null;
+  const frameYScale = null;
+  const screenCoordinates = [];
+  const overlay = [];
+  const columns = null;
+  const annotationLayer = null;
+  const disableCanvasInteraction = true;
+
+  let interactionOverflow;
+
+  if (summaryType && summaryType.amplitude) {
+    if (projection === 'horizontal') {
+      interactionOverflow = {
+        top: summaryType.amplitude,
+        bottom: 0,
+        left: 0,
+        right: 0
+      };
+    } else if (projection === 'radial') {
+      interactionOverflow = defaultOverflow;
+    } else {
+      interactionOverflow = {
+        top: 0,
+        bottom: 0,
+        left: summaryType.amplitude,
+        right: 0
+      };
+    }
+  }
+
+  return (
+    <SpanOrDiv span={useSpans} className={`${className} frame ${name}`}>
+      {beforeElements && (
+        <SpanOrDiv span={useSpans} className={`${name} frame-before-elements`}>
+          {beforeElements}
+        </SpanOrDiv>
+      )}
+      <SpanOrDiv
+        span={useSpans}
+        className="frame-elements"
+        style={{ height: `${height}px`, width: `${width}px` }}
+      >
+        <SpanOrDiv
+          span={useSpans}
+          className="visualization-layer"
+          style={{ position: 'absolute' }}
+        >
+          {(axesTickLines || backgroundGraphics) && (
+            <svg
+              className="background-graphics"
+              style={{ position: 'absolute' }}
+              width={width}
+              height={height}
+            >
+              {backgroundGraphics && (
+                <g aria-hidden={true} className="background-graphics">
+                  {finalBackgroundGraphics}
+                </g>
+              )}
+              {axesTickLines && (
+                <g
+                  transform={`translate(${margin.left},${margin.top})`}
+                  key="visualization-tick-lines"
+                  className={'axis axis-tick-lines'}
+                  aria-hidden={true}
+                >
+                  {axesTickLines}
+                </g>
+              )}
+            </svg>
+          )}
+          <canvas
+            className="frame-canvas frame-canvas-front"
+            ref={frontCanvasRef}
+            style={{
+              position: 'absolute',
+              left: `0px`,
+              top: `0px`,
+              width: `${width}px`,
+              height: `${height}px`
+            }}
+            width={width * devicePixelRatio}
+            height={height * devicePixelRatio}
+          />
+
+          <canvas
+            className="frame-canvas frame-canvas-hidden"
+            ref={backCanvasRef}
+            style={{
+              position: 'absolute',
+              left: `0px`,
+              top: `0px`,
+              width: `${width}px`,
+              height: `${height}px`
+            }}
+            width={width * devicePixelRatio}
+            height={height * devicePixelRatio}
+          />
+          <svg
+            className="visualization-layer"
+            style={{ position: 'absolute' }}
+            width={width}
+            height={height}
+          >
+            <FilterDefs
+              matte={marginGraphic}
+              key={name}
+              additionalDefs={additionalDefs}
+            />
+            <VisualizationLayer
+              title={generatedTitle}
+              frameKey={frameKey}
+              width={width}
+              height={height}
+              size={adjustedSize}
+              position={adjustedPosition}
+              frontCanvas={frontCanvas}
+              backCanvas={backCanvas}
+              matte={marginGraphic}
+              margin={margin}
+              canvasPostProcess={canvasPostProcess}
+              canvasPipeline={canvasPipeline}
+              voronoiHover={setVoronoiHover}
+            >
+              {svgPipeline}
+              {axes && (
+                <g key="visualization-axis-labels" className="axis axis-labels">
+                  {axes}
+                </g>
+              )}
+            </VisualizationLayer>
+            {generatedTitle && <g className="frame-title">{generatedTitle}</g>}
+            {foregroundGraphics && (
+              <g aria-hidden={true} className="foreground-graphics">
+                {finalForegroundGraphics}
+              </g>
+            )}
+          </svg>
+        </SpanOrDiv>
+
+        <InteractionLayer
+          useSpans={useSpans}
+          hoverAnnotation={hoverAnnotation}
+          interaction={interaction}
+          voronoiHover={setVoronoiHover}
+          customClickBehavior={customClickBehavior}
+          customHoverBehavior={customHoverBehavior}
+          customDoubleClickBehavior={customDoubleClickBehavior}
+          position={adjustedPosition}
+          margin={margin}
+          size={adjustedSize}
+          svgSize={size}
+          xScale={frameXScale}
+          yScale={frameYScale}
+          data={screenCoordinates}
+          enabled={true}
+          useCanvas={canvasPipeline.length > 0}
+          overlay={overlay}
+          oColumns={columns}
+          interactionOverflow={interactionOverflow}
+          disableCanvasInteraction={disableCanvasInteraction}
+        />
+        {annotationLayer}
+        {afterElements && (
+          <SpanOrDiv span={useSpans} className={`${name} frame-after-elements`}>
+            {afterElements}
+          </SpanOrDiv>
+        )}
+      </SpanOrDiv>
+    </SpanOrDiv>
+  );
 };
 
 OrdinalFrame.displayName = 'OrdinalFrame';
