@@ -76,8 +76,11 @@ const Axis = props => {
     glyphFunction,
     marginalSummaryType,
     tickFormat = marginalSummaryType ? () => '' : d => d,
-    jaggedBase
+    jaggedBase,
+    showLabels
   } = props;
+
+  console.log(showLabels)
 
   let { axisParts, position = [0, 0] } = props;
 
@@ -392,15 +395,16 @@ const Axis = props => {
 
   let axisTitle;
 
-  const axisTickLabels = axisLabels({
+  const axisTickLabels = showLabels === true ? axisLabels({
     tickFormat,
     axisParts,
     orient,
     rotate,
     center
-  });
+  }) : null;
+
   if (label) {
-    const labelName = label.name || '';
+    const labelName = (typeof label === 'string' || label instanceof String) ? label : label.name || '';
     const labelPosition = label.position || {};
     const locationMod = labelPosition.location || 'outside';
     let anchorMod = labelPosition.anchor || 'middle';
@@ -531,8 +535,10 @@ Axis.propTypes = {
   margin: PropTypes.object,
   name: PropTypes.string,
   showLineTicks: PropTypes.bool,
+  showLabels: PropTypes.bool,
   xyPoints: PropTypes.array,
-  jaggedBase: PropTypes.bool
+  jaggedBase: PropTypes.bool,
+  marginalSummaryType: PropTypes.object,
 };
 
 Axis.defaultProps = {
@@ -550,6 +556,7 @@ Axis.defaultProps = {
   margin: { top: 0, bottom: 0, left: 0, right: 0 },
   center: false,
   showLineTicks: true,
+  showLabels: true,
   jaggedBase: false
 };
 

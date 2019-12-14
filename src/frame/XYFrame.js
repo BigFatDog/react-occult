@@ -24,6 +24,8 @@ const isPlot = type =>
     type
   );
 
+const isAxis = type => ['XAxis', 'YAxis', "Axis"].includes(type);
+
 const getCanvasScale = context => {
   const devicePixelRatio = window.devicePixelRatio || 1;
 
@@ -229,7 +231,7 @@ const XYFrame = props => {
 
   // axisPipeline
   const axesDefs = React.Children.toArray(children)
-    .filter(d => d.type.name === 'XAxis' || d.type.name === 'YAxis')
+    .filter(d => isAxis(d.type.name))
     .map(d => d.props);
 
   const { axes, axesTickLines } = toAxes({

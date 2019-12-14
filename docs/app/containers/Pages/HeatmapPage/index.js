@@ -44,8 +44,8 @@ const HeatmapPage = props => {
     <div>
       <PapperBlock>
         <XYFrame {...frameProps}>
-          <XAxis label={'Rank'} />
-          <YAxis label={'Theaters'} />
+          <XAxis label={'Waiting'} />
+          <YAxis label={'Eruptions'} />
           <Heatmap {...heatmapProps} />
         </XYFrame>
       </PapperBlock>

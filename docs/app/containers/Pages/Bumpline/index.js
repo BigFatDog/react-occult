@@ -35,8 +35,7 @@ const BumplinePage = props => {
     height: 500,
     title: (
       <text textAnchor="middle">
-        Theaters showing <tspan fill={'#ac58e5'}>Ex Machina</tspan> vs{' '}
-        <tspan fill={'#E0488B'}>Far from the Madding Crowd</tspan>
+        Bumpline
       </text>
     )
   };

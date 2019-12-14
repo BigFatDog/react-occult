@@ -28,8 +28,8 @@ const Sample = props => {
           };
         }}
       />
-      <XAxis title="Rank" />
-      <YAxis label={{ name: 'Theaters', locationDistance: 55 }} />
+      <XAxis title="X" />
+      <YAxis label={{ name: 'Y', locationDistance: 55 }} />
       <SVGPathSegLinetoVerticalRel
         className="first-series"
         data={overrideData}

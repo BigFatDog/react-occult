@@ -1,7 +1,5 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
 import { XYFrame, XAxis, YAxis, Contour } from 'occult';
-import brand from 'dan-api/dummy/brand';
 import { PapperBlock } from 'dan-components';
 import { OldFaithful } from '../OldFaithfulPage/data';
 import { scaleLinear } from 'd3-scale';
@@ -21,9 +19,6 @@ const trianglePattern = (
 );
 
 const ContourPage = props => {
-  const title = brand.name + ' - Contour';
-  const description = brand.desc;
-
   const frameProps = {
     margin: { left: 60, bottom: 90, right: 10, top: 40 },
     width: 600,
@@ -62,18 +57,10 @@ const ContourPage = props => {
 
   return (
     <div>
-      <Helmet>
-        <title>{title}</title>
-        <meta name="description" content={description} />
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta property="twitter:title" content={title} />
-        <meta property="twitter:description" content={description} />
-      </Helmet>
       <PapperBlock>
         <XYFrame {...frameProps}>
-          <XAxis label={'Rank'} />
-          <YAxis left={50} label={'Theaters'} />
+          <XAxis label={'Eruptions'} />
+          <YAxis label={'Waiting'} />
           <Contour {...contourProps} />
         </XYFrame>
       </PapperBlock>
