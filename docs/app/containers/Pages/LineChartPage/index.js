@@ -70,9 +70,7 @@ const LinePage = props => {
 
   return (
     <div>
-      <PapperBlock>
-        {rendered}
-      </PapperBlock>
+      <PapperBlock>{rendered}</PapperBlock>
     </div>
   );
 };

@@ -33,11 +33,7 @@ const BumplinePage = props => {
     margin: { left: 60, bottom: 90, right: 10, top: 40 },
     width: 800,
     height: 500,
-    title: (
-      <text textAnchor="middle">
-        Bumpline
-      </text>
-    )
+    title: <text textAnchor="middle">Bumpline</text>
   };
 
   const colorScale = d3.scaleOrdinal().range(TheMetLight);

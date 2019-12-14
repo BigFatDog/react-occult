@@ -49,11 +49,7 @@ const ScatterPage = props => {
     margin: { left: 100, bottom: 90, right: 10, top: 40 },
     width: 1000,
     height: 500,
-    title: (
-      <text textAnchor="middle">
-        Daimond Price and Carat
-      </text>
-    ),
+    title: <text textAnchor="middle">Daimond Price and Carat</text>,
     hoverAnnotation: true,
     tooltipContent: d => {
       return (

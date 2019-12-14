@@ -80,7 +80,7 @@ const Axis = props => {
     showLabels
   } = props;
 
-  console.log(showLabels)
+  console.log(showLabels);
 
   let { axisParts, position = [0, 0] } = props;
 
@@ -395,16 +395,22 @@ const Axis = props => {
 
   let axisTitle;
 
-  const axisTickLabels = showLabels === true ? axisLabels({
-    tickFormat,
-    axisParts,
-    orient,
-    rotate,
-    center
-  }) : null;
+  const axisTickLabels =
+    showLabels === true
+      ? axisLabels({
+          tickFormat,
+          axisParts,
+          orient,
+          rotate,
+          center
+        })
+      : null;
 
   if (label) {
-    const labelName = (typeof label === 'string' || label instanceof String) ? label : label.name || '';
+    const labelName =
+      typeof label === 'string' || label instanceof String
+        ? label
+        : label.name || '';
     const labelPosition = label.position || {};
     const locationMod = labelPosition.location || 'outside';
     let anchorMod = labelPosition.anchor || 'middle';
@@ -538,7 +544,7 @@ Axis.propTypes = {
   showLabels: PropTypes.bool,
   xyPoints: PropTypes.array,
   jaggedBase: PropTypes.bool,
-  marginalSummaryType: PropTypes.object,
+  marginalSummaryType: PropTypes.object
 };
 
 Axis.defaultProps = {

@@ -17,6 +17,7 @@ import GeoProjectionPage from '../Pages/GeoProjection';
 import TrendlinePage from '../Pages/TrendlinePage';
 import NeighbourPage from '../Pages/Neighbourhood';
 import DifferencePage from '../Pages/Difference';
+import BarPage from '../Pages/BarPage';
 
 import BlankPage from '../Pages/BlankPage';
 import { NotFound } from '../pageListAsync';
@@ -43,6 +44,7 @@ class Application extends React.Component {
           <Route path="/geo" component={GeoProjectionPage} />
           <Route path="/neighbour" component={NeighbourPage} />
           <Route path="/difference" component={DifferencePage} />
+          <Route path="/bar" component={BarPage} />
           <Route component={NotFound} />
         </Switch>
       </Dashboard>

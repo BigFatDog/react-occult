@@ -24,7 +24,7 @@ const isPlot = type =>
     type
   );
 
-const isAxis = type => ['XAxis', 'YAxis', "Axis"].includes(type);
+const isAxis = type => ['XAxis', 'YAxis', 'Axis'].includes(type);
 
 const getCanvasScale = context => {
   const devicePixelRatio = window.devicePixelRatio || 1;

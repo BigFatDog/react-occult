@@ -52,66 +52,66 @@ const LinePage = props => {
       </linearGradient>
     ],
     foregroundGraphics: [
-        <g>
-          <defs>
-            <pattern
-                id={'nyc-pattern'}
-                x={'0%'}
-                y={'0%'}
-                height={'100%'}
-                width={'100%'}
-                viewBox={'0 0 512 512'}
-            >
-              <image
-                  xlinkHref={NYCPic}
-                  x={'0%'}
-                  y={'0%'}
-                  height={512}
-                  width={512}
-              ></image>
-            </pattern>
-            <pattern
-                id={'sf-pattern'}
-                x={'0%'}
-                y={'0%'}
-                height={'100%'}
-                width={'100%'}
-                viewBox={'0 0 512 512'}
-            >
-              <image
-                  xlinkHref={SFPic}
-                  x={'0%'}
-                  y={'0%'}
-                  height={512}
-                  width={512}
-              ></image>
-            </pattern>
-          </defs>
-          <circle
-              id={'nyc'}
-              cx={460}
-              cy={70}
-              r={30}
-              fill={'url(#nyc-pattern)'}
-              stroke={'#009efd'}
-              strokeWidth={3}
-          />
-          <circle
-              id={'sf'}
-              cx={540}
-              cy={70}
-              r={30}
-              fill={'url(#sf-pattern)'}
-              stroke={'#fa71cd'}
-              strokeWidth={3}
-          />
-          <text x={460 - 15} y={70 + 50} fill={'#009efd'} >
-            NYC
-          </text>
-          <text x={540 - 10 } y={70 + 50} fill={'#fa71cd'} >
-            SF
-          </text>
-        </g>
+      <g>
+        <defs>
+          <pattern
+            id={'nyc-pattern'}
+            x={'0%'}
+            y={'0%'}
+            height={'100%'}
+            width={'100%'}
+            viewBox={'0 0 512 512'}
+          >
+            <image
+              xlinkHref={NYCPic}
+              x={'0%'}
+              y={'0%'}
+              height={512}
+              width={512}
+            ></image>
+          </pattern>
+          <pattern
+            id={'sf-pattern'}
+            x={'0%'}
+            y={'0%'}
+            height={'100%'}
+            width={'100%'}
+            viewBox={'0 0 512 512'}
+          >
+            <image
+              xlinkHref={SFPic}
+              x={'0%'}
+              y={'0%'}
+              height={512}
+              width={512}
+            ></image>
+          </pattern>
+        </defs>
+        <circle
+          id={'nyc'}
+          cx={460}
+          cy={70}
+          r={30}
+          fill={'url(#nyc-pattern)'}
+          stroke={'#009efd'}
+          strokeWidth={3}
+        />
+        <circle
+          id={'sf'}
+          cx={540}
+          cy={70}
+          r={30}
+          fill={'url(#sf-pattern)'}
+          stroke={'#fa71cd'}
+          strokeWidth={3}
+        />
+        <text x={460 - 15} y={70 + 50} fill={'#009efd'}>
+          NYC
+        </text>
+        <text x={540 - 10} y={70 + 50} fill={'#fa71cd'}>
+          SF
+        </text>
+      </g>
     ],
     title: (
       <text textAnchor="middle">
@@ -132,7 +132,7 @@ const LinePage = props => {
       stroke: d.s === 'New York' ? '#fa71cd' : '#0074D9',
       fill: d.s === 'New York' ? '#f9d423' : '#2ECC40',
       // fill: d.s === 'New York' ? 'url(#paleWoodGradient3)' : 'url(#paleWoodGradient2)',
-      fillOpacity: .4
+      fillOpacity: 0.4
     }),
 
     lineType: {
@@ -177,22 +177,22 @@ const LinePage = props => {
             tickFormat={d => formatDate(d)}
             showLineTicks={false}
           />
-          <YAxis label={'Weather'} showLineTicks={true}/>
+          <YAxis label={'Weather'} showLineTicks={true} />
           <YAxis {...yAxisProps} />
           <Line {...lineProps} />
           <Annotation
-              type={'y'}
-              dx={110}
-              dy={40}
-              // connector={{ end: 'none' }}
-              coordinates={{ weather: 30 }}
-              color={'#0074D9'}
-              note={{
-                label: 'NYC snows',
-                align: 'right',
-                lineType: null,
-                wrap: 50
-              }}
+            type={'y'}
+            dx={110}
+            dy={40}
+            // connector={{ end: 'none' }}
+            coordinates={{ weather: 30 }}
+            color={'#0074D9'}
+            note={{
+              label: 'NYC snows',
+              align: 'right',
+              lineType: null,
+              wrap: 50
+            }}
           />
         </XYFrame>
       </PapperBlock>

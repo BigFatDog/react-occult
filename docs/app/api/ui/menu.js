@@ -82,7 +82,11 @@ module.exports = [
         name: 'Line Percentage',
         link: '/linepercentage'
       },
-
+      {
+        key: 'bar',
+        name: 'Bar',
+        link: '/bar'
+      },
       {
         key: 'geo',
         name: 'Geo',
