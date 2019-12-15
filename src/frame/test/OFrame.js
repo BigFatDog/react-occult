@@ -967,7 +967,7 @@ const OrdinalFrame = props => {
     });
   }
 
-  let pieceDataXY;
+  let screenCoordinates;
 
   const pieceTypeForXY =
     pieceType.type && pieceType.type !== 'none' ? pieceType.type : 'point';
@@ -1048,7 +1048,7 @@ const OrdinalFrame = props => {
     summaryHoverAnnotation
   ) {
     if (summaryHoverAnnotation && calculatedSummaries.xyPoints) {
-      pieceDataXY = calculatedSummaries.xyPoints.map(d =>
+      screenCoordinates = calculatedSummaries.xyPoints.map(d =>
         Object.assign({}, d, {
           type: 'frame-hover',
           isSummaryData: true,
@@ -1057,7 +1057,7 @@ const OrdinalFrame = props => {
         })
       );
     } else if (pieceHoverAnnotation && calculatedPieceData) {
-      pieceDataXY = basePieceData;
+      screenCoordinates = basePieceData;
     }
   }
 
@@ -1153,7 +1153,6 @@ const OrdinalFrame = props => {
   const svgPipeline = [...svgPipe, ...(calculatedSummaries.marks || [])];
   const canvasPipeline = canvasPipe.slice();
 
-  console.log(canvasPipeline);
   if (
     rExtentSettings.onChange &&
     (calculatedRExtent || []).join(',') !== (calculatedRExtent || []).join(',')
@@ -1202,7 +1201,6 @@ const OrdinalFrame = props => {
   const frameKey = '0';
   const frameXScale = null;
   const frameYScale = null;
-  const screenCoordinates = [];
   const annotationLayer = null;
   const disableCanvasInteraction = true;
 
@@ -1391,8 +1389,8 @@ OrdinalFrame.propTypes = {
   summaryType: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   summaryHoverAnnotation: PropTypes.bool,
   pieceHoverAnnotation: PropTypes.bool,
-  baseMarkProps: PropTypes.object,
 
+  baseMarkProps: PropTypes.object,
   width: PropTypes.number,
   height: PropTypes.number,
   name: PropTypes.string,

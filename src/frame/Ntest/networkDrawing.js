@@ -629,21 +629,21 @@ export const drawNodes = ({
   styleFn,
   classFn,
   renderMode,
-  canvasDrawing,
-  canvasRenderFn,
+  useCanvas,
   baseMarkProps
 }) => {
   const markGenerator = customMark;
-  const renderedData = [];
+  const svgPipeline = [];
+  const canvasPipeline = [];
 
-  if (customMark && canvasRenderFn) {
+  if (customMark && useCanvas) {
     console.error(
       'canvas rendering currently only supports generic circle nodes based on nodeSize'
     );
   }
 
   data.forEach((d, i) => {
-    if (canvasRenderFn && canvasRenderFn(d, i) === true) {
+    if (useCanvas === true) {
       const canvasNode = {
         baseClass: 'frame-piece',
         tx: d.x,
@@ -655,10 +655,10 @@ export const drawNodes = ({
         renderFn: renderMode,
         classFn
       };
-      canvasDrawing.push(canvasNode);
+      canvasPipeline.push(canvasNode);
     } else {
       // CUSTOM MARK IMPLEMENTATION
-      renderedData.push(
+      svgPipeline.push(
         markGenerator({
           d,
           i,
@@ -674,7 +674,7 @@ export const drawNodes = ({
       );
     }
   });
-  return renderedData;
+  return { svgPipeline, canvasPipeline };
 };
 
 export const drawEdges = ({
@@ -684,8 +684,7 @@ export const drawEdges = ({
   styleFn,
   classFn,
   renderMode,
-  canvasRenderFn,
-  canvasDrawing,
+  useCanvas,
   type,
   baseMarkProps,
   networkType,
@@ -698,7 +697,9 @@ export const drawEdges = ({
       : baseData;
 
   let dGenerator = genericLineGenerator;
-  const renderedData = [];
+  const svgPipeline = [];
+  const canvasPipeline = [];
+
   if (customMark) {
     // CUSTOM MARK IMPLEMENTATION
     data.forEach((d, i) => {
@@ -720,7 +721,7 @@ export const drawEdges = ({
         (renderedCustomMark.props.markType !== 'path' ||
           renderedCustomMark.props.d)
       ) {
-        renderedData.push(renderedCustomMark);
+        svgPipeline.push(renderedCustomMark);
       }
     });
   } else {
@@ -734,7 +735,7 @@ export const drawEdges = ({
     data.forEach((d, i) => {
       const renderedD = dGenerator(d);
 
-      if (renderedD && canvasRenderFn && canvasRenderFn(d, i) === true) {
+      if (renderedD && useCanvas === true) {
         const canvasEdge = {
           baseClass: 'frame-piece',
           tx: d.x,
@@ -746,9 +747,9 @@ export const drawEdges = ({
           renderFn: renderMode,
           classFn
         };
-        canvasDrawing.push(canvasEdge);
+        canvasPipeline.push(canvasEdge);
       } else if (renderedD) {
-        renderedData.push(
+        svgPipeline.push(
           <Mark
             {...baseMarkProps}
             key={renderKeyFn ? renderKeyFn(d, i) : `edge-${i}`}
@@ -766,7 +767,7 @@ export const drawEdges = ({
     });
   }
 
-  return renderedData;
+  return { svgPipeline, canvasPipeline };
 };
 
 export function topologicalSort(nodesArray, edgesArray) {

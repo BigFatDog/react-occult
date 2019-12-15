@@ -1,4 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useRef } from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import {
+  generateFrameTitle,
+  getAdjustedPositionSize,
+  toMarginGraphic
+} from '../utils';
 
 import {
   /*forceCenter,*/ forceSimulation,
@@ -17,8 +25,6 @@ import { min, max } from 'd3-array';
 import AnnotationLabel from 'react-annotation/lib/Types/AnnotationLabel';
 
 import {
-  drawNodes,
-  drawEdges,
   topologicalSort,
   hierarchicalRectNodeGenerator,
   matrixNodeGenerator,
@@ -67,12 +73,11 @@ import SpanOrDiv from '../../widgets/SpanOrDiv';
 import FilterDefs from '../../widgets/FilterDefs';
 import VisualizationLayer from '../../layers/VisualizationLayer';
 import InteractionLayer from '../../layers/InteractionLayer';
-import { useRef } from 'react';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import toPipeline from './toPipeline';
+import PropTypes from 'prop-types';
 
 const emptyArray = [];
-
+const genericFunction = value => () => value;
 const baseNodeProps = {
   id: undefined,
   degree: 0,
@@ -253,7 +258,20 @@ function breadthFirstCompontents(baseNodes, hash) {
   );
 }
 
-const projectedCoordinateNames = { y: 'y', x: 'x' };
+const getCanvasScale = context => {
+    const devicePixelRatio = window.devicePixelRatio || 1;
+
+    const backingStoreRatio =
+        context.webkitBackingStorePixelRatio ||
+        context.mozBackingStorePixelRatio ||
+        context.msBackingStorePixelRatio ||
+        context.oBackingStorePixelRatio ||
+        context.backingStorePixelRatio ||
+        1;
+
+    return devicePixelRatio / backingStoreRatio;
+};
+
 
 const sankeyOrientHash = {
   left: sankeyLeft,
@@ -303,12 +321,13 @@ const NetworkFrame = props => {
     nodeRenderMode,
     edgeRenderMode,
     nodeLabels,
-    title: baseTitle,
+    title,
     margin: baseMargin,
     customNodeIcon: baseCustomNodeIcon,
     customEdgeIcon: baseCustomEdgeIcon,
     filterRenderedNodes,
-
+    width,
+    height,
     annotations,
     annotationSettings,
     className,
@@ -324,16 +343,30 @@ const NetworkFrame = props => {
     canvasPostProcess,
     baseMarkProps,
     useSpans,
-    canvasNodes,
-    canvasEdges,
+    nodeUseCanvas,
+    edgeUseCanvas,
     name,
     additionalDefs,
-    renderOrder = this.state.graphSettings &&
-    this.state.graphSettings.type === 'matrix'
-      ? matrixRenderOrder
-      : generalRenderOrder
-  } = props;
+    edgeRenderKey,
+    nodeRenderKey,
 
+    backgroundGraphics,
+    foregroundGraphics,
+      frameKey,
+      axis,
+      interactionOverflow,
+      disableCanvasInteraction
+  } = props;
+  const [graphSettings, setGraphSettings] = useState({
+    type: 'empty-start',
+    nodes: [],
+    edges: [],
+    nodeHash: new Map(),
+    edgeHash: new Map(),
+    hierarchicalNetwork: false
+  });
+
+  let { edgeType } = props;
   // --------------- same as xy  - start
   const size = [width, height];
   const devicePixelRatio = window.devicePixelRatio || 1;
@@ -374,41 +407,7 @@ const NetworkFrame = props => {
     size
   });
 
-  const title =
-    typeof baseTitle === 'object' &&
-    !React.isValidElement(baseTitle) &&
-    baseTitle !== null
-      ? baseTitle
-      : { title: baseTitle, orient: 'top' };
-
   // --------------- same as xy  - close
-
-  const [frame, setFrame] = useState({
-    nodeData: [],
-    edgeData: [],
-    projectedNodes: [],
-    projectedEdges: [],
-    renderNumber: 0,
-    nodeLabelAnnotations: [],
-    graphSettings: {
-      type: 'empty-start',
-      nodes: [],
-      edges: [],
-      nodeHash: new Map(),
-      edgeHash: new Map(),
-      hierarchicalNetwork: false
-    },
-    edgeWidthAccessor: stringToFn < number > 'weight',
-    legendSettings: {},
-    nodeIDAccessor: stringToFn < string > 'id',
-    nodeSizeAccessor: genericFunction(5),
-    overlay: [],
-    projectedXYPoints: [],
-    sourceAccessor: (stringToFn < string) | (GenericObject > 'source'),
-    targetAccessor: (stringToFn < string) | (GenericObject > 'target')
-  });
-
-  let { edgeType } = props;
 
   let networkSettings;
 
@@ -463,24 +462,21 @@ const NetworkFrame = props => {
     props.edgeWidthAccessor,
     d => d.weight || 1
   );
-  const nodeStyleFn = stringToFn(nodeStyle, () => ({}), true);
-  const nodeClassFn = stringToFn(nodeClass, () => '', true);
-  const nodeRenderModeFn = stringToFn(nodeRenderMode, undefined, true);
-  const nodeCanvasRenderFn =
-    canvasNodes && stringToFn(canvasNodes, undefined, true);
 
-  let { projectedNodes, projectedEdges } = this.state;
+  let projectedNodes = [];
+  let projectedEdges = [];
 
   const isHierarchical =
     typeof networkSettings.type === 'string' &&
     hierarchicalTypeHash[networkSettings.type];
 
-  const changedData =
-    !this.state.projectedNodes ||
-    !this.state.projectedEdges ||
-    this.state.graphSettings.nodes !== nodes ||
-    this.state.graphSettings.edges !== edges ||
-    isHierarchical;
+  // const changedData =
+  //     !projectedNodes ||
+  //     !projectedEdges ||
+  //     graphSettings.nodes !== nodes ||
+  //     graphSettings.edges !== edges ||
+  //     isHierarchical;
+  const changedData = false;
 
   if (networkSettings.type === 'dagre') {
     const dagreGraph = graph;
@@ -707,7 +703,7 @@ const NetworkFrame = props => {
     if (
       key !== 'edgeType' &&
       key !== 'graphSettings' &&
-      networkSettings[key] !== this.state.graphSettings[key]
+      networkSettings[key] !== graphSettings[key]
     ) {
       networkSettingsChanged = true;
     }
@@ -1201,8 +1197,11 @@ const NetworkFrame = props => {
       });
     }
 
-    this.state.graphSettings.nodes = props.nodes;
-    this.state.graphSettings.edges = props.edges;
+    // setGraphSettings({
+    //     ...graphSettings,
+    //     nodes: props.nodes,
+    //     edges: props.edges
+    // });
   }
 
   //filter out user-defined nodes
@@ -1368,48 +1367,6 @@ const NetworkFrame = props => {
     }
   }
 
-  const networkFrameRender = {
-    edges: {
-      accessibleTransform: (data, i) => {
-        const edgeX = (data[i].source.x + data[i].target.x) / 2;
-        const edgeY = (data[i].source.y + data[i].target.y) / 2;
-        return { type: 'frame-hover', ...data[i], x: edgeX, y: edgeY };
-      },
-      data: projectedEdges,
-      styleFn: stringToFn < GenericObject > (edgeStyle, () => ({}), true),
-      classFn: stringToFn < string > (edgeClass, () => '', true),
-      renderMode:
-        (stringToFn < string) |
-        (GenericObject > (edgeRenderMode, undefined, true)),
-      canvasRenderFn:
-        canvasEdges && stringToFn < boolean > (canvasEdges, undefined, true),
-      renderKeyFn: props.edgeRenderKey
-        ? props.edgeRenderKey
-        : d => d._NWFEdgeKey || `${d.source.id}-${d.target.id}`,
-      behavior: drawEdges,
-      projection: networkSettings.projection,
-      type: edgeType,
-      customMark: customEdgeIcon,
-      networkType: networkSettings.type,
-      direction: networkSettings.direction
-    },
-    nodes: {
-      accessibleTransform: (data, i) => ({
-        type: 'frame-hover',
-        ...data[i],
-        ...(data[i].data || {})
-      }),
-      data: projectedNodes,
-      styleFn: nodeStyleFn,
-      classFn: nodeClassFn,
-      renderMode: nodeRenderModeFn,
-      canvasRenderFn: nodeCanvasRenderFn,
-      customMark: customNodeIcon,
-      behavior: drawNodes,
-      renderKeyFn: props.nodeRenderKey
-    }
-  };
-
   const nodeLabelAnnotations = [];
   if (props.nodeLabels && projectedNodes) {
     projectedNodes.forEach((node, nodei) => {
@@ -1459,7 +1416,7 @@ const NetworkFrame = props => {
     });
   }
 
-  let projectedXYPoints;
+  let screenCoordinates;
   const overlay = [];
   const areaBasedTypes = ['circlepack', 'treemap', 'partition', 'chord'];
   if (
@@ -1505,24 +1462,61 @@ const NetworkFrame = props => {
     typeof networkSettings.type === 'string' &&
     edgePointHash[networkSettings.type]
   ) {
-    projectedXYPoints = projectedEdges.map(edgePointHash[networkSettings.type]);
+    screenCoordinates = projectedEdges.map(edgePointHash[networkSettings.type]);
   } else if (
     Array.isArray(hoverAnnotation) ||
     hoverAnnotation === true ||
     hoverAnnotation === 'node'
   ) {
-    projectedXYPoints = projectedNodes;
+    screenCoordinates = projectedNodes;
     if (changedData || networkSettingsChanged)
-      projectedXYPoints = [...projectedNodes];
+      screenCoordinates = [...projectedNodes];
   } else if (
     hoverAnnotation === 'all' &&
     typeof networkSettings.type === 'string'
   ) {
-    projectedXYPoints = [
+    screenCoordinates = [
       ...projectedEdges.map(edgePointHash[networkSettings.type]),
       ...projectedNodes
     ];
   }
+
+  const axesTickLines = null;
+
+  const { svgPipe, canvasPipe } = toPipeline({
+    projectedEdges,
+    projectedNodes,
+    edgeStyle: stringToFn(edgeStyle, () => ({}), true),
+    edgeClass: stringToFn(edgeClass, () => '', true),
+    edgeRenderMode: stringToFn(edgeRenderMode, undefined, true),
+    edgeUseCanvas,
+    edgeRenderKey: edgeRenderKey
+      ? edgeRenderKey
+      : d => d._NWFEdgeKey || `${d.source.id}-${d.target.id}`,
+    projection: networkSettings.projection,
+    edgeType,
+    customEdgeIcon,
+    networkType: networkSettings.type,
+    direction: networkSettings.direction,
+    nodeStyle: stringToFn(nodeStyle, () => ({}), true),
+    nodeClass: stringToFn(nodeClass, () => '', true),
+    nodeRenderMode: stringToFn(nodeRenderMode, undefined, true),
+    nodeUseCanvas,
+    customNodeIcon,
+    nodeRenderKey
+  });
+
+  const svgPipeline = [...svgPipe];
+  const canvasPipeline = canvasPipe.slice();
+  const frameXScale = scaleLinear();
+  const frameYScale = scaleLinear();
+    const annotationLayer = null;
+
+    let formattedOverlay
+
+    if (overlay && overlay.length > 0) {
+        formattedOverlay = overlay
+    }
 
   //  same code start ----------------
   const frontCanvasRef = useRef(null);
@@ -1662,7 +1656,6 @@ const NetworkFrame = props => {
             {foregroundGraphics && (
               <g aria-hidden={true} className="foreground-graphics">
                 {finalForegroundGraphics}
-                {oLabels}
               </g>
             )}
           </svg>
@@ -1685,8 +1678,7 @@ const NetworkFrame = props => {
           data={screenCoordinates}
           enabled={true}
           useCanvas={canvasPipeline.length > 0}
-          overlay={columnOverlays}
-          oColumns={projectedColumns}
+          overlay={formattedOverlay}
           interactionOverflow={interactionOverflow}
           disableCanvasInteraction={disableCanvasInteraction}
         />
@@ -1699,6 +1691,57 @@ const NetworkFrame = props => {
       </SpanOrDiv>
     </SpanOrDiv>
   );
+};
+
+NetworkFrame.propTypes = {
+  baseMarkProps: PropTypes.object,
+  width: PropTypes.number,
+  height: PropTypes.number,
+  name: PropTypes.string,
+  className: PropTypes.string,
+  frameKey: PropTypes.string,
+  renderKey: PropTypes.string,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  useSpans: PropTypes.bool,
+  additionalDefs: PropTypes.array,
+  margin: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
+  matte: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.node,
+    PropTypes.func,
+    PropTypes.object
+  ]),
+  beforeElements: PropTypes.object,
+  afterElements: PropTypes.object,
+  backgroundGraphics: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
+  foregroundGraphics: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
+  canvasPostProcess: PropTypes.string,
+  hoverAnnotation: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.array,
+    PropTypes.bool
+  ]),
+  interaction: PropTypes.func,
+  customClickBehavior: PropTypes.func,
+  customHoverBehavior: PropTypes.func,
+  customDoubleClickBehavior: PropTypes.func,
+  overlay: PropTypes.object,
+  columns: PropTypes.object,
+  interactionOverflow: PropTypes.func,
+  disableCanvasInteraction: PropTypes.func,
+  tooltipContent: PropTypes.func,
+
+  nodeUseCanvas: PropTypes.bool,
+  edgeUseCanvas: PropTypes.bool,
+  graph: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.func,
+    PropTypes.object
+  ]),
+  node: PropTypes.array,
+  edge: PropTypes.array,
+  sourceAccessor: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+  targetAccessor: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
 };
 
 NetworkFrame.defaultProps = {
