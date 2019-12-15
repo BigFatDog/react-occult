@@ -57,6 +57,11 @@ module.exports = [
         link: '/sketch'
       },
       {
+        key: 'network',
+        name: 'Network',
+        link: '/network'
+      },
+      {
         key: 'heatmap',
         name: 'Heatmap',
         link: '/heatmap'

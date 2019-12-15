@@ -9,6 +9,7 @@ import YAxis from './axis/YAxis';
 import Trendline from './plots/Trendline';
 import Bar from './plots/Bar';
 import OFrame from './frame/test/OFrame';
+import NetworkFrame from './frame/Ntest/NetworkFrame';
 import Annotation from './plots/Annotation';
 
 export {
@@ -22,5 +23,6 @@ export {
   Hexbin,
   Heatmap,
   Trendline,
-  Annotation
+  Annotation,
+  NetworkFrame
 };
