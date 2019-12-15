@@ -52,6 +52,11 @@ module.exports = [
         link: '/difference'
       },
       {
+        key: 'pencil',
+        name: 'Pencil',
+        link: '/sketch'
+      },
+      {
         key: 'heatmap',
         name: 'Heatmap',
         link: '/heatmap'

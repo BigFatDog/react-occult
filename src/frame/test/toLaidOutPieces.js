@@ -18,7 +18,7 @@ const toLaidOutPieces = ({
   const canvasPipeline = [];
 
   data.forEach((d, i) => {
-    if (useCanvas && useCanvas(d) === true) {
+    if (useCanvas === true) {
       const canvasPiece = {
         baseClass: 'orframe-piece',
         tx: d.renderElement.tx || 0,

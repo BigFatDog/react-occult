@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { scaleBand, scaleLinear, scaleOrdinal } from 'd3-scale';
 import keyAndObjectifyBarData from './keyAndObjectifyBarData';
+import PropTypes from 'prop-types';
 import {
   generateFrameTitle,
   getAdjustedPositionSize,
@@ -13,8 +14,7 @@ import {
   objectifyType,
   stringToArrayFn,
   stringToFn,
-  orFrameAxisGenerator,
-  orFrameConnectionRenderer
+  orFrameAxisGenerator
 } from './misc';
 
 import {
@@ -90,7 +90,6 @@ const OrdinalFrame = props => {
     rScaleType,
     dynamicColumnWidth,
     className,
-    annotationSettings,
     oLabel,
     pixelColumnWidth,
     name,
@@ -104,7 +103,6 @@ const OrdinalFrame = props => {
     foregroundGraphics,
     afterElements,
     beforeElements,
-    disableContext,
     summaryRenderMode,
     summaryHoverAnnotation,
     connectorRenderMode,
@@ -115,7 +113,6 @@ const OrdinalFrame = props => {
     pieceUseCanvas,
     summaryUseCanvas,
     connectorUseCanvas,
-    renderOrder,
     connectorClass,
     additionalDefs,
     multiAxis,
@@ -1157,6 +1154,7 @@ const OrdinalFrame = props => {
   const svgPipeline = [...svgPipe, ...(calculatedSummaries.marks || [])];
   const canvasPipeline = canvasPipe.slice();
 
+  console.log(canvasPipeline);
   if (
     rExtentSettings.onChange &&
     (calculatedRExtent || []).join(',') !== (calculatedRExtent || []).join(',')
@@ -1377,39 +1375,67 @@ const OrdinalFrame = props => {
 
 OrdinalFrame.displayName = 'OrdinalFrame';
 
-// OrdinalFrame.propTypes = {
-//   className,
-//   annotationSettings,
-//   downloadFields,
-//   rAccessor,
-//   oAccessor,
-//   name,
-//   annotations,
-//   matte,
-//   renderKey,
-//   interaction,
-//   customClickBehavior,
-//   customHoverBehavior,
-//   customDoubleClickBehavior,
-//   projection,
-//   backgroundGraphics,
-//   foregroundGraphics,
-//   afterElements,
-//   beforeElements,
-//   disableContext,
-//   summaryType,
-//   summaryHoverAnnotation,
-//   pieceHoverAnnotation,
-//   hoverAnnotation,
-//   canvasPostProcess,
-//   baseMarkProps,
-//   useSpans,
-//   pieceUseCanvas,
-//   summaryUseCanvas,
-//   connectorUseCanvas,
-//   renderOrder,
-//   additionalDefs
-// };
+OrdinalFrame.propTypes = {
+  rAccessor: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.func
+  ]),
+  oAccessor: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.func
+  ]),
+  annotations: PropTypes.array,
+  projection: PropTypes.string,
+  disableContext: PropTypes.bool,
+  summaryType: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  summaryHoverAnnotation: PropTypes.bool,
+  pieceHoverAnnotation: PropTypes.bool,
+  baseMarkProps: PropTypes.obj,
+
+  width: PropTypes.number,
+  height: PropTypes.number,
+  name: PropTypes.string,
+  className: PropTypes.string,
+  frameKey: PropTypes.string,
+  renderKey: PropTypes.string,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  useSpans: PropTypes.bool,
+  additionalDefs: PropTypes.array,
+  margin: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
+  matte: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.node,
+    PropTypes.func,
+    PropTypes.object
+  ]),
+  beforeElements: PropTypes.object,
+  afterElements: PropTypes.object,
+  backgroundGraphics: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
+  foregroundGraphics: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
+  canvasPostProcess: PropTypes.string,
+  hoverAnnotation: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.array,
+    PropTypes.bool
+  ]),
+  interaction: PropTypes.func,
+  customClickBehavior: PropTypes.func,
+  customHoverBehavior: PropTypes.func,
+  customDoubleClickBehavior: PropTypes.func,
+  overlay: PropTypes.object,
+  columns: PropTypes.object,
+  interactionOverflow: PropTypes.func,
+  disableCanvasInteraction: PropTypes.func,
+  tooltipContent: PropTypes.func,
+
+  pieceUseCanvas: PropTypes.bool,
+  renderMode: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  summaryUseCanvas: PropTypes.bool,
+  connectorUseCanvas: PropTypes.bool,
+  renderOrder: PropTypes.array
+};
 
 OrdinalFrame.defaultProps = {
   annotations: [],
