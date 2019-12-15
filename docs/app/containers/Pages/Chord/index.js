@@ -390,7 +390,9 @@ const frameProps = {
   nodeSizeAccessor: 2,
   edgeType: 'linearc',
   width: 700,
-  height: 500
+  height: 500,
+  edgeUseCanvas: false,
+  nodeUseCanvas: false,
 };
 
 const Network = props => {
