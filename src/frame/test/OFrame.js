@@ -105,6 +105,7 @@ const OrdinalFrame = props => {
     afterElements,
     beforeElements,
     disableContext,
+    summaryRenderMode,
     summaryHoverAnnotation,
     connectorRenderMode,
     pieceHoverAnnotation,

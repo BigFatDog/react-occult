@@ -1,3 +1,5 @@
+import circlePath from './circlePath';
+
 export function objectifyType(type) {
   if (type instanceof Function || typeof type === 'string') {
     return { type: type };
