@@ -227,7 +227,6 @@ const OrdinalFrame = props => {
     margin
   });
 
-  console.log('-----------------');
   // --------------- same as xy  - close
 
   const originalRAccessor = Array.isArray(baseRAccessor)
@@ -1148,7 +1147,7 @@ const OrdinalFrame = props => {
 
     projection,
     ariaLabel: typeAriaLabel,
-    axis: arrayWrappedAxis,
+    axis: arrayWrappedAxis
   });
 
   const svgPipeline = [...svgPipe, ...(calculatedSummaries.marks || [])];

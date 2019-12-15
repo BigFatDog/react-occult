@@ -80,8 +80,6 @@ const Axis = props => {
     showLabels
   } = props;
 
-  console.log(showLabels);
-
   let { axisParts, position = [0, 0] } = props;
 
   let axisTickLines;
