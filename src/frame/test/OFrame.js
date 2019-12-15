@@ -25,20 +25,28 @@ import {
   timelineLayout
 } from './oLayout';
 
-import { pointOnArcAtAngle, renderLaidOutPieces } from './oPieceDrawing';
+import toPipeline from './toPipeline';
+
 import drawSummaries from '../../axis/drawSummaries';
 import SpanOrDiv from '../../widgets/SpanOrDiv';
 import FilterDefs from '../../widgets/FilterDefs';
 import VisualizationLayer from '../../layers/VisualizationLayer';
 import InteractionLayer from '../../layers/InteractionLayer';
-const renderLaidOutSummaries = ({ data }) => {
-  return data;
-};
+
 const genericFunction = value => () => value;
 
 const midMod = d => (d.middle ? d.middle : 0);
 const zeroFunction = genericFunction(0);
 const twoPI = Math.PI * 2;
+
+const pointOnArcAtAngle = (center, angle, distance) => {
+  const radians = Math.PI * (angle + 0.75) * 2;
+
+  const xPosition = center[0] + distance * Math.cos(radians);
+  const yPosition = center[1] + distance * Math.sin(radians);
+
+  return [xPosition, yPosition];
+};
 
 const naturalLanguageTypes = {
   bar: { items: 'bar', chart: 'bar chart' },
@@ -103,9 +111,9 @@ const OrdinalFrame = props => {
     hoverAnnotation,
     canvasPostProcess,
     useSpans,
-    canvasPieces,
-    canvasSummaries,
-    canvasConnectors,
+    pieceUseCanvas,
+    summaryUseCanvas,
+    connectorUseCanvas,
     renderOrder,
     connectorClass,
     additionalDefs,
@@ -172,7 +180,6 @@ const OrdinalFrame = props => {
   // OFrame variables
   const pieceType = objectifyType(baseType);
   const summaryType = objectifyType(baseSummaryType);
-  const connectorType = objectifyType(baseConnectorType);
   const oAccessor = stringToArrayFn(baseOAccessor, d => d.renderKey);
   const rAccessor = stringToArrayFn(baseRAccessor, d => d.value || 1);
   const renderKey = stringToFn(baseRenderKey, (d, i) => i);
@@ -222,7 +229,7 @@ const OrdinalFrame = props => {
     margin
   });
 
-  console.log('-----------------')
+  console.log('-----------------');
   // --------------- same as xy  - close
 
   const originalRAccessor = Array.isArray(baseRAccessor)
@@ -964,10 +971,6 @@ const OrdinalFrame = props => {
   }
 
   let pieceDataXY;
-  const pieceRenderMode = stringToFn(renderMode, undefined, true);
-  const pieceCanvasRender = stringToFn(canvasPieces, undefined, true);
-  const summaryCanvasRender = stringToFn(canvasSummaries, undefined, true);
-  const connectorCanvasRender = stringToFn(canvasConnectors, undefined, true);
 
   const pieceTypeForXY =
     pieceType.type && pieceType.type !== 'none' ? pieceType.type : 'point';
@@ -979,7 +982,7 @@ const OrdinalFrame = props => {
   const calculatedPieceData = pieceTypeLayout({
     type: pieceType,
     data: projectedColumns,
-    renderMode: pieceRenderMode,
+    renderMode: stringToFn(renderMode, undefined, true),
     eventListenersGenerator,
     styleFn: pieceStyle,
     projection,
@@ -1013,7 +1016,7 @@ const OrdinalFrame = props => {
       renderMode: stringToFn(summaryRenderMode, undefined, true),
       styleFn: stringToFn(summaryStyle, () => ({}), true),
       classFn: stringToFn(summaryClass, () => '', true),
-      //        canvasRender: stringToFn<boolean>(canvasSummaries, undefined, true),
+      //        canvasRender: stringToFn<boolean>(summaryUseCanvas, undefined, true),
       positionFn: summaryPosition,
       projection,
       eventListenersGenerator,
@@ -1132,54 +1135,26 @@ const OrdinalFrame = props => {
     chart: 'ordinal chart'
   };
 
-  const orFrameRender = {
-    connectors: {
-      accessibleTransform: (data, i) => data[i],
-      projection,
-      data: keyedData,
-      styleFn: stringToFn(connectorStyle, () => ({}), true),
-      classFn: stringToFn(connectorClass, () => '', true),
-      renderMode: stringToFn(connectorRenderMode, undefined, true),
-      canvasRender: connectorCanvasRender,
-      behavior: orFrameConnectionRenderer,
-      type: connectorType,
-      eventListenersGenerator,
-      pieceType
-    },
-    summaries: {
-      accessibleTransform: (data, i) => {
-        const columnName = oExtent[i];
+  const { svgPipe, canvasPipe } = toPipeline({
+    pieceType: objectifyType(baseType),
+    pieceData: calculatedPieceData,
+    pieceUseCanvas,
+    pieceStyle: stringToFn(pieceStyle, () => ({}), true),
+    pieceClass: stringToFn(pieceClass, () => '', true),
+    connectorType: objectifyType(baseConnectorType),
+    connectorData: keyedData,
+    connectorStyle: stringToFn(connectorStyle, () => ({}), true),
+    connectorClass: stringToFn(connectorClass, () => '', true),
+    connectorUseCanvas,
+    connectorRenderMode: stringToFn(connectorRenderMode, undefined, true),
 
-        const summaryPackage = {
-          type: 'column-hover',
-          column: projectedColumns[columnName],
-          pieces: projectedColumns[columnName].pieceData,
-          summary: projectedColumns[columnName].pieceData,
-          oAccessor
-        };
-        return summaryPackage;
-      },
-      data: calculatedSummaries.marks,
-      behavior: renderLaidOutSummaries,
-      canvasRender: summaryCanvasRender,
-      styleFn: stringToFn(summaryStyle, () => ({}), true),
-      classFn: stringToFn(summaryClass, () => '', true)
-    },
-    pieces: {
-      accessibleTransform: (data, i) => ({
-        ...(data[i].piece ? { ...data[i].piece, ...data[i].xy } : data[i]),
-        type: 'frame-hover'
-      }),
-      shouldRender: pieceType.type && pieceType.type !== 'none',
-      data: calculatedPieceData,
-      behavior: renderLaidOutPieces,
-      canvasRender: pieceCanvasRender,
-      styleFn: stringToFn(pieceStyle, () => ({}), true),
-      classFn: stringToFn(pieceClass, () => '', true),
-      axis: arrayWrappedAxis,
-      ariaLabel: typeAriaLabel
-    }
-  };
+    projection,
+    ariaLabel: typeAriaLabel,
+    axis: arrayWrappedAxis
+  });
+
+  const svgPipeline = [...svgPipe, ...(calculatedSummaries.marks || [])];
+  const canvasPipeline = canvasPipe.slice();
 
   if (
     rExtentSettings.onChange &&
@@ -1195,7 +1170,6 @@ const OrdinalFrame = props => {
     oExtentSettings.onChange(calculatedOExtent);
   }
 
-  console.log(orFrameRender);
   const frontCanvasRef = useRef(null);
   const backCanvasRef = useRef(null);
   const [frontCanvas, setFrontCanvas] = useState(null);
@@ -1228,13 +1202,9 @@ const OrdinalFrame = props => {
     updateCanvas();
   }, []);
   const frameKey = '0';
-  const canvasPipeline = [];
-  const svgPipeline = [];
   const frameXScale = null;
   const frameYScale = null;
   const screenCoordinates = [];
-  const overlay = [];
-  const columns = null;
   const annotationLayer = null;
   const disableCanvasInteraction = true;
 
@@ -1355,9 +1325,9 @@ const OrdinalFrame = props => {
               voronoiHover={setVoronoiHover}
             >
               {svgPipeline}
-              {axes && (
+              {axis && (
                 <g key="visualization-axis-labels" className="axis axis-labels">
-                  {axes}
+                  {axis}
                 </g>
               )}
             </VisualizationLayer>
@@ -1365,6 +1335,7 @@ const OrdinalFrame = props => {
             {foregroundGraphics && (
               <g aria-hidden={true} className="foreground-graphics">
                 {finalForegroundGraphics}
+                {oLabels}
               </g>
             )}
           </svg>
@@ -1387,8 +1358,8 @@ const OrdinalFrame = props => {
           data={screenCoordinates}
           enabled={true}
           useCanvas={canvasPipeline.length > 0}
-          overlay={overlay}
-          oColumns={columns}
+          overlay={columnOverlays}
+          oColumns={projectedColumns}
           interactionOverflow={interactionOverflow}
           disableCanvasInteraction={disableCanvasInteraction}
         />
@@ -1432,9 +1403,9 @@ OrdinalFrame.displayName = 'OrdinalFrame';
 //   canvasPostProcess,
 //   baseMarkProps,
 //   useSpans,
-//   canvasPieces,
-//   canvasSummaries,
-//   canvasConnectors,
+//   pieceUseCanvas,
+//   summaryUseCanvas,
+//   connectorUseCanvas,
 //   renderOrder,
 //   additionalDefs
 // };
@@ -1452,6 +1423,9 @@ OrdinalFrame.defaultProps = {
   type: 'none',
   summaryType: 'none',
   useSpans: false,
+  connectorUseCanvas: true,
+  pieceUseCanvas: false,
+  summaryUseCanvas: false,
   optimizeCustomTooltipPosition: false
 };
 

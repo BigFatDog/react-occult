@@ -1,20 +1,10 @@
-import * as React from 'react';
+import React from 'react';
 import { Mark } from 'semiotic-mark';
 
-export function pointOnArcAtAngle(center, angle, distance) {
-  const radians = Math.PI * (angle + 0.75) * 2;
-
-  const xPosition = center[0] + distance * Math.cos(radians);
-  const yPosition = center[1] + distance * Math.sin(radians);
-
-  return [xPosition, yPosition];
-}
-
-export const renderLaidOutPieces = ({
+const toLaidOutPieces = ({
   data,
   shouldRender,
-  canvasRender,
-  canvasDrawing,
+  useCanvas,
   styleFn,
   classFn,
   baseMarkProps,
@@ -24,10 +14,11 @@ export const renderLaidOutPieces = ({
 }) => {
   const valueFormat = axis && axis[0] && axis[0].tickFormat;
   if (!shouldRender) return null;
-  const renderedPieces = [];
+  const svgPipeline = [];
+  const canvasPipeline = [];
 
   data.forEach((d, i) => {
-    if (canvasRender && canvasRender(d) === true) {
+    if (useCanvas && useCanvas(d) === true) {
       const canvasPiece = {
         baseClass: 'orframe-piece',
         tx: d.renderElement.tx || 0,
@@ -38,17 +29,17 @@ export const renderLaidOutPieces = ({
         styleFn: styleFn,
         classFn
       };
-      canvasDrawing.push(canvasPiece);
+      canvasPipeline.push(canvasPiece);
     } else {
       if (React.isValidElement(d.renderElement || d)) {
-        renderedPieces.push(d.renderElement || d);
+        svgPipeline.push(d.renderElement || d);
       } else {
         /*ariaLabel.items*/
         const pieceAriaLabel = `${d.o} ${
           ariaLabel.items
         } value ${(valueFormat && valueFormat(d.piece.value)) ||
           d.piece.value}`;
-        renderedPieces.push(
+        svgPipeline.push(
           <Mark
             {...baseMarkProps}
             key={
@@ -64,5 +55,10 @@ export const renderLaidOutPieces = ({
     }
   });
 
-  return renderedPieces;
+  return {
+    svgPipeline,
+    canvasPipeline
+  };
 };
+
+export default toLaidOutPieces;
