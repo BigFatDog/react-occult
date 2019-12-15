@@ -20,7 +20,6 @@ const toPipeline = ({
   axis,
   baseMarkProps,
   renderKeyFn,
-  renderMode
 }) => {
   const {
     svgPipeline: pieceSvg,
@@ -35,7 +34,6 @@ const toPipeline = ({
     renderKeyFn,
     ariaLabel,
     axis,
-    renderMode
   });
 
   const {

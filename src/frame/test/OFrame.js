@@ -1148,7 +1148,7 @@ const OrdinalFrame = props => {
 
     projection,
     ariaLabel: typeAriaLabel,
-    axis: arrayWrappedAxis
+    axis: arrayWrappedAxis,
   });
 
   const svgPipeline = [...svgPipe, ...(calculatedSummaries.marks || [])];
@@ -1392,7 +1392,7 @@ OrdinalFrame.propTypes = {
   summaryType: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   summaryHoverAnnotation: PropTypes.bool,
   pieceHoverAnnotation: PropTypes.bool,
-  baseMarkProps: PropTypes.obj,
+  baseMarkProps: PropTypes.object,
 
   width: PropTypes.number,
   height: PropTypes.number,
