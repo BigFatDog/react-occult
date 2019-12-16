@@ -1,6 +1,6 @@
 import React from 'react';
 import { Mark } from 'semiotic-mark';
-import { quantile } from "d3-array"
+import { quantile } from 'd3-array';
 
 const emptyObjectReturnFn = () => ({});
 

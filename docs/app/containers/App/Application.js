@@ -15,6 +15,11 @@ import LinePercentage from '../Pages/LinePercentage';
 import MarginPage from '../Pages/MarginSummaryPage';
 import GeoProjectionPage from '../Pages/GeoProjection';
 import TrendlinePage from '../Pages/TrendlinePage';
+import NeighbourPage from '../Pages/Neighbourhood';
+import DifferencePage from '../Pages/Difference';
+import BarPage from '../Pages/BarPage';
+import SketchPage from '../Pages/BarPage/Sketch';
+import NetworkPage from '../Pages/Chord';
 
 import BlankPage from '../Pages/BlankPage';
 import { NotFound } from '../pageListAsync';
@@ -39,6 +44,11 @@ class Application extends React.Component {
           <Route path="/trendline" component={TrendlinePage} />
           <Route path="/margin" component={MarginPage} />
           <Route path="/geo" component={GeoProjectionPage} />
+          <Route path="/neighbour" component={NeighbourPage} />
+          <Route path="/difference" component={DifferencePage} />
+          <Route path="/bar" component={BarPage} />
+          <Route path="/sketch" component={SketchPage} />
+          <Route path="/network" component={NetworkPage} />
           <Route component={NotFound} />
         </Switch>
       </Dashboard>

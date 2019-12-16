@@ -223,7 +223,6 @@ const toRenderedLines = ({
   });
 
   if (customLine.type === 'difference' && data.length >= 2) {
-    svgPipeline.length = 0;
     //Create the overlay line for the difference chart
     const diffdataA = data[0]._xyCoordinates.map((basedata, baseI) => {
       const linePoint =

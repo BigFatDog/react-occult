@@ -47,8 +47,10 @@ const toPipeline = props => {
     areaUseCanvas,
     lineUseCanvas,
     pointUseCanvas,
+    showPoints,
     frameXScale: xScale,
-    frameYScale: yScale
+    frameYScale: yScale,
+    yExtent
   } = props;
 
   const { projection, ...rest } = props;
@@ -56,7 +58,8 @@ const toPipeline = props => {
   const { projectedLines, projectedAreas, projectedPoints } = projection({
     frameXScale: xScale,
     frameYScale: yScale,
-    ...rest
+    ...rest,
+    showPoints: true
   });
 
   const lineAriaLabel =
@@ -71,7 +74,11 @@ const toPipeline = props => {
     Object.keys(naturalLanguageLineType).includes(lineType.type)
   ) {
     const maxY = projectedLines.map(d => max(d._xyCoordinates, d => d.yTop));
-    yScale.domain([0, Math.max(...maxY)]);
+    if (yExtent && yExtent.length > 0) {
+      yScale.domain([yExtent[0], Math.max(...maxY)]);
+    } else {
+      yScale.domain([0, Math.max(...maxY)]);
+    }
   }
 
   const { svgPipeline: lineSvg, canvasPipeline: lineCanvas } = toRenderedLines({
@@ -99,19 +106,19 @@ const toPipeline = props => {
     data: projectedAreas
   });
 
-  const {
-    svgPipeline: pointsSvg,
-    canvasPipeline: pointsCanvas
-  } = toRenderedPoints({
-    useCanvas: pointUseCanvas,
-    xScale,
-    yScale,
-    styleFn: stringToFn(pointStyle, emptyObjectReturnFunction, true),
-    classFn: stringToFn(pointClass, emptyStringReturnFunction, true),
-    renderFn: stringToFn(pointRenderMode, undefined, true),
-    customMarks: pointCustomMarks,
-    data: projectedPoints
-  });
+  const { svgPipeline: pointsSvg, canvasPipeline: pointsCanvas } =
+    showPoints === true
+      ? toRenderedPoints({
+          useCanvas: pointUseCanvas,
+          xScale,
+          yScale,
+          styleFn: stringToFn(pointStyle, emptyObjectReturnFunction, true),
+          classFn: stringToFn(pointClass, emptyStringReturnFunction, true),
+          renderFn: stringToFn(pointRenderMode, undefined, true),
+          customMarks: pointCustomMarks,
+          data: projectedPoints
+        })
+      : { svgPipeline: [], canvasPipeline: [] };
 
   const svgPipe = [...areaSvg, ...lineSvg, ...pointsSvg];
   const canvasPipe = [...areaCanvas, ...lineCanvas, ...pointsCanvas];

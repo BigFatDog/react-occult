@@ -1,7 +1,5 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
-import { XYFrame, Line, XAxis, YAxis, Contour, Hexbin, Heatmap } from 'occult';
-import brand from 'dan-api/dummy/brand';
+import { XYFrame, Line, XAxis, YAxis } from 'occult';
 import { PapperBlock } from 'dan-components';
 import { LineData } from './LineChartPage/lineData';
 import * as d3 from 'd3';
@@ -28,9 +26,6 @@ const TheMetLight = [
 const colorScale = d3.scaleOrdinal().range(TheMetLight);
 
 const LinePage = props => {
-  const title = brand.name + ' - K-Means Centroid Deviation';
-  const description = brand.desc;
-
   const frameProps = {
     margin: { left: 60, bottom: 90, right: 10, top: 40 },
     width: 1000,
@@ -70,14 +65,6 @@ const LinePage = props => {
 
   return (
     <div>
-      <Helmet>
-        <title>{title}</title>
-        <meta name="description" content={description} />
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta property="twitter:title" content={title} />
-        <meta property="twitter:description" content={description} />
-      </Helmet>
       <PapperBlock>
         <XYFrame {...frameProps}>
           <XAxis label={'Rank'} rotate={30} />

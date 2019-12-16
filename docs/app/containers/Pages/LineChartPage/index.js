@@ -1,7 +1,5 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
 import { XYFrame, Line, XAxis, YAxis } from 'occult';
-import brand from 'dan-api/dummy/brand';
 import { PapperBlock } from 'dan-components';
 import {
   CumulativeReverse,
@@ -11,7 +9,6 @@ import {
   Bumpline,
   Bumparea,
   BumpareaInvert,
-  Difference,
   Linepercent,
   StackedpercentInvert,
   Stackedpercent,
@@ -20,9 +17,6 @@ import {
 } from './types';
 
 const LinePage = props => {
-  const title = brand.name + ' - Lines';
-  const description = brand.desc;
-
   const frameProps = name => ({
     margin: { left: 60, bottom: 90, right: 10, top: 40 },
     width: 700,
@@ -42,7 +36,7 @@ const LinePage = props => {
     { name: 'Bumpline', type: Bumpline },
     { name: 'Bumparea', type: Bumparea },
     { name: 'BumpareaInvert', type: BumpareaInvert },
-    { name: 'Difference', type: Difference },
+    // { name: 'Difference', type: Difference },
     { name: 'Linepercent', type: Linepercent },
     { name: 'StackedpercentInvert', type: StackedpercentInvert },
     { name: 'Stackedpercent', type: Stackedpercent },
@@ -52,9 +46,9 @@ const LinePage = props => {
   const rendered = types.map(d => {
     return (
       <XYFrame {...frameProps(d.name)}>
-        <XAxis label={'Rank'} />
+        <XAxis label={'Year'} />
         <YAxis
-          label={'Theaters'}
+          label={'Count'}
           baseline={'under'}
           tickLineGenerator={({ xy }) => (
             <path
@@ -76,17 +70,7 @@ const LinePage = props => {
 
   return (
     <div>
-      <Helmet>
-        <title>{title}</title>
-        <meta name="description" content={description} />
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta property="twitter:title" content={title} />
-        <meta property="twitter:description" content={description} />
-      </Helmet>
-      <PapperBlock title="Lines" desc="Explore Line Types">
-        {rendered}
-      </PapperBlock>
+      <PapperBlock>{rendered}</PapperBlock>
     </div>
   );
 };

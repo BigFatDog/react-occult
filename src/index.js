@@ -7,10 +7,14 @@ import Heatmap from './plots/Heatmap';
 import XAxis from './axis/XAxis';
 import YAxis from './axis/YAxis';
 import Trendline from './plots/Trendline';
+import Bar from './plots/Bar';
+import OFrame from './frame/test/OFrame';
+import NetworkFrame from './frame/Ntest/NetworkFrame';
 import Annotation from './plots/Annotation';
 
 export {
   XYFrame,
+  OFrame,
   Line,
   Scatter,
   Contour,
@@ -19,5 +23,6 @@ export {
   Hexbin,
   Heatmap,
   Trendline,
-  Annotation
+  Annotation,
+  NetworkFrame
 };

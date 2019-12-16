@@ -51,7 +51,7 @@ const theme = [
 const OldFaithfulPage = props => {
   const frameProps = {
     margin: { left: 60, bottom: 90, right: 10, top: 40 },
-    width: 1200,
+    width: 1000,
     height: 600,
     title: (
       <text textAnchor="middle">

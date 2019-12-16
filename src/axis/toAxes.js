@@ -15,7 +15,8 @@ const toAxes = ({
   const existingBaselines = {};
 
   if (axesDefs) {
-    axes = axesDefs.map((d, i) => {
+    axes = axesDefs.map((_d, i) => {
+      const d = Object.assign({}, _d);
       let axisClassname = d.className || '';
       axisClassname += ' axis';
       let axisScale = yScale;
@@ -84,6 +85,8 @@ const toAxes = ({
           center={d.center}
           marginalSummaryType={d.marginalSummaryType}
           xyPoints={xyPoints}
+          showLineTicks={d.showLineTicks}
+          showLabels={d.showLabels}
         />
       );
     });

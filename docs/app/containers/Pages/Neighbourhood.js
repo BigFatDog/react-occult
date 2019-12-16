@@ -1,31 +1,44 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
-import { XYFrame, XAxis, YAxis, Trendline, Line } from 'occult';
-import brand from 'dan-api/dummy/brand';
 import { PapperBlock } from 'dan-components';
-import { OldFaithful } from './OldFaithfulPage/data';
+import NeighbourData from './data/neighbourhood.json';
+import { XYFrame, Contour, XAxis, YAxis, Annotation, Hexbin } from 'occult';
 import * as d3 from 'd3';
 import { withStyles } from '@material-ui/core';
 
 const styles = {
   frame: {
-    // background: 'linear-gradient(to top, #1fa2ff, #12d8fa, #a6ffcb)',
-    // border: 0,
-    // borderRadius: 6,
-    // boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-    // color: 'white'
+    // background: 'linear-gradient(to top, #a8edea 0%, #fed6e3 100%)',
+    border: 0,
+    borderRadius: 6,
+    boxShadow: '0 3px 5px 2px white'
   }
 };
 
-const TrendinglinePage = props => {
-  const { classes } = props;
-  const title = brand.name + ' - Trendingline';
-  const description = brand.desc;
+const TheMetLight = [
+  '#F44336',
+  '#E91E63',
+  '#9C27B0',
+  '#673AB7',
+  '#3F51B5',
+  '#2196F3',
+  '#03A9F4',
+  '#00BCD4',
+  '#009688',
+  '#4CAF50',
+  '#8BC34A',
+  '#CDDC39',
+  '#FFEB3B',
+  '#FFC107',
+  '#FF9800',
+  '#FF5722'
+];
 
+const NeighbourPage = props => {
+  const { classes } = props;
   const frameProps = {
-    margin: { top: 50, left: 100, right: 50, bottom: 70 },
+    margin: { left: 60, bottom: 60, right: 30, top: 50 },
     width: 1000,
-    height: 500,
+    height: 1000,
     additionalDefs: [
       <linearGradient
         id="line-gradient"
@@ -40,8 +53,8 @@ const TrendinglinePage = props => {
         <stop stopColor="rgb(255,255,0)" offset="1" />
       </linearGradient>,
       <linearGradient x1="0" x2="0" y1="0" y2="1" id="paleWoodGradient">
-        <stop stopColor="#FF4E50" offset="0%" />
-        <stop stopColor="#F9D423" offset="100%" />
+        <stop stopColor="#6f86d6" offset="0%" />
+        <stop stopColor="#74ebd5" offset="100%" />
       </linearGradient>,
       <linearGradient x1="0" x2="1" y1="0" y2="0" id="paleWoodGradient3">
         <stop stopColor="#F9D423" offset="0%" />
@@ -61,25 +74,6 @@ const TrendinglinePage = props => {
         <circle fill="rgb(211, 135, 121)" r="5" cx="3" cy="3" />
       </pattern>
     ]
-  };
-
-  const lineProps = {
-    yAccessor: d => d.eruptions,
-    xAccessor: d => d.waiting,
-    data: OldFaithful.slice(),
-    areaStyle: (e, i) => ({
-      fill: 'none',
-      stroke: 'url(#line-gradient)',
-      strokeWidth: 3,
-      opacity: 0.7
-    }),
-    pointStyle: d => ({
-      r: 5,
-      fill: '#4776E6',
-      opacity: 0.7
-    }),
-    areaUseCanvas: false,
-    pointUseCanvas: false
   };
 
   const xAxisProps = {
@@ -134,27 +128,49 @@ const TrendinglinePage = props => {
     }
   };
 
+  const contourProps = {
+    data: NeighbourData.slice(),
+    xAccessor: d => d.posX,
+    yAccessor: d => d.posY,
+    sAccessor: d => d.hood,
+    areaStyle: (e, i) => {
+      return {
+        opacity: 0.25,
+        fill: TheMetLight[+e.parentSummary.s % 16],
+        stroke: 'none'
+      };
+    },
+    areaUseCanvas: false,
+    showPoints: false,
+    threshold: 4,
+    bandWidth: 5,
+    neighborhood: true
+  };
+
   return (
     <div>
-      <Helmet>
-        <title>{title}</title>
-        <meta name="description" content={description} />
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta property="twitter:title" content={title} />
-        <meta property="twitter:description" content={description} />
-      </Helmet>
-      <PapperBlock>
+      <PapperBlock title="Area Chart" desc="Basic Area Chart">
         <XYFrame {...frameProps} className={classes.frame}>
+          {/*<XAxis label={'Rank'} />*/}
+          {/*<YAxis label={'Theaters'} />*/}
+          {/*<Annotation type={'y'} label={'a note'} y={100} />*/}
+          {/*<Annotation*/}
+          {/*  type={AnnotationCalloutCircle}*/}
+          {/*  note={{ label: 'callout', title: 'important' }}*/}
+          {/*  score={10}*/}
+          {/*  subject={{ radius: 10 }}*/}
+          {/*  x={100}*/}
+          {/*  y={100}*/}
+          {/*/>*/}
           <XAxis {...xAxisProps} />
           <YAxis {...yAxisProps} />
           <XAxis {...x0Props} />
           <YAxis {...y0Props} />
-          <Trendline {...lineProps} />
+          <Contour {...contourProps} />
         </XYFrame>
       </PapperBlock>
     </div>
   );
 };
 
-export default withStyles(styles)(TrendinglinePage);
+export default withStyles(styles)(NeighbourPage);

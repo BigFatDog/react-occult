@@ -13,7 +13,6 @@ const SvgBoundsAnnotation = ({
   xAccessors,
   yAccessors
 }) => {
-  console.log(screenCoordinates);
   const startXValue = findFirstAccessorValue(xAccessors, d.bounds[0]);
   const startYValue = findFirstAccessorValue(yAccessors, d.bounds[0]);
   const endXValue = findFirstAccessorValue(xAccessors, d.bounds[1]);

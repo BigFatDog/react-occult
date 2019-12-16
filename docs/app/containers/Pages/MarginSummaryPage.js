@@ -83,7 +83,7 @@ const MarginSummaryPage = props => {
     marginalSummaryType: {
       type: 'ridgeline',
       summaryStyle: { fill: '#add100', fillOpacity: 0.5, stroke: '#7b920a' },
-      showPoints: true,
+      showPoints: true
     }
   };
 

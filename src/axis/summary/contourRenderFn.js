@@ -5,10 +5,10 @@ import { Mark } from 'semiotic-mark';
 import shapeBounds from '../../plots/Contour/shapeBounds';
 const contourMap = d => [d.xy.x, d.xy.y];
 
-const contouring = ({ summaryType, data, finalXExtent, finalYExtent })=> {
-  let projectedSummaries = []
+const contouring = ({ summaryType, data, finalXExtent, finalYExtent }) => {
+  let projectedSummaries = [];
   if (!summaryType.type) {
-    summaryType = { type: summaryType }
+    summaryType = { type: summaryType };
   }
 
   const {
@@ -16,56 +16,56 @@ const contouring = ({ summaryType, data, finalXExtent, finalYExtent })=> {
     thresholds = 10,
     bandwidth = 20,
     neighborhood
-  } = summaryType
+  } = summaryType;
 
   const xScale = scaleLinear()
-      .domain(finalXExtent)
-      .rangeRound([0, resolution])
-      .nice()
+    .domain(finalXExtent)
+    .rangeRound([0, resolution])
+    .nice();
   const yScale = scaleLinear()
-      .domain(finalYExtent)
-      .rangeRound([resolution, 0])
-      .nice()
+    .domain(finalYExtent)
+    .rangeRound([resolution, 0])
+    .nice();
 
   data.forEach(contourData => {
     let contourProjectedSummaries = contourDensity()
-        .size([resolution, resolution])
-        .x(d => xScale(d[0]))
-        .y(d => yScale(d[1]))
-        .thresholds(thresholds)
-        .bandwidth(bandwidth)(contourData._xyfCoordinates)
+      .size([resolution, resolution])
+      .x(d => xScale(d[0]))
+      .y(d => yScale(d[1]))
+      .thresholds(thresholds)
+      .bandwidth(bandwidth)(contourData._xyfCoordinates);
 
     if (neighborhood) {
-      contourProjectedSummaries = [contourProjectedSummaries[0]]
+      contourProjectedSummaries = [contourProjectedSummaries[0]];
     }
 
-    const max = Math.max(...contourProjectedSummaries.map(d => d.value))
+    const max = Math.max(...contourProjectedSummaries.map(d => d.value));
 
     contourProjectedSummaries.forEach(summary => {
-      summary.parentSummary = contourData
-      summary.bounds = []
-      summary.percent = summary.value / max
+      summary.parentSummary = contourData;
+      summary.bounds = [];
+      summary.percent = summary.value / max;
       summary.coordinates.forEach(poly => {
         poly.forEach((subpoly, i) => {
           poly[i] = subpoly.map(coordpair => {
             coordpair = [
               xScale.invert(coordpair[0]),
               yScale.invert(coordpair[1])
-            ]
-            return coordpair
-          })
+            ];
+            return coordpair;
+          });
           //Only push bounds for the main poly, not its interior rings, otherwise you end up labeling interior cutouts
           if (i === 0) {
-            summary.bounds.push(shapeBounds(poly[i]))
+            summary.bounds.push(shapeBounds(poly[i]));
           }
-        })
-      })
-    })
-    projectedSummaries = [...projectedSummaries, ...contourProjectedSummaries]
-  })
+        });
+      });
+    });
+    projectedSummaries = [...projectedSummaries, ...contourProjectedSummaries];
+  });
 
-  return projectedSummaries
-}
+  return projectedSummaries;
+};
 
 export const contourRenderFn = ({
   data,
