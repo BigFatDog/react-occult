@@ -179,7 +179,6 @@ const OrdinalFrame = props => {
         }
       : Object.assign({ top: 0, bottom: 0, left: 0, right: 0 }, baseMargin);
 
-  const marginGraphic = toMarginGraphic({ matte, size, margin, name });
 
   const { adjustedPosition, adjustedSize } = getAdjustedPositionSize({
     size: [width, height],
