@@ -2,10 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { scaleBand, scaleLinear, scaleOrdinal } from 'd3-scale';
 import keyAndObjectifyBarData from './keyAndObjectifyBarData';
 import PropTypes from 'prop-types';
-import {
-  getAdjustedPositionSize,
-  toMarginGraphic
-} from '../utils';
+import { getAdjustedPositionSize, toMarginGraphic } from '../utils';
 import { extent, max, min, sum } from 'd3-array';
 import { nest } from 'd3-collection';
 import { arc } from 'd3-shape';
@@ -171,7 +168,6 @@ const OrdinalFrame = props => {
 
   // --------------- same as xy  - start
   const size = [width, height];
-
 
   const margin =
     typeof baseMargin !== 'object'
@@ -1130,7 +1126,6 @@ const OrdinalFrame = props => {
     oExtentSettings.onChange(calculatedOExtent);
   }
 
-
   let interactionOverflow;
 
   if (summaryType && summaryType.amplitude) {
@@ -1153,10 +1148,7 @@ const OrdinalFrame = props => {
     }
   }
 
-  const {
-    frameKey,
-    children
-  } = props;
+  const { frameKey, children } = props;
 
   const frameProps = {
     name,
