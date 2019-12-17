@@ -1373,23 +1373,6 @@ const OrdinalFrame = props => {
 OrdinalFrame.displayName = 'OrdinalFrame';
 
 OrdinalFrame.propTypes = {
-  rAccessor: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.func
-  ]),
-  oAccessor: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.func
-  ]),
-  annotations: PropTypes.array,
-  projection: PropTypes.string,
-  disableContext: PropTypes.bool,
-  summaryType: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  summaryHoverAnnotation: PropTypes.bool,
-  pieceHoverAnnotation: PropTypes.bool,
-
   baseMarkProps: PropTypes.object,
   width: PropTypes.number,
   height: PropTypes.number,
@@ -1422,28 +1405,45 @@ OrdinalFrame.propTypes = {
   customHoverBehavior: PropTypes.func,
   customDoubleClickBehavior: PropTypes.func,
   overlay: PropTypes.object,
-  columns: PropTypes.object,
+
   interactionOverflow: PropTypes.func,
   disableCanvasInteraction: PropTypes.func,
   tooltipContent: PropTypes.func,
 
+  columns: PropTypes.object,
   pieceUseCanvas: PropTypes.bool,
   renderMode: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   summaryUseCanvas: PropTypes.bool,
   connectorUseCanvas: PropTypes.bool,
-  renderOrder: PropTypes.array
+  renderOrder: PropTypes.array,
+  rAccessor: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.func
+  ]),
+  oAccessor: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.func
+  ]),
+  annotations: PropTypes.array,
+  projection: PropTypes.string,
+  disableContext: PropTypes.bool,
+  summaryType: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  summaryHoverAnnotation: PropTypes.bool,
+  pieceHoverAnnotation: PropTypes.bool
 };
 
 OrdinalFrame.defaultProps = {
   annotations: [],
   foregroundGraphics: [],
-  annotationSettings: {},
-  projection: 'vertical',
   size: [500, 500],
   className: '',
   data: [],
   oScaleType: scaleBand,
   rScaleType: scaleLinear,
+  annotationSettings: {},
+  projection: 'vertical',
   type: 'none',
   summaryType: 'none',
   useSpans: false,
