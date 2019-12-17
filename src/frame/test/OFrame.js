@@ -3,7 +3,6 @@ import { scaleBand, scaleLinear, scaleOrdinal } from 'd3-scale';
 import keyAndObjectifyBarData from './keyAndObjectifyBarData';
 import PropTypes from 'prop-types';
 import {
-  generateFrameTitle,
   getAdjustedPositionSize,
   toMarginGraphic
 } from '../utils';
@@ -16,7 +15,7 @@ import {
   stringToFn,
   orFrameAxisGenerator
 } from './misc';
-
+import { BaseProps, BaseDefaultProps } from '../BaseProps';
 import {
   clusterBarLayout,
   barLayout,
@@ -28,10 +27,6 @@ import {
 import toPipeline from './toPipeline';
 
 import drawSummaries from '../../axis/drawSummaries';
-import SpanOrDiv from '../../widgets/SpanOrDiv';
-import FilterDefs from '../../widgets/FilterDefs';
-import VisualizationLayer from '../../layers/VisualizationLayer';
-import InteractionLayer from '../../layers/InteractionLayer';
 
 const genericFunction = value => () => value;
 
@@ -56,19 +51,7 @@ const naturalLanguageTypes = {
   timeline: { items: 'bar', chart: 'timeline' }
 };
 
-const getCanvasScale = context => {
-  const devicePixelRatio = window.devicePixelRatio || 1;
-
-  const backingStoreRatio =
-    context.webkitBackingStorePixelRatio ||
-    context.mozBackingStorePixelRatio ||
-    context.msBackingStorePixelRatio ||
-    context.oBackingStorePixelRatio ||
-    context.backingStorePixelRatio ||
-    1;
-
-  return devicePixelRatio / backingStoreRatio;
-};
+import Frame from '../Frame';
 
 const defaultOverflow = { top: 0, bottom: 0, left: 0, right: 0 };
 
@@ -131,7 +114,6 @@ const OrdinalFrame = props => {
     pieceClass: basePieceClass,
     summaryStyle: baseSummaryStyle,
     summaryClass: baseSummaryClass,
-    legend,
     renderKey: baseRenderKey,
     margin: baseMargin,
     oExtent: baseOExtent,
@@ -189,26 +171,7 @@ const OrdinalFrame = props => {
 
   // --------------- same as xy  - start
   const size = [width, height];
-  const devicePixelRatio = window.devicePixelRatio || 1;
 
-  const finalBackgroundGraphics =
-    typeof backgroundGraphics === 'function'
-      ? backgroundGraphics({ size, margin })
-      : backgroundGraphics;
-
-  const finalForegroundGraphics =
-    typeof foregroundGraphics === 'function'
-      ? foregroundGraphics({ size, margin })
-      : foregroundGraphics;
-
-  const userTitle =
-    typeof title === 'object' && !React.isValidElement(title) && title !== null
-      ? title
-      : { title, orient: 'top' };
-  const generatedTitle = generateFrameTitle({
-    title: userTitle,
-    size
-  });
 
   const margin =
     typeof baseMargin !== 'object'
@@ -1167,42 +1130,6 @@ const OrdinalFrame = props => {
     oExtentSettings.onChange(calculatedOExtent);
   }
 
-  const frontCanvasRef = useRef(null);
-  const backCanvasRef = useRef(null);
-  const [frontCanvas, setFrontCanvas] = useState(null);
-  const [backCanvas, setBackCanvas] = useState(null);
-  const [voronoiHover, setVoronoiHover] = useState(null);
-
-  const updateCanvas = () => {
-    if (frontCanvasRef && frontCanvasRef.current) {
-      const _frontContext = frontCanvasRef.current.getContext('2d');
-      const canvasScale = getCanvasScale(_frontContext);
-      _frontContext.scale(canvasScale, canvasScale);
-      setFrontCanvas(frontCanvasRef.current);
-    }
-
-    if (backCanvasRef && backCanvasRef.current) {
-      const _backContext = backCanvasRef.current.getContext('2d');
-
-      _backContext.mozImageSmoothingEnabled = false;
-      _backContext.webkitImageSmoothingEnabled = false;
-      _backContext.msImageSmoothingEnabled = false;
-      _backContext.imageSmoothingEnabled = false;
-
-      const canvasScale = getCanvasScale(_backContext);
-      _backContext.scale(canvasScale, canvasScale);
-      setBackCanvas(backCanvasRef.current);
-    }
-  };
-
-  useEffect(() => {
-    updateCanvas();
-  }, []);
-  const frameKey = '0';
-  const frameXScale = null;
-  const frameYScale = null;
-  const annotationLayer = null;
-  const disableCanvasInteraction = true;
 
   let interactionOverflow;
 
@@ -1226,189 +1153,60 @@ const OrdinalFrame = props => {
     }
   }
 
-  return (
-    <SpanOrDiv span={useSpans} className={`${className} frame ${name}`}>
-      {beforeElements && (
-        <SpanOrDiv span={useSpans} className={`${name} frame-before-elements`}>
-          {beforeElements}
-        </SpanOrDiv>
-      )}
-      <SpanOrDiv
-        span={useSpans}
-        className="frame-elements"
-        style={{ height: `${height}px`, width: `${width}px` }}
-      >
-        <SpanOrDiv
-          span={useSpans}
-          className="visualization-layer"
-          style={{ position: 'absolute' }}
-        >
-          {(axesTickLines || backgroundGraphics) && (
-            <svg
-              className="background-graphics"
-              style={{ position: 'absolute' }}
-              width={width}
-              height={height}
-            >
-              {backgroundGraphics && (
-                <g aria-hidden={true} className="background-graphics">
-                  {finalBackgroundGraphics}
-                </g>
-              )}
-              {axesTickLines && (
-                <g
-                  transform={`translate(${margin.left},${margin.top})`}
-                  key="visualization-tick-lines"
-                  className={'axis axis-tick-lines'}
-                  aria-hidden={true}
-                >
-                  {axesTickLines}
-                </g>
-              )}
-            </svg>
-          )}
-          <canvas
-            className="frame-canvas frame-canvas-front"
-            ref={frontCanvasRef}
-            style={{
-              position: 'absolute',
-              left: `0px`,
-              top: `0px`,
-              width: `${width}px`,
-              height: `${height}px`
-            }}
-            width={width * devicePixelRatio}
-            height={height * devicePixelRatio}
-          />
+  const {
+    frameKey,
+    children
+  } = props;
 
-          <canvas
-            className="frame-canvas frame-canvas-hidden"
-            ref={backCanvasRef}
-            style={{
-              position: 'absolute',
-              left: `0px`,
-              top: `0px`,
-              width: `${width}px`,
-              height: `${height}px`
-            }}
-            width={width * devicePixelRatio}
-            height={height * devicePixelRatio}
-          />
-          <svg
-            className="visualization-layer"
-            style={{ position: 'absolute' }}
-            width={width}
-            height={height}
-          >
-            <FilterDefs
-              matte={marginGraphic}
-              key={name}
-              additionalDefs={additionalDefs}
-            />
-            <VisualizationLayer
-              title={generatedTitle}
-              frameKey={frameKey}
-              width={width}
-              height={height}
-              size={adjustedSize}
-              position={adjustedPosition}
-              frontCanvas={frontCanvas}
-              backCanvas={backCanvas}
-              matte={marginGraphic}
-              margin={margin}
-              canvasPostProcess={canvasPostProcess}
-              canvasPipeline={canvasPipeline}
-              voronoiHover={setVoronoiHover}
-            >
-              {svgPipeline}
-              {axis && (
-                <g key="visualization-axis-labels" className="axis axis-labels">
-                  {axis}
-                </g>
-              )}
-            </VisualizationLayer>
-            {generatedTitle && <g className="frame-title">{generatedTitle}</g>}
-            {foregroundGraphics && (
-              <g aria-hidden={true} className="foreground-graphics">
-                {finalForegroundGraphics}
-                {oLabels}
-              </g>
-            )}
-          </svg>
-        </SpanOrDiv>
+  const frameProps = {
+    name,
+    className,
+    frameKey,
+    useSpans,
+    matte,
+    width,
+    height,
+    margin,
+    title,
+    // render as it is
+    foregroundGraphics,
+    backgroundGraphics,
+    additionalDefs,
+    beforeElements,
+    afterElements,
+    canvasPostProcess,
+    // generated
+    frameXScale: null,
+    frameYScale: null,
+    canvasPipeline,
+    svgPipeline,
+    screenCoordinates,
+    xyPoints: [],
+    adjustedPosition,
+    adjustedSize,
+    plotChildren: [],
+    // interaction
+    overlay: columnOverlays,
+    tooltipContent: null,
+    interactionOverflow,
+    disableCanvasInteraction: false,
+    hoverAnnotation,
+    interaction,
+    customClickBehavior,
+    customHoverBehavior,
+    customDoubleClickBehavior
+  };
 
-        <InteractionLayer
-          useSpans={useSpans}
-          hoverAnnotation={hoverAnnotation}
-          interaction={interaction}
-          voronoiHover={setVoronoiHover}
-          customClickBehavior={customClickBehavior}
-          customHoverBehavior={customHoverBehavior}
-          customDoubleClickBehavior={customDoubleClickBehavior}
-          position={adjustedPosition}
-          margin={margin}
-          size={adjustedSize}
-          svgSize={size}
-          xScale={frameXScale}
-          yScale={frameYScale}
-          data={screenCoordinates}
-          enabled={true}
-          useCanvas={canvasPipeline.length > 0}
-          overlay={columnOverlays}
-          oColumns={projectedColumns}
-          interactionOverflow={interactionOverflow}
-          disableCanvasInteraction={disableCanvasInteraction}
-        />
-        {annotationLayer}
-        {afterElements && (
-          <SpanOrDiv span={useSpans} className={`${name} frame-after-elements`}>
-            {afterElements}
-          </SpanOrDiv>
-        )}
-      </SpanOrDiv>
-    </SpanOrDiv>
-  );
+  return <Frame {...frameProps}>{children}</Frame>;
 };
 
 OrdinalFrame.displayName = 'OrdinalFrame';
 
 OrdinalFrame.propTypes = {
-  baseMarkProps: PropTypes.object,
+  ...BaseProps,
   width: PropTypes.number,
   height: PropTypes.number,
-  name: PropTypes.string,
-  className: PropTypes.string,
-  frameKey: PropTypes.string,
   renderKey: PropTypes.string,
-  title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  useSpans: PropTypes.bool,
-  additionalDefs: PropTypes.array,
-  margin: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
-  matte: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.node,
-    PropTypes.func,
-    PropTypes.object
-  ]),
-  beforeElements: PropTypes.object,
-  afterElements: PropTypes.object,
-  backgroundGraphics: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
-  foregroundGraphics: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
-  canvasPostProcess: PropTypes.string,
-  hoverAnnotation: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.array,
-    PropTypes.bool
-  ]),
-  interaction: PropTypes.func,
-  customClickBehavior: PropTypes.func,
-  customHoverBehavior: PropTypes.func,
-  customDoubleClickBehavior: PropTypes.func,
-  overlay: PropTypes.object,
-
-  interactionOverflow: PropTypes.func,
-  disableCanvasInteraction: PropTypes.func,
-  tooltipContent: PropTypes.func,
 
   columns: PropTypes.object,
   pieceUseCanvas: PropTypes.bool,
@@ -1435,10 +1233,9 @@ OrdinalFrame.propTypes = {
 };
 
 OrdinalFrame.defaultProps = {
+  ...BaseDefaultProps,
   annotations: [],
-  foregroundGraphics: [],
   size: [500, 500],
-  className: '',
   data: [],
   oScaleType: scaleBand,
   rScaleType: scaleLinear,
@@ -1446,7 +1243,6 @@ OrdinalFrame.defaultProps = {
   projection: 'vertical',
   type: 'none',
   summaryType: 'none',
-  useSpans: false,
   connectorUseCanvas: true,
   pieceUseCanvas: false,
   summaryUseCanvas: false,

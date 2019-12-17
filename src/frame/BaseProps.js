@@ -25,6 +25,7 @@ export const BaseProps = {
   backgroundGraphics: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
   foregroundGraphics: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
   canvasPostProcess: PropTypes.string,
+  baseMarkProps: PropTypes.object,
   // interaction
   hoverAnnotation: PropTypes.oneOfType([
     PropTypes.func,
@@ -35,7 +36,7 @@ export const BaseProps = {
   customClickBehavior: PropTypes.func,
   customHoverBehavior: PropTypes.func,
   customDoubleClickBehavior: PropTypes.func,
-  overlay: PropTypes.object,
+  overlay: PropTypes.array,
   interactionOverflow: PropTypes.func,
   tooltipContent: PropTypes.oneOfType([
     PropTypes.node,
