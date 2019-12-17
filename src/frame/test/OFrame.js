@@ -1165,7 +1165,7 @@ const OrdinalFrame = props => {
     margin,
     title,
     // render as it is
-    foregroundGraphics: [finalForegroundGraphics, oLabels],
+    foregroundGraphics,
     backgroundGraphics,
     additionalDefs,
     beforeElements,
@@ -1190,7 +1190,10 @@ const OrdinalFrame = props => {
     interaction,
     customClickBehavior,
     customHoverBehavior,
-    customDoubleClickBehavior
+    customDoubleClickBehavior,
+
+    //todo: delete
+    oLabels,
   };
 
   return <Frame {...frameProps}>{children}</Frame>;

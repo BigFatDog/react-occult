@@ -99,7 +99,9 @@ const Frame = props => {
     tooltipContent,
     // children
     children,
-    plotChildren
+    plotChildren,
+      //todo: remove
+    oLabels,
   } = props;
   const size = [width, height];
   const devicePixelRatio = window.devicePixelRatio || 1;
@@ -333,6 +335,7 @@ const Frame = props => {
             {foregroundGraphics && (
               <g aria-hidden={true} className="foreground-graphics">
                 {finalForegroundGraphics}
+                {oLabels}
               </g>
             )}
           </svg>

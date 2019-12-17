@@ -65,6 +65,29 @@ const colorHash = {
   viz: '#FF4136'
 };
 
+const barProps = {
+  /* --- Data --- */
+  data: [{ user: "Jason", tweets: 10, retweets: 5, favorites: 15 },
+    { user: "Susie", tweets: 5, retweets: 100, favorites: 100 }],
+
+  /* --- Size --- */
+  size: [200,200],
+
+  /* --- Layout --- */
+  type: "bar",
+
+  /* --- Process --- */
+  oAccessor: "user",
+  rAccessor: "tweets",
+
+  /* --- Customize --- */
+  style: { fill: "#ac58e5", stroke: "white" },
+  title: "Tweets",
+
+  /* --- Annotate --- */
+  oLabel: true
+}
+
 const verticalISOTYPEChart = {
   width: 700,
   height: 438,
@@ -143,7 +166,7 @@ const verticalISOTYPEChart = {
 const Sketch = props => {
   return (
     <PapperBlock>
-      <OFrame {...verticalISOTYPEChart} />
+      <OFrame {...barProps} />
     </PapperBlock>
   );
 };
