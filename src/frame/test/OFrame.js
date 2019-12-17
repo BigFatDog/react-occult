@@ -1149,6 +1149,11 @@ const OrdinalFrame = props => {
 
   const { frameKey, children } = props;
 
+  const finalForegroundGraphics =
+      typeof foregroundGraphics === 'function'
+          ? foregroundGraphics({ size, margin })
+          : foregroundGraphics;
+
   const frameProps = {
     name,
     className,
@@ -1160,7 +1165,7 @@ const OrdinalFrame = props => {
     margin,
     title,
     // render as it is
-    foregroundGraphics,
+    foregroundGraphics: [finalForegroundGraphics, oLabels],
     backgroundGraphics,
     additionalDefs,
     beforeElements,
