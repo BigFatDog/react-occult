@@ -9,6 +9,7 @@ export const BaseProps = {
   className: PropTypes.string,
   frameKey: PropTypes.string,
   renderKey: PropTypes.string,
+  renderMode: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   useSpans: PropTypes.bool,
   additionalDefs: PropTypes.array,
@@ -43,7 +44,7 @@ export const BaseProps = {
     PropTypes.object,
     PropTypes.func
   ]),
-  disableCanvasInteraction: PropTypes.func
+  disableCanvasInteraction: PropTypes.bool
 };
 
 export const BaseDefaultProps = {

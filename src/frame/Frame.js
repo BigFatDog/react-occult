@@ -12,7 +12,7 @@ import toAxes from '../axis/toAxes';
 import HTMLTooltipAnnotation from '../plots/Annotation/widgets/HTMLTooltipAnnotation';
 import renderAnnotations from '../plots/Annotation/renderAnnotations';
 import AnnotationLayer from '../layers/AnnotationLayer';
-const isAxis = type => ['XAxis', 'YAxis', 'Axis'].includes(type);
+
 const getCanvasScale = context => {
   const devicePixelRatio = window.devicePixelRatio || 1;
 
@@ -100,9 +100,12 @@ const Frame = props => {
     // children
     children,
     plotChildren,
-      //todo: remove
+    //todo: remove
     oLabels,
+    axes,
+    axesTickLines
   } = props;
+
   const size = [width, height];
   const devicePixelRatio = window.devicePixelRatio || 1;
 
@@ -127,20 +130,6 @@ const Frame = props => {
 
   //todo: remove
   const marginGraphic = toMarginGraphic({ matte, size, margin, name });
-
-  // axisPipeline
-  const axesDefs = React.Children.toArray(children)
-    .filter(d => isAxis(d.type.name))
-    .map(d => d.props);
-
-  const { axes, axesTickLines } = toAxes({
-    axesDefs,
-    margin,
-    adjustedSize,
-    xScale: frameXScale,
-    yScale: frameYScale,
-    xyPoints
-  });
 
   const htmlAnnotations = tooltipContent
     ? screenCoordinates
@@ -332,12 +321,13 @@ const Frame = props => {
               )}
             </VisualizationLayer>
             {generatedTitle && <g className="frame-title">{generatedTitle}</g>}
-            {foregroundGraphics && (
-              <g aria-hidden={true} className="foreground-graphics">
-                {finalForegroundGraphics}
-                {oLabels}
-              </g>
-            )}
+            {foregroundGraphics ||
+              (oLabels && (
+                <g aria-hidden={true} className="foreground-graphics">
+                  {finalForegroundGraphics}
+                  {oLabels}
+                </g>
+              ))}
           </svg>
         </SpanOrDiv>
 
@@ -379,8 +369,6 @@ Frame.propTypes = {
   frameXScale: PropTypes.func,
   frameYScale: PropTypes.func,
   annotationLayer: PropTypes.node,
-  axes: PropTypes.array,
-  axesTickLines: PropTypes.array,
   canvasPipeline: PropTypes.array,
   svgPipeline: PropTypes.array,
   // todo: duplicated?
@@ -388,7 +376,9 @@ Frame.propTypes = {
   xyPoints: PropTypes.array,
   adjustedPosition: PropTypes.array,
   adjustedSize: PropTypes.array,
-  plotChildren: PropTypes.array
+  plotChildren: PropTypes.array,
+  axes: PropTypes.array,
+  axesTickLines: PropTypes.array
 };
 
 Frame.defaultProps = {

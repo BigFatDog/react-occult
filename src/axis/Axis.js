@@ -405,10 +405,15 @@ const Axis = props => {
       : null;
 
   if (label) {
-    const labelName =
-      typeof label === 'string' || label instanceof String
-        ? label
-        : label.name || '';
+    let labelName = '';
+      if (typeof label === 'string' || label instanceof String) {
+        labelName = label;
+      } else if (label.name) {
+        labelName = label.name;
+      } else if (React.isValidElement(label)) {
+        labelName = label;
+      }
+
     const labelPosition = label.position || {};
     const locationMod = labelPosition.location || 'outside';
     let anchorMod = labelPosition.anchor || 'middle';

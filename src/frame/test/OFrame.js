@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { scaleBand, scaleLinear, scaleOrdinal } from 'd3-scale';
 import keyAndObjectifyBarData from './keyAndObjectifyBarData';
 import PropTypes from 'prop-types';
-import { getAdjustedPositionSize, toMarginGraphic } from '../utils';
+import { getAdjustedPositionSize } from '../utils';
 import { extent, max, min, sum } from 'd3-array';
 import { nest } from 'd3-collection';
 import { arc } from 'd3-shape';
@@ -10,7 +10,8 @@ import {
   objectifyType,
   stringToArrayFn,
   stringToFn,
-  orFrameAxisGenerator
+  orFrameAxisGenerator,
+    calculateMargin
 } from './misc';
 import { BaseProps, BaseDefaultProps } from '../BaseProps';
 import {
@@ -166,24 +167,9 @@ const OrdinalFrame = props => {
   let oLabels;
   const projectedColumns = {};
 
+  console.log('--------');
   // --------------- same as xy  - start
   const size = [width, height];
-
-  const margin =
-    typeof baseMargin !== 'object'
-      ? {
-          top: baseMargin,
-          bottom: baseMargin,
-          left: baseMargin,
-          right: baseMargin
-        }
-      : Object.assign({ top: 0, bottom: 0, left: 0, right: 0 }, baseMargin);
-
-
-  const { adjustedPosition, adjustedSize } = getAdjustedPositionSize({
-    size: [width, height],
-    margin
-  });
 
   // --------------- same as xy  - close
 
@@ -226,6 +212,22 @@ const OrdinalFrame = props => {
       d.extentOverride = multiExtents[i];
     });
   }
+
+  const margin = calculateMargin({
+    margin: baseMargin,
+    axes: arrayWrappedAxis,
+    title,
+    oLabel,
+    projection,
+    size
+  });
+
+
+  const { adjustedPosition, adjustedSize } = getAdjustedPositionSize({
+    size: [width, height],
+    margin
+  });
+
 
   const oExtentSettings =
     baseOExtent === undefined || Array.isArray(baseOExtent)
@@ -1019,6 +1021,8 @@ const OrdinalFrame = props => {
     }
   }
 
+  console.log('---------------');
+  // todo: move to toAxes
   const { axis, axesTickLines } = orFrameAxisGenerator({
     axis: arrayWrappedAxis,
     data: allData,
@@ -1149,11 +1153,6 @@ const OrdinalFrame = props => {
 
   const { frameKey, children } = props;
 
-  const finalForegroundGraphics =
-      typeof foregroundGraphics === 'function'
-          ? foregroundGraphics({ size, margin })
-          : foregroundGraphics;
-
   const frameProps = {
     name,
     className,
@@ -1180,6 +1179,8 @@ const OrdinalFrame = props => {
     xyPoints: [],
     adjustedPosition,
     adjustedSize,
+    axes: axis,
+    axesTickLines,
     plotChildren: [],
     // interaction
     overlay: columnOverlays,
@@ -1193,7 +1194,7 @@ const OrdinalFrame = props => {
     customDoubleClickBehavior,
 
     //todo: delete
-    oLabels,
+    oLabels
   };
 
   return <Frame {...frameProps}>{children}</Frame>;
@@ -1203,28 +1204,25 @@ OrdinalFrame.displayName = 'OrdinalFrame';
 
 OrdinalFrame.propTypes = {
   ...BaseProps,
-  width: PropTypes.number,
-  height: PropTypes.number,
-  renderKey: PropTypes.string,
-
   columns: PropTypes.object,
   pieceUseCanvas: PropTypes.bool,
-  renderMode: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   summaryUseCanvas: PropTypes.bool,
   connectorUseCanvas: PropTypes.bool,
   renderOrder: PropTypes.array,
   rAccessor: PropTypes.oneOfType([
+    PropTypes.array,
     PropTypes.string,
     PropTypes.object,
     PropTypes.func
   ]),
   oAccessor: PropTypes.oneOfType([
+    PropTypes.array,
     PropTypes.string,
     PropTypes.object,
     PropTypes.func
   ]),
   annotations: PropTypes.array,
-  projection: PropTypes.string,
+  projection: PropTypes.oneOf(['vertical', 'horizontal', 'radial']),
   disableContext: PropTypes.bool,
   summaryType: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   summaryHoverAnnotation: PropTypes.bool,
@@ -1234,11 +1232,9 @@ OrdinalFrame.propTypes = {
 OrdinalFrame.defaultProps = {
   ...BaseDefaultProps,
   annotations: [],
-  size: [500, 500],
   data: [],
   oScaleType: scaleBand,
   rScaleType: scaleLinear,
-  annotationSettings: {},
   projection: 'vertical',
   type: 'none',
   summaryType: 'none',

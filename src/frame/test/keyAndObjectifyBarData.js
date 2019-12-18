@@ -1,3 +1,6 @@
+import { extent } from 'd3-array';
+import { scaleLinear } from 'd3-scale';
+
 const keyAndObjectifyBarData = ({
   data,
   renderKey = (d, i) => i,

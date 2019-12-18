@@ -15,7 +15,8 @@ const isPlot = type =>
   );
 
 import Frame from './Frame';
-
+import toAxes from '../axis/toAxes';
+const isAxis = type => ['XAxis', 'YAxis', 'Axis'].includes(type);
 const XYFrame = props => {
   const {
     width,
@@ -102,6 +103,20 @@ const XYFrame = props => {
       { canvasPipeline: [], svgPipeline: [], xyPoints: [] }
     );
 
+  // axisPipeline
+  const axesDefs = React.Children.toArray(children)
+    .filter(d => isAxis(d.type.name))
+    .map(d => d.props);
+
+  const { axes, axesTickLines } = toAxes({
+    axesDefs,
+    margin,
+    adjustedSize,
+    xScale: frameXScale,
+    yScale: frameYScale,
+    xyPoints
+  });
+
   const screenCoordinates = plotChildren
     .map(d =>
       d.props.data.map(e => ({
@@ -146,6 +161,8 @@ const XYFrame = props => {
     xyPoints,
     adjustedPosition,
     adjustedSize,
+    axes,
+    axesTickLines,
     plotChildren,
     // interaction
     overlay,

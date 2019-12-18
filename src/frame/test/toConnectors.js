@@ -1,4 +1,5 @@
 import React from 'react';
+import { drawAreaConnector } from '../../axis/summary/SVGHelper';
 
 const eventListenersGenerator = () => ({});
 
