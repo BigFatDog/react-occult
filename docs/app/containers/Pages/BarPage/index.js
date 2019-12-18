@@ -64,7 +64,7 @@ const barProps = {
                 opacity: 0.3,
                 strokeDasharray: '4 4'
               }}
-              d={`M${xy.x1},${xy.y1 - 5}L${xy.x2},${xy.y1 - 5}L${xy.x2}`}
+              d={`M${xy.x1},${xy.y1 - 5}L${xy.x2},${xy.y1 - 5}`}
           />
       ),
       label: (
