@@ -193,8 +193,7 @@ function determineNodeIcon(baseCustomNodeIcon, networkSettings, size, nodes) {
   return circleNodeGenerator;
 }
 
-function
-determineEdgeIcon({
+function determineEdgeIcon({
   baseCustomEdgeIcon,
   networkSettings,
   size,

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { select } from 'd3-selection';
 
-import usePrevious from '../../hooks/usePrevious';
+import usePrevious from './hooks/usePrevious';
 
 const flatten = list =>
   list.reduce(
