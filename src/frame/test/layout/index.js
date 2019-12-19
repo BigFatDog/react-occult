@@ -6,10 +6,10 @@ import timelineLayout from './timelineLayout';
 import { pointOnArcAtAngle } from './util';
 
 export {
-    barLayout,
-    clusterBarLayout,
-    pointLayout,
-    swarmLayout,
-    timelineLayout,
-    pointOnArcAtAngle
-}
+  barLayout,
+  clusterBarLayout,
+  pointLayout,
+  swarmLayout,
+  timelineLayout,
+  pointOnArcAtAngle
+};

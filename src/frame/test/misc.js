@@ -40,8 +40,6 @@ export const stringToFn = (accessor, defaultAccessor, raw) => {
   return () => undefined;
 };
 
-
-
 export const calculateMargin = ({
   margin,
   axes,
