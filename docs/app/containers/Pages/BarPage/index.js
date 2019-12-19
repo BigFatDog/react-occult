@@ -21,26 +21,28 @@ const barProps = {
     customMark: d => {
       if (d.rIndex === 1) {
         return (
-            <circle
-                r={3}
-                stroke={'#DCE35B'}
-                opacity={1}
-                fill={'#45B649'}
-                strokeWidth={1}
-            />
+          <circle
+            r={3}
+            stroke={'#DCE35B'}
+            opacity={1}
+            fill={'#45B649'}
+            strokeWidth={1}
+          />
         );
       }
       return (
-          <rect
-              height={d.scaledValue}
-              width={10}
-              x={-5}
-              fill={'#E5BDF6'}
-              opacity={0.7}
-          />
+        <rect
+          height={d.scaledValue}
+          width={10}
+          x={-5}
+          fill={'#E5BDF6'}
+          opacity={0.7}
+        />
       );
     }
   },
+  hoverAnnotation: true,
+  pieceHoverAnnotation: true,
   // type: 'bar',
   oPadding: 2,
   connectorType: function(e) {
@@ -57,20 +59,20 @@ const barProps = {
       orient: 'left',
       baseline: false,
       tickLineGenerator: ({ xy }) => (
-          <path
-              style={{
-                fill: '#efefef',
-                stroke: '#ccc',
-                opacity: 0.3,
-                strokeDasharray: '4 4'
-              }}
-              d={`M${xy.x1},${xy.y1 - 5}L${xy.x2},${xy.y1 - 5}`}
-          />
+        <path
+          style={{
+            fill: '#efefef',
+            stroke: '#ccc',
+            opacity: 0.3,
+            strokeDasharray: '4 4'
+          }}
+          d={`M${xy.x1},${xy.y1 - 5}L${xy.x2},${xy.y1 - 5}`}
+        />
       ),
       label: (
-          <text textAnchor={'middle'}  fontWeight="bold" fill={'#E5BDF6'}>
-            Community Board
-          </text>
+        <text textAnchor={'middle'} fontWeight="bold" fill={'#E5BDF6'}>
+          Community Board
+        </text>
       ),
       jaggedBase: true
     },
@@ -81,19 +83,18 @@ const barProps = {
 
       ticks: 6,
       label: (
-          <text textAnchor={'middle'} fontWeight="bold" fill={'#45B649'} dy={-30}>
-            Council District
-          </text>
+        <text textAnchor={'middle'} fontWeight="bold" fill={'#45B649'} dy={-30}>
+          Council District
+        </text>
       )
     }
   ],
 
   title: (
-      <text textAnchor="middle">
-        NYC Hospital Facilities{' '}
-        <tspan fill={'#E5BDF6'}>Community Board</tspan> vs{' '}
-        <tspan fill={'#45B649'}>Council District</tspan>
-      </text>
+    <text textAnchor="middle">
+      NYC Hospital Facilities <tspan fill={'#E5BDF6'}>Community Board</tspan>
+      vs <tspan fill={'#45B649'}>Council District</tspan>
+    </text>
   ),
   projection: 'vertical',
   oLabel: false,
@@ -101,11 +102,11 @@ const barProps = {
 
   additionalDefs: [
     <pattern
-        key="triangle"
-        id="triangle"
-        width="10"
-        height="10"
-        patternUnits="userSpaceOnUse"
+      key="triangle"
+      id="triangle"
+      width="10"
+      height="10"
+      patternUnits="userSpaceOnUse"
     >
       <rect fill={'#9fd0cb'} width="10" height="10" />
       <circle fill={'#7566ff'} r="5" cx="3" cy="3" />
@@ -114,8 +115,20 @@ const barProps = {
       <stop stopColor={'#D7E1EC'} offset="0%" />
       <stop stopColor={'#FFFFFF'} offset="100%" />
     </linearGradient>
-  ]
+  ],
   // renderMode: "sketchy"
+  annotations: [
+    {
+      type: 'highlight',
+      Borough: 'Queens',
+      style: { fill: 'red', stroke: 'none' }
+    },
+    {
+      type: 'highlight',
+      'Facility Type': 'Child Health Center',
+      style: { fill: 'none', stroke: 'red', strokeWidth: 5 }
+    }
+  ]
 };
 
 const styles = {
@@ -131,9 +144,9 @@ const styles = {
 const BarPage = props => {
   const { classes } = props;
   return (
-      <PapperBlock>
-        <OFrame {...barProps} className={classes.frame} />
-      </PapperBlock>
+    <PapperBlock>
+      <OFrame {...barProps} className={classes.frame} />
+    </PapperBlock>
   );
 };
 

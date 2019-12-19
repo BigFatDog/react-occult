@@ -406,13 +406,13 @@ const Axis = props => {
 
   if (label) {
     let labelName = '';
-      if (typeof label === 'string' || label instanceof String) {
-        labelName = label;
-      } else if (label.name) {
-        labelName = label.name;
-      } else if (React.isValidElement(label)) {
-        labelName = label;
-      }
+    if (typeof label === 'string' || label instanceof String) {
+      labelName = label;
+    } else if (label.name) {
+      labelName = label.name;
+    } else if (React.isValidElement(label)) {
+      labelName = label;
+    }
 
     const labelPosition = label.position || {};
     const locationMod = labelPosition.location || 'outside';

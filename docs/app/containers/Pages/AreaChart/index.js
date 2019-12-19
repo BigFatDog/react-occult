@@ -39,7 +39,7 @@ const formatter = timeFormat('%Y');
 const AreaPage = props => {
   const { classes } = props;
   const frameProps = {
-    margin: { left: 50, bottom: 50, right: 30, top: 100 },
+    margin: { left: 70, bottom: 70, right: 30, top: 100 },
     width: 1000,
     height: 500,
     xScaleType: scaleTime,

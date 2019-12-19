@@ -11,7 +11,7 @@ import {
   stringToArrayFn,
   stringToFn,
   orFrameAxisGenerator,
-    calculateMargin
+  calculateMargin
 } from './misc';
 import { BaseProps, BaseDefaultProps } from '../BaseProps';
 import {
@@ -222,12 +222,10 @@ const OrdinalFrame = props => {
     size
   });
 
-
   const { adjustedPosition, adjustedSize } = getAdjustedPositionSize({
     size: [width, height],
     margin
   });
-
 
   const oExtentSettings =
     baseOExtent === undefined || Array.isArray(baseOExtent)
