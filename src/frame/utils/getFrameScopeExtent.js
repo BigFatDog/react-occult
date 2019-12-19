@@ -67,4 +67,4 @@ const getFrameScopeExtent = plotChildren => {
     }, null);
 };
 
-export { getFrameScopeExtent };
+export default getFrameScopeExtent;
