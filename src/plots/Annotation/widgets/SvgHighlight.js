@@ -1,6 +1,6 @@
 import React from 'react';
 import { area } from 'd3-shape';
-import { curveHash } from '../../BasePlot/toRenderedLines';
+import { curveHash } from '../../../pipeline/toRenderedLines';
 
 const findPoints = (d, xScale, yScale) => {
   const { points, style } = d;

@@ -1,8 +1,9 @@
-import toRenderedAreas from '../plots/BasePlot/toRenderedAreas';
-import toRenderedPoints from '../plots/BasePlot/toRenderedPoints';
-import toRenderedLines from '../plots/BasePlot/toRenderedLines';
-import stringToFn from '../utils/stringToFn';
 import { max } from 'd3-array';
+
+import toRenderedAreas from './toRenderedAreas';
+import toRenderedPoints from './toRenderedPoints';
+import toRenderedLines from './toRenderedLines';
+import stringToFn from '../utils/stringToFn';
 
 const emptyObjectReturnFunction = () => ({});
 const emptyStringReturnFunction = () => '';
