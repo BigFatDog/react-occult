@@ -19,8 +19,9 @@ import {
   barLayout,
   pointLayout,
   swarmLayout,
-  timelineLayout
-} from './oLayout';
+  timelineLayout,
+  pointOnArcAtAngle
+} from './layout';
 
 import toPipeline from './toPipeline';
 
@@ -31,15 +32,6 @@ const genericFunction = value => () => value;
 const midMod = d => (d.middle ? d.middle : 0);
 const zeroFunction = genericFunction(0);
 const twoPI = Math.PI * 2;
-
-const pointOnArcAtAngle = (center, angle, distance) => {
-  const radians = Math.PI * (angle + 0.75) * 2;
-
-  const xPosition = center[0] + distance * Math.cos(radians);
-  const yPosition = center[1] + distance * Math.sin(radians);
-
-  return [xPosition, yPosition];
-};
 
 const naturalLanguageTypes = {
   bar: { items: 'bar', chart: 'bar chart' },
