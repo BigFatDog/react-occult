@@ -10,7 +10,6 @@ import {
   objectifyType,
   stringToArrayFn,
   stringToFn,
-  orFrameAxisGenerator,
   calculateMargin
 } from './misc';
 import { BaseProps, BaseDefaultProps } from '../BaseProps';
@@ -26,6 +25,7 @@ import {
 import toPipeline from './toPipeline';
 
 import drawSummaries from '../../axis/drawSummaries';
+import orFrameAxisGenerator from '../../axis/orFrameAxisGenerator';
 
 const genericFunction = value => () => value;
 
