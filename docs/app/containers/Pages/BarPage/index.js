@@ -1,7 +1,6 @@
 import React from 'react';
 import { XAxis, YAxis, OFrame } from 'occult';
 import { PapperBlock } from 'dan-components';
-import * as d3 from 'd3';
 import { withStyles } from '@material-ui/core/styles';
 import { HospitalFacilities } from './Data';
 
@@ -50,6 +49,7 @@ const barProps = {
   },
   connectorStyle: { stroke: '#DCE35B', strokeWidth: 2, opacity: 0.3 },
   multiAxis: true,
+  // summaryType: { type: "ridgeline", bins: 10, amplitude: 50, curve: "monotonex" },
   renderOrder: ['pieces', 'connectors'],
   oAccessor: 'Facility Name',
   rAccessor: ['Community Board', 'Census Tract'],

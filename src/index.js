@@ -7,10 +7,12 @@ import Heatmap from './plots/Heatmap';
 import XAxis from './axis/XAxis';
 import YAxis from './axis/YAxis';
 import Trendline from './plots/Trendline';
-import Bar from './plots/Bar';
+import Bar from './plots/Ordinal/Bar';
+import OrdinalPoint from './plots/Ordinal/OrdinalPoint';
 import OFrame from './frame/test/OFrame';
 import NetworkFrame from './frame/Ntest/NetworkFrame';
 import Annotation from './plots/Annotation';
+import OFrame2 from './frame/test/O2';
 
 export {
   XYFrame,
@@ -24,5 +26,8 @@ export {
   Heatmap,
   Trendline,
   Annotation,
-  NetworkFrame
+  NetworkFrame,
+  Bar,
+    OFrame2,
+  OrdinalPoint
 };

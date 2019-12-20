@@ -4,7 +4,7 @@ import { quantile } from 'd3-array';
 
 const emptyObjectReturnFn = () => ({});
 
-export const boxplotRenderFn = ({
+const boxplotRenderFn = ({
   data,
   type,
   renderMode,
@@ -628,3 +628,5 @@ export const boxplotRenderFn = ({
 
   return { marks: renderedSummaryMarks, xyPoints: summaryXYCoords };
 };
+
+export default boxplotRenderFn;

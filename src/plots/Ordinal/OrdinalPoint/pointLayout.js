@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { pointOnArcAtAngle } from './util';
+import { pointOnArcAtAngle } from '../../../frame/test/layout/util';
 
 const pointLayout = ({
   type,

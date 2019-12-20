@@ -13,9 +13,14 @@ const toLaidOutPieces = ({
   axis
 }) => {
   const valueFormat = axis && axis[0] && axis[0].tickFormat;
-  if (!shouldRender) return null;
   const svgPipeline = [];
   const canvasPipeline = [];
+
+  if (!shouldRender)
+    return {
+      svgPipeline,
+      canvasPipeline
+    };
 
   data.forEach((d, i) => {
     if (useCanvas === true) {

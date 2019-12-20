@@ -1,5 +1,5 @@
 import * as React from 'react';
-import radialBarFeatureGenerator from './radialBarFeatureGenerator';
+import radialBarFeatureGenerator from '../radialBarFeatureGenerator';
 const timelineLayout = ({
   type,
   data,

@@ -1,7 +1,21 @@
 import React from 'react';
-import { drawAreaConnector } from '../../axis/summary/SVGHelper';
+import { select } from 'd3-selection';
 
 const eventListenersGenerator = () => ({});
+
+const drawAreaConnector = ({
+  x1,
+  x2,
+  y1,
+  y2,
+  sizeX1,
+  sizeY1,
+  sizeX2,
+  sizeY2
+}) => {
+  return `M${x1},${y1}L${x2},${y2}L${x2 + sizeX2},${y2 + sizeY2}L${x1 +
+    sizeX1},${y1 + sizeY1}Z`;
+};
 
 const toConnectors = ({
   type,

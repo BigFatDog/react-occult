@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { scaleBand, scaleLinear, scaleOrdinal } from 'd3-scale';
 import keyAndObjectifyBarData from './keyAndObjectifyBarData';
 import PropTypes from 'prop-types';
@@ -6,12 +6,8 @@ import { getAdjustedPositionSize } from '../utils';
 import { extent, max, min, sum } from 'd3-array';
 import { nest } from 'd3-collection';
 import { arc } from 'd3-shape';
-import {
-  objectifyType,
-  stringToArrayFn,
-  stringToFn,
-  calculateMargin
-} from './misc';
+import calculateMargin from '../utils/calculateMargin';
+import { objectifyType, stringToArrayFn, stringToFn } from '../../utils';
 import { BaseProps, BaseDefaultProps } from '../BaseProps';
 import {
   clusterBarLayout,
@@ -22,7 +18,7 @@ import {
   pointOnArcAtAngle
 } from './layout';
 
-import toPipeline from './toPipeline';
+import toPipeline from '../../pipeline/ordinal/toPipeline';
 
 import drawSummaries from '../../axis/drawSummaries';
 import orFrameAxisGenerator from '../../axis/orFrameAxisGenerator';
@@ -54,35 +50,52 @@ const layoutHash = {
 };
 
 const OrdinalFrame = props => {
+  const { children } = props;
+
+  // split axes
+  // plot children
+  // annotations
+
   const {
     width,
     height,
     title: baseTitle,
-    data,
-    oScaleType,
-    rScaleType,
-    dynamicColumnWidth,
     className,
-    oLabel,
-    pixelColumnWidth,
     name,
     matte,
-    interaction,
-    customClickBehavior,
-    customHoverBehavior,
-    customDoubleClickBehavior,
-    projection,
     backgroundGraphics,
     foregroundGraphics,
     afterElements,
     beforeElements,
+    canvasPostProcess,
+    useSpans,
+    margin: baseMargin,
+
+
+    axes,
+    axis: baseAxis = axes,
+    interaction,
+    customClickBehavior,
+    customHoverBehavior,
+    customDoubleClickBehavior,
+
+    data,
+    oScaleType,
+    rScaleType,
+    dynamicColumnWidth,
+
+    oLabel,
+    pixelColumnWidth,
+
+
+    projection,
+
     summaryRenderMode,
     summaryHoverAnnotation,
     connectorRenderMode,
     pieceHoverAnnotation,
     hoverAnnotation,
-    canvasPostProcess,
-    useSpans,
+
     pieceUseCanvas,
     summaryUseCanvas,
     connectorUseCanvas,
@@ -105,14 +118,12 @@ const OrdinalFrame = props => {
     summaryStyle: baseSummaryStyle,
     summaryClass: baseSummaryClass,
     renderKey: baseRenderKey,
-    margin: baseMargin,
+
     oExtent: baseOExtent,
-    axes,
-    axis: baseAxis = axes,
+
     pieceIDAccessor: basePieceIDAccessor,
     summaryPosition: baseSummaryPosition,
-    baseMarkProps = {},
-    annotations
+    baseMarkProps = {}
   } = props;
 
   const _mappedMiddles = (oScale, middleMax, padding) => {
@@ -339,6 +350,7 @@ const OrdinalFrame = props => {
 
   const annotationsForExtent = [];
 
+  // todo: annotations
   if (rExtentSettings.includeAnnotations && annotations) {
     rAccessor.forEach(actualRAccessor => {
       annotations.forEach((annotation, annotationIndex) => {
@@ -1141,7 +1153,7 @@ const OrdinalFrame = props => {
     }
   }
 
-  const { frameKey, children } = props;
+  const { frameKey } = props;
 
   const frameProps = {
     name,
@@ -1194,11 +1206,11 @@ OrdinalFrame.displayName = 'OrdinalFrame';
 
 OrdinalFrame.propTypes = {
   ...BaseProps,
+
+  // common
   columns: PropTypes.object,
-  pieceUseCanvas: PropTypes.bool,
-  summaryUseCanvas: PropTypes.bool,
-  connectorUseCanvas: PropTypes.bool,
-  renderOrder: PropTypes.array,
+  rScaleType: PropTypes.func,
+  oScaleType: PropTypes.func,
   rAccessor: PropTypes.oneOfType([
     PropTypes.array,
     PropTypes.string,
@@ -1211,27 +1223,66 @@ OrdinalFrame.propTypes = {
     PropTypes.object,
     PropTypes.func
   ]),
-  annotations: PropTypes.array,
+  invertR: PropTypes.bool,
+  oPadding: PropTypes.number,
+  dynamicColumnWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+  pixelColumnWidth: PropTypes.number,
   projection: PropTypes.oneOf(['vertical', 'horizontal', 'radial']),
-  disableContext: PropTypes.bool,
-  summaryType: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  summaryHoverAnnotation: PropTypes.bool,
-  pieceHoverAnnotation: PropTypes.bool
+
+  // pieces
+  type: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.func
+  ]),
+  renderOrder: PropTypes.array,
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  pieceClass: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+  pieceRenderMode: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.func
+  ]),
+  pieceUseCanvas: PropTypes.bool,
+  pieceHoverAnnotation: PropTypes.bool,
+  // connectors
+  connectorType: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+  connectorStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  connectorRenderMode: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.func
+  ]),
+  connectorUseCanvas: PropTypes.bool,
+  // summaries
+  summaryType: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.func
+  ]),
+  summaryStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  summaryClass: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+  summaryPosition: PropTypes.func,
+  summaryRenderMode: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.func
+  ]),
+  summaryUseCanvas: PropTypes.bool
 };
 
 OrdinalFrame.defaultProps = {
   ...BaseDefaultProps,
-  annotations: [],
   data: [],
   oScaleType: scaleBand,
   rScaleType: scaleLinear,
   projection: 'vertical',
   type: 'none',
-  summaryType: 'none',
   connectorUseCanvas: true,
   pieceUseCanvas: false,
   summaryUseCanvas: false,
-  optimizeCustomTooltipPosition: false
+  optimizeCustomTooltipPosition: false,
+  invertR: false
 };
 
 export default OrdinalFrame;

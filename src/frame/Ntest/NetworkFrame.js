@@ -1,16 +1,7 @@
 import React from 'react';
-import { useRef } from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import {
-  generateFrameTitle,
-  getAdjustedPositionSize,
-  toMarginGraphic
-} from '../utils';
-
-import { BaseProps, BaseDefaultProps } from '../BaseProps';
-import Frame from '../Frame';
-
+import PropTypes from 'prop-types';
 import {
   /*forceCenter,*/ forceSimulation,
   forceX,
@@ -20,34 +11,8 @@ import {
 } from 'd3-force';
 
 import { bboxCollide } from 'd3-bboxCollide';
-
 import { scaleLinear } from 'd3-scale';
-
 import { min, max } from 'd3-array';
-
-import AnnotationLabel from 'react-annotation/lib/Types/AnnotationLabel';
-
-import {
-  topologicalSort,
-  hierarchicalRectNodeGenerator,
-  matrixNodeGenerator,
-  radialRectNodeGenerator,
-  chordNodeGenerator,
-  chordEdgeGenerator,
-  matrixEdgeGenerator,
-  arcEdgeGenerator,
-  sankeyNodeGenerator,
-  wordcloudNodeGenerator,
-  circleNodeGenerator,
-  areaLink,
-  ribbonLink,
-  circularAreaLink,
-  radialLabelGenerator,
-  dagreEdgeGenerator,
-  softStack
-} from './networkDrawing';
-
-import { stringToFn } from '../test/misc';
 
 import {
   sankeyLeft,
@@ -68,16 +33,32 @@ import {
   partition,
   packSiblings
 } from 'd3-hierarchy';
-
 import pathBounds from 'svg-path-bounding-box';
+import AnnotationLabel from 'react-annotation/lib/Types/AnnotationLabel';
 
-import { nodesEdgesFromHierarchy } from './processing';
-import SpanOrDiv from '../../widgets/SpanOrDiv';
-import FilterDefs from '../../widgets/FilterDefs';
-import VisualizationLayer from '../../layers/VisualizationLayer';
-import InteractionLayer from '../../layers/InteractionLayer';
-import toPipeline from './toPipeline';
-import PropTypes from 'prop-types';
+import { BaseProps, BaseDefaultProps } from '../BaseProps';
+import Frame from '../Frame';
+import topologicalSort from './layout/topologicalSort';
+import hierarchicalRectNodeGenerator from './layout/hierarchicalRectNodeGenerator';
+import matrixNodeGenerator from './layout/matrixNodeGenerator';
+import radialRectNodeGenerator from './layout/radialRectNodeGenerator';
+import chordNodeGenerator from './layout/chordNodeGenerator';
+import chordEdgeGenerator from './layout/chordEdgeGenerator';
+import arcEdgeGenerator from './layout/arcEdgeGenerator';
+import sankeyNodeGenerator from './layout/sankeyNodeGenerator';
+import wordcloudNodeGenerator from './layout/wordcloudNodeGenerator';
+import circleNodeGenerator from './layout/circleNodeGenerator';
+import areaLink from './layout/areaLink';
+import ribbonLink from './layout/ribbonLink';
+import circularAreaLink from './layout/circularAreaLink';
+import radialLabelGenerator from './layout/radialLabelGenerator';
+import dagreEdgeGenerator from './layout/dagreEdgeGenerator';
+import softStack from './layout/softStack';
+
+import stringToFn from '../../utils/stringToFn';
+import { getAdjustedPositionSize, toMarginGraphic } from '../utils';
+import { nodesEdgesFromHierarchy } from './nodesEdgesFromHierarchy';
+import toPipeline from '../../pipeline/network/toPipeline';
 
 const emptyArray = [];
 const genericFunction = value => () => value;
@@ -549,7 +530,7 @@ const NetworkFrame = props => {
         rootNode.sum(networkSettings.hierarchySum || (d => d.value));
 
         if (isHierarchical) {
-          const layout = networkSettings.layout || isHierarchical;
+          const layout = networkSettings.barLayout || isHierarchical;
           const hierarchicalLayout = layout();
           const networkSettingKeys = Object.keys(networkSettings);
           if (

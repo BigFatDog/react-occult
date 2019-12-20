@@ -1,3 +1,6 @@
+import { interpolateNumber } from 'd3-interpolate';
+import { arc } from 'd3-shape';
+
 const arcTweener = (oldProps, newProps) => {
   const innerRadiusInterpolator = interpolateNumber(
     oldProps.innerRadius,

@@ -16,6 +16,7 @@ const isPlot = type =>
 
 import Frame from './Frame';
 import toAxes from '../axis/toAxes';
+import calculateMargin from './utils/calculateMargin';
 const isAxis = type => ['XAxis', 'YAxis', 'Axis'].includes(type);
 const XYFrame = props => {
   const {
@@ -50,15 +51,16 @@ const XYFrame = props => {
   } = props;
 
   const size = [width, height];
-  const margin =
-    typeof baseMargin !== 'object'
-      ? {
-          top: baseMargin,
-          bottom: baseMargin,
-          left: baseMargin,
-          right: baseMargin
-        }
-      : Object.assign({ top: 0, bottom: 0, left: 0, right: 0 }, baseMargin);
+
+  const axesDefs = React.Children.toArray(children)
+    .filter(d => isAxis(d.type.name))
+    .map(d => d.props);
+
+  const margin = calculateMargin({
+    margin: baseMargin,
+    axes: axesDefs,
+    title: title
+  });
 
   const { adjustedPosition, adjustedSize } = getAdjustedPositionSize({
     size: [width, height],
@@ -102,11 +104,6 @@ const XYFrame = props => {
       },
       { canvasPipeline: [], svgPipeline: [], xyPoints: [] }
     );
-
-  // axisPipeline
-  const axesDefs = React.Children.toArray(children)
-    .filter(d => isAxis(d.type.name))
-    .map(d => d.props);
 
   const { axes, axesTickLines } = toAxes({
     axesDefs,

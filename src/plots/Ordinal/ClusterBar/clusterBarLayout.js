@@ -1,6 +1,6 @@
-import React from 'react';
-
-const layout = ({
+import * as React from 'react';
+import radialBarFeatureGenerator from '../radialBarFeatureGenerator';
+const clusterBarLayout = ({
   type,
   data,
   renderMode,
@@ -14,48 +14,57 @@ const layout = ({
   baseMarkProps,
   rScale
 }) => {
-  const keys = Object.keys(data);
   let allCalculatedPieces = [];
+  const keys = Object.keys(data);
   keys.forEach((key, ordsetI) => {
     const ordset = data[key];
+
     const barColumnWidth = Math.max(ordset.width, 1);
+    const clusterWidth = barColumnWidth / ordset.pieceData.length;
+
+    let currentX = 0;
+    let currentY = 0;
 
     const calculatedPieces = ordset.pieceData.map((piece, i) => {
-      const pieceSize = piece.scaledValue;
       const renderValue = renderMode && renderMode(piece.data, i);
 
       let xPosition = piece.x;
-      let yPosition = piece.bottom;
-      let finalWidth = barColumnWidth;
-      let finalHeight = pieceSize;
-
+      let yPosition = piece.base;
+      let finalWidth = clusterWidth;
+      let finalHeight = piece.scaledValue;
+      let xy = { x: 0, y: 0 };
       if (!piece.negative) {
         yPosition -= piece.scaledValue;
       }
 
       if (projection === 'horizontal') {
+        //TODO: NEGATIVE FOR HORIZONTAL
         yPosition = piece.x;
-        xPosition = piece.bottom;
-        finalHeight = barColumnWidth;
-        finalWidth = pieceSize;
+        xPosition = piece.base;
+        finalHeight = clusterWidth;
+        finalWidth = piece.scaledValue;
+        xy.x = piece.scaledValue;
         if (piece.negative) {
-          xPosition = piece.bottom - piece.scaledValue;
+          xPosition -= piece.scaledValue;
+          xy.x = xPosition;
         }
       }
 
-      let markProps;
+      let translate,
+        markProps = {};
 
       if (projection === 'radial') {
-        ({ markProps, xPosition, yPosition } = radialBarFeatureGenerator({
+        ({ xPosition, yPosition, markProps, xy } = radialBarFeatureGenerator({
           type,
           ordset,
           adjustedSize,
           piece,
           i
         }));
-        finalHeight = undefined;
-        finalWidth = undefined;
+        xy.x = xPosition;
       } else {
+        xPosition += currentX;
+        yPosition += currentY;
         markProps = {
           markType: 'rect',
           x: xPosition,
@@ -65,17 +74,17 @@ const layout = ({
           rx: 0,
           ry: 0
         };
+        if (projection === 'vertical') {
+          xy.x = xPosition;
+        }
       }
 
       const eventListeners = eventListenersGenerator(piece, i);
 
-      const xy = {
-        x: xPosition,
-        y: yPosition,
-        middle: barColumnWidth / 2,
-        height: finalHeight,
-        width: finalWidth
-      };
+      xy.y = yPosition;
+      xy.middle = clusterWidth / 2;
+      xy.height = finalHeight;
+      xy.width = finalWidth;
 
       if (type.icon && projection !== 'radial') {
         type.customMark = iconBarCustomMark({
@@ -87,16 +96,15 @@ const layout = ({
           renderValue,
           classFn
         });
-      } else if (type.icon && projection !== 'horizontal') {
-        console.error('Icons are currently unsupported in radial charts');
+      } else if (type.icon && projection === 'radial') {
+        console.error('Icons are currently unsupported on radial charts');
       }
-
       const renderElementObject = type.customMark ? (
         <g
           key={`piece-${piece.renderKey}`}
-          transform={`translate(${xPosition},${yPosition})`}
-          role="img"
-          tabIndex={-1}
+          transform={
+            translate ? translate : `translate(${xPosition},${yPosition})`
+          }
         >
           {type.customMark(
             { ...piece.data, ...piece, x: xPosition, y: yPosition },
@@ -119,9 +127,10 @@ const layout = ({
           className: classFn({ ...piece, ...piece.data }, i),
           renderMode: renderValue,
           key: `piece-${piece.renderKey}`,
+          transform: translate,
           style: styleFn({ ...piece, ...piece.data }, ordsetI),
-          ...eventListeners,
-          ...markProps
+          ...markProps,
+          ...eventListeners
         }
       );
 
@@ -131,12 +140,18 @@ const layout = ({
         piece,
         renderElement: renderElementObject
       };
+      if (projection === 'horizontal') {
+        currentY += finalHeight;
+      } else {
+        currentX += finalWidth;
+      }
+
+      //        currentOffset += pieceSize
       return calculatedPiece;
     });
     allCalculatedPieces = [...allCalculatedPieces, ...calculatedPieces];
   });
-
   return allCalculatedPieces;
 };
 
-export default layout;
+export default clusterBarLayout;

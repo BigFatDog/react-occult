@@ -1,19 +1,20 @@
 import * as React from 'react';
 import pathBounds from 'svg-path-bounding-box';
 import { Mark } from 'semiotic-mark';
-import radialBarFeatureGenerator from './radialBarFeatureGenerator';
+import radialBarFeatureGenerator from '../radialBarFeatureGenerator';
+
 
 const iconBarCustomMark = ({
-  type,
-  projection,
-  finalHeight,
-  finalWidth,
-  styleFn,
-  renderValue,
-  classFn
-}) => (piece, i, xy) => {
+                             type,
+                             projection,
+                             finalHeight,
+                             finalWidth,
+                             styleFn,
+                             renderValue,
+                             classFn
+                           }) => (piece, i, xy) => {
   const iconD =
-    typeof type.icon === 'string' ? type.icon : type.icon(piece.data, i);
+      typeof type.icon === 'string' ? type.icon : type.icon(piece.data, i);
   const { iconPadding = 1, resize = 'auto' } = type;
 
   const iconBounds = pathBounds(iconD);
@@ -31,9 +32,9 @@ const iconBarCustomMark = ({
   let iconScale = 1;
   const spaceToUse = projection === 'horizontal' ? finalHeight : finalWidth;
   const sizeToFit =
-    projection === 'horizontal' ? iconBounds.height : iconBounds.width;
+      projection === 'horizontal' ? iconBounds.height : iconBounds.width;
   const sizeToPad =
-    projection === 'horizontal' ? iconBounds.width : iconBounds.height;
+      projection === 'horizontal' ? iconBounds.width : iconBounds.height;
   const spaceToFill = projection === 'horizontal' ? xy.width : xy.height;
   const spaceToStackFill = projection === 'horizontal' ? xy.height : xy.width;
   if (resize === 'auto') {
@@ -61,23 +62,23 @@ const iconBarCustomMark = ({
   const clipPath = `url(#${randoClipID})`;
   if (xy.width > 0) {
     icons.push(
-      <clipPath key={randoClipID} id={randoClipID}>
-        <rect x={0} y={0} width={xy.width} height={xy.height} />
-      </clipPath>
+        <clipPath key={randoClipID} id={randoClipID}>
+          <rect x={0} y={0} width={xy.width} height={xy.height} />
+        </clipPath>
     );
     const iconPieces = [];
     const stepStart =
-      projection === 'horizontal' ? 0 : xy.height - finalIconHeight;
+        projection === 'horizontal' ? 0 : xy.height - finalIconHeight;
     const stepper = projection === 'horizontal' ? spaceToStep : -spaceToStep;
     const stepTest =
-      projection === 'horizontal'
-        ? (step, spaceToFillValue) => step < spaceToFillValue
-        : (step, spaceToFillValue, stepperValue) => step > 0 + stepperValue;
+        projection === 'horizontal'
+            ? (step, spaceToFillValue) => step < spaceToFillValue
+            : (step, spaceToFillValue, stepperValue) => step > 0 + stepperValue;
 
     for (
-      let step = stepStart;
-      stepTest(step, spaceToFill, stepper);
-      step += stepper
+        let step = stepStart;
+        stepTest(step, spaceToFill, stepper);
+        step += stepper
     ) {
       for (let stack = 0; stack < spaceToStackFill; stack += spaceToStackStep) {
         const stepX = projection === 'horizontal' ? step : stack;
@@ -85,43 +86,43 @@ const iconBarCustomMark = ({
         const paddedX = stepX + iconTranslate[0];
         const paddedY = stepY + iconTranslate[1];
         iconPieces.push(
-          <Mark
-            forceUpdate={true}
-            markType="path"
-            key={`icon-${step}-${stack}`}
-            transform={`translate(${paddedX},${paddedY}) scale(${iconScale})`}
-            vectorEffect={'non-scaling-stroke'}
-            d={iconD}
-            style={styleFn({ ...piece, ...piece.data }, i)}
-            renderMode={renderValue}
-            className={classFn({ ...piece, ...piece.data }, i)}
-          />
+            <Mark
+                forceUpdate={true}
+                markType="path"
+                key={`icon-${step}-${stack}`}
+                transform={`translate(${paddedX},${paddedY}) scale(${iconScale})`}
+                vectorEffect={'non-scaling-stroke'}
+                d={iconD}
+                style={styleFn({ ...piece, ...piece.data }, i)}
+                renderMode={renderValue}
+                className={classFn({ ...piece, ...piece.data }, i)}
+            />
         );
       }
     }
     icons.push(
-      <g key={`clipped-region-${i}`} clipPath={clipPath}>
-        {iconPieces}
-      </g>
+        <g key={`clipped-region-${i}`} clipPath={clipPath}>
+          {iconPieces}
+        </g>
     );
   }
   return icons;
 };
 
 const barLayout = ({
-  type,
-  data,
-  renderMode,
-  eventListenersGenerator,
-  styleFn,
-  projection,
-  classFn,
-  adjustedSize,
-  chartSize,
-  margin,
-  baseMarkProps,
-  rScale
-}) => {
+                     type,
+                     data,
+                     renderMode,
+                     eventListenersGenerator,
+                     styleFn,
+                     projection,
+                     classFn,
+                     adjustedSize,
+                     chartSize,
+                     margin,
+                     baseMarkProps,
+                     rScale
+                   }) => {
   const keys = Object.keys(data);
   let allCalculatedPieces = [];
   keys.forEach((key, ordsetI) => {
@@ -200,37 +201,37 @@ const barLayout = ({
       }
 
       const renderElementObject = type.customMark ? (
-        <g
-          key={`piece-${piece.renderKey}`}
-          transform={`translate(${xPosition},${yPosition})`}
-          role="img"
-          tabIndex={-1}
-        >
-          {type.customMark(
-            { ...piece.data, ...piece, x: xPosition, y: yPosition },
-            i,
-            {
-              ...xy,
-              baseMarkProps,
-              renderMode,
-              styleFn,
-              classFn,
-              adjustedSize,
-              chartSize,
-              margin,
-              rScale
-            }
-          )}
-        </g>
+          <g
+              key={`piece-${piece.renderKey}`}
+              transform={`translate(${xPosition},${yPosition})`}
+              role="img"
+              tabIndex={-1}
+          >
+            {type.customMark(
+                { ...piece.data, ...piece, x: xPosition, y: yPosition },
+                i,
+                {
+                  ...xy,
+                  baseMarkProps,
+                  renderMode,
+                  styleFn,
+                  classFn,
+                  adjustedSize,
+                  chartSize,
+                  margin,
+                  rScale
+                }
+            )}
+          </g>
       ) : (
-        {
-          className: classFn({ ...piece, ...piece.data }, i),
-          renderMode: renderValue,
-          key: `piece-${piece.renderKey}`,
-          style: styleFn({ ...piece, ...piece.data }, ordsetI),
-          ...eventListeners,
-          ...markProps
-        }
+          {
+            className: classFn({ ...piece, ...piece.data }, i),
+            renderMode: renderValue,
+            key: `piece-${piece.renderKey}`,
+            style: styleFn({ ...piece, ...piece.data }, ordsetI),
+            ...eventListeners,
+            ...markProps
+          }
       );
 
       const calculatedPiece = {

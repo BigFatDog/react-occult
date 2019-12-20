@@ -1,4 +1,5 @@
-import { drawEdges, drawNodes } from './networkDrawing';
+import drawEdges from './drawEdges';
+import drawNodes from './drawNodes';
 
 const toPipeline = ({
   projectedEdges,
