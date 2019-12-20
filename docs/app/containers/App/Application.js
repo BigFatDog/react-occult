@@ -17,7 +17,7 @@ import GeoProjectionPage from '../Pages/GeoProjection';
 import TrendlinePage from '../Pages/TrendlinePage';
 import NeighbourPage from '../Pages/Neighbourhood';
 import DifferencePage from '../Pages/Difference';
-import BarPage from '../Pages/BarPage/i2';
+import BarPage from '../Pages/BarPage';
 import SketchPage from '../Pages/BarPage/Sketch';
 import NetworkPage from '../Pages/Chord';
 

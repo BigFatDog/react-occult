@@ -12,7 +12,6 @@ import OrdinalPoint from './plots/Ordinal/OrdinalPoint';
 import OFrame from './frame/test/OFrame';
 import NetworkFrame from './frame/Ntest/NetworkFrame';
 import Annotation from './plots/Annotation';
-import OFrame2 from './frame/test/O2';
 
 export {
   XYFrame,
@@ -28,6 +27,5 @@ export {
   Annotation,
   NetworkFrame,
   Bar,
-    OFrame2,
   OrdinalPoint
 };
