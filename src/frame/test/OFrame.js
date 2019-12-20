@@ -699,7 +699,7 @@ const OrdinalFrame = props => {
     });
   }
 
-  if (props.oLabel) {
+  if (oLabel) {
     let labelingFn;
     if (labelSettings.label === true) {
       const labelStyle = {

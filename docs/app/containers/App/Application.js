@@ -20,6 +20,7 @@ import DifferencePage from '../Pages/Difference';
 import BarPage from '../Pages/BarPage';
 import SketchPage from '../Pages/BarPage/Sketch';
 import NetworkPage from '../Pages/Chord';
+import ViolinPage from '../Pages/BarPage/ViolinPage';
 
 import BlankPage from '../Pages/BlankPage';
 import { NotFound } from '../pageListAsync';
@@ -48,6 +49,7 @@ class Application extends React.Component {
           <Route path="/difference" component={DifferencePage} />
           <Route path="/bar" component={BarPage} />
           <Route path="/sketch" component={SketchPage} />
+          <Route path="/violin" component={ViolinPage} />
           <Route path="/network" component={NetworkPage} />
           <Route component={NotFound} />
         </Switch>
