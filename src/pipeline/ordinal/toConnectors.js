@@ -26,7 +26,7 @@ const toConnectors = ({
   projection,
   useCanvas,
   baseMarkProps,
-    isOrdinalPoint = false,
+  isOrdinalPoint = false
 }) => {
   const svgPipeline = [];
   const canvasPipeline = [];

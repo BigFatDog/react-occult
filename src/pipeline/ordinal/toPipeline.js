@@ -22,7 +22,7 @@ const toPipeline = ({
   renderKeyFn,
 
   isOrdinalPoint,
-    shouldRender = true,
+  shouldRender = true
 }) => {
   const {
     svgPipeline: pieceSvg,

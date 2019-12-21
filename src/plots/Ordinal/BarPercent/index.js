@@ -11,7 +11,10 @@ BarPercent.propTypes = {
   ...OrdinalPlot.propTypes,
   icon: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   iconPadding: PropTypes.number,
-  resize: PropTypes.oneOf(['fixed', 'auto'])
+  resize: PropTypes.oneOf(['fixed', 'auto']),
+  innerRadius: PropTypes.number,
+  offsetAngle: PropTypes.number,
+  angleRange: PropTypes.array
 };
 
 BarPercent.defaultProps = {

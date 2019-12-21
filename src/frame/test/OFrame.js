@@ -28,12 +28,13 @@ const defaultOverflow = { top: 0, bottom: 0, left: 0, right: 0 };
 
 const OrdinalTypes = ['Bar', 'ClusterBar', 'Timeline', 'Swarm', 'OrdinalPoint'];
 
+const BAR_PERCENT = 'barpercent';
 const TIMELINE = 'timeline';
 const CLUSTER_BAR = 'clusterbar';
 const BAR = 'bar';
 const NONE = 'none';
 const ORDINAL_POINT = 'ordinalpoint';
-const PROJECTION_VERTICAL= 'vertical';
+const PROJECTION_VERTICAL = 'vertical';
 const PROJECTION_RADIAL = 'radial';
 const PROJECTION_HORIZONTAL = 'horizontal';
 
@@ -44,7 +45,6 @@ const naturalLanguageTypes = {
   point: { items: 'point', chart: 'point plot' },
   timeline: { items: 'bar', chart: 'timeline' }
 };
-
 
 const OrdinalFrame = props => {
   const { children } = props;
@@ -247,7 +247,7 @@ const OrdinalFrame = props => {
 
   let oExtent = oExtentSettings.extent || calculatedOExtent;
 
-  if (pieceType === 'barpercent') {
+  if (pieceType === BAR_PERCENT) {
     const oExtentSums = oExtent
       .map(d =>
         allData
@@ -276,10 +276,10 @@ const OrdinalFrame = props => {
     }
   }
 
-  const oDomain = (projection === PROJECTION_VERTICAL && [0, adjustedSize[0]]) || [
+  const oDomain = (projection === PROJECTION_VERTICAL && [
     0,
-    adjustedSize[1]
-  ];
+    adjustedSize[0]
+  ]) || [0, adjustedSize[1]];
 
   const cwHash = oExtent.reduce(
     (p, c) => {
@@ -470,10 +470,10 @@ const OrdinalFrame = props => {
     oScale.domain(oExtent);
   }
 
-  const rDomain = (projection === PROJECTION_VERTICAL && [0, adjustedSize[1]]) || [
+  const rDomain = (projection === PROJECTION_VERTICAL && [
     0,
-    adjustedSize[0]
-  ];
+    adjustedSize[1]
+  ]) || [0, adjustedSize[0]];
 
   const castRScaleType = rScaleType;
 
@@ -637,12 +637,10 @@ const OrdinalFrame = props => {
       : { orient: 'default', label: oLabel, padding: 5 };
 
   if (oLabel || hoverAnnotation) {
-    const {offsetAngle, angleRange } = singleOrdinalPlot.props;
-    const offsetPct =
-      (offsetAngle && offsetAngle / 360) || 0;
+    const { offsetAngle, angleRange } = singleOrdinalPlot.props;
+    const offsetPct = (offsetAngle && offsetAngle / 360) || 0;
 
-    const rangePct = (angleRange &&
-      angleRange.map(d => d / 360)) || [0, 1];
+    const rangePct = (angleRange && angleRange.map(d => d / 360)) || [0, 1];
     const rangeMod = rangePct[1] - rangePct[0];
 
     const adjustedPct =
@@ -705,7 +703,10 @@ const OrdinalFrame = props => {
       const labelStyle = {
         textAnchor: 'middle'
       };
-      if (projection === PROJECTION_HORIZONTAL && labelSettings.orient === 'right') {
+      if (
+        projection === PROJECTION_HORIZONTAL &&
+        labelSettings.orient === 'right'
+      ) {
         labelStyle.textAnchor = 'start';
       } else if (projection === PROJECTION_HORIZONTAL) {
         labelStyle.textAnchor = 'end';
@@ -715,7 +716,10 @@ const OrdinalFrame = props => {
         const additionalStyle = {};
         let transformRotate;
 
-        if (projection === PROJECTION_RADIAL && labelSettings.orient === 'stem') {
+        if (
+          projection === PROJECTION_RADIAL &&
+          labelSettings.orient === 'stem'
+        ) {
           transformRotate = `rotate(${
             pieArcs[i].outerPoint[0] < 0
               ? pieArcs[i].midAngle * 360 + 90
@@ -738,7 +742,10 @@ const OrdinalFrame = props => {
             (pieArcs[i].outerPoint[0] < 0 && labelSettings.padding >= 0))
         ) {
           additionalStyle.textAnchor = 'end';
-        } else if (projection === PROJECTION_RADIAL && labelSettings.orient === 'stem') {
+        } else if (
+          projection === PROJECTION_RADIAL &&
+          labelSettings.orient === 'stem'
+        ) {
           additionalStyle.textAnchor = 'start';
         }
         return (
@@ -1202,69 +1209,6 @@ OrdinalFrame.displayName = 'OrdinalFrame';
 
 OrdinalFrame.propTypes = {
   ...BaseProps,
-
-  // common
-  columns: PropTypes.object,
-  rScaleType: PropTypes.func,
-  oScaleType: PropTypes.func,
-  rAccessor: PropTypes.oneOfType([
-    PropTypes.array,
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.func
-  ]),
-  oAccessor: PropTypes.oneOfType([
-    PropTypes.array,
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.func
-  ]),
-  invertR: PropTypes.bool,
-  oPadding: PropTypes.number,
-  dynamicColumnWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-  pixelColumnWidth: PropTypes.number,
-  projection: PropTypes.oneOf([PROJECTION_VERTICAL, PROJECTION_HORIZONTAL, PROJECTION_RADIAL]),
-
-  // pieces
-  type: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.func
-  ]),
-  renderOrder: PropTypes.array,
-  style: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  pieceClass: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-  pieceRenderMode: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.func
-  ]),
-  pieceUseCanvas: PropTypes.bool,
-  pieceHoverAnnotation: PropTypes.bool,
-  // connectors
-  connectorType: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-  connectorStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  connectorRenderMode: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.func
-  ]),
-  connectorUseCanvas: PropTypes.bool,
-  // summaries
-  summaryType: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.func
-  ]),
-  summaryStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  summaryClass: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-  summaryPosition: PropTypes.func,
-  summaryRenderMode: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.func
-  ]),
-  summaryUseCanvas: PropTypes.bool
 };
 
 OrdinalFrame.defaultProps = {
