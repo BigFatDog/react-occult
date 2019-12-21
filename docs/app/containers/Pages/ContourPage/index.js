@@ -1,5 +1,5 @@
 import React from 'react';
-import { XYFrame, XAxis, YAxis, Contour } from 'occult';
+import { Paper, XAxis, YAxis, Contour } from 'occult';
 import { PapperBlock } from 'dan-components';
 import { OldFaithful } from '../OldFaithfulPage/data';
 import { scaleLinear } from 'd3-scale';
@@ -58,11 +58,11 @@ const ContourPage = props => {
   return (
     <div>
       <PapperBlock>
-        <XYFrame {...frameProps}>
+        <Paper {...frameProps}>
           <XAxis label={'Eruptions'} />
           <YAxis label={'Waiting'} />
           <Contour {...contourProps} />
-        </XYFrame>
+        </Paper>
       </PapperBlock>
     </div>
   );

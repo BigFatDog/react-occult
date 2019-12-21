@@ -1,6 +1,6 @@
 import React from 'react';
 import { OldFaithful } from '../OldFaithfulPage/data';
-import { XYFrame, XAxis, YAxis, Heatmap } from 'occult';
+import { Paper, XAxis, YAxis, Heatmap } from 'occult';
 import { PapperBlock } from 'dan-components';
 
 import { scaleLinear } from 'd3-scale';
@@ -43,11 +43,11 @@ const HeatmapPage = props => {
   return (
     <div>
       <PapperBlock>
-        <XYFrame {...frameProps}>
+        <Paper {...frameProps}>
           <XAxis label={'Waiting'} />
           <YAxis label={'Eruptions'} />
           <Heatmap {...heatmapProps} />
-        </XYFrame>
+        </Paper>
       </PapperBlock>
     </div>
   );

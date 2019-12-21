@@ -3,12 +3,140 @@ import { Mark } from 'semiotic-mark';
 import { histogram, max } from 'd3-array';
 import { area, line, curveCatmullRom, arc } from 'd3-shape';
 import { createSummaryAxis } from './createSummaryAxis';
-import { groupBarMark } from './SVGHelper';
-
+import { curveHash } from '../../pipeline/toRenderedLines';
+import pointOnArcAtAngle from '../../utils/pointOnArcAtAngle';
+const emptyObjectReturnFn = () => ({});
 const verticalXYSorting = (a, b) => a.xy.y - b.xy.y;
 const horizontalXYSorting = (a, b) => b.xy.x - a.xy.x;
 
-export const bucketizedRenderingFn = ({
+const groupBarMark = ({
+  bins,
+  binMax,
+  relativeBuckets,
+  columnWidth,
+  projection,
+  adjustedSize,
+  summaryI,
+  summary,
+  renderValue,
+  summaryStyle,
+  type,
+  baseMarkProps
+}) => {
+  const mappedBins = [];
+  const mappedPoints = [];
+  const actualMax =
+    (relativeBuckets && relativeBuckets[summary.name]) || binMax;
+
+  const summaryElementStylingFn = type.elementStyleFn || emptyObjectReturnFn;
+  const barPadding = type.padding || 0;
+
+  bins.forEach((d, i) => {
+    const opacity = d.value / actualMax;
+    const additionalStyle = summaryElementStylingFn(d.value, opacity, d.pieces);
+    const finalStyle =
+      type.type === 'heatmap'
+        ? { opacity: opacity, fill: summaryStyle.fill, ...additionalStyle }
+        : { ...summaryStyle, ...additionalStyle };
+
+    const thickness = Math.max(1, d.y1 - barPadding * 2);
+
+    const finalColumnWidth =
+      type.type === 'heatmap' ? columnWidth : columnWidth * opacity;
+    let yProp = d.y + barPadding;
+    let xProp =
+      type.type === 'heatmap' || type.flip
+        ? -columnWidth / 2
+        : columnWidth / 2 - finalColumnWidth;
+    let height = thickness;
+    let width = finalColumnWidth;
+    let xOffset =
+      type.type === 'heatmap' ? finalColumnWidth / 2 : finalColumnWidth;
+    let yOffset = d.y1 / 2;
+
+    if (projection === 'horizontal') {
+      yProp =
+        type.type === 'heatmap'
+          ? -columnWidth / 2
+          : type.flip
+          ? -columnWidth / 2
+          : columnWidth / 2 - finalColumnWidth;
+      xProp = d.y - d.y1 + barPadding;
+      height = finalColumnWidth;
+      width = thickness;
+      yOffset =
+        type.type === 'heatmap' ? finalColumnWidth / 2 : finalColumnWidth;
+      xOffset = d.y1 / 2;
+    } else if (projection === 'radial') {
+      const arcGenerator = arc()
+        .innerRadius(d.y / 2)
+        .outerRadius((d.y + d.y1) / 2);
+
+      const angle = summary.pct - summary.pct_padding;
+      let startAngle = summary.pct_middle - summary.pct_padding;
+
+      let endAngle =
+        type.type === 'heatmap'
+          ? startAngle + angle
+          : startAngle + angle * opacity;
+      startAngle *= twoPI;
+      endAngle *= twoPI;
+
+      const arcAdjustX = adjustedSize[0] / 2;
+      const arcAdjustY = adjustedSize[1] / 2;
+
+      const arcTranslate = `translate(${arcAdjustX},${arcAdjustY})`;
+      const arcCenter = arcGenerator.centroid({ startAngle, endAngle });
+      mappedPoints.push({
+        key: summary.name,
+        value: d.value,
+        pieces: d.pieces.map(p => p.piece),
+        label: 'Heatmap',
+        x: arcCenter[0] + arcAdjustX,
+        y: arcCenter[1] + arcAdjustY
+      });
+      mappedBins.push(
+        <Mark
+          {...baseMarkProps}
+          markType="path"
+          transform={arcTranslate}
+          renderMode={renderValue}
+          key={`groupIcon-${summaryI}-${i}`}
+          d={arcGenerator({ startAngle, endAngle })}
+          style={finalStyle}
+        />
+      );
+    }
+    if (projection !== 'radial') {
+      mappedPoints.push({
+        key: summary.name,
+        value: d.value,
+        pieces: d.pieces.map(p => p.piece),
+        label: 'Heatmap',
+        x: xProp + xOffset,
+        y: yProp + yOffset
+      });
+
+      mappedBins.push(
+        <Mark
+          {...baseMarkProps}
+          markType="rect"
+          renderMode={renderValue}
+          key={`groupIcon-${summaryI}-${i}`}
+          x={xProp}
+          y={yProp}
+          height={height}
+          width={width}
+          style={finalStyle}
+        />
+      );
+    }
+  });
+
+  return { marks: mappedBins, points: mappedPoints };
+};
+
+const bucketizedRenderingFn = ({
   data,
   type,
   renderMode,
@@ -498,3 +626,5 @@ export const bucketizedRenderingFn = ({
 
   return { marks: renderedSummaryMarks, xyPoints: summaryXYCoords };
 };
+
+export default bucketizedRenderingFn;

@@ -155,7 +155,6 @@ InteractionLayer.propTypes = {
   name: PropTypes.string,
   interaction: PropTypes.object,
   overlay: PropTypes.array,
-  oColumns: PropTypes.object,
   xScale: PropTypes.func,
   yScale: PropTypes.func,
   rScale: PropTypes.func,

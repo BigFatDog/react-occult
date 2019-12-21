@@ -6,6 +6,7 @@ import {
   line,
   cumulativeLine
 } from './transform';
+import objectifyType from '../../utils/objectifyType';
 
 const differenceCatch = (olineType, data) =>
   olineType === 'difference' && data.length !== 2 ? 'line' : olineType;
@@ -24,15 +25,6 @@ const builtInTransformations = {
   area: line,
   cumulative: cumulativeLine,
   'cumulative-reverse': cumulativeLine
-};
-
-const objectifyType = type => {
-  if (type instanceof Function || typeof type === 'string') {
-    return { type: type };
-  } else if (type === undefined) {
-    return {};
-  }
-  return type;
 };
 
 const lineTransformation = lineType => data =>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { XYFrame, Line, XAxis, YAxis, Annotation } from 'occult';
+import { Paper, Line, XAxis, YAxis, Annotation } from 'occult';
 import { PapperBlock } from 'dan-components';
 import WeatherData from './weather.json';
 import * as d3 from 'd3';
@@ -171,7 +171,7 @@ const LinePage = props => {
   return (
     <div>
       <PapperBlock>
-        <XYFrame {...frameProps} className={classes.frame}>
+        <Paper {...frameProps} className={classes.frame}>
           <XAxis
             label={'Year'}
             tickFormat={d => formatDate(d)}
@@ -194,7 +194,7 @@ const LinePage = props => {
               wrap: 50
             }}
           />
-        </XYFrame>
+        </Paper>
       </PapperBlock>
     </div>
   );

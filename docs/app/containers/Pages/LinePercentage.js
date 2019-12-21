@@ -1,5 +1,5 @@
 import React from 'react';
-import { XYFrame, Line, XAxis, YAxis } from 'occult';
+import { Paper, Line, XAxis, YAxis } from 'occult';
 import { PapperBlock } from 'dan-components';
 import { LineData } from './LineChartPage/lineData';
 import * as d3 from 'd3';
@@ -66,11 +66,11 @@ const LinePage = props => {
   return (
     <div>
       <PapperBlock>
-        <XYFrame {...frameProps}>
+        <Paper {...frameProps}>
           <XAxis label={'Rank'} rotate={30} />
           <YAxis label={'Theaters'} />
           <Line {...lineProps} />
-        </XYFrame>
+        </Paper>
       </PapperBlock>
     </div>
   );

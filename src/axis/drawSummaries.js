@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { contourRenderFn } from './summary/contourRenderFn';
-import { boxplotRenderFn } from './summary/boxplotRenderFn';
-import { bucketizedRenderingFn } from './summary/bucketizedRenderingFn';
+import contourRenderFn from './summary/contourRenderFn';
+import boxplotRenderFn from './summary/boxplotRenderFn';
+import bucketizedRenderingFn from './summary/bucketizedRenderingFn';
 
 const summaryRenderHash = {
   contour: contourRenderFn,

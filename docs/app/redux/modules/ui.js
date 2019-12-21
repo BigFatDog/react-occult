@@ -126,7 +126,7 @@ export default function reducer(state = initialImmutableState, action = {}) {
       });
     case CHANGE_LAYOUT:
       return state.withMutations(mutableState => {
-        mutableState.set('layout', action.layout);
+        mutableState.set('layout', action.barLayout);
       });
     case LOAD_PAGE:
       return state.withMutations(mutableState => {

@@ -2,9 +2,11 @@ import React from 'react';
 import { Mark } from 'semiotic-mark';
 import { quantile } from 'd3-array';
 
+import pointOnArcAtAngle from '../../utils/pointOnArcAtAngle';
+
 const emptyObjectReturnFn = () => ({});
 
-export const boxplotRenderFn = ({
+const boxplotRenderFn = ({
   data,
   type,
   renderMode,
@@ -628,3 +630,5 @@ export const boxplotRenderFn = ({
 
   return { marks: renderedSummaryMarks, xyPoints: summaryXYCoords };
 };
+
+export default boxplotRenderFn;

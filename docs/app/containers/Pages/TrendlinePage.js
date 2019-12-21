@@ -1,6 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { XYFrame, XAxis, YAxis, Trendline, Line } from 'occult';
+import { Paper, XAxis, YAxis, Trendline, Line } from 'occult';
 import brand from 'dan-api/dummy/brand';
 import { PapperBlock } from 'dan-components';
 import { OldFaithful } from './OldFaithfulPage/data';
@@ -145,13 +145,13 @@ const TrendinglinePage = props => {
         <meta property="twitter:description" content={description} />
       </Helmet>
       <PapperBlock>
-        <XYFrame {...frameProps} className={classes.frame}>
+        <Paper {...frameProps} className={classes.frame}>
           <XAxis {...xAxisProps} />
           <YAxis {...yAxisProps} />
           <XAxis {...x0Props} />
           <YAxis {...y0Props} />
           <Trendline {...lineProps} />
-        </XYFrame>
+        </Paper>
       </PapperBlock>
     </div>
   );

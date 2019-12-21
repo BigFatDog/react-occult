@@ -52,6 +52,21 @@ module.exports = [
         link: '/difference'
       },
       {
+        key: 'bar',
+        name: 'NYC Hospital',
+        link: '/bar'
+      },
+      {
+        key: 'violin',
+        name: 'violin',
+        link: '/violin'
+      },
+      {
+        key: 'histgram',
+        name: 'Histgram',
+        link: '/histgram'
+      },
+      {
         key: 'pencil',
         name: 'Pencil',
         link: '/sketch'
@@ -91,11 +106,6 @@ module.exports = [
         key: 'linepercentage',
         name: 'Line Percentage',
         link: '/linepercentage'
-      },
-      {
-        key: 'bar',
-        name: 'Bar',
-        link: '/bar'
       },
       {
         key: 'geo',

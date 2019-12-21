@@ -1,6 +1,4 @@
 import React from 'react';
-import { area } from 'd3-shape';
-import { curveHash } from '../../BasePlot/toRenderedLines';
 
 const findPoints = (d, xScale, yScale) => {
   const { points, style } = d;
@@ -34,59 +32,57 @@ const findPoints = (d, xScale, yScale) => {
     });
 };
 
-const SvgHighlight = ({ d, i, xScale, yScale, xyFrameRender, defined }) => {
+const SvgHighlight = ({ d, i, xScale, yScale, xyFrameRender }) => {
   const foundPoints = findPoints(d, xScale, yScale);
-  const foundAreas = [];
-  const foundLines = [];
-  // const foundLines = lines.data
-  //   .filter((p, q) => idAccessor(p, q) === dID)
-  //   .map((p, q) => {
-  //     const baseStyle = xyFrameRender.lines.styleFn(p, q);
-  //
-  //     const highlightStyle =
-  //       typeof d.style === 'function' ? d.style(p, q) : d.style || {};
-  //
-  //     return (
-  //       <path
-  //         className={`highlight-annotation ${(d.class &&
-  //           typeof d.class === 'function' &&
-  //           d.class(p, q)) ||
-  //           (d.class && d.class) ||
-  //           ''}`}
-  //         key={`highlight-summary-${q}`}
-  //         d={lineGenerator(p.data)}
-  //         fill="none"
-  //         stroke="black"
-  //         strokeWidth={1}
-  //         style={{ ...baseStyle, ...highlightStyle }}
-  //       />
-  //     );
-  //   });
-  //
-  // const foundSummaries = summaries.data
-  //   .filter((p, q) => idAccessor(p, q) === dID)
-  //   .map((p, q) => {
-  //     const baseStyle = xyFrameRender.summaries.styleFn(p, q);
-  //
-  //     const highlightStyle =
-  //       typeof d.style === 'function' ? d.style(p, q) : d.style || {};
-  //
-  //     return (
-  //       <path
-  //         className={`highlight-annotation ${(d.class &&
-  //           typeof d.class === 'function' &&
-  //           d.class(p, q)) ||
-  //           (d.class && d.class) ||
-  //           ''}`}
-  //         key={`highlight-summary-${q}`}
-  //         d={`M${p.coordinates.join('L')}`}
-  //         fill="none"
-  //         stroke="black"
-  //         strokeWidth={1}
-  //         style={{ ...baseStyle, ...highlightStyle }}
-  //       />
-  //     );
-  //   });
+  const foundLines = lines.data
+    .filter((p, q) => idAccessor(p, q) === dID)
+    .map((p, q) => {
+      const baseStyle = xyFrameRender.lines.styleFn(p, q);
+
+      const highlightStyle =
+        typeof d.style === 'function' ? d.style(p, q) : d.style || {};
+
+      return (
+        <path
+          className={`highlight-annotation ${(d.class &&
+            typeof d.class === 'function' &&
+            d.class(p, q)) ||
+            (d.class && d.class) ||
+            ''}`}
+          key={`highlight-summary-${q}`}
+          d={lineGenerator(p.data)}
+          fill="none"
+          stroke="black"
+          strokeWidth={1}
+          style={{ ...baseStyle, ...highlightStyle }}
+        />
+      );
+    });
+
+  const foundAreas = summaries.data
+    .filter((p, q) => idAccessor(p, q) === dID)
+    .map((p, q) => {
+      const baseStyle = xyFrameRender.summaries.styleFn(p, q);
+
+      const highlightStyle =
+        typeof d.style === 'function' ? d.style(p, q) : d.style || {};
+
+      return (
+        <path
+          className={`highlight-annotation ${(d.class &&
+            typeof d.class === 'function' &&
+            d.class(p, q)) ||
+            (d.class && d.class) ||
+            ''}`}
+          key={`highlight-summary-${q}`}
+          d={`M${p.coordinates.join('L')}`}
+          fill="none"
+          stroke="black"
+          strokeWidth={1}
+          style={{ ...baseStyle, ...highlightStyle }}
+        />
+      );
+    });
 
   return [...foundAreas, ...foundLines, ...foundPoints];
 };

@@ -1,8 +1,8 @@
 import React from 'react';
-import { XAxis, YAxis, OFrame } from 'occult';
+import { XAxis, YAxis, Paper, Bar, Annotation } from 'occult';
 import { PapperBlock } from 'dan-components';
+import { VerticalISOTypeChart } from './PencilProps';
 import * as d3 from 'd3';
-
 import AnnotationCalloutElbow from 'react-annotation/lib/Types/AnnotationCalloutElbow';
 
 const vizzers = [
@@ -65,16 +65,30 @@ const colorHash = {
   viz: '#FF4136'
 };
 
-const verticalISOTYPEChart = {
-  width: 700,
-  height: 438,
+const TheMetLight = [
+  '#F44336',
+  '#E91E63',
+  '#9C27B0',
+  '#673AB7',
+  '#3F51B5',
+  '#2196F3',
+  '#03A9F4',
+  '#00BCD4',
+  '#009688',
+  '#4CAF50',
+  '#8BC34A',
+  '#CDDC39',
+  '#FFEB3B',
+  '#FFC107',
+  '#FF9800',
+  '#FF5722'
+];
+
+const BarProps = {
   data: vizzers,
-  type: {
-    type: 'bar',
-    icon: d => iconHash[d.type],
-    iconPadding: 2,
-    resize: 'fixed'
-  },
+  icon: d => iconHash[d.type],
+  iconPadding: 2,
+  resize: 'fixed',
   projection: 'vertical',
   oAccessor: 'writeviz',
   sortO: (a, b) => parseFloat(a) - parseFloat(b),
@@ -85,65 +99,26 @@ const verticalISOTYPEChart = {
     fillOpacity: 1,
     strokeWidth: 1.5
   }),
-  margin: { top: 60, bottom: 140, left: 10, right: 80 },
   oPadding: 2,
-  annotations: [
-    {
-      writeviz: 0.25,
-      number: 2,
-      dx: -0.01,
-      dy: -50,
-      color: '#b3331d',
-      type: AnnotationCalloutElbow,
-      note: { title: 'Data viz peep who discovered her love for writing' }
-    }
-  ],
-  hoverAnnotation: true,
-  renderMode: 'sketchy',
-  foregroundGraphics: (
-    <g>
-      <g transform="translate(20,165)">
-        <rect fill="#b3331d" x={-10} y={-10} width={93} height={55} />
-        <text fontWeight="700" fill="white" x={5} y={15}>
-          DATA VIZ
-        </text>
-        <text fontWeight="700" fill="white" x={5} y={30}>
-          EXPERTS
-        </text>
-      </g>
-      <g transform="translate(505,10)">
-        <rect fill="#1db333" x={-10} y={-10} width={123} height={40} />
-        <text fontWeight="700" fill="white" x={5} y={15}>
-          JOURNALISTS
-        </text>
-      </g>
-      <g transform="translate(0,300)">
-        <line strokeWidth={2} stroke={'darkgray'} x1={10} x2={620} />
-      </g>
-      <g fill="darkgray" transform="translate(5,305)">
-        <text fontWeight="700" x={5} y={15}>
-          CREATE MORE
-        </text>
-        <text fontWeight="700" x={5} y={30}>
-          DATA VIZ EACH DAY
-        </text>
-      </g>
-      <g fill="darkgray" textAnchor="end" transform="translate(615,305)">
-        <text fontWeight="700" x={5} y={15}>
-          WRITE MORE
-        </text>
-        <text fontWeight="700" x={5} y={30}>
-          EACH DAY
-        </text>
-      </g>
-    </g>
-  )
+  renderMode: 'sketchy'
+};
+
+const annotationProps = {
+  coordinates: { writeviz: 0.25, number: 2 },
+  dx: -0.01,
+  dy: -50,
+  color: '#b3331d',
+  type: AnnotationCalloutElbow,
+  note: { title: 'Data viz peep who discovered her love for writing' }
 };
 
 const Sketch = props => {
   return (
     <PapperBlock>
-      <OFrame {...verticalISOTYPEChart} />
+      <Paper {...VerticalISOTypeChart}>
+        {/*<Annotation {...annotationProps}/>*/}
+        <Bar {...BarProps} />
+      </Paper>
     </PapperBlock>
   );
 };

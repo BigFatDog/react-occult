@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { XYFrame, Scatter, XAxis, YAxis } from 'occult';
+import { Paper, Scatter, XAxis, YAxis } from 'occult';
 import brand from 'dan-api/dummy/brand';
 import { PapperBlock } from 'dan-components';
 import { withStyles } from '@material-ui/core/styles';
@@ -87,11 +87,11 @@ const ScatterPage = props => {
         <meta property="twitter:description" content={description} />
       </Helmet>
       <PapperBlock title="Blank Page" desc="Some text description">
-        <XYFrame {...frameProps} className={classes.frame}>
+        <Paper {...frameProps} className={classes.frame}>
           <XAxis label={'Price'} rotate={60} />
           <YAxis label={'Caret'} />
           <Scatter {...scatterProps} />
-        </XYFrame>
+        </Paper>
       </PapperBlock>
     </div>
   );

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { XYFrame, Line, XAxis, YAxis, Contour, Hexbin, Heatmap } from 'occult';
+import { Paper, Line, XAxis, YAxis, Contour, Hexbin, Heatmap } from 'occult';
 import brand from 'dan-api/dummy/brand';
 import { PapperBlock } from 'dan-components';
 import { TData } from '../LineChartPage/TData';
@@ -79,11 +79,11 @@ const BumplinePage = props => {
         <meta property="twitter:description" content={description} />
       </Helmet>
       <PapperBlock title="Blank Page" desc="Some text description">
-        <XYFrame {...frameProps}>
+        <Paper {...frameProps}>
           <XAxis label={'Year'} />
           <YAxis label={'Name'} />
           <Line {...lineProps} />
-        </XYFrame>
+        </Paper>
       </PapperBlock>
     </div>
   );

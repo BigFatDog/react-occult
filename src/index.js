@@ -1,4 +1,4 @@
-import XYFrame from './frame/XYFrame';
+import Paper from './paper/Paper';
 import Line from './plots/Line';
 import Scatter from './plots/Scatter';
 import Contour from './plots/Contour';
@@ -7,14 +7,18 @@ import Heatmap from './plots/Heatmap';
 import XAxis from './axis/XAxis';
 import YAxis from './axis/YAxis';
 import Trendline from './plots/Trendline';
-import Bar from './plots/Bar';
-import OFrame from './frame/test/OFrame';
-import NetworkFrame from './frame/Ntest/NetworkFrame';
+import NetworkFrame from './paper/network/NetworkFrame';
 import Annotation from './plots/Annotation';
 
+import BarPercent from './plots/Ordinal/BarPercent';
+import Bar from './plots/Ordinal/Bar';
+import OrdinalPoint from './plots/Ordinal/OrdinalPoint';
+import Swarm from './plots/Ordinal/Swarm';
+import Timeline from './plots/Ordinal/Timeline';
+import ClusterBar from './plots/Ordinal/ClusterBar';
+
 export {
-  XYFrame,
-  OFrame,
+  Paper,
   Line,
   Scatter,
   Contour,
@@ -24,5 +28,11 @@ export {
   Heatmap,
   Trendline,
   Annotation,
-  NetworkFrame
+  NetworkFrame,
+  Bar,
+  OrdinalPoint,
+  ClusterBar,
+  Timeline,
+  Swarm,
+  BarPercent
 };

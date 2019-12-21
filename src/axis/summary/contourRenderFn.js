@@ -67,7 +67,7 @@ const contouring = ({ summaryType, data, finalXExtent, finalYExtent }) => {
   return projectedSummaries;
 };
 
-export const contourRenderFn = ({
+const contourRenderFn = ({
   data,
   type,
   renderMode,
@@ -132,3 +132,5 @@ export const contourRenderFn = ({
   });
   return { marks: renderedSummaryMarks, xyPoints: summaryXYCoords };
 };
+
+export default contourRenderFn;
