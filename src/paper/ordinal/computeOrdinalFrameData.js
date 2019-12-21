@@ -1150,12 +1150,9 @@ const computeOrdinalFrameData = props => {
     adjustedSize,
     axes: axis,
     axesTickLines,
-    plotChildren: [],
     overlay: columnOverlays,
     interactionOverflow
-  }
+  };
 };
-
-
 
 export default computeOrdinalFrameData;

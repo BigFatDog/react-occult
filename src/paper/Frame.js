@@ -8,7 +8,6 @@ import InteractionLayer from '../layers/InteractionLayer';
 
 import { generateFrameTitle, toMarginGraphic } from './utils';
 import { BaseProps, BaseDefaultProps } from './BaseProps';
-import toAxes from '../axis/toAxes';
 import HTMLTooltipAnnotation from '../plots/Annotation/widgets/HTMLTooltipAnnotation';
 import renderAnnotations from '../plots/Annotation/renderAnnotations';
 import AnnotationLayer from '../layers/AnnotationLayer';
@@ -177,8 +176,8 @@ const Frame = props => {
     : [];
 
   const accessors = plotChildren.map(d => ({
-    xAccessor: d.props.xAccessor,
-    yAccessor: d.props.yAccessor
+    xAccessor: d.props.xAccessor || d.props.oAccessor,
+    yAccessor: d.props.yAccessor || d.props.rAccessor
   }));
 
   const annotations = React.Children.toArray(children)

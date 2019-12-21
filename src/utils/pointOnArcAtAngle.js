@@ -5,6 +5,6 @@ const pointOnArcAtAngle = (center, angle, distance) => {
   const yPosition = center[1] + distance * Math.sin(radians);
 
   return [xPosition, yPosition];
-}
+};
 
-export default pointOnArcAtAngle
+export default pointOnArcAtAngle;

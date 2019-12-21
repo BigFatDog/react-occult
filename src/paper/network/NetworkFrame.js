@@ -1647,8 +1647,6 @@ const NetworkFrame = props => {
 
 NetworkFrame.propTypes = {
   ...BaseProps,
-  width: PropTypes.number,
-  height: PropTypes.number,
 
   nodeUseCanvas: PropTypes.bool,
   edgeUseCanvas: PropTypes.bool,
@@ -1666,10 +1664,6 @@ NetworkFrame.propTypes = {
 NetworkFrame.defaultProps = {
   ...BaseDefaultProps,
   annotations: [],
-  foregroundGraphics: [],
-  annotationSettings: {},
-  width: 500,
-  height: 500,
   networkType: { type: 'force', iterations: 500 },
   filterRenderedNodes: d => d.id !== 'root-generated'
 };

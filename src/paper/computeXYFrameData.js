@@ -102,7 +102,6 @@ const computeXYFrameData = props => {
     screenCoordinates,
     axes,
     axesTickLines,
-    plotChildren,
     canvasPipeline,
     svgPipeline,
     xyPoints,

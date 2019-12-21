@@ -33,7 +33,6 @@ const isOrdinal = type =>
 
 const Paper = props => {
   const { children } = props;
-  console.log(children);
   const axesDefs = React.Children.toArray(children)
     .filter(d => isAxis(d.type))
     .map(d => Object.assign({}, d.props));
@@ -45,26 +44,30 @@ const Paper = props => {
   );
 
   let frameData = null;
+  let plotChildren = null;
   if (xyChildren.length > 0) {
     frameData = computeXYFrameData({
       ...props,
       axesDefs,
       plotChildren: xyChildren
     });
+    plotChildren = xyChildren;
   } else if (ordinalChildren.length > 0) {
-      if (ordinalChildren.length !== 1) {
-          console.error('Only 1 Orindal plot is allowed');
-      }
-      frameData = computeOrdinalFrameData({
-          ...props,
-          axesDefs,
-          plotChildren: ordinalChildren
-      });
+    if (ordinalChildren.length !== 1) {
+      console.error('Only 1 Orindal plot is allowed');
+    }
+    frameData = computeOrdinalFrameData({
+      ...props,
+      axesDefs,
+      plotChildren: ordinalChildren
+    });
+    plotChildren = ordinalChildren;
   }
 
   const frameProps = {
     ...props,
-    ...frameData
+    ...frameData,
+    plotChildren
   };
 
   return <Frame {...frameProps}>{children}</Frame>;
