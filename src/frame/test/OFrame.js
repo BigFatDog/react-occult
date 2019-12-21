@@ -1,7 +1,6 @@
 import React from 'react';
-import { scaleBand, scaleLinear, scaleOrdinal } from 'd3-scale';
+import { scaleLinear, scaleOrdinal } from 'd3-scale';
 import keyAndObjectifyBarData from './keyAndObjectifyBarData';
-import PropTypes from 'prop-types';
 import { getAdjustedPositionSize } from '../utils';
 import { extent, max, min, sum } from 'd3-array';
 import { nest } from 'd3-collection';
