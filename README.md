@@ -10,7 +10,7 @@ Stock chart with annotations
 Scatter Plot
 <img width="100%" alt="Scatter" src="img/scatter.png">
 NYC Hospital
-<img width="100%" alt="NYC Hospital" src="img/bar.png">
+<img width="100%" alt="NYC Hospital" src="img/nyc_hospital.png">
 Neighbourhood
 <img width="100%" alt="Neighbourhood" src="img/neighbourhood.png">
 Difference Chart
