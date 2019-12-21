@@ -32,7 +32,7 @@ const findPoints = (d, xScale, yScale) => {
     });
 };
 
-const SvgHighlight = ({ d, i, xScale, yScale, xyFrameRender, defined }) => {
+const SvgHighlight = ({ d, i, xScale, yScale, xyFrameRender }) => {
   const foundPoints = findPoints(d, xScale, yScale);
   const foundLines = lines.data
     .filter((p, q) => idAccessor(p, q) === dID)

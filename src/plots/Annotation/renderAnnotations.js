@@ -40,7 +40,6 @@ const TypeHash = {
 };
 
 const toAnnotations = (d, i, props) => {
-  console.log(d)
   let screenCoordinates = [];
   const { xScale, yScale, accessors } = props;
   const xAccessors = accessors.map(d => d.xAccessor);
