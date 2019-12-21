@@ -7,11 +7,11 @@ const BarPercent = props => {};
 BarPercent.layout = barLayout;
 
 BarPercent.Bar = {
-  ...Bar.propTypes,
+  ...Bar.propTypes
 };
 
 BarPercent.defaultProps = {
-  ...Bar.defaultProps,
+  ...Bar.defaultProps
 };
 
 export default BarPercent;

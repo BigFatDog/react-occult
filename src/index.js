@@ -1,4 +1,4 @@
-import Paper from './frame/Paper';
+import Paper from './paper/Paper';
 import Line from './plots/Line';
 import Scatter from './plots/Scatter';
 import Contour from './plots/Contour';
@@ -7,8 +7,7 @@ import Heatmap from './plots/Heatmap';
 import XAxis from './axis/XAxis';
 import YAxis from './axis/YAxis';
 import Trendline from './plots/Trendline';
-import OFrame from './frame/test/OFrame';
-import NetworkFrame from './frame/Ntest/NetworkFrame';
+import NetworkFrame from './paper/network/NetworkFrame';
 import Annotation from './plots/Annotation';
 
 import BarPercent from './plots/Ordinal/BarPercent';
@@ -20,7 +19,6 @@ import ClusterBar from './plots/Ordinal/ClusterBar';
 
 export {
   Paper,
-  OFrame,
   Line,
   Scatter,
   Contour,

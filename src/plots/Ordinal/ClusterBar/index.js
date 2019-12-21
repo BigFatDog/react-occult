@@ -7,11 +7,11 @@ const ClusterBar = props => {};
 ClusterBar.layout = clusterBarLayout;
 
 ClusterBar.propTypes = {
-  ...Bar.propTypes,
+  ...Bar.propTypes
 };
 
 ClusterBar.defaultProps = {
-  ...Bar.defaultProps,
+  ...Bar.defaultProps
 };
 
 export default ClusterBar;

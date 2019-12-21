@@ -2,6 +2,8 @@ import React from 'react';
 import { Mark } from 'semiotic-mark';
 import { quantile } from 'd3-array';
 
+import pointOnArcAtAngle from '../../utils/pointOnArcAtAngle';
+
 const emptyObjectReturnFn = () => ({});
 
 const boxplotRenderFn = ({

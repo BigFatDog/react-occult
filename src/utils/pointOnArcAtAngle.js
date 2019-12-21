@@ -1,4 +1,4 @@
-export function pointOnArcAtAngle(center, angle, distance) {
+const pointOnArcAtAngle = (center, angle, distance) => {
   const radians = Math.PI * (angle + 0.75) * 2;
 
   const xPosition = center[0] + distance * Math.cos(radians);
@@ -6,3 +6,5 @@ export function pointOnArcAtAngle(center, angle, distance) {
 
   return [xPosition, yPosition];
 }
+
+export default pointOnArcAtAngle

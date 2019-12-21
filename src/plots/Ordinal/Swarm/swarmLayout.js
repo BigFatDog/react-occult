@@ -1,6 +1,6 @@
 import { forceCollide, forceSimulation, forceX, forceY } from 'd3-force';
 import * as React from 'react';
-import { pointOnArcAtAngle } from '../../../frame/test/layout/util';
+import pointOnArcAtAngle from '../../../utils/pointOnArcAtAngle';
 
 const swarmLayout = ({
   iterations = 120,

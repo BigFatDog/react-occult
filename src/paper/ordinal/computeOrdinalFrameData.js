@@ -7,8 +7,7 @@ import { nest } from 'd3-collection';
 import { arc } from 'd3-shape';
 import calculateMargin from '../utils/calculateMargin';
 import { objectifyType, stringToArrayFn, stringToFn } from '../../utils';
-import { BaseProps, BaseDefaultProps } from '../BaseProps';
-import { pointOnArcAtAngle } from './layout';
+import pointOnArcAtAngle from '../../utils/pointOnArcAtAngle';
 
 import toPipeline from '../../pipeline/ordinal/toPipeline';
 
@@ -52,39 +51,21 @@ const naturalLanguageTypes = {
   timeline: { items: 'bar', chart: 'timeline' }
 };
 
-const OrdinalFrame = props => {
-  const { children } = props;
-
-  const ordinals = children.filter(d => OrdinalTypes.includes(d.type.name));
-  if (ordinals.length !== 1) {
-    console.error('Only 1 Orindal plot is allowed');
-  }
-
-  const singleOrdinalPlot = ordinals[0];
-
+const computeOrdinalFrameData = props => {
   const {
-    // common
     width,
     height,
     title: baseTitle,
-    className,
-    name,
-    matte,
     margin: baseMargin,
-    backgroundGraphics,
-    foregroundGraphics,
-    afterElements,
-    beforeElements,
-    canvasPostProcess,
-    useSpans,
-    additionalDefs,
-    // interaction
-    interaction,
     customClickBehavior,
     customHoverBehavior,
     customDoubleClickBehavior,
-    hoverAnnotation
+    hoverAnnotation,
+    axesDefs: baseAxis,
+    plotChildren
   } = props;
+
+  const singleOrdinalPlot = plotChildren[0];
 
   const {
     // ordinal plot
@@ -130,10 +111,6 @@ const OrdinalFrame = props => {
 
   let pieceType = singleOrdinalPlot.type.name.toLowerCase();
 
-  const baseAxis = React.Children.toArray(children)
-    .filter(d => isAxis(d.type.name))
-    .map(d => Object.assign({}, d.props));
-
   const _mappedMiddles = (oScale, middleMax, padding) => {
     const oScaleDomainValues = oScale.domain();
 
@@ -166,7 +143,7 @@ const OrdinalFrame = props => {
 
   const pieceIDAccessor = stringToFn(basePieceIDAccessor, () => '');
 
-  // OFrame variables
+  // Paper variables
 
   const summaryType = objectifyType(baseSummaryType);
   const oAccessor = stringToArrayFn(baseOAccessor, d => d.renderKey);
@@ -1162,26 +1139,7 @@ const OrdinalFrame = props => {
     }
   }
 
-  const { frameKey } = props;
-
-  const frameProps = {
-    name,
-    className,
-    frameKey,
-    useSpans,
-    matte,
-    width,
-    height,
-    margin,
-    title,
-    // render as it is
-    foregroundGraphics,
-    backgroundGraphics,
-    additionalDefs,
-    beforeElements,
-    afterElements,
-    canvasPostProcess,
-    // generated
+  return {
     frameXScale: null,
     frameYScale: null,
     canvasPipeline,
@@ -1193,33 +1151,11 @@ const OrdinalFrame = props => {
     axes: axis,
     axesTickLines,
     plotChildren: [],
-    // interaction
     overlay: columnOverlays,
-    tooltipContent: null,
-    interactionOverflow,
-    disableCanvasInteraction: false,
-    hoverAnnotation,
-    interaction,
-    customClickBehavior,
-    customHoverBehavior,
-    customDoubleClickBehavior,
-
-    //todo: delete
-    oLabels
-  };
-
-  return <Frame {...frameProps}>{children}</Frame>;
+    interactionOverflow
+  }
 };
 
-OrdinalFrame.displayName = 'OrdinalFrame';
 
-OrdinalFrame.propTypes = {
-  ...BaseProps
-};
 
-OrdinalFrame.defaultProps = {
-  ...BaseDefaultProps,
-  optimizeCustomTooltipPosition: false
-};
-
-export default OrdinalFrame;
+export default computeOrdinalFrameData;

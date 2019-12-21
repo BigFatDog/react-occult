@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 import React from 'react';
-import { XAxis, YAxis, OFrame, Bar, Annotation, OrdinalPoint } from 'occult';
+import { XAxis, YAxis, Paper, Bar, Annotation, OrdinalPoint } from 'occult';
 import { PapperBlock } from 'dan-components';
 import { withStyles } from '@material-ui/core/styles';
 import { HospitalFacilities } from './Data';
@@ -161,12 +161,12 @@ const BarPage = props => {
   const { classes } = props;
   return (
     <PapperBlock>
-      <OFrame {...FrameProps} className={classes.frame}>
+      <Paper {...FrameProps} className={classes.frame}>
         <YAxis {...yAxisProps} />
         {/*<YAxis {...axisRightProps}/>*/}
         <XAxis />
         <OrdinalPoint {...BarProps} />
-      </OFrame>
+      </Paper>
     </PapperBlock>
   );
 };

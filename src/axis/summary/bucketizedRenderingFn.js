@@ -4,6 +4,7 @@ import { histogram, max } from 'd3-array';
 import { area, line, curveCatmullRom, arc } from 'd3-shape';
 import { createSummaryAxis } from './createSummaryAxis';
 import { curveHash } from '../../pipeline/toRenderedLines';
+import pointOnArcAtAngle from '../../utils/pointOnArcAtAngle';
 const emptyObjectReturnFn = () => ({});
 const verticalXYSorting = (a, b) => a.xy.y - b.xy.y;
 const horizontalXYSorting = (a, b) => b.xy.x - a.xy.x;

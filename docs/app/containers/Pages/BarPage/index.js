@@ -3,7 +3,7 @@ import React from 'react';
 import {
   XAxis,
   YAxis,
-  OFrame,
+  Paper,
   Annotation,
   OrdinalPoint,
   BarPercent
@@ -148,13 +148,13 @@ const BarPage = props => {
   const { classes } = props;
   return (
     <PapperBlock>
-      <OFrame {...FrameProps} className={classes.frame}>
+      <Paper {...FrameProps} className={classes.frame}>
         <YAxis {...axisLeftProps} />
         <YAxis {...axisRightProps} />
         {/*<Annotation {...highlight}/>*/}
         {/*<Annotation {...h2} />*/}
         <OrdinalPoint {...BarProps} />
-      </OFrame>
+      </Paper>
     </PapperBlock>
   );
 };

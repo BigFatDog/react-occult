@@ -1,7 +1,7 @@
 import { scaleLinear } from 'd3-scale';
 import { arc } from 'd3-shape';
-import arcTweener from '../../frame/test/arcTweener';
-import { pointOnArcAtAngle } from '../../frame/test/layout/util';
+import arcTweener from '../../utils/arcTweener';
+import pointOnArcAtAngle from '../../utils/pointOnArcAtAngle';
 
 const twoPI = Math.PI * 2;
 const radialBarFeatureGenerator = ({

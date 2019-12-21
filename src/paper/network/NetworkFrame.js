@@ -54,7 +54,7 @@ import circularAreaLink from './layout/circularAreaLink';
 import radialLabelGenerator from './layout/radialLabelGenerator';
 import dagreEdgeGenerator from './layout/dagreEdgeGenerator';
 import softStack from './layout/softStack';
-
+import pointOnArcAtAngle from '../../utils/pointOnArcAtAngle';
 import stringToFn from '../../utils/stringToFn';
 import { getAdjustedPositionSize, toMarginGraphic } from '../utils';
 import { nodesEdgesFromHierarchy } from './nodesEdgesFromHierarchy';
