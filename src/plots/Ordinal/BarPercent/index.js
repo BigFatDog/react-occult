@@ -3,24 +3,21 @@ import PropTypes from 'prop-types';
 import OrdinalPlot from '../OrdinalPlot';
 import barLayout from './barLayout';
 
-const Bar = props => {};
+const BarPercent = props => {};
 
-Bar.layout = barLayout;
+BarPercent.layout = barLayout;
 
-Bar.propTypes = {
+BarPercent.propTypes = {
   ...OrdinalPlot.propTypes,
   icon: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   iconPadding: PropTypes.number,
-  resize: PropTypes.oneOf(['fixed', 'auto']),
-  innerRadius: PropTypes.number,
-  offsetAngle: PropTypes.number,
-  angleRange: PropTypes.array
+  resize: PropTypes.oneOf(['fixed', 'auto'])
 };
 
-Bar.defaultProps = {
+BarPercent.defaultProps = {
   ...OrdinalPlot.defaultProps,
   iconPadding: 1,
   resize: 'auto'
 };
 
-export default Bar;
+export default BarPercent;

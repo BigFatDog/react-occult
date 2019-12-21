@@ -5,14 +5,16 @@ import { pointOnArcAtAngle } from '../../frame/test/layout/util';
 
 const twoPI = Math.PI * 2;
 const radialBarFeatureGenerator = ({
-  type,
+  innerRadius,
+  offsetAngle = 0,
+  angleRange = [0, 360],
   ordset,
+  isClusterBar = false,
+  isTimeline = false,
   adjustedSize,
   piece,
   i
 }) => {
-  let { innerRadius } = type;
-  const { offsetAngle = 0, angleRange = [0, 360] } = type;
   const offsetPct = offsetAngle / 360;
   const rangePct = angleRange.map(d => d / 360);
   const rangeMod = rangePct[1] - rangePct[0];
@@ -24,18 +26,16 @@ const radialBarFeatureGenerator = ({
           .range(rangePct)
       : d => d;
 
-  let innerSize =
-    type.type === 'clusterbar'
-      ? 0
-      : type.type === 'timeline'
-      ? piece.scaledValue / 2
-      : piece.bottom / 2;
-  let outerSize =
-    type.type === 'clusterbar'
-      ? piece.scaledValue / 2
-      : type.type === 'timeline'
-      ? piece.scaledEndValue / 2
-      : piece.scaledValue / 2 + piece.bottom / 2;
+  let innerSize = isClusterBar
+    ? 0
+    : isTimeline
+    ? piece.scaledValue / 2
+    : piece.bottom / 2;
+  let outerSize = isClusterBar
+    ? piece.scaledValue / 2
+    : isTimeline
+    ? piece.scaledEndValue / 2
+    : piece.scaledValue / 2 + piece.bottom / 2;
 
   if (innerRadius) {
     innerRadius = parseInt(innerRadius, 10);
@@ -50,12 +50,12 @@ const radialBarFeatureGenerator = ({
     .outerRadius(outerSize);
 
   const angle =
-    (type.type === 'clusterbar'
+    (isClusterBar
       ? (ordset.pct - ordset.pct_padding) / ordset.pieceData.length
       : ordset.pct) * rangeMod;
 
   const startAngle = adjustedPct(
-    type.type === 'clusterbar'
+    isClusterBar
       ? ordset.pct_start +
           (i / ordset.pieceData.length) * (ordset.pct - ordset.pct_padding)
       : ordset.pct === 1
@@ -124,5 +124,19 @@ const radialBarFeatureGenerator = ({
     }
   };
 };
+
+const clusterRadialBarFeatureGenerator = props =>
+  radialBarFeatureGenerator({
+    ...props,
+    isClusterBar: true
+  });
+
+const timelineRadialBarFeatureGenerator = props =>
+  radialBarFeatureGenerator({
+    ...props,
+    isTimeline: true
+  });
+
+export { clusterRadialBarFeatureGenerator, timelineRadialBarFeatureGenerator };
 
 export default radialBarFeatureGenerator;

@@ -19,14 +19,17 @@ const toPipeline = ({
   ariaLabel,
   axis,
   baseMarkProps,
-  renderKeyFn
+  renderKeyFn,
+
+  isOrdinalPoint,
+    shouldRender = true,
 }) => {
   const {
     svgPipeline: pieceSvg,
     canvasPipeline: pieceCanvas
   } = toLaidOutPieces({
     data: pieceData,
-    shouldRender: pieceType.type && pieceType.type !== 'none',
+    shouldRender,
     useCanvas: pieceUseCanvas,
     styleFn: pieceStyle,
     classFn: pieceClass,
@@ -41,7 +44,7 @@ const toPipeline = ({
     canvasPipeline: connectorCanvas
   } = toConnectors({
     type: connectorType,
-    pieceType,
+    isOrdinalPoint,
     data: connectorData,
     useCanvas: connectorUseCanvas,
     styleFn: connectorStyle,

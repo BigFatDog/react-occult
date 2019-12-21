@@ -3,25 +3,21 @@ import PropTypes from 'prop-types';
 import OrdinalPlot from '../OrdinalPlot';
 import swarmLayout from './swarmLayout';
 
-const Swarm = props => {
-
-
-};
+const Swarm = props => {};
 
 Swarm.layout = swarmLayout;
 
-
 Swarm.propTypes = {
-    ...OrdinalPlot.propTypes,
-    r: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
-    iterations: PropTypes.number,
-    strength: PropTypes.number,
+  ...OrdinalPlot.propTypes,
+  r: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
+  iterations: PropTypes.number,
+  strength: PropTypes.number
 };
 
 Swarm.defaultProps = {
-    ...OrdinalPlot.defaultProps,
-    iterations: 120,
-    strength: 2
+  ...OrdinalPlot.defaultProps,
+  iterations: 120,
+  strength: 2
 };
 
 export default Swarm;

@@ -3,7 +3,10 @@ import * as React from 'react';
 import { pointOnArcAtAngle } from '../../../frame/test/layout/util';
 
 const swarmLayout = ({
-  type,
+  iterations = 120,
+  r,
+  strength,
+  customMark,
   data,
   renderMode,
   eventListenersGenerator,
@@ -17,7 +20,6 @@ const swarmLayout = ({
   rScale
 }) => {
   let allCalculatedPieces = [];
-  const iterations = type.iterations || 120;
 
   const columnKeys = Object.keys(data);
 
@@ -28,11 +30,10 @@ const swarmLayout = ({
     const adjustedColumnWidth = oColumn.width;
 
     const circleRadius =
-      type.r ||
-      Math.max(2, Math.min(5, (4 * adjustedColumnWidth) / oData.length));
+      r || Math.max(2, Math.min(5, (4 * adjustedColumnWidth) / oData.length));
 
     const simulation = forceSimulation(oData)
-      .force('y', forceY(d => d.scaledValue).strength(type.strength || 2))
+      .force('y', forceY(d => d.scaledValue).strength(strength || 2))
       .force('x', forceX(oColumn.middle))
       .force('collide', forceCollide(circleRadius))
       .stop();
@@ -40,7 +41,7 @@ const swarmLayout = ({
     if (projection === 'vertical') {
       simulation.force(
         'y',
-        forceY(d => d.scaledVerticalValue).strength(type.strength || 2)
+        forceY(d => d.scaledVerticalValue).strength(strength || 2)
       );
     }
 
@@ -77,12 +78,12 @@ const swarmLayout = ({
 
       const eventListeners = eventListenersGenerator(piece, i);
 
-      const renderElementObject = type.customMark ? (
+      const renderElementObject = customMark ? (
         <g
           key={`piece-${piece.renderKey}`}
           transform={`translate(${xPosition},${yPosition})`}
         >
-          {type.customMark(
+          {customMark(
             { ...piece.data, ...piece, x: xPosition, y: yPosition },
             i,
             {

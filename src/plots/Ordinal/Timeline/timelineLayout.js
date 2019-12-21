@@ -1,7 +1,10 @@
 import * as React from 'react';
-import radialBarFeatureGenerator from '../radialBarFeatureGenerator';
+import { timelineRadialBarFeatureGenerator } from '../radialBarFeatureGenerator';
 const timelineLayout = ({
-  type,
+  customMark,
+  innerRadius,
+  offsetAngle,
+  angleRange,
   data,
   renderMode,
   eventListenersGenerator,
@@ -47,9 +50,11 @@ const timelineLayout = ({
           y: yPosition
         };
       } else if (projection === 'radial') {
-        ({ markProps } = radialBarFeatureGenerator({
+        ({ markProps } = timelineRadialBarFeatureGenerator({
+          innerRadius,
+          offsetAngle,
+          angleRange,
           piece,
-          type,
           ordset,
           adjustedSize,
           i
@@ -65,12 +70,12 @@ const timelineLayout = ({
         height
       };
 
-      const renderElementObject = type.customMark ? (
+      const renderElementObject = customMark ? (
         <g
           key={`piece-${piece.renderKey}`}
           transform={`translate(${xPosition},${yPosition + height})`}
         >
-          {type.customMark(
+          {customMark(
             { ...piece.data, ...piece, x: xPosition, y: yPosition },
             i,
             {

@@ -7,6 +7,7 @@ const OrdinalPlot = props => {
 };
 
 OrdinalPlot.propTypes = {
+  customMark: PropTypes.func,
   data: PropTypes.array,
   // common
   columns: PropTypes.object,
@@ -40,7 +41,11 @@ OrdinalPlot.propTypes = {
     PropTypes.func
   ]),
   renderOrder: PropTypes.array,
-  renderKey: PropTypes.oneOfType([PropTypes.object, PropTypes.string, PropTypes.func]),
+  renderKey: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.string,
+    PropTypes.func
+  ]),
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   pieceClass: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
   pieceRenderMode: PropTypes.oneOfType([

@@ -26,7 +26,7 @@ const toConnectors = ({
   projection,
   useCanvas,
   baseMarkProps,
-  pieceType
+    isOrdinalPoint = false,
 }) => {
   const svgPipeline = [];
   const canvasPipeline = [];
@@ -73,7 +73,7 @@ const toConnectors = ({
           ) {
             const matchingPiece = nextColumn[matchingPieceIndex];
             let markD;
-            if (projection === 'radial' && pieceType.type === 'point') {
+            if (projection === 'radial' && isOrdinalPoint === true) {
               if (!radarHash.get(piece)) {
                 radarHash.set(piece, [piece]);
               }

@@ -2,7 +2,8 @@ import * as React from 'react';
 import { pointOnArcAtAngle } from '../../../frame/test/layout/util';
 
 const pointLayout = ({
-  type,
+  r,
+  customMark,
   data,
   renderMode,
   eventListenersGenerator,
@@ -15,7 +16,7 @@ const pointLayout = ({
   baseMarkProps,
   rScale
 }) => {
-  const circleRadius = type.r || 3;
+  const circleRadius = r || 3;
   let allCalculatedPieces = [];
   const keys = Object.keys(data);
   keys.forEach((key, ordsetI) => {
@@ -52,12 +53,12 @@ const pointLayout = ({
           : circleRadius;
       const eventListeners = eventListenersGenerator(piece, i);
 
-      const renderElementObject = type.customMark ? (
+      const renderElementObject = customMark ? (
         <g
           key={`piece-${piece.renderKey}`}
           transform={`translate(${xPosition},${yPosition})`}
         >
-          {type.customMark(
+          {customMark(
             { ...piece.data, ...piece, x: xPosition, y: yPosition },
             i,
             {

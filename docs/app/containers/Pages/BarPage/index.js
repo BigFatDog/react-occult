@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 import React from 'react';
-import { XAxis, YAxis, OFrame, Bar, Annotation, OrdinalPoint } from 'occult';
+import { XAxis, YAxis, OFrame, Annotation, OrdinalPoint } from 'occult';
 import { PapperBlock } from 'dan-components';
 import { withStyles } from '@material-ui/core/styles';
 import { HospitalFacilities } from './Data';
@@ -9,20 +9,20 @@ const axisLeftProps = {
   orient: 'left',
   baseline: false,
   tickLineGenerator: ({ xy }) => (
-      <path
-          style={{
-            fill: '#efefef',
-            stroke: '#ccc',
-            opacity: 0.3,
-            strokeDasharray: '4 4'
-          }}
-          d={`M${xy.x1},${xy.y1 - 5}L${xy.x2},${xy.y1 - 5}`}
-      />
+    <path
+      style={{
+        fill: '#efefef',
+        stroke: '#ccc',
+        opacity: 0.3,
+        strokeDasharray: '4 4'
+      }}
+      d={`M${xy.x1},${xy.y1 - 5}L${xy.x2},${xy.y1 - 5}`}
+    />
   ),
   label: (
-      <text textAnchor={'middle'} fontWeight="bold" fill={'#E5BDF6'}>
-        Community Board
-      </text>
+    <text textAnchor={'middle'} fontWeight="bold" fill={'#E5BDF6'}>
+      Community Board
+    </text>
   ),
   jaggedBase: true
 };
@@ -34,11 +34,11 @@ const axisRightProps = {
 
   ticks: 6,
   label: (
-      <text textAnchor={'middle'} fontWeight="bold" fill={'#45B649'} dy={-30}>
-        Council District
-      </text>
+    <text textAnchor={'middle'} fontWeight="bold" fill={'#45B649'} dy={-30}>
+      Council District
+    </text>
   )
-}
+};
 
 const highlight = {
   type: 'highlight',
@@ -55,48 +55,42 @@ const BarProps = {
     opacity: 0.7
   },
   baseMarkProps: { transitionDuration: { default: 500, fill: 2500 } },
-  type: {
-    type: 'point',
-    customMark: d => {
-      if (d.rIndex === 1) {
-        return (
-            <circle
-                r={3}
-                stroke={'#DCE35B'}
-                opacity={1}
-                fill={'#45B649'}
-                strokeWidth={1}
-            />
-        );
-      }
+  customMark: d => {
+    if (d.rIndex === 1) {
       return (
-          <rect
-              height={d.scaledValue}
-              width={10}
-              x={-5}
-              fill={'#E5BDF6'}
-              opacity={0.7}
-          />
+        <circle
+          r={3}
+          stroke={'#DCE35B'}
+          opacity={1}
+          fill={'#45B649'}
+          strokeWidth={1}
+        />
       );
     }
+    return (
+      <rect
+        height={d.scaledValue}
+        width={10}
+        x={-5}
+        fill={'#E5BDF6'}
+        opacity={0.7}
+      />
+    );
   },
   pieceHoverAnnotation: true,
-  // type: 'bar',
   oPadding: 2,
   connectorType: function(e) {
     return 0 !== e.rIndex && e.rIndex;
   },
   connectorStyle: { stroke: '#DCE35B', strokeWidth: 2, opacity: 0.3 },
   multiAxis: true,
-  // summaryType: { type: "ridgeline", bins: 10, amplitude: 50, curve: "monotonex" },
   renderOrder: ['pieces', 'connectors'],
   oAccessor: 'Facility Name',
   rAccessor: ['Community Board', 'Census Tract'],
 
   projection: 'vertical',
-  oLabel: false,
+  oLabel: false
   // oLabel: d => (<text fontSize={12} transform={'rotate(60)'}>{d}</text>),
-
 };
 const FrameProps = {
   width: 1000,
@@ -104,18 +98,18 @@ const FrameProps = {
   margin: { top: 50, right: 105, left: 80, bottom: 40 },
   hoverAnnotation: false,
   title: (
-      <text textAnchor="middle">
-        NYC Hospital Facilities <tspan fill={'#E5BDF6'}>Community Board</tspan>
-        vs <tspan fill={'#45B649'}>Council District</tspan>
-      </text>
+    <text textAnchor="middle">
+      NYC Hospital Facilities <tspan fill={'#E5BDF6'}>Community Board</tspan>
+      vs <tspan fill={'#45B649'}>Council District</tspan>
+    </text>
   ),
   additionalDefs: [
     <pattern
-        key="triangle"
-        id="triangle"
-        width="10"
-        height="10"
-        patternUnits="userSpaceOnUse"
+      key="triangle"
+      id="triangle"
+      width="10"
+      height="10"
+      patternUnits="userSpaceOnUse"
     >
       <rect fill={'#9fd0cb'} width="10" height="10" />
       <circle fill={'#7566ff'} r="5" cx="3" cy="3" />
@@ -124,7 +118,7 @@ const FrameProps = {
       <stop stopColor={'#D7E1EC'} offset="0%" />
       <stop stopColor={'#FFFFFF'} offset="100%" />
     </linearGradient>
-  ],
+  ]
 };
 
 const h2 = {
@@ -146,15 +140,15 @@ const styles = {
 const BarPage = props => {
   const { classes } = props;
   return (
-      <PapperBlock>
-        <OFrame {...FrameProps} className={classes.frame} >
-          <YAxis {...axisLeftProps}/>
-          <YAxis {...axisRightProps}/>
-          {/*<Annotation {...highlight}/>*/}
-          {/*<Annotation {...h2} />*/}
-          <OrdinalPoint {...BarProps}/>
-        </OFrame>
-      </PapperBlock>
+    <PapperBlock>
+      <OFrame {...FrameProps} className={classes.frame}>
+        <YAxis {...axisLeftProps} />
+        <YAxis {...axisRightProps} />
+        {/*<Annotation {...highlight}/>*/}
+        {/*<Annotation {...h2} />*/}
+        <OrdinalPoint {...BarProps} />
+      </OFrame>
+    </PapperBlock>
   );
 };
 

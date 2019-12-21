@@ -1,8 +1,15 @@
 import * as React from 'react';
-import radialBarFeatureGenerator from '../radialBarFeatureGenerator';
+import { clusterRadialBarFeatureGenerator } from '../radialBarFeatureGenerator';
+
 const clusterBarLayout = ({
-  type,
+  icon,
+  iconPadding,
+  resize,
   data,
+  customMark: userMark,
+  innerRadius,
+  offsetAngle,
+  angleRange,
   renderMode,
   eventListenersGenerator,
   styleFn,
@@ -14,6 +21,7 @@ const clusterBarLayout = ({
   baseMarkProps,
   rScale
 }) => {
+  let customMark = userMark;
   let allCalculatedPieces = [];
   const keys = Object.keys(data);
   keys.forEach((key, ordsetI) => {
@@ -54,8 +62,15 @@ const clusterBarLayout = ({
         markProps = {};
 
       if (projection === 'radial') {
-        ({ xPosition, yPosition, markProps, xy } = radialBarFeatureGenerator({
-          type,
+        ({
+          xPosition,
+          yPosition,
+          markProps,
+          xy
+        } = clusterRadialBarFeatureGenerator({
+          innerRadius,
+          offsetAngle,
+          angleRange,
           ordset,
           adjustedSize,
           piece,
@@ -86,9 +101,11 @@ const clusterBarLayout = ({
       xy.height = finalHeight;
       xy.width = finalWidth;
 
-      if (type.icon && projection !== 'radial') {
-        type.customMark = iconBarCustomMark({
-          type,
+      if (icon && projection !== 'radial') {
+        customMark = iconBarCustomMark({
+          icon,
+          iconPadding,
+          resize,
           projection,
           finalHeight,
           finalWidth,
@@ -96,17 +113,17 @@ const clusterBarLayout = ({
           renderValue,
           classFn
         });
-      } else if (type.icon && projection === 'radial') {
+      } else if (icon && projection === 'radial') {
         console.error('Icons are currently unsupported on radial charts');
       }
-      const renderElementObject = type.customMark ? (
+      const renderElementObject = customMark ? (
         <g
           key={`piece-${piece.renderKey}`}
           transform={
             translate ? translate : `translate(${xPosition},${yPosition})`
           }
         >
-          {type.customMark(
+          {customMark(
             { ...piece.data, ...piece, x: xPosition, y: yPosition },
             i,
             {

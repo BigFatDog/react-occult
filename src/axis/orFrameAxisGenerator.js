@@ -57,7 +57,7 @@ const orFrameAxisGenerator = ({
   size,
   rScale,
   rScaleType,
-  pieceType,
+  innerRadius,
   rExtent,
   data,
   maxColumnValues = 1,
@@ -170,8 +170,6 @@ const orFrameAxisGenerator = ({
       );
     });
   } else if (projection === 'radial' && axis) {
-    const { innerRadius = 0 } = pieceType;
-
     const ticks = [];
     axis.forEach(axisObj => {
       const {

@@ -9,10 +9,7 @@ import { arc } from 'd3-shape';
 import calculateMargin from '../utils/calculateMargin';
 import { objectifyType, stringToArrayFn, stringToFn } from '../../utils';
 import { BaseProps, BaseDefaultProps } from '../BaseProps';
-import {
-
-  pointOnArcAtAngle
-} from './layout';
+import { pointOnArcAtAngle } from './layout';
 
 import toPipeline from '../../pipeline/ordinal/toPipeline';
 
@@ -25,6 +22,21 @@ const midMod = d => (d.middle ? d.middle : 0);
 const zeroFunction = genericFunction(0);
 const twoPI = Math.PI * 2;
 const isAxis = type => ['XAxis', 'YAxis', 'Axis'].includes(type);
+import Frame from '../Frame';
+
+const defaultOverflow = { top: 0, bottom: 0, left: 0, right: 0 };
+
+const OrdinalTypes = ['Bar', 'ClusterBar', 'Timeline', 'Swarm', 'OrdinalPoint'];
+
+const TIMELINE = 'timeline';
+const CLUSTER_BAR = 'clusterbar';
+const BAR = 'bar';
+const NONE = 'none';
+const ORDINAL_POINT = 'ordinalpoint';
+const PROJECTION_VERTICAL= 'vertical';
+const PROJECTION_RADIAL = 'radial';
+const PROJECTION_HORIZONTAL = 'horizontal';
+
 const naturalLanguageTypes = {
   bar: { items: 'bar', chart: 'bar chart' },
   clusterbar: { items: 'bar', chart: 'grouped bar chart' },
@@ -33,18 +45,13 @@ const naturalLanguageTypes = {
   timeline: { items: 'bar', chart: 'timeline' }
 };
 
-import Frame from '../Frame';
-
-const defaultOverflow = { top: 0, bottom: 0, left: 0, right: 0 };
-
-const OrdinalTypes = ['Bar', 'ClusterBar', 'Timeline', 'Swarm', 'OrdinalPoint'];
 
 const OrdinalFrame = props => {
   const { children } = props;
 
   const ordinals = children.filter(d => OrdinalTypes.includes(d.type.name));
   if (ordinals.length !== 1) {
-    console.error('Only 1 Orindal plot is allowed')
+    console.error('Only 1 Orindal plot is allowed');
   }
 
   const singleOrdinalPlot = ordinals[0];
@@ -70,7 +77,7 @@ const OrdinalFrame = props => {
     customClickBehavior,
     customHoverBehavior,
     customDoubleClickBehavior,
-    hoverAnnotation,
+    hoverAnnotation
   } = props;
 
   const {
@@ -86,13 +93,11 @@ const OrdinalFrame = props => {
     multiAxis,
     renderMode,
     oPadding: padding = 0,
-    type: baseType,
     oAccessor: baseOAccessor,
     rAccessor: baseRAccessor,
     oExtent: baseOExtent,
     pieceIDAccessor: basePieceIDAccessor,
     pieceHoverAnnotation,
-
 
     baseMarkProps = {},
     style: baseStyle,
@@ -101,7 +106,6 @@ const OrdinalFrame = props => {
     oSort,
     pieceClass: basePieceClass,
     pieceUseCanvas,
-
 
     connectorStyle: baseConnectorStyle,
     connectorType: baseConnectorType,
@@ -115,13 +119,14 @@ const OrdinalFrame = props => {
     summaryRenderMode,
     summaryHoverAnnotation,
     summaryType: baseSummaryType,
-    summaryUseCanvas,
+    summaryUseCanvas
   } = singleOrdinalPlot.props;
 
+  let pieceType = singleOrdinalPlot.type.name.toLowerCase();
 
   const baseAxis = React.Children.toArray(children)
-      .filter(d => isAxis(d.type.name))
-      .map(d => Object.assign({}, d.props));
+    .filter(d => isAxis(d.type.name))
+    .map(d => Object.assign({}, d.props));
 
   const _mappedMiddles = (oScale, middleMax, padding) => {
     const oScaleDomainValues = oScale.domain();
@@ -130,8 +135,8 @@ const OrdinalFrame = props => {
     oScaleDomainValues.forEach((p, q) => {
       const base = oScale(p) - padding;
       const next = oScaleDomainValues[q + 1]
-          ? oScale(oScaleDomainValues[q + 1])
-          : middleMax;
+        ? oScale(oScaleDomainValues[q + 1])
+        : middleMax;
       const diff = (next - base) / 2;
       mappedMiddles[p] = base + diff;
     });
@@ -147,16 +152,16 @@ const OrdinalFrame = props => {
   const summaryClass = stringToFn(baseSummaryClass, () => '', true);
   const summaryPosition = baseSummaryPosition || (position => position);
   const title =
-      typeof baseTitle === 'object' &&
-      !React.isValidElement(baseTitle) &&
-      baseTitle !== null
-          ? baseTitle
-          : { title: baseTitle, orient: 'top' };
+    typeof baseTitle === 'object' &&
+    !React.isValidElement(baseTitle) &&
+    baseTitle !== null
+      ? baseTitle
+      : { title: baseTitle, orient: 'top' };
 
   const pieceIDAccessor = stringToFn(basePieceIDAccessor, () => '');
 
   // OFrame variables
-  const pieceType = objectifyType(baseType);
+
   const summaryType = objectifyType(baseSummaryType);
   const oAccessor = stringToArrayFn(baseOAccessor, d => d.renderKey);
   const rAccessor = stringToArrayFn(baseRAccessor, d => d.value || 1);
@@ -166,20 +171,18 @@ const OrdinalFrame = props => {
 
   let oLabels;
   const projectedColumns = {};
-
-  console.log('--------');
   // --------------- same as xy  - start
   const size = [width, height];
 
   // --------------- same as xy  - close
 
   const originalRAccessor = Array.isArray(baseRAccessor)
-      ? baseRAccessor
-      : [baseRAccessor];
+    ? baseRAccessor
+    : [baseRAccessor];
 
   const originalOAccessor = Array.isArray(baseOAccessor)
-      ? baseOAccessor
-      : [baseOAccessor];
+    ? baseOAccessor
+    : [baseOAccessor];
 
   const { allData, multiExtents } = keyAndObjectifyBarData({
     data,
@@ -195,15 +198,15 @@ const OrdinalFrame = props => {
 
   if (Array.isArray(baseAxis)) {
     arrayWrappedAxis = baseAxis.map(axisFnOrObject =>
-        typeof axisFnOrObject === 'function'
-            ? axisFnOrObject({ size })
-            : axisFnOrObject
+      typeof axisFnOrObject === 'function'
+        ? axisFnOrObject({ size })
+        : axisFnOrObject
     );
   } else if (baseAxis) {
     arrayWrappedAxis = [baseAxis].map(axisFnOrObject =>
-        typeof axisFnOrObject === 'function'
-            ? axisFnOrObject({ size })
-            : axisFnOrObject
+      typeof axisFnOrObject === 'function'
+        ? axisFnOrObject({ size })
+        : axisFnOrObject
     );
   }
 
@@ -228,9 +231,9 @@ const OrdinalFrame = props => {
   });
 
   const oExtentSettings =
-      baseOExtent === undefined || Array.isArray(baseOExtent)
-          ? { extent: baseOExtent }
-          : baseOExtent;
+    baseOExtent === undefined || Array.isArray(baseOExtent)
+      ? { extent: baseOExtent }
+      : baseOExtent;
 
   const calculatedOExtent = allData.reduce((p, c) => {
     const baseOValue = c.column;
@@ -244,47 +247,47 @@ const OrdinalFrame = props => {
 
   let oExtent = oExtentSettings.extent || calculatedOExtent;
 
-  if (pieceType.type === 'barpercent') {
+  if (pieceType === 'barpercent') {
     const oExtentSums = oExtent
-        .map(d =>
-            allData
-                .filter(p => String(p.column) === d)
-                .reduce((p, c) => p + c.value, 0)
-        )
-        .reduce((p, c, i) => {
-          p[oExtent[i]] = c;
-          return p;
-        }, {});
+      .map(d =>
+        allData
+          .filter(p => String(p.column) === d)
+          .reduce((p, c) => p + c.value, 0)
+      )
+      .reduce((p, c, i) => {
+        p[oExtent[i]] = c;
+        return p;
+      }, {});
 
     allData.forEach(d => {
       d.value = (oExtentSums[d.column] && d.value / oExtentSums[d.column]) || 0;
     });
 
-    pieceType.type = 'bar';
+    pieceType = BAR;
   }
 
   if (pixelColumnWidth) {
-    if (projection === 'radial') {
+    if (projection === PROJECTION_RADIAL) {
       console.error('pixelColumnWidth is not honored in radial mode');
-    } else if (projection === 'vertical') {
+    } else if (projection === PROJECTION_VERTICAL) {
       adjustedSize[0] = oExtent.length * pixelColumnWidth;
     } else {
       adjustedSize[1] = oExtent.length * pixelColumnWidth;
     }
   }
 
-  const oDomain = (projection === 'vertical' && [0, adjustedSize[0]]) || [
+  const oDomain = (projection === PROJECTION_VERTICAL && [0, adjustedSize[0]]) || [
     0,
     adjustedSize[1]
   ];
 
   const cwHash = oExtent.reduce(
-      (p, c) => {
-        p[c] = (1 / oExtent.length) * oDomain[1];
-        p.total += p[c];
-        return p;
-      },
-      { total: 0 }
+    (p, c) => {
+      p[c] = (1 / oExtent.length) * oDomain[1];
+      p.total += p[c];
+      return p;
+    },
+    { total: 0 }
   );
 
   const castOScaleType = oScaleType;
@@ -330,19 +333,15 @@ const OrdinalFrame = props => {
   }
 
   const rExtentSettings =
-      baseRExtent === undefined || Array.isArray(baseRExtent)
-          ? { extent: baseRExtent, onChange: undefined, includeAnnotations: false }
-          : baseRExtent;
+    baseRExtent === undefined || Array.isArray(baseRExtent)
+      ? { extent: baseRExtent, onChange: undefined, includeAnnotations: false }
+      : baseRExtent;
 
   let rExtent = rExtentSettings.extent;
   let subZeroRExtent = [0, 0];
 
-  if (
-      pieceType.type === 'bar' &&
-      summaryType.type &&
-      summaryType.type !== 'none'
-  ) {
-    pieceType.type = 'none';
+  if (pieceType === BAR && summaryType.type && summaryType.type !== NONE) {
+    pieceType = NONE;
   }
 
   const annotationsForExtent = [];
@@ -359,39 +358,39 @@ const OrdinalFrame = props => {
     });
   }
 
-  if (pieceType.type === 'timeline') {
+  if (pieceType === TIMELINE) {
     const rData = allData.map(d => d.value);
     const leftExtent = extent(rData.map(d => d[0]));
     const rightExtent = extent(rData.map(d => d[1]));
     rExtent = extent([...leftExtent, ...rightExtent, ...annotationsForExtent]);
-  } else if (pieceType.type !== 'bar') {
+  } else if (pieceType !== BAR) {
     rExtent = extent([...allData.map(d => d.value), ...annotationsForExtent]);
   } else {
     const positiveData = allData.filter(d => d.value >= 0);
     const negativeData = allData.filter(d => d.value < 0);
 
     const nestedPositiveData = nest()
-        .key(d => d.column)
-        .rollup(leaves => sum(leaves.map(d => d.value)))
-        .entries(positiveData);
+      .key(d => d.column)
+      .rollup(leaves => sum(leaves.map(d => d.value)))
+      .entries(positiveData);
 
     const nestedNegativeData = nest()
-        .key(d => d.column)
-        .rollup(leaves => sum(leaves.map(d => d.value)))
-        .entries(negativeData);
+      .key(d => d.column)
+      .rollup(leaves => sum(leaves.map(d => d.value)))
+      .entries(negativeData);
 
     const positiveAnnotations = annotationsForExtent.filter(d => d > 0);
 
     rExtent = [
       0,
       nestedPositiveData.length === 0 && positiveAnnotations.length === 0
-          ? 0
-          : Math.max(
-          max([
-            ...nestedPositiveData.map(d => d.value),
-            ...positiveAnnotations
-          ]),
-          0
+        ? 0
+        : Math.max(
+            max([
+              ...nestedPositiveData.map(d => d.value),
+              ...positiveAnnotations
+            ]),
+            0
           )
     ];
 
@@ -400,78 +399,78 @@ const OrdinalFrame = props => {
     subZeroRExtent = [
       0,
       nestedNegativeData.length === 0
-          ? 0
-          : Math.min(
-          min([
-            ...nestedNegativeData.map(d => d.value),
-            ...negativeAnnotations
-          ]),
-          0
+        ? 0
+        : Math.min(
+            min([
+              ...nestedNegativeData.map(d => d.value),
+              ...negativeAnnotations
+            ]),
+            0
           )
     ];
     rExtent = [subZeroRExtent[1], rExtent[1]];
   }
 
-  if ((pieceType.type === 'clusterbar' || multiAxis) && rExtent[0] > 0) {
+  if ((pieceType === CLUSTER_BAR || multiAxis) && rExtent[0] > 0) {
     rExtent[0] = 0;
   }
 
   const calculatedRExtent = rExtent;
 
   if (
-      rExtentSettings.extent &&
-      rExtentSettings.extent[0] !== undefined &&
-      rExtentSettings.extent[1] !== undefined
+    rExtentSettings.extent &&
+    rExtentSettings.extent[0] !== undefined &&
+    rExtentSettings.extent[1] !== undefined
   ) {
     rExtent = rExtentSettings.extent;
   } else {
     if (
-        rExtentSettings.extent &&
-        rExtentSettings.extent[1] !== undefined &&
-        rExtentSettings.extent[0] === undefined
+      rExtentSettings.extent &&
+      rExtentSettings.extent[1] !== undefined &&
+      rExtentSettings.extent[0] === undefined
     ) {
       rExtent[1] = rExtentSettings.extent[1];
     }
 
     if (
-        rExtentSettings.extent &&
-        rExtentSettings.extent[0] !== undefined &&
-        rExtentSettings.extent[1] === undefined
+      rExtentSettings.extent &&
+      rExtentSettings.extent[0] !== undefined &&
+      rExtentSettings.extent[1] === undefined
     ) {
       rExtent[0] = rExtentSettings.extent[0];
     }
   }
 
   if (
-      props.invertR ||
-      (rExtentSettings.extent &&
-          rExtentSettings.extent[0] > rExtentSettings.extent[1])
+    props.invertR ||
+    (rExtentSettings.extent &&
+      rExtentSettings.extent[0] > rExtentSettings.extent[1])
   ) {
     rExtent = [rExtent[1], rExtent[0]];
   }
 
   const nestedPieces = {};
   nest()
-      .key(d => d.column)
-      .entries(allData)
-      .forEach(d => {
-        nestedPieces[d.key] = d.values;
-      });
+    .key(d => d.column)
+    .entries(allData)
+    .forEach(d => {
+      nestedPieces[d.key] = d.values;
+    });
 
   if (oSort !== undefined) {
     oExtent = oExtent.sort((a, b) =>
-        oSort(
-            a,
-            b,
-            nestedPieces[a].map(d => d.data),
-            nestedPieces[b].map(d => d.data)
-        )
+      oSort(
+        a,
+        b,
+        nestedPieces[a].map(d => d.data),
+        nestedPieces[b].map(d => d.data)
+      )
     );
 
     oScale.domain(oExtent);
   }
 
-  const rDomain = (projection === 'vertical' && [0, adjustedSize[1]]) || [
+  const rDomain = (projection === PROJECTION_VERTICAL && [0, adjustedSize[1]]) || [
     0,
     adjustedSize[0]
   ];
@@ -479,30 +478,30 @@ const OrdinalFrame = props => {
   const castRScaleType = rScaleType;
 
   const instantiatedRScaleType = rScaleType.domain
-      ? rScaleType
-      : castRScaleType();
+    ? rScaleType
+    : castRScaleType();
 
   const rScale = instantiatedRScaleType
-      .copy()
-      .domain(rExtent)
-      .range(rDomain);
+    .copy()
+    .domain(rExtent)
+    .range(rDomain);
 
   const rScaleReverse = instantiatedRScaleType
-      .copy()
-      .domain(rDomain)
-      .range(rDomain.reverse());
+    .copy()
+    .domain(rDomain)
+    .range(rDomain.reverse());
 
   const rScaleVertical = instantiatedRScaleType
-      .copy()
-      .domain(rExtent)
-      .range(rDomain);
+    .copy()
+    .domain(rExtent)
+    .range(rDomain);
 
   const columnWidth = cwHash ? 0 : oScale.bandwidth();
 
   let pieceData = [];
 
   let mappedMiddleSize = adjustedSize[1];
-  if (projection === 'vertical') {
+  if (projection === PROJECTION_VERTICAL) {
     mappedMiddleSize = adjustedSize[0];
   }
   const mappedMiddles = _mappedMiddles(oScale, mappedMiddleSize, padding);
@@ -510,7 +509,7 @@ const OrdinalFrame = props => {
   pieceData = oExtent.map(d => (nestedPieces[d] ? nestedPieces[d] : []));
 
   const zeroValue =
-      projection === 'vertical' ? rScaleReverse(rScale(0)) : rScale(0);
+    projection === PROJECTION_VERTICAL ? rScaleReverse(rScale(0)) : rScale(0);
 
   oExtent.forEach((o, i) => {
     projectedColumns[o] = {
@@ -532,56 +531,56 @@ const OrdinalFrame = props => {
     projectedColumns[o].pieceData.forEach(piece => {
       let valPosition;
 
-      if (pieceType.type === 'timeline') {
+      if (pieceType === TIMELINE) {
         piece.scaledValue = rScale(piece.value[0]);
         piece.scaledEndValue = rScale(piece.value[1]);
         piece.scaledVerticalValue = rScaleVertical(piece.value[0]);
-      } else if (pieceType.type !== 'bar' && pieceType.type !== 'clusterbar') {
+      } else if (pieceType !== BAR && pieceType !== CLUSTER_BAR) {
         piece.scaledValue = rScale(piece.value);
         piece.scaledVerticalValue = rScaleVertical(piece.value);
-      } else if (pieceType.type === 'clusterbar') {
+      } else if (pieceType === CLUSTER_BAR) {
         valPosition =
-            projection === 'vertical'
-                ? rScaleReverse(rScale(piece.value))
-                : rScale(piece.value);
+          projection === PROJECTION_VERTICAL
+            ? rScaleReverse(rScale(piece.value))
+            : rScale(piece.value);
         piece.scaledValue = Math.abs(zeroValue - valPosition);
       }
 
       piece.x = projectedColumns[o].x;
       if (piece.value >= 0) {
-        if (pieceType.type === 'bar') {
+        if (pieceType === BAR) {
           piece.scaledValue =
-              projection === 'vertical'
-                  ? positiveOffset -
-                  rScaleReverse(rScale(positiveBaseValue + piece.value))
-                  : rScale(positiveBaseValue + piece.value) - positiveOffset;
+            projection === PROJECTION_VERTICAL
+              ? positiveOffset -
+                rScaleReverse(rScale(positiveBaseValue + piece.value))
+              : rScale(positiveBaseValue + piece.value) - positiveOffset;
 
           positiveBaseValue += piece.value;
         }
         piece.base = zeroValue;
-        piece.bottom = pieceType.type === 'bar' ? positiveOffset : 0;
+        piece.bottom = pieceType === BAR ? positiveOffset : 0;
         piece.middle = piece.scaledValue / 2 + positiveOffset;
         positiveOffset =
-            projection === 'vertical'
-                ? positiveOffset - piece.scaledValue
-                : positiveOffset + piece.scaledValue;
+          projection === PROJECTION_VERTICAL
+            ? positiveOffset - piece.scaledValue
+            : positiveOffset + piece.scaledValue;
         piece.negative = false;
       } else {
-        if (pieceType.type === 'bar') {
+        if (pieceType === BAR) {
           piece.scaledValue =
-              projection === 'vertical'
-                  ? Math.abs(rScale(piece.value) - rScale(0))
-                  : Math.abs(rScale(piece.value) - zeroValue);
+            projection === PROJECTION_VERTICAL
+              ? Math.abs(rScale(piece.value) - rScale(0))
+              : Math.abs(rScale(piece.value) - zeroValue);
 
           negativeBaseValue += piece.value;
         }
         piece.base = zeroValue;
-        piece.bottom = pieceType.type === 'bar' ? negativeOffset : 0;
+        piece.bottom = pieceType === BAR ? negativeOffset : 0;
         piece.middle = negativeOffset - piece.scaledValue / 2;
         negativeOffset =
-            projection === 'vertical'
-                ? negativeOffset + piece.scaledValue
-                : negativeOffset - piece.scaledValue;
+          projection === PROJECTION_VERTICAL
+            ? negativeOffset + piece.scaledValue
+            : negativeOffset - piece.scaledValue;
         piece.negative = true;
       }
     });
@@ -592,39 +591,39 @@ const OrdinalFrame = props => {
       if (props.ordinalAlign === 'center') {
         if (i === 0) {
           projectedColumns[o].x =
-              projectedColumns[o].x - projectedColumns[o].width / 2;
+            projectedColumns[o].x - projectedColumns[o].width / 2;
           projectedColumns[o].middle =
-              projectedColumns[o].middle - projectedColumns[o].width / 2;
+            projectedColumns[o].middle - projectedColumns[o].width / 2;
         } else {
           projectedColumns[o].x =
-              projectedColumns[oExtent[i - 1]].x +
-              projectedColumns[oExtent[i - 1]].width;
+            projectedColumns[oExtent[i - 1]].x +
+            projectedColumns[oExtent[i - 1]].width;
           projectedColumns[o].middle =
-              projectedColumns[o].x + projectedColumns[o].width / 2;
+            projectedColumns[o].x + projectedColumns[o].width / 2;
         }
       }
 
       projectedColumns[o].pct = cwHash[o] / cwHash.total;
       projectedColumns[o].pct_start =
-          (projectedColumns[o].x - oDomain[0]) / cwHash.total;
+        (projectedColumns[o].x - oDomain[0]) / cwHash.total;
       projectedColumns[o].pct_padding = padding / cwHash.total;
       projectedColumns[o].pct_middle =
-          (projectedColumns[o].middle - oDomain[0]) / cwHash.total;
+        (projectedColumns[o].middle - oDomain[0]) / cwHash.total;
     } else {
       projectedColumns[o].width = columnWidth - padding;
       if (props.ordinalAlign === 'center') {
         projectedColumns[o].x =
-            projectedColumns[o].x - projectedColumns[o].width / 2;
+          projectedColumns[o].x - projectedColumns[o].width / 2;
         projectedColumns[o].middle =
-            projectedColumns[o].middle - projectedColumns[o].width / 2;
+          projectedColumns[o].middle - projectedColumns[o].width / 2;
       }
 
       projectedColumns[o].pct = columnWidth / adjustedSize[1];
       projectedColumns[o].pct_start =
-          (projectedColumns[o].x - oDomain[0]) / adjustedSize[1];
+        (projectedColumns[o].x - oDomain[0]) / adjustedSize[1];
       projectedColumns[o].pct_padding = padding / adjustedSize[1];
       projectedColumns[o].pct_middle =
-          (projectedColumns[o].middle - oDomain[0]) / adjustedSize[1];
+        (projectedColumns[o].middle - oDomain[0]) / adjustedSize[1];
     }
   });
 
@@ -633,29 +632,30 @@ const OrdinalFrame = props => {
   const pieArcs = [];
 
   const labelSettings =
-      typeof oLabel === 'object'
-          ? Object.assign({ label: true, padding: 5 }, oLabel)
-          : { orient: 'default', label: oLabel, padding: 5 };
+    typeof oLabel === 'object'
+      ? Object.assign({ label: true, padding: 5 }, oLabel)
+      : { orient: 'default', label: oLabel, padding: 5 };
 
   if (oLabel || hoverAnnotation) {
+    const {offsetAngle, angleRange } = singleOrdinalPlot.props;
     const offsetPct =
-        (pieceType.offsetAngle && pieceType.offsetAngle / 360) || 0;
+      (offsetAngle && offsetAngle / 360) || 0;
 
-    const rangePct = (pieceType.angleRange &&
-        pieceType.angleRange.map(d => d / 360)) || [0, 1];
+    const rangePct = (angleRange &&
+      angleRange.map(d => d / 360)) || [0, 1];
     const rangeMod = rangePct[1] - rangePct[0];
 
     const adjustedPct =
-        rangeMod < 1
-            ? scaleLinear()
-                .domain([0, 1])
-                .range(rangePct)
-            : d => d;
+      rangeMod < 1
+        ? scaleLinear()
+            .domain([0, 1])
+            .range(rangePct)
+        : d => d;
 
     oExtent.forEach(d => {
       const arcGenerator = arc()
-          .innerRadius(0)
-          .outerRadius(rScale.range()[1] / 2);
+        .innerRadius(0)
+        .outerRadius(rScale.range()[1] / 2);
 
       const angle = projectedColumns[d].pct * rangeMod;
       const startAngle = adjustedPct(projectedColumns[d].pct_start + offsetPct);
@@ -674,17 +674,17 @@ const OrdinalFrame = props => {
       });
 
       const addedPadding =
-          centroid[1] > 0 &&
-          (!labelSettings.orient ||
-              labelSettings.orient === 'default' ||
-              labelSettings.orient === 'edge')
-              ? 8
-              : 0;
+        centroid[1] > 0 &&
+        (!labelSettings.orient ||
+          labelSettings.orient === 'default' ||
+          labelSettings.orient === 'edge')
+          ? 8
+          : 0;
 
       const outerPoint = pointOnArcAtAngle(
-          [0, 0],
-          midAngle,
-          rScale.range()[1] / 2 + labelSettings.padding + addedPadding
+        [0, 0],
+        midAngle,
+        rScale.range()[1] / 2 + labelSettings.padding + addedPadding
       );
 
       pieArcs.push({
@@ -705,9 +705,9 @@ const OrdinalFrame = props => {
       const labelStyle = {
         textAnchor: 'middle'
       };
-      if (projection === 'horizontal' && labelSettings.orient === 'right') {
+      if (projection === PROJECTION_HORIZONTAL && labelSettings.orient === 'right') {
         labelStyle.textAnchor = 'start';
-      } else if (projection === 'horizontal') {
+      } else if (projection === PROJECTION_HORIZONTAL) {
         labelStyle.textAnchor = 'end';
       }
 
@@ -715,40 +715,40 @@ const OrdinalFrame = props => {
         const additionalStyle = {};
         let transformRotate;
 
-        if (projection === 'radial' && labelSettings.orient === 'stem') {
+        if (projection === PROJECTION_RADIAL && labelSettings.orient === 'stem') {
           transformRotate = `rotate(${
-              pieArcs[i].outerPoint[0] < 0
-                  ? pieArcs[i].midAngle * 360 + 90
-                  : pieArcs[i].midAngle * 360 - 90
-              })`;
+            pieArcs[i].outerPoint[0] < 0
+              ? pieArcs[i].midAngle * 360 + 90
+              : pieArcs[i].midAngle * 360 - 90
+          })`;
         } else if (
-            projection === 'radial' &&
-            labelSettings.orient !== 'center'
+          projection === PROJECTION_RADIAL &&
+          labelSettings.orient !== 'center'
         ) {
           transformRotate = `rotate(${
-              pieArcs[i].outerPoint[1] < 0
-                  ? pieArcs[i].midAngle * 360
-                  : pieArcs[i].midAngle * 360 + 180
-              })`;
+            pieArcs[i].outerPoint[1] < 0
+              ? pieArcs[i].midAngle * 360
+              : pieArcs[i].midAngle * 360 + 180
+          })`;
         }
         if (
-            projection === 'radial' &&
-            labelSettings.orient === 'stem' &&
-            ((pieArcs[i].outerPoint[0] > 0 && labelSettings.padding < 0) ||
-                (pieArcs[i].outerPoint[0] < 0 && labelSettings.padding >= 0))
+          projection === PROJECTION_RADIAL &&
+          labelSettings.orient === 'stem' &&
+          ((pieArcs[i].outerPoint[0] > 0 && labelSettings.padding < 0) ||
+            (pieArcs[i].outerPoint[0] < 0 && labelSettings.padding >= 0))
         ) {
           additionalStyle.textAnchor = 'end';
-        } else if (projection === 'radial' && labelSettings.orient === 'stem') {
+        } else if (projection === PROJECTION_RADIAL && labelSettings.orient === 'stem') {
           additionalStyle.textAnchor = 'start';
         }
         return (
-            <text
-                {...labelStyle}
-                {...additionalStyle}
-                transform={transformRotate}
-            >
-              {d}
-            </text>
+          <text
+            {...labelStyle}
+            {...additionalStyle}
+            transform={transformRotate}
+          >
+            {d}
+          </text>
         );
       };
     } else if (typeof labelSettings.label === 'function') {
@@ -759,14 +759,14 @@ const OrdinalFrame = props => {
       let xPosition = projectedColumns[d].middle;
       let yPosition = 0;
 
-      if (projection === 'horizontal') {
+      if (projection === PROJECTION_HORIZONTAL) {
         yPosition = projectedColumns[d].middle;
         if (labelSettings.orient === 'right') {
           xPosition = adjustedSize[0] + 3;
         } else {
           xPosition = -3;
         }
-      } else if (projection === 'radial') {
+      } else if (projection === PROJECTION_RADIAL) {
         if (labelSettings.orient === 'center') {
           xPosition = pieArcs[i].centroid[0] + pieArcs[i].translate[0];
           yPosition = pieArcs[i].centroid[1] + pieArcs[i].translate[1];
@@ -777,22 +777,22 @@ const OrdinalFrame = props => {
       }
 
       const label = labelingFn(
-          d,
-          projectedColumns[d].pieceData.map(d => d.data),
-          i
-          //          ,{ arc: pieArcs[i], data: projectedColumns[d] }
+        d,
+        projectedColumns[d].pieceData.map(d => d.data),
+        i
+        //          ,{ arc: pieArcs[i], data: projectedColumns[d] }
       );
       labelArray.push(
-          <g
-              key={`olabel-${i}`}
-              transform={`translate(${xPosition},${yPosition})`}
-          >
-            {label}
-          </g>
+        <g
+          key={`olabel-${i}`}
+          transform={`translate(${xPosition},${yPosition})`}
+        >
+          {label}
+        </g>
       );
     });
 
-    if (projection === 'vertical') {
+    if (projection === PROJECTION_VERTICAL) {
       let labelY;
       if (labelSettings.orient === 'top') {
         labelY = -15;
@@ -800,33 +800,33 @@ const OrdinalFrame = props => {
         labelY = 15 + rScale.range()[1];
       }
       oLabels = (
-          <g
-              key="ordinalframe-labels-container"
-              className="ordinal-labels"
-              transform={`translate(${margin.left},${labelY + margin.top})`}
-          >
-            {labelArray}
-          </g>
+        <g
+          key="ordinalframe-labels-container"
+          className="ordinal-labels"
+          transform={`translate(${margin.left},${labelY + margin.top})`}
+        >
+          {labelArray}
+        </g>
       );
-    } else if (projection === 'horizontal') {
+    } else if (projection === PROJECTION_HORIZONTAL) {
       oLabels = (
-          <g
-              key="ordinalframe-labels-container"
-              className="ordinal-labels"
-              transform={`translate(${margin.left},${margin.top})`}
-          >
-            {labelArray}
-          </g>
+        <g
+          key="ordinalframe-labels-container"
+          className="ordinal-labels"
+          transform={`translate(${margin.left},${margin.top})`}
+        >
+          {labelArray}
+        </g>
       );
-    } else if (projection === 'radial') {
+    } else if (projection === PROJECTION_RADIAL) {
       oLabels = (
-          <g
-              key="ordinalframe-labels-container"
-              className="ordinal-labels"
-              transform={`translate(${margin.left},${margin.top})`}
-          >
-            {labelArray}
-          </g>
+        <g
+          key="ordinalframe-labels-container"
+          className="ordinal-labels"
+          transform={`translate(${margin.left},${margin.top})`}
+        >
+          {labelArray}
+        </g>
       );
     }
   }
@@ -840,14 +840,14 @@ const OrdinalFrame = props => {
       let yPosition = 0;
       let height = rScale.range()[1];
       let width = barColumnWidth + padding;
-      if (projection === 'horizontal') {
+      if (projection === PROJECTION_HORIZONTAL) {
         yPosition = projectedColumns[d].x;
         xPosition = 0;
         width = rScale.range()[1];
         height = barColumnWidth;
       }
 
-      if (projection === 'radial') {
+      if (projection === PROJECTION_RADIAL) {
         const { markD, centroid, translate, midAngle } = pieArcs[i];
         const radialMousePackage = {
           type: 'column-hover',
@@ -869,25 +869,25 @@ const OrdinalFrame = props => {
           style: { opacity: 0, fill: 'pink' },
           overlayData: radialMousePackage,
           onDoubleClick:
-              customDoubleClickBehavior &&
-              (() => {
-                customDoubleClickBehavior(radialMousePackage);
-              }),
+            customDoubleClickBehavior &&
+            (() => {
+              customDoubleClickBehavior(radialMousePackage);
+            }),
           onClick:
-              customClickBehavior &&
-              (() => {
-                customClickBehavior(radialMousePackage);
-              }),
+            customClickBehavior &&
+            (() => {
+              customClickBehavior(radialMousePackage);
+            }),
           onMouseEnter:
-              customHoverBehavior &&
-              (() => {
-                customHoverBehavior(radialMousePackage);
-              }),
+            customHoverBehavior &&
+            (() => {
+              customHoverBehavior(radialMousePackage);
+            }),
           onMouseLeave:
-              customHoverBehavior &&
-              (() => {
-                customHoverBehavior();
-              })
+            customHoverBehavior &&
+            (() => {
+              customHoverBehavior();
+            })
         };
       }
 
@@ -906,20 +906,20 @@ const OrdinalFrame = props => {
         width: width,
         style: { opacity: 0, stroke: 'black', fill: 'pink' },
         onDoubleClick:
-            customDoubleClickBehavior &&
-            (() => {
-              customDoubleClickBehavior(baseMousePackage);
-            }),
+          customDoubleClickBehavior &&
+          (() => {
+            customDoubleClickBehavior(baseMousePackage);
+          }),
         onClick:
-            customClickBehavior &&
-            (() => {
-              customClickBehavior(baseMousePackage);
-            }),
+          customClickBehavior &&
+          (() => {
+            customClickBehavior(baseMousePackage);
+          }),
         onMouseEnter:
-            customHoverBehavior &&
-            (() => {
-              customHoverBehavior(baseMousePackage);
-            }),
+          customHoverBehavior &&
+          (() => {
+            customHoverBehavior(baseMousePackage);
+          }),
         onMouseLeave: () => ({}),
         overlayData: baseMousePackage
       };
@@ -929,14 +929,14 @@ const OrdinalFrame = props => {
   let screenCoordinates;
 
   const pieceTypeForXY =
-      pieceType.type && pieceType.type !== 'none' ? pieceType.type : 'point';
+    pieceType && pieceType !== NONE ? pieceType : ORDINAL_POINT;
   const pieceTypeLayout =
-      typeof pieceTypeForXY === 'function'
-          ? pieceTypeForXY
-          : singleOrdinalPlot.type.layout;
+    typeof pieceTypeForXY === 'function'
+      ? pieceTypeForXY
+      : singleOrdinalPlot.type.layout;
 
   const calculatedPieceData = pieceTypeLayout({
-    type: pieceType,
+    ...singleOrdinalPlot.props,
     data: projectedColumns,
     renderMode: stringToFn(renderMode, undefined, true),
     eventListenersGenerator,
@@ -965,7 +965,7 @@ const OrdinalFrame = props => {
   });
   let calculatedSummaries = {};
 
-  if (summaryType.type && summaryType.type !== 'none') {
+  if (summaryType.type && summaryType.type !== NONE) {
     calculatedSummaries = drawSummaries({
       data: projectedColumns,
       type: summaryType,
@@ -985,42 +985,42 @@ const OrdinalFrame = props => {
     calculatedSummaries.originalData = projectedColumns;
   }
 
-  const yMod = projection === 'horizontal' ? midMod : zeroFunction;
-  const xMod = projection === 'vertical' ? midMod : zeroFunction;
+  const yMod = projection === PROJECTION_HORIZONTAL ? midMod : zeroFunction;
+  const xMod = projection === PROJECTION_VERTICAL ? midMod : zeroFunction;
   const basePieceData = calculatedPieceData
-      .map(d => {
-        if (d.piece && d.xy) {
-          return {
-            ...d.piece,
-            type: 'frame-hover',
-            x: d.xy.x + xMod(d.xy),
-            y: d.xy.y + yMod(d.xy)
-          };
-        }
-        return null;
-      })
-      .filter(d => d);
+    .map(d => {
+      if (d.piece && d.xy) {
+        return {
+          ...d.piece,
+          type: 'frame-hover',
+          x: d.xy.x + xMod(d.xy),
+          y: d.xy.y + yMod(d.xy)
+        };
+      }
+      return null;
+    })
+    .filter(d => d);
 
   if (
-      (pieceHoverAnnotation &&
-          ['bar', 'clusterbar', 'timeline'].indexOf(pieceType.type) === -1) ||
-      summaryHoverAnnotation
+    (pieceHoverAnnotation &&
+      [BAR, CLUSTER_BAR, TIMELINE].indexOf(pieceType) === -1) ||
+    summaryHoverAnnotation
   ) {
     if (summaryHoverAnnotation && calculatedSummaries.xyPoints) {
       screenCoordinates = calculatedSummaries.xyPoints.map(d =>
-          Object.assign({}, d, {
-            type: 'frame-hover',
-            isSummaryData: true,
-            x: d.x,
-            y: d.y
-          })
+        Object.assign({}, d, {
+          type: 'frame-hover',
+          isSummaryData: true,
+          x: d.x,
+          y: d.y
+        })
       );
     } else if (pieceHoverAnnotation && calculatedPieceData) {
       screenCoordinates = basePieceData;
     }
   }
 
-  console.log('---------------');
+  const { innerRadius } = singleOrdinalPlot.props;
   // todo: move to toAxes
   const { axis, axesTickLines } = orFrameAxisGenerator({
     axis: arrayWrappedAxis,
@@ -1030,7 +1030,7 @@ const OrdinalFrame = props => {
     size,
     rScale,
     rScaleType: instantiatedRScaleType.copy(),
-    pieceType,
+    innerRadius,
     rExtent,
     maxColumnValues,
     xyData: basePieceData,
@@ -1038,11 +1038,11 @@ const OrdinalFrame = props => {
   });
 
   if (
-      pieceHoverAnnotation &&
-      ['bar', 'clusterbar', 'timeline'].indexOf(pieceType.type) !== -1
+    pieceHoverAnnotation &&
+    [BAR, CLUSTER_BAR, TIMELINE].indexOf(pieceType) !== -1
   ) {
-    const yMod = projection === 'horizontal' ? midMod : zeroFunction;
-    const xMod = projection === 'vertical' ? midMod : zeroFunction;
+    const yMod = projection === PROJECTION_HORIZONTAL ? midMod : zeroFunction;
+    const xMod = projection === PROJECTION_VERTICAL ? midMod : zeroFunction;
 
     columnOverlays = calculatedPieceData.map((d, i) => {
       const mousePackage = {
@@ -1063,38 +1063,37 @@ const OrdinalFrame = props => {
         style: { opacity: 0, stroke: 'black', fill: 'pink' },
         overlayData: mousePackage,
         onClick:
-            customClickBehavior &&
-            (() => {
-              customClickBehavior(mousePackage.data);
-            }),
+          customClickBehavior &&
+          (() => {
+            customClickBehavior(mousePackage.data);
+          }),
         onDoubleClick:
-            customDoubleClickBehavior &&
-            (() => {
-              customDoubleClickBehavior(mousePackage.data);
-            }),
+          customDoubleClickBehavior &&
+          (() => {
+            customDoubleClickBehavior(mousePackage.data);
+          }),
         onMouseEnter:
-            customHoverBehavior &&
-            (() => {
-              customHoverBehavior(mousePackage.data);
-            }),
+          customHoverBehavior &&
+          (() => {
+            customHoverBehavior(mousePackage.data);
+          }),
         onMouseLeave:
-            customHoverBehavior &&
-            (() => {
-              customHoverBehavior();
-            })
+          customHoverBehavior &&
+          (() => {
+            customHoverBehavior();
+          })
       };
     });
   }
 
-  const typeAriaLabel = (pieceType.type !== undefined &&
-      typeof pieceType.type !== 'function' &&
-      naturalLanguageTypes[pieceType.type]) || {
+  const typeAriaLabel = naturalLanguageTypes[pieceType] || {
     items: 'piece',
     chart: 'ordinal chart'
   };
 
   const { svgPipe, canvasPipe } = toPipeline({
-    pieceType: objectifyType(baseType),
+    shouldRender: pieceType !== NONE,
+    isOrdinalPoint: pieceType === 'ordinalpoint',
     pieceData: calculatedPieceData,
     pieceUseCanvas,
     pieceStyle: stringToFn(pieceStyle, () => ({}), true),
@@ -1115,15 +1114,15 @@ const OrdinalFrame = props => {
   const canvasPipeline = canvasPipe.slice();
 
   if (
-      rExtentSettings.onChange &&
-      (calculatedRExtent || []).join(',') !== (calculatedRExtent || []).join(',')
+    rExtentSettings.onChange &&
+    (calculatedRExtent || []).join(',') !== (calculatedRExtent || []).join(',')
   ) {
     rExtentSettings.onChange(calculatedRExtent);
   }
 
   if (
-      oExtentSettings.onChange &&
-      (calculatedOExtent || []).join(',') !== (calculatedOExtent || []).join(',')
+    oExtentSettings.onChange &&
+    (calculatedOExtent || []).join(',') !== (calculatedOExtent || []).join(',')
   ) {
     oExtentSettings.onChange(calculatedOExtent);
   }
@@ -1131,14 +1130,14 @@ const OrdinalFrame = props => {
   let interactionOverflow;
 
   if (summaryType && summaryType.amplitude) {
-    if (projection === 'horizontal') {
+    if (projection === PROJECTION_HORIZONTAL) {
       interactionOverflow = {
         top: summaryType.amplitude,
         bottom: 0,
         left: 0,
         right: 0
       };
-    } else if (projection === 'radial') {
+    } else if (projection === PROJECTION_RADIAL) {
       interactionOverflow = defaultOverflow;
     } else {
       interactionOverflow = {
@@ -1224,7 +1223,7 @@ OrdinalFrame.propTypes = {
   oPadding: PropTypes.number,
   dynamicColumnWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
   pixelColumnWidth: PropTypes.number,
-  projection: PropTypes.oneOf(['vertical', 'horizontal', 'radial']),
+  projection: PropTypes.oneOf([PROJECTION_VERTICAL, PROJECTION_HORIZONTAL, PROJECTION_RADIAL]),
 
   // pieces
   type: PropTypes.oneOfType([
@@ -1270,16 +1269,7 @@ OrdinalFrame.propTypes = {
 
 OrdinalFrame.defaultProps = {
   ...BaseDefaultProps,
-  data: [],
-  oScaleType: scaleBand,
-  rScaleType: scaleLinear,
-  projection: 'vertical',
-  type: 'none',
-  connectorUseCanvas: true,
-  pieceUseCanvas: false,
-  summaryUseCanvas: false,
   optimizeCustomTooltipPosition: false,
-  invertR: false
 };
 
 export default OrdinalFrame;
