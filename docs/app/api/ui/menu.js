@@ -62,6 +62,11 @@ module.exports = [
         link: '/violin'
       },
       {
+        key: 'histgram',
+        name: 'Histgram',
+        link: '/histgram'
+      },
+      {
         key: 'pencil',
         name: 'Pencil',
         link: '/sketch'

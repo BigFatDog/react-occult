@@ -55,14 +55,6 @@ const BarProps = {
     opacity: 0.7
   },
   baseMarkProps: { transitionDuration: { default: 500, fill: 2500 } },
-  summaryType:{ type: "violin",
-    bins: 25, // Number, Bins ito bin the values into,
-    binValue: d => d.length, //Function that determines the summarized value (by default it’s the number of items in a bin),
-    useBins: true, //Boolean, if set to false, bins will have a one-to-one correspondence with the points passed to the column, allowing you to create your own samples without trying to wrangle bin numbers,
-    curve: d3.curveCatmullRom, //d3-shape-like curve function,
-    relative: false // Boolean, Whether or not the scale of each individual plot is relative to the maximum of all plots or only to its own plot (you can combine a relative={true} with,
-  // axis: Object, Uses the same axis settings from everywhere else but makes an axis for each column
-},
   type: {
     type: 'point',
     customMark: d => {
