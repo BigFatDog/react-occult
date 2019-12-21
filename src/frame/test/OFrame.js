@@ -25,7 +25,14 @@ import Frame from '../Frame';
 
 const defaultOverflow = { top: 0, bottom: 0, left: 0, right: 0 };
 
-const OrdinalTypes = ['Bar', 'ClusterBar', 'Timeline', 'Swarm', 'OrdinalPoint'];
+const OrdinalTypes = [
+  'Bar',
+  'ClusterBar',
+  'Timeline',
+  'Swarm',
+  'OrdinalPoint',
+  'BarPercent'
+];
 
 const BAR_PERCENT = 'barpercent';
 const TIMELINE = 'timeline';
@@ -1207,12 +1214,12 @@ const OrdinalFrame = props => {
 OrdinalFrame.displayName = 'OrdinalFrame';
 
 OrdinalFrame.propTypes = {
-  ...BaseProps,
+  ...BaseProps
 };
 
 OrdinalFrame.defaultProps = {
   ...BaseDefaultProps,
-  optimizeCustomTooltipPosition: false,
+  optimizeCustomTooltipPosition: false
 };
 
 export default OrdinalFrame;

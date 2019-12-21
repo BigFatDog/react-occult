@@ -1,6 +1,13 @@
 import * as d3 from 'd3';
 import React from 'react';
-import { XAxis, YAxis, OFrame, Annotation, OrdinalPoint } from 'occult';
+import {
+  XAxis,
+  YAxis,
+  OFrame,
+  Annotation,
+  OrdinalPoint,
+  BarPercent
+} from 'occult';
 import { PapperBlock } from 'dan-components';
 import { withStyles } from '@material-ui/core/styles';
 import { HospitalFacilities } from './Data';
@@ -55,28 +62,28 @@ const BarProps = {
     opacity: 0.7
   },
   baseMarkProps: { transitionDuration: { default: 500, fill: 2500 } },
-  customMark: d => {
-    if (d.rIndex === 1) {
-      return (
-        <circle
-          r={3}
-          stroke={'#DCE35B'}
-          opacity={1}
-          fill={'#45B649'}
-          strokeWidth={1}
-        />
-      );
-    }
-    return (
-      <rect
-        height={d.scaledValue}
-        width={10}
-        x={-5}
-        fill={'#E5BDF6'}
-        opacity={0.7}
-      />
-    );
-  },
+  // customMark: d => {
+  //   if (d.rIndex === 1) {
+  //     return (
+  //       <circle
+  //         r={3}
+  //         stroke={'#DCE35B'}
+  //         opacity={1}
+  //         fill={'#45B649'}
+  //         strokeWidth={1}
+  //       />
+  //     );
+  //   }
+  //   return (
+  //     <rect
+  //       height={d.scaledValue}
+  //       width={10}
+  //       x={-5}
+  //       fill={'#E5BDF6'}
+  //       opacity={0.7}
+  //     />
+  //   );
+  // },
   pieceHoverAnnotation: true,
   oPadding: 2,
   connectorType: function(e) {
@@ -146,7 +153,7 @@ const BarPage = props => {
         <YAxis {...axisRightProps} />
         {/*<Annotation {...highlight}/>*/}
         {/*<Annotation {...h2} />*/}
-        <OrdinalPoint {...BarProps} />
+        <BarPercent {...BarProps} />
       </OFrame>
     </PapperBlock>
   );

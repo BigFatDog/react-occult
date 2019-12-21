@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import OrdinalPlot from '../OrdinalPlot';
-import barLayout from './barLayout';
+import barLayout from '../Bar/barLayout';
 
 const BarPercent = props => {};
 

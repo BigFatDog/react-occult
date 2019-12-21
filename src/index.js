@@ -7,11 +7,16 @@ import Heatmap from './plots/Heatmap';
 import XAxis from './axis/XAxis';
 import YAxis from './axis/YAxis';
 import Trendline from './plots/Trendline';
-import Bar from './plots/Ordinal/Bar';
-import OrdinalPoint from './plots/Ordinal/OrdinalPoint';
 import OFrame from './frame/test/OFrame';
 import NetworkFrame from './frame/Ntest/NetworkFrame';
 import Annotation from './plots/Annotation';
+
+import BarPercent from './plots/Ordinal/BarPercent';
+import Bar from './plots/Ordinal/Bar';
+import OrdinalPoint from './plots/Ordinal/OrdinalPoint';
+import Swarm from './plots/Ordinal/Swarm';
+import Timeline from './plots/Ordinal/Timeline';
+import ClusterBar from './plots/Ordinal/ClusterBar';
 
 export {
   XYFrame,
@@ -27,5 +32,9 @@ export {
   Annotation,
   NetworkFrame,
   Bar,
-  OrdinalPoint
+  OrdinalPoint,
+  ClusterBar,
+  Timeline,
+  Swarm,
+  BarPercent
 };
