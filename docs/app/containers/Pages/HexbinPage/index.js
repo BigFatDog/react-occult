@@ -1,7 +1,7 @@
 import React from 'react';
 import { scaleLinear } from 'd3-scale';
 import { PapperBlock } from 'dan-components';
-import { XYFrame, XAxis, YAxis, Hexbin } from 'occult';
+import { Paper, XAxis, YAxis, Hexbin } from 'occult';
 import { OldFaithful } from '../OldFaithfulPage/data';
 const h = scaleLinear()
   .domain([0, 1])
@@ -43,11 +43,11 @@ const HexbinPage = props => {
   return (
     <div>
       <PapperBlock>
-        <XYFrame {...frameProps}>
+        <Paper {...frameProps}>
           <XAxis label={'Eruptions'} />
           <YAxis label={'Waiting'} />
           <Hexbin {...hexbinProps} />
-        </XYFrame>
+        </Paper>
       </PapperBlock>
     </div>
   );

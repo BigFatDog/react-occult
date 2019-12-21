@@ -1,7 +1,7 @@
 import React from 'react';
 import { PapperBlock } from 'dan-components';
 import NeighbourData from './data/neighbourhood.json';
-import { XYFrame, Contour, XAxis, YAxis, Annotation, Hexbin } from 'occult';
+import { Paper, Contour, XAxis, YAxis, Annotation, Hexbin } from 'occult';
 import * as d3 from 'd3';
 import { withStyles } from '@material-ui/core';
 
@@ -150,7 +150,7 @@ const NeighbourPage = props => {
   return (
     <div>
       <PapperBlock title="Area Chart" desc="Basic Area Chart">
-        <XYFrame {...frameProps} className={classes.frame}>
+        <Paper {...frameProps} className={classes.frame}>
           {/*<XAxis label={'Rank'} />*/}
           {/*<YAxis label={'Theaters'} />*/}
           {/*<Annotation type={'y'} label={'a note'} y={100} />*/}
@@ -167,7 +167,7 @@ const NeighbourPage = props => {
           <XAxis {...x0Props} />
           <YAxis {...y0Props} />
           <Contour {...contourProps} />
-        </XYFrame>
+        </Paper>
       </PapperBlock>
     </div>
   );

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { XYFrame, Scatter, XAxis, YAxis } from 'occult';
+import { Paper, Scatter, XAxis, YAxis } from 'occult';
 import brand from 'dan-api/dummy/brand';
 import { PapperBlock } from 'dan-components';
 import { withStyles } from '@material-ui/core/styles';
@@ -63,7 +63,7 @@ const ScatterPage = props => {
         <meta property="twitter:description" content={description} />
       </Helmet>
       <PapperBlock>
-        <XYFrame {...frameProps} className={classes.frame}>
+        <Paper {...frameProps} className={classes.frame}>
           <XAxis
             label={'Expire Date'}
             tickFormat={d => formatter(d)}
@@ -80,7 +80,7 @@ const ScatterPage = props => {
             jaggedBase={true}
           />
           <Scatter {...scatterProps} />
-        </XYFrame>
+        </Paper>
       </PapperBlock>
     </div>
   );

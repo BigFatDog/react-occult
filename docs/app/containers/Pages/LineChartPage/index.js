@@ -1,5 +1,5 @@
 import React from 'react';
-import { XYFrame, Line, XAxis, YAxis } from 'occult';
+import { Paper, Line, XAxis, YAxis } from 'occult';
 import { PapperBlock } from 'dan-components';
 import {
   CumulativeReverse,
@@ -45,7 +45,7 @@ const LinePage = props => {
   ];
   const rendered = types.map(d => {
     return (
-      <XYFrame {...frameProps(d.name)}>
+      <Paper {...frameProps(d.name)}>
         <XAxis label={'Year'} />
         <YAxis
           label={'Count'}
@@ -64,7 +64,7 @@ const LinePage = props => {
           )}
         />
         <Line {...d.type} />
-      </XYFrame>
+      </Paper>
     );
   });
 

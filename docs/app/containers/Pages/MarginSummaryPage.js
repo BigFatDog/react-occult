@@ -1,6 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { XYFrame, XAxis, YAxis, Contour, Annotation } from 'occult';
+import { Paper, XAxis, YAxis, Contour, Annotation } from 'occult';
 import brand from 'dan-api/dummy/brand';
 import { PapperBlock } from 'dan-components';
 import { OldFaithful } from './OldFaithfulPage/data';
@@ -98,7 +98,7 @@ const MarginSummaryPage = props => {
         <meta property="twitter:description" content={description} />
       </Helmet>
       <PapperBlock title="Lines" desc="Explore Line Types">
-        <XYFrame {...frameProps}>
+        <Paper {...frameProps}>
           <XAxis {...xAxisProps} />
           <YAxis {...yAxisProps} />
           <XAxis {...x0Props} />
@@ -146,7 +146,7 @@ const MarginSummaryPage = props => {
               titleColor: '#59039c'
             }}
           />
-        </XYFrame>
+        </Paper>
       </PapperBlock>
     </div>
   );

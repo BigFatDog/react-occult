@@ -2,7 +2,7 @@ import React from 'react';
 import { AnnotationLabel, AnnotationCallout } from 'react-annotation';
 import { OldFaithful } from './data';
 import { PapperBlock } from 'dan-components';
-import { XYFrame, XAxis, YAxis, Contour, Annotation } from 'occult';
+import { Paper, XAxis, YAxis, Contour, Annotation } from 'occult';
 
 const gradient = (
   <linearGradient x1="0" x2="0" y1="0" y2="1" id="paleWoodGradient">
@@ -127,7 +127,7 @@ const OldFaithfulPage = props => {
         title="Old Faithful Contour"
         desc="This chart shows the relationship between idle and eruption times for Old Faithful."
       >
-        <XYFrame {...frameProps}>
+        <Paper {...frameProps}>
           <XAxis label={'Idle (min.)'} />
           <YAxis left={50} label={'Erupting (min.)'} />
           <Annotation
@@ -174,7 +174,7 @@ const OldFaithfulPage = props => {
           />
 
           <Contour {...contourProps} />
-        </XYFrame>
+        </Paper>
       </PapperBlock>
     </div>
   );

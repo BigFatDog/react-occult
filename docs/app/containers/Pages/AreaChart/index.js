@@ -1,5 +1,5 @@
 import React from 'react';
-import { XYFrame, Line, XAxis, YAxis, Annotation } from 'occult';
+import { Paper, Line, XAxis, YAxis, Annotation } from 'occult';
 import { PapperBlock } from 'dan-components';
 import { data } from '../data/AppleStock';
 import { timeFormat } from 'd3-time-format';
@@ -130,7 +130,7 @@ const AreaPage = props => {
   return (
     <div>
       <PapperBlock>
-        <XYFrame {...frameProps} className={classes.frame}>
+        <Paper {...frameProps} className={classes.frame}>
           <XAxis
             label={'Date'}
             tickFormat={d => formatter(d)}
@@ -227,7 +227,7 @@ const AreaPage = props => {
               }
             ]}
           />
-        </XYFrame>
+        </Paper>
       </PapperBlock>
     </div>
   );

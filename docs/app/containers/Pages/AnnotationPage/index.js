@@ -117,7 +117,7 @@ class AnnotationPage extends React.Component {
           <meta property="twitter:description" content={description} />
         </Helmet>
         <PapperBlock title="Blank Page" desc="Some text description">
-          <XYFrame
+          <Paper
             width={750}
             height={300}
             xScale={scaleTime()}

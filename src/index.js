@@ -1,4 +1,4 @@
-import XYFrame from './frame/XYFrame';
+import Paper from './frame/Paper';
 import Line from './plots/Line';
 import Scatter from './plots/Scatter';
 import Contour from './plots/Contour';
@@ -19,7 +19,7 @@ import Timeline from './plots/Ordinal/Timeline';
 import ClusterBar from './plots/Ordinal/ClusterBar';
 
 export {
-  XYFrame,
+  Paper,
   OFrame,
   Line,
   Scatter,
