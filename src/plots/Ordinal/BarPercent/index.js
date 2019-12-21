@@ -7,7 +7,7 @@ const BarPercent = props => {};
 BarPercent.layout = barLayout;
 
 BarPercent.Bar = {
-  ...OrdinalPlot.propTypes,
+  ...Bar.propTypes,
 };
 
 BarPercent.defaultProps = {
