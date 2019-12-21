@@ -35,8 +35,6 @@ import {
 import pathBounds from 'svg-path-bounding-box';
 import AnnotationLabel from 'react-annotation/lib/Types/AnnotationLabel';
 
-import { BaseProps, BaseDefaultProps } from '../BaseProps';
-import Frame from '../Frame';
 import topologicalSort from './layout/topologicalSort';
 import hierarchicalRectNodeGenerator from './layout/hierarchicalRectNodeGenerator';
 import matrixNodeGenerator from './layout/matrixNodeGenerator';
@@ -267,7 +265,7 @@ const matrixify = ({ edgeHash, nodes, edgeWidthAccessor, nodeIDAccessor }) => {
   return matrix;
 };
 
-const NetworkFrame = props => {
+const computeNetworkFrameData = props => {
   const [frameData, updateFrameData] = useState({
     nodeData: [],
     edgeData: [],
@@ -1516,77 +1514,27 @@ const NetworkFrame = props => {
   };
 
   const {
-    graph,
-    nodes = Array.isArray(graph) || typeof graph === 'function'
-      ? emptyArray
-      : (graph && graph.nodes) || emptyArray,
-    edges = typeof graph === 'function'
-      ? emptyArray
-      : Array.isArray(graph)
-      ? graph
-      : (graph && graph.edges) || emptyArray,
-    networkType,
-    nodeStyle,
-    nodeClass,
-    edgeStyle,
-    edgeClass,
-    nodeRenderMode,
-    edgeRenderMode,
-    nodeLabels,
-    margin: baseMargin,
-    customNodeIcon: baseCustomNodeIcon,
-    customEdgeIcon: baseCustomEdgeIcon,
-    filterRenderedNodes,
-    width,
-    height,
-    annotations,
-    annotationSettings,
-    className,
-    customClickBehavior,
-    customDoubleClickBehavior,
-    customHoverBehavior,
-    matte,
-    hoverAnnotation,
-    beforeElements,
-    afterElements,
-    interaction,
-    disableContext,
-    canvasPostProcess,
-    baseMarkProps,
-    useSpans,
-    nodeUseCanvas,
-    edgeUseCanvas,
-    name,
-    additionalDefs,
-    edgeRenderKey,
-    nodeRenderKey,
-
-    frameKey,
-    axis,
-    interactionOverflow,
-    disableCanvasInteraction
-  } = props;
-
-  const {
     adjustedPosition,
     adjustedSize,
+    screenCoordinates,
+    overlay,
+    margin,
+    svgPipeline,
+    canvasPipeline,
     backgroundGraphics,
     foregroundGraphics,
     renderNumber,
     projectedNodes,
     projectedEdges,
-    screenCoordinates,
-    overlay,
+
     marginGraphic,
     nodeIDAccessor,
     sourceAccessor,
     targetAccessor,
     nodeSizeAccessor,
     edgeWidthAccessor,
-    margin,
+
     nodeLabelAnnotations,
-    svgPipeline,
-    canvasPipeline,
     graphSettings
   } = frameData;
 
@@ -1600,25 +1548,7 @@ const NetworkFrame = props => {
     computeFrame(props);
   }, []);
 
-  const { title, tooltipContent, children } = props;
-
-  const frameProps = {
-    name,
-    className,
-    frameKey,
-    useSpans,
-    matte,
-    width,
-    height,
-    margin,
-    title,
-    // render as it is
-    foregroundGraphics,
-    backgroundGraphics,
-    additionalDefs,
-    beforeElements,
-    afterElements,
-    canvasPostProcess,
+  return {
     // generated
     frameXScale: null,
     frameYScale: null,
@@ -1629,31 +1559,9 @@ const NetworkFrame = props => {
     adjustedPosition,
     adjustedSize,
     plotChildren: [],
-    // interaction
-    overlay: formattedOverlay,
-    tooltipContent,
-    interactionOverflow,
-    disableCanvasInteraction,
-    hoverAnnotation,
-    interaction,
-    customClickBehavior,
-    customHoverBehavior,
-    customDoubleClickBehavior
+    margin,
+    overlay: formattedOverlay
   };
-
-  return <Frame {...frameProps}>{children}</Frame>;
 };
 
-NetworkFrame.propTypes = {
-  ...BaseProps
-};
-
-NetworkFrame.defaultProps = {
-  ...BaseDefaultProps,
-  networkType: { type: 'force', iterations: 500 },
-  filterRenderedNodes: d => d.id !== 'root-generated'
-};
-
-NetworkFrame.displayName = 'NetworkFrame';
-
-export default NetworkFrame;
+export default computeNetworkFrameData;
