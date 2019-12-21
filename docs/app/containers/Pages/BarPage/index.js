@@ -101,12 +101,12 @@ const BarProps = {
 };
 const FrameProps = {
   width: 1000,
-  height: 600,
-  margin: { top: 50, right: 105, left: 80, bottom: 40 },
+  height: 500,
+  margin: { top: 50, right: 90, left: 80, bottom: 40 },
   hoverAnnotation: false,
   title: (
     <text textAnchor="middle">
-      NYC Hospital Facilities <tspan fill={'#E5BDF6'}>Community Board</tspan>
+      NYC Hospital Facilities <tspan fill={'#E5BDF6'}>Community Board </tspan>
       vs <tspan fill={'#45B649'}>Council District</tspan>
     </text>
   ),
