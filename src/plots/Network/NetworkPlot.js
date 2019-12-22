@@ -43,7 +43,6 @@ NetworkPlot.propTypes = {
 
 NetworkPlot.defaultProps = {
   filterRenderedNodes: d => d.id !== 'root-generated',
-  projection: 'horizontal',
 };
 
 NetworkPlot.layout = null;
