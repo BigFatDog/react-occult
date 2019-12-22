@@ -1317,8 +1317,7 @@ const computeNetworkFrameData = props => {
   useEffect(() => {
     computeFrame(props);
   }, []);
-
-  console.log(frameData)
+  
   return frameData;
 };
 
