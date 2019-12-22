@@ -5,7 +5,7 @@ import * as d3 from 'd3';
 
 const frameProps = {
   width: 700,
-  height: 500,
+  height: 700,
   margin: 70
 };
 
@@ -767,8 +767,8 @@ const Network = props => {
   return (
     <PapperBlock>
       <Paper {...frameProps}>
-        <Force {...forceProps}></Force>
-        {/*<Sankey {...sankeyProps}></Sankey>*/}
+        {/*<Force {...forceProps}></Force>*/}
+        <Sankey {...sankeyProps}></Sankey>
       </Paper>
     </PapperBlock>
   );

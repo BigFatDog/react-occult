@@ -9,8 +9,7 @@ import InteractionLayer from '../layers/InteractionLayer';
 import { generateFrameTitle, toMarginGraphic } from './utils';
 import { BaseProps, BaseDefaultProps } from './BaseProps';
 import HTMLTooltipAnnotation from '../plots/Annotation/widgets/HTMLTooltipAnnotation';
-import renderAnnotations from '../plots/Annotation/renderAnnotations';
-import AnnotationLayer from '../layers/AnnotationLayer';
+import AnnotationLayer from '../layers/AnnotationLayer/i2';
 
 const getCanvasScale = context => {
   const devicePixelRatio = window.devicePixelRatio || 1;
@@ -191,22 +190,20 @@ const Frame = props => {
       annotations.push(voronoiHover);
     }
   }
-  const svgAnnotations = renderAnnotations(annotations, {
-    xScale: frameXScale,
-    yScale: frameYScale,
-    frontCanvas,
-    adjustedSize,
-    adjustedPosition,
-    size,
-    margin,
-    accessors
-  });
+
+  // todo: put here?
+  if (props.nodeLabelAnnotations) {
+    annotations.push(...props.nodeLabelAnnotations);
+  }
+  
+  const { generateSVGAnnotations, generateHTMLAnnotations } = props;
 
   const annotationLayer = annotations && annotations.length > 0 && (
     <AnnotationLayer
+      annotations={annotations}
       voronoiHover={setVoronoiHover}
-      htmlAnnotations={htmlAnnotations}
-      svgAnnotations={svgAnnotations}
+      generateSVGAnnotations={generateSVGAnnotations}
+      generateHTMLAnnotations={generateHTMLAnnotations}
       margin={margin}
       useSpans={useSpans}
       size={adjustedSize}

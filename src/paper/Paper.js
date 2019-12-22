@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 
 import { BaseProps, BaseDefaultProps } from './BaseProps';
 
+import { defaultNetworkSVGRule, defaultNetworkHTMLRule } from '../plots/Annotation/networkRen';
+
 // xy
 import Hexbin from '../plots/Hexbin';
 import Contour from '../plots/Contour';
@@ -80,39 +82,49 @@ const Paper = props => {
 
   let frameData = null;
   let plotChildren = null;
+  let generateSVGAnnotations = null;
+  let generateHTMLAnnotations = null;
+
   if (xyChildren.length > 0) {
+    plotChildren = xyChildren;
+
     frameData = computeXYFrameData({
       ...props,
       axesDefs,
-      plotChildren: xyChildren
+      plotChildren
     });
-    plotChildren = xyChildren;
   } else if (ordinalChildren.length > 0) {
     if (ordinalChildren.length !== 1) {
       console.error('Only 1 Orindal plot is allowed');
     }
+    plotChildren = ordinalChildren;
     frameData = computeOrdinalFrameData({
       ...props,
       axesDefs,
-      plotChildren: ordinalChildren
+      plotChildren
     });
-    plotChildren = ordinalChildren;
   } else if (networkChildren.length > 0) {
     if (networkChildren.length !== 1) {
       console.error('Only 1 network plot is allowed');
     }
-    frameData = computeNetworkFrameData({
-      ...props,
-      axesDefs,
-      plotChildren: networkChildren
-    });
     plotChildren = networkChildren;
+    const frameProps = {
+        ...props,
+        axesDefs,
+        plotChildren
+    };
+    frameData = computeNetworkFrameData(frameProps);
+
+    generateSVGAnnotations = defaultNetworkSVGRule({frameProps, frameData});
+    generateHTMLAnnotations = defaultNetworkHTMLRule({frameProps, frameData});
   }
 
   const frameProps = {
     ...props,
     ...frameData,
-    plotChildren
+    plotChildren,
+      generateSVGAnnotations,
+      generateHTMLAnnotations
   };
 
   return <Frame {...frameProps}>{children}</Frame>;
