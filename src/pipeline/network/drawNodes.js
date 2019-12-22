@@ -33,23 +33,22 @@ const drawNodes = ({
       canvasPipeline.push(canvasNode);
     } else {
       // CUSTOM MARK IMPLEMENTATION
-        if (customMark) {
-            svgPipeline.push(
-                customMark({
-                    d,
-                    i,
-                    renderKeyFn,
-                    styleFn,
-                    classFn,
-                    renderMode,
-                    key: renderKeyFn ? renderKeyFn(d, i) : d.id || `node-${i}`,
-                    className: `node ${classFn(d, i)}`,
-                    transform: `translate(${d.x},${d.y})`,
-                    baseMarkProps
-                })
-            );
-        }
-
+      if (customMark) {
+        svgPipeline.push(
+          customMark({
+            d,
+            i,
+            renderKeyFn,
+            styleFn,
+            classFn,
+            renderMode,
+            key: renderKeyFn ? renderKeyFn(d, i) : d.id || `node-${i}`,
+            className: `node ${classFn(d, i)}`,
+            transform: `translate(${d.x},${d.y})`,
+            baseMarkProps
+          })
+        );
+      }
     }
   });
   return { svgPipeline, canvasPipeline };

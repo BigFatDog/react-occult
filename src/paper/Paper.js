@@ -65,17 +65,17 @@ const isNetwork = type =>
 const Paper = props => {
   const { children } = props;
   const axesDefs = React.Children.toArray(children)
-      .filter(d => isAxis(d.type))
-      .map(d => Object.assign({}, d.props));
+    .filter(d => isAxis(d.type))
+    .map(d => Object.assign({}, d.props));
 
   const xyChildren = React.Children.toArray(children).filter(d => isXY(d.type));
 
   const ordinalChildren = React.Children.toArray(children).filter(d =>
-      isOrdinal(d.type)
+    isOrdinal(d.type)
   );
 
   const networkChildren = React.Children.toArray(children).filter(d =>
-      isNetwork(d.type)
+    isNetwork(d.type)
   );
 
   let frameData = null;
