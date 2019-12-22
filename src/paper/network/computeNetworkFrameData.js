@@ -75,11 +75,6 @@ const baseNodeProps = {
   shapeNode: false
 };
 
-const baseNetworkSettings = {
-  iterations: 500,
-  hierarchicalNetwork: false
-};
-
 const baseGraphSettings = {
   nodeHash: new Map(),
   edgeHash: new Map(),
@@ -268,15 +263,20 @@ const computeNetworkFrameData = props => {
       nodeRenderKey,
       nodeIDAccessor: baseNodeIDAccessor,
       sourceAccessor: baseSourceAccessor,
-        targetAccessor: baseTargetAccessor,
-        nodeSizeAccessor: baseNodeSizeAccessor,
-        edgeWidthAccessor: baseEdgeWidthAccessor
+      targetAccessor: baseTargetAccessor,
+      nodeSizeAccessor: baseNodeSizeAccessor,
+      edgeWidthAccessor: baseEdgeWidthAccessor,
+      nodeSize,
+      hierarchyChildren,
+      hierarchySum,
+      barLayout,
+      nodePadding,
+      angleRange
     } = singlePlot.props;
 
-    let { edgeType } = singlePlot.props;
+    let { edgeType, projection, direction } = singlePlot.props;
 
     const { nodeGenerator, edgeGenerator } = singlePlot.type;
-    const networkType = singlePlot.type.name.toLowerCase();
 
     const size = [width, height];
     const center = [size[0] / 2, size[1] / 2];
@@ -298,36 +298,14 @@ const computeNetworkFrameData = props => {
       margin
     });
 
-    let networkSettings;
+    const networkSettings = {
+      type: singlePlot.type.name.toLowerCase(),
+      graphSettings: baseGraphSettings
+    };
 
-    const nodeHierarchicalIDFill = {};
-    let networkSettingsKeys = ['type'];
-
-    if (typeof networkType === 'string') {
-      networkSettings = {
-        type: networkType,
-        ...baseNetworkSettings,
-        graphSettings: baseGraphSettings
-      };
-    } else {
-      if (networkType) networkSettingsKeys = Object.keys(networkType);
-
-      networkSettings = {
-        type: 'force',
-        ...baseNetworkSettings,
-        ...networkType,
-        graphSettings: baseGraphSettings
-      };
+    if (projection === 'vertical' && networkSettings.type === 'sankey') {
+      direction = 'down';
     }
-
-    if (
-      networkSettings.projection === 'vertical' &&
-      networkSettings.type === 'sankey'
-    ) {
-      networkSettings.direction = 'down';
-    }
-
-    networkSettingsKeys.push('height', 'width');
 
     networkSettings.graphSettings.nodes = nodes;
     networkSettings.graphSettings.edges = edges;
@@ -339,15 +317,9 @@ const computeNetworkFrameData = props => {
       networkSettings.type === 'partition' ||
       networkSettings.type === 'sankey';
 
-    const nodeIDAccessor = stringToFn(baseNodeIDAccessor,
-      d => d.id
-    );
-    const sourceAccessor = stringToFn(baseSourceAccessor,
-      d => d.source
-    );
-    const targetAccessor = stringToFn(baseTargetAccessor,
-      d => d.target
-    );
+    const nodeIDAccessor = stringToFn(baseNodeIDAccessor, d => d.id);
+    const sourceAccessor = stringToFn(baseSourceAccessor, d => d.source);
+    const targetAccessor = stringToFn(baseTargetAccessor, d => d.target);
 
     const nodeSizeAccessor =
       typeof baseNodeSizeAccessor === 'number'
@@ -361,10 +333,7 @@ const computeNetworkFrameData = props => {
     let projectedNodes = [];
     let projectedEdges = [];
 
-    console.log('-----');
-    const isHierarchical =
-      typeof networkSettings.type === 'string' &&
-      hierarchicalTypeHash[networkSettings.type];
+    const isHierarchical = hierarchicalTypeHash[networkSettings.type];
 
     const changedData =
       !frameData.projectedNodes ||
@@ -449,15 +418,12 @@ const computeNetworkFrameData = props => {
 
       if (!Array.isArray(baseEdges)) {
         networkSettings.hierarchicalNetwork = true;
-        const rootNode = hierarchy(
-          baseEdges,
-          networkSettings.hierarchyChildren
-        );
+        const rootNode = hierarchy(baseEdges, hierarchyChildren);
 
-        rootNode.sum(networkSettings.hierarchySum || (d => d.value));
+        rootNode.sum(hierarchySum || (d => d.value));
 
         if (isHierarchical) {
-          const layout = networkSettings.barLayout || isHierarchical;
+          const layout = barLayout || isHierarchical;
           const hierarchicalLayout = layout();
           const networkSettingKeys = Object.keys(networkSettings);
           if (
@@ -469,7 +435,7 @@ const computeNetworkFrameData = props => {
             hierarchicalLayout.separation(
               (a, b) =>
                 (nodeSizeAccessor({ ...a, ...a.data }) || 1) +
-                (networkSettings.nodePadding || 0) +
+                (nodePadding || 0) +
                 (nodeSizeAccessor({ ...b, ...b.data }) || 1)
             );
           }
@@ -480,10 +446,10 @@ const computeNetworkFrameData = props => {
             }
           });
           const layoutSize =
-            networkSettings.projection === 'horizontal' && isHierarchical
+            projection === 'horizontal' && isHierarchical
               ? [adjustedSize[1], adjustedSize[0]]
               : adjustedSize;
-          if (!networkSettings.nodeSize && hierarchicalLayout.size) {
+          if (!nodeSize && hierarchicalLayout.size) {
             hierarchicalLayout.size(layoutSize);
           }
 
@@ -575,7 +541,9 @@ const computeNetworkFrameData = props => {
       : nodeGenerator
       ? nodeGenerator({
           center,
-          networkSettings,
+          angleRange,
+          projection,
+          direction,
           size: adjustedSize,
           nodes: projectedNodes
         })
@@ -585,7 +553,7 @@ const computeNetworkFrameData = props => {
       ? baseCustomEdgeIcon
       : edgeGenerator
       ? edgeGenerator({
-          networkSettings,
+          direction,
           size: adjustedSize,
           nodes: projectedNodes,
           graph
@@ -604,7 +572,7 @@ const computeNetworkFrameData = props => {
 
     let networkSettingsChanged = false;
 
-    networkSettingsKeys.forEach(key => {
+    ['type', 'height', 'width'].forEach(key => {
       if (
         key !== 'edgeType' &&
         key !== 'graphSettings' &&
@@ -631,7 +599,7 @@ const computeNetworkFrameData = props => {
         if (
           typeof networkSettings.type === 'string' &&
           hierarchicalProjectable[networkSettings.type] &&
-          networkSettings.projection === 'horizontal'
+          projection === 'horizontal'
         ) {
           const ox = node.x;
           node.x = node.y;
@@ -648,7 +616,7 @@ const computeNetworkFrameData = props => {
         } else if (
           typeof networkSettings.type === 'string' &&
           radialProjectable[networkSettings.type] &&
-          networkSettings.projection === 'radial'
+          projection === 'radial'
         ) {
           const radialPoint =
             node.depth === 0
@@ -691,7 +659,7 @@ const computeNetworkFrameData = props => {
           groupWidth = 20,
           padAngle = 0.01,
           sortGroups
-        } = networkSettings;
+        } = singlePlot.props;
         const arcGenerator = arc()
           .innerRadius(radius - groupWidth)
           .outerRadius(radius);
@@ -754,17 +722,14 @@ const computeNetworkFrameData = props => {
           nodeWidth = networkSettings.type === 'flowchart' ? 2 : 24,
           customSankey,
           direction = 'right'
-        } = networkSettings;
+        } = singlePlot.props;
         const sankeyOrient = sankeyOrientHash[orient];
 
         const actualSankey = customSankey || sankeyCircular;
 
         let frameExtent = [[0, 0], adjustedSize];
 
-        if (
-          networkSettings.direction === 'up' ||
-          networkSettings.direction === 'down'
-        ) {
+        if (direction === 'up' || direction === 'down') {
           frameExtent = [
             [0, 0],
             [adjustedSize[1], adjustedSize[0]]
@@ -802,115 +767,13 @@ const computeNetworkFrameData = props => {
           d.direction = direction;
           d.width = undefined;
         });
-      } else if (networkSettings.type === 'wordcloud') {
-        const {
-          iterations = 500,
-          fontSize = 18,
-          rotate,
-          fontWeight = 300,
-          textAccessor = d => d.text
-        } = networkSettings;
-
-        const fontWeightMod = (fontWeight / 300 - 1) / 5 + 1;
-        const fontWidth = (fontSize / 1.5) * fontWeightMod;
-
-        projectedNodes.forEach((d, i) => {
-          const calcualatedNodeSize = nodeSizeAccessor(d);
-          d._NWFText = textAccessor(d) || '';
-          const textWidth =
-            fontWidth * d._NWFText.length * calcualatedNodeSize * 1.4;
-          const textHeight = fontSize * calcualatedNodeSize;
-
-          d.textHeight = textHeight + 4;
-          d.textWidth = textWidth + 4;
-          d.rotate = rotate ? rotate(d, i) : 0;
-          d.fontSize = fontSize * calcualatedNodeSize;
-          d.fontWeight = fontWeight;
-          d.radius = d.r = textWidth / 2;
-        });
-
-        projectedNodes.sort((a, b) => b.textWidth - a.textWidth);
-
-        //bubblepack for initial position
-        packSiblings(projectedNodes);
-
-        //        if (rotate) {
-        const collide = bboxCollide(d => {
-          if (d.rotate) {
-            return [
-              [-d.textHeight / 2, -d.textWidth / 2],
-              [d.textHeight / 2, d.textWidth / 2]
-            ];
-          }
-          return [
-            [-d.textWidth / 2, -d.textHeight / 2],
-            [d.textWidth / 2, d.textHeight / 2]
-          ];
-        }).iterations(1);
-
-        const xCenter = size[0] / 2;
-        const yCenter = size[1] / 2;
-
-        const simulation = forceSimulation(projectedNodes)
-          .velocityDecay(0.6)
-          .force('x', forceX(xCenter).strength(1.2))
-          .force('y', forceY(yCenter).strength(1.2))
-          .force('collide', collide);
-
-        simulation.stop();
-
-        for (let i = 0; i < iterations; ++i) simulation.tick();
-        //      }
-
-        const xMin = min(
-          projectedNodes.map(
-            p => p.x - (p.rotate ? p.textHeight / 2 : p.textWidth / 2)
-          )
-        );
-        const xMax = max(
-          projectedNodes.map(
-            p => p.x + (p.rotate ? p.textHeight / 2 : p.textWidth / 2)
-          )
-        );
-        const yMin = min(
-          projectedNodes.map(
-            p => p.y - (p.rotate ? p.textWidth / 2 : p.textHeight / 2)
-          )
-        );
-        const yMax = max(
-          projectedNodes.map(
-            p => p.y + (p.rotate ? p.textWidth / 2 : p.textHeight / 2)
-          )
-        );
-        const projectionScaleX = scaleLinear()
-          .domain([xMin, xMax])
-          .range([0, adjustedSize[0]]);
-        const projectionScaleY = scaleLinear()
-          .domain([yMin, yMax])
-          .range([0, adjustedSize[1]]);
-        const xMod = adjustedSize[0] / xMax;
-        const yMod = adjustedSize[1] / yMax;
-
-        const sizeMod = Math.min(xMod, yMod) * 1.2;
-        projectedNodes.forEach(node => {
-          node.x = projectionScaleX(node.x);
-          node.y = projectionScaleY(node.y);
-          node.fontSize = node.fontSize * sizeMod;
-          node.scale = 1;
-          node.radius = node.r = Math.max(
-            (node.textHeight / 4) * yMod,
-            (node.textWidth / 4) * xMod
-          );
-          //      node.textHeight = projectionScaleY(node.textHeight)
-          //      node.textWidth = projectionScaleY(node.textWidth)
-        });
       } else if (networkSettings.type === 'force') {
         const {
           iterations = 500,
           edgeStrength = 0.1,
           distanceMax = Infinity,
           edgeDistance
-        } = networkSettings;
+        } = singlePlot.props;
 
         const linkForce = forceLink().strength(d =>
           Math.min(2.5, d.weight ? d.weight * edgeStrength : edgeStrength)
@@ -1165,7 +1028,6 @@ const computeNetworkFrameData = props => {
     } else if (
       networkSettings.zoom !== false &&
       networkSettings.type !== 'matrix' &&
-      networkSettings.type !== 'wordcloud' &&
       networkSettings.type !== 'chord' &&
       networkSettings.type !== 'sankey' &&
       networkSettings.type !== 'partition' &&
@@ -1445,7 +1307,9 @@ const computeNetworkFrameData = props => {
       canvasPipeline,
       graphSettings: {
         ...networkSettings.graphSettings,
-        ...networkSettings
+        ...networkSettings,
+        direction,
+        projection
       }
     });
   };

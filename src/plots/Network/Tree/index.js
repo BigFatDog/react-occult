@@ -3,8 +3,6 @@ import HierarchicalDiagram from '../HierarchicalDiagram';
 
 const Tree = props => {};
 
-Tree.layout = null;
-
 Tree.propTypes = {
   ...HierarchicalDiagram.propTypes
 };

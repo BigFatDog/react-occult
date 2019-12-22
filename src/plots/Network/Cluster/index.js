@@ -3,8 +3,6 @@ import HierarchicalDiagram from '../HierarchicalDiagram';
 
 const Cluster = props => {};
 
-Cluster.layout = null;
-
 Cluster.propTypes = {
   ...HierarchicalDiagram.propTypes
 };

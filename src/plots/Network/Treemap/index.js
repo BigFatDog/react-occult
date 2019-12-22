@@ -5,9 +5,9 @@ import hierarchicalRectNodeGenerator from '../hierarchicalRectNodeGenerator';
 
 const Treemap = props => {};
 
-Treemap.nodeGenerator = ({ size, center, networkSettings }) =>
-  networkSettings.projection === 'radial'
-    ? radialRectNodeGenerator(size, center, networkSettings)
+Treemap.nodeGenerator = ({ size, center, projection, angleRange }) =>
+  projection === 'radial'
+    ? radialRectNodeGenerator(size, center, angleRange)
     : hierarchicalRectNodeGenerator;
 
 Treemap.propTypes = {

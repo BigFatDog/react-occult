@@ -37,7 +37,8 @@ NetworkPlot.propTypes = {
   customEdgeIcon: PropTypes.func,
   filterRenderedNodes: PropTypes.func,
   edgeRenderKey: PropTypes.func,
-  nodeRenderKey: PropTypes.func
+  nodeRenderKey: PropTypes.func,
+  hierarchyChildren: PropTypes.func
 };
 
 NetworkPlot.defaultProps = {

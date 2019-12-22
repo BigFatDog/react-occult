@@ -3,8 +3,6 @@ import ForceLayout from '../ForceLayout';
 
 const Motifs = props => {};
 
-Motifs.layout = null;
-
 Motifs.propTypes = {
   ...ForceLayout.propTypes
 };

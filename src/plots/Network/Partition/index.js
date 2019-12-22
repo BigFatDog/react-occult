@@ -5,9 +5,9 @@ import hierarchicalRectNodeGenerator from '../hierarchicalRectNodeGenerator';
 
 const Partition = props => {};
 
-Partition.nodeGenerator = ({ size, center, networkSettings }) =>
-  networkSettings.projection === 'radial'
-    ? radialRectNodeGenerator(size, center, networkSettings)
+Partition.nodeGenerator = ({ size, center, projection, angleRange }) =>
+  projection === 'radial'
+    ? radialRectNodeGenerator(size, center, angleRange)
     : hierarchicalRectNodeGenerator;
 
 Partition.propTypes = {
