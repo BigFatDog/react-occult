@@ -28,7 +28,7 @@ import {
   pack,
   cluster,
   treemap,
-  partition,
+  partition
 } from 'd3-hierarchy';
 import pathBounds from 'svg-path-bounding-box';
 import AnnotationLabel from 'react-annotation/lib/Types/AnnotationLabel';
@@ -332,7 +332,8 @@ const computeNetworkFrameData = props => {
     let projectedNodes = [];
     let projectedEdges = [];
 
-    const isHierarchical = hierarchicalTypeHash[networkSettings.type] !== undefined;
+    const isHierarchical =
+      hierarchicalTypeHash[networkSettings.type] !== undefined;
 
     const changedData =
       !frameData.projectedNodes ||
