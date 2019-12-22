@@ -767,8 +767,8 @@ const Network = props => {
   return (
     <PapperBlock>
       <Paper {...frameProps}>
-        {/*<Force {...forceProps}></Force>*/}
-        <Sankey {...sankeyProps}></Sankey>
+        <Force {...forceProps}></Force>
+        {/*<Sankey {...sankeyProps}></Sankey>*/}
       </Paper>
     </PapperBlock>
   );

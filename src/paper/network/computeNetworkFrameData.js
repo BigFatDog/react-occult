@@ -9,7 +9,6 @@ import {
   forceManyBody
 } from 'd3-force';
 
-import { bboxCollide } from 'd3-bboxCollide';
 import { scaleLinear } from 'd3-scale';
 import { min, max } from 'd3-array';
 
@@ -30,7 +29,6 @@ import {
   cluster,
   treemap,
   partition,
-  packSiblings
 } from 'd3-hierarchy';
 import pathBounds from 'svg-path-bounding-box';
 import AnnotationLabel from 'react-annotation/lib/Types/AnnotationLabel';
@@ -298,6 +296,7 @@ const computeNetworkFrameData = props => {
       margin
     });
 
+    const nodeHierarchicalIDFill = {};
     const networkSettings = {
       type: singlePlot.type.name.toLowerCase(),
       graphSettings: baseGraphSettings
@@ -333,7 +332,7 @@ const computeNetworkFrameData = props => {
     let projectedNodes = [];
     let projectedEdges = [];
 
-    const isHierarchical = hierarchicalTypeHash[networkSettings.type];
+    const isHierarchical = hierarchicalTypeHash[networkSettings.type] !== undefined;
 
     const changedData =
       !frameData.projectedNodes ||
@@ -1318,6 +1317,7 @@ const computeNetworkFrameData = props => {
     computeFrame(props);
   }, []);
 
+  console.log(frameData)
   return frameData;
 };
 
