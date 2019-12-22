@@ -265,7 +265,12 @@ const computeNetworkFrameData = props => {
       nodeUseCanvas,
       edgeUseCanvas,
       edgeRenderKey,
-      nodeRenderKey
+      nodeRenderKey,
+      nodeIDAccessor: baseNodeIDAccessor,
+      sourceAccessor: baseSourceAccessor,
+        targetAccessor: baseTargetAccessor,
+        nodeSizeAccessor: baseNodeSizeAccessor,
+        edgeWidthAccessor: baseEdgeWidthAccessor
     } = singlePlot.props;
 
     let { edgeType } = singlePlot.props;
@@ -334,25 +339,22 @@ const computeNetworkFrameData = props => {
       networkSettings.type === 'partition' ||
       networkSettings.type === 'sankey';
 
-    const nodeIDAccessor = stringToFn(
-      singlePlot.props.nodeIDAccessor,
+    const nodeIDAccessor = stringToFn(baseNodeIDAccessor,
       d => d.id
     );
-    const sourceAccessor = stringToFn(
-      singlePlot.props.sourceAccessor,
+    const sourceAccessor = stringToFn(baseSourceAccessor,
       d => d.source
     );
-    const targetAccessor = stringToFn(
-      singlePlot.props.targetAccessor,
+    const targetAccessor = stringToFn(baseTargetAccessor,
       d => d.target
     );
 
     const nodeSizeAccessor =
-      typeof singlePlot.propsnodeSizeAccessor === 'number'
-        ? genericFunction(singlePlot.propsnodeSizeAccessor)
-        : stringToFn(singlePlot.propsnodeSizeAccessor, d => d.r || 5);
+      typeof baseNodeSizeAccessor === 'number'
+        ? genericFunction(baseNodeSizeAccessor)
+        : stringToFn(baseNodeSizeAccessor, d => d.r || 5);
     const edgeWidthAccessor = stringToFn(
-      singlePlot.propsedgeWidthAccessor,
+      baseEdgeWidthAccessor,
       d => d.weight || 1
     );
 
@@ -1271,7 +1273,7 @@ const computeNetworkFrameData = props => {
         ///Something auto for networks
         const legendGroups = [
           {
-            styleFn: singlePlot.props.nodeStyle,
+            styleFn: nodeStyle,
             type: 'fill',
             items: []
           }

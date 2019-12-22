@@ -191,12 +191,6 @@ const Frame = props => {
       annotations.push(voronoiHover);
     }
   }
-
-  if (props.nodeLabelAnnotations) {
-    annotations.push(...props.nodeLabelAnnotations);
-  }
-  // todo: network
-
   const svgAnnotations = renderAnnotations(annotations, {
     xScale: frameXScale,
     yScale: frameYScale,
