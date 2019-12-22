@@ -25,4 +25,4 @@ ForceLayout.defaultProps = {
   forceManyBody: d => -25 * nodeSizeAccessor(d) // Strength of the built in charge
 };
 
-export default HierarchicalDiagram;
+export default ForceLayout;

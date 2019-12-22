@@ -1,9 +1,10 @@
 import React from 'react';
 import HierarchicalDiagram from '../HierarchicalDiagram';
+import circleNodeGenerator from './circleNodeGenerator';
 
 const CirclePack = props => {};
 
-CirclePack.layout = null;
+CirclePack.nodeGenerator = circleNodeGenerator;
 
 CirclePack.propTypes = {
   ...HierarchicalDiagram.propTypes

@@ -1,9 +1,10 @@
 import React from 'react';
 import PathDiagram from '../PathDiagram';
+import sankeyNodeGenerator from './sankeyNodeGenerator';
 
 const Sankey = props => {};
 
-Sankey.layout = null;
+Sankey.nodeGenerator = sankeyNodeGenerator;
 
 Sankey.propTypes = {
   ...PathDiagram.propTypes

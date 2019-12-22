@@ -1,9 +1,18 @@
 import React from 'react';
-import { XAxis, YAxis, NetworkFrame } from 'occult';
+import { XAxis, YAxis, Paper, Force } from 'occult';
 import { PapperBlock } from 'dan-components';
 import * as d3 from 'd3';
 
 const frameProps = {
+  width: 700,
+  height: 500,
+  margin: 70,
+
+};
+
+const forceProps = {
+  edgeUseCanvas: false,
+  nodeUseCanvas: false,
   edges: {
     name: 'flare',
     children: [
@@ -377,29 +386,24 @@ const frameProps = {
       }
     ]
   },
-  networkType: {
-    type: 'force',
-    forceManyBody: -250,
-    distanceMax: 500,
-    edgeStrength: 2
-  },
+  forceManyBody: -250,
+  distanceMax: 500,
+  edgeStrength: 2,
   nodeIDAccessor: function(e) {
     return e.hierarchicalID || e.name;
   },
   edgeStyle: { stroke: '#9fd0cb', fill: 'none' },
   nodeSizeAccessor: 2,
   edgeType: 'linearc',
-  width: 700,
-  height: 500,
-  margin: 70,
-  edgeUseCanvas: false,
-  nodeUseCanvas: false
-};
+}
 
 const Network = props => {
   return (
     <PapperBlock>
-      <NetworkFrame {...frameProps} />
+      <Paper {...frameProps} >
+        <Force  {...forceProps}>
+        </Force>
+        </Paper>
     </PapperBlock>
   );
 };

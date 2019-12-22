@@ -1,9 +1,10 @@
 import React from 'react';
 import PathDiagram from '../PathDiagram';
+import arcEdgeGenerator from './arcEdgeGenerator';
 
 const Arc = props => {};
 
-Arc.layout = null;
+Arc.edgeGenerator = arcEdgeGenerator;
 
 Arc.propTypes = {
   ...PathDiagram.propTypes

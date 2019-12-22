@@ -36,21 +36,12 @@ import pathBounds from 'svg-path-bounding-box';
 import AnnotationLabel from 'react-annotation/lib/Types/AnnotationLabel';
 
 import topologicalSort from './layout/topologicalSort';
-import hierarchicalRectNodeGenerator from './layout/hierarchicalRectNodeGenerator';
-import matrixNodeGenerator from './layout/matrixNodeGenerator';
-import radialRectNodeGenerator from './layout/radialRectNodeGenerator';
-import chordNodeGenerator from './layout/chordNodeGenerator';
-import chordEdgeGenerator from './layout/chordEdgeGenerator';
-import arcEdgeGenerator from './layout/arcEdgeGenerator';
-import sankeyNodeGenerator from './layout/sankeyNodeGenerator';
-import wordcloudNodeGenerator from './layout/wordcloudNodeGenerator';
-import circleNodeGenerator from './layout/circleNodeGenerator';
 import areaLink from './layout/areaLink';
 import ribbonLink from './layout/ribbonLink';
 import circularAreaLink from './layout/circularAreaLink';
 import radialLabelGenerator from './layout/radialLabelGenerator';
-import dagreEdgeGenerator from './layout/dagreEdgeGenerator';
 import softStack from './layout/softStack';
+import circleNodeGenerator from '../../plots/Network/CirclePack/circleNodeGenerator';
 import pointOnArcAtAngle from '../../utils/pointOnArcAtAngle';
 import stringToFn from '../../utils/stringToFn';
 import { getAdjustedPositionSize, toMarginGraphic } from '../utils';
@@ -109,8 +100,8 @@ const edgePointHash = {
     edge: d,
     x: (d.source.x1 + d.target.x0) / 2,
     y: d.circularPathData
-      ? d.circularPathData.verticalFullExtent
-      : ((d.y0 + d.y1) / 2 + (d.y0 + d.y1) / 2) / 2
+        ? d.circularPathData.verticalFullExtent
+        : ((d.y0 + d.y1) / 2 + (d.y0 + d.y1) / 2) / 2
   }),
   force: basicMiddle,
   tree: basicMiddle,
@@ -140,65 +131,6 @@ const radialProjectable = {
   dendrogram: true
 };
 
-function determineNodeIcon(baseCustomNodeIcon, networkSettings, size, nodes) {
-  if (baseCustomNodeIcon) return baseCustomNodeIcon;
-
-  const center = [size[0] / 2, size[1] / 2];
-
-  switch (networkSettings.type) {
-    case 'sankey':
-      return sankeyNodeGenerator;
-    case 'partition':
-      return networkSettings.projection === 'radial'
-        ? radialRectNodeGenerator(size, center, networkSettings)
-        : hierarchicalRectNodeGenerator;
-    case 'treemap':
-      return networkSettings.projection === 'radial'
-        ? radialRectNodeGenerator(size, center, networkSettings)
-        : hierarchicalRectNodeGenerator;
-    case 'circlepack':
-      return circleNodeGenerator;
-    case 'wordcloud':
-      return wordcloudNodeGenerator;
-    case 'chord':
-      return chordNodeGenerator(size);
-    case 'dagre':
-      return hierarchicalRectNodeGenerator;
-    case 'matrix':
-      return matrixNodeGenerator(size, nodes);
-  }
-
-  return circleNodeGenerator;
-}
-
-function determineEdgeIcon({
-  baseCustomEdgeIcon,
-  networkSettings,
-  size,
-  graph,
-  nodes
-}) {
-  if (baseCustomEdgeIcon) return baseCustomEdgeIcon;
-  switch (networkSettings.type) {
-    case 'partition':
-      return () => null;
-    case 'treemap':
-      return () => null;
-    case 'circlepack':
-      return () => null;
-    case 'wordcloud':
-      return () => null;
-    case 'chord':
-      return chordEdgeGenerator(size);
-    case 'matrix':
-      return matrixEdgeGenerator(size, nodes);
-    case 'arc':
-      return arcEdgeGenerator(size);
-    case 'dagre':
-      if (graph) return dagreEdgeGenerator(graph.graph().rankdir);
-  }
-  return undefined;
-}
 
 function breadthFirstCompontents(baseNodes, hash) {
   const componentHash = {
@@ -235,7 +167,7 @@ function breadthFirstCompontents(baseNodes, hash) {
   }
 
   return components.sort(
-    (a, b) => b.componentNodes.length - a.componentNodes.length
+      (a, b) => b.componentNodes.length - a.componentNodes.length
   );
 }
 
@@ -300,16 +232,27 @@ const computeNetworkFrameData = props => {
 
   const computeFrame = props => {
     const {
+      margin: baseMargin,
+      width,
+      height,
+      matte,
+      hoverAnnotation,
+      name,
+      plotChildren
+    } = props;
+
+    const singlePlot = plotChildren[0];
+
+    const {
       graph,
       nodes = Array.isArray(graph) || typeof graph === 'function'
-        ? emptyArray
-        : (graph && graph.nodes) || emptyArray,
+          ? emptyArray
+          : (graph && graph.nodes) || emptyArray,
       edges = typeof graph === 'function'
-        ? emptyArray
-        : Array.isArray(graph)
-        ? graph
-        : (graph && graph.edges) || emptyArray,
-      networkType,
+          ? emptyArray
+          : Array.isArray(graph)
+              ? graph
+              : (graph && graph.edges) || emptyArray,
       nodeStyle,
       nodeClass,
       edgeStyle,
@@ -317,56 +260,33 @@ const computeNetworkFrameData = props => {
       nodeRenderMode,
       edgeRenderMode,
       nodeLabels,
-      title,
-      margin: baseMargin,
       customNodeIcon: baseCustomNodeIcon,
       customEdgeIcon: baseCustomEdgeIcon,
       filterRenderedNodes,
-      width,
-      height,
-      annotations,
-      annotationSettings,
-      className,
-      customClickBehavior,
-      customDoubleClickBehavior,
-      customHoverBehavior,
-      matte,
-      hoverAnnotation,
-      beforeElements,
-      afterElements,
-      interaction,
-      disableContext,
-      canvasPostProcess,
-      baseMarkProps,
-      useSpans,
       nodeUseCanvas,
       edgeUseCanvas,
-      name,
-      additionalDefs,
       edgeRenderKey,
-      nodeRenderKey,
+      nodeRenderKey
+    } = singlePlot.props;
 
-      backgroundGraphics,
-      foregroundGraphics,
-      frameKey,
-      axis,
-      interactionOverflow,
-      disableCanvasInteraction
-    } = props;
+    let { edgeType } = singlePlot.props;
 
-    let { edgeType } = props;
-    // --------------- same as xy  - start
+    const { nodeGenerator, edgeGenerator } = singlePlot.type;
+    const networkType = singlePlot.type.name.toLowerCase();
+
     const size = [width, height];
+    const center = [size[0] / 2, size[1] / 2];
+
 
     const margin =
-      typeof baseMargin !== 'object'
-        ? {
-            top: baseMargin,
-            bottom: baseMargin,
-            left: baseMargin,
-            right: baseMargin
-          }
-        : Object.assign({ top: 0, bottom: 0, left: 0, right: 0 }, baseMargin);
+        typeof baseMargin !== 'object'
+            ? {
+              top: baseMargin,
+              bottom: baseMargin,
+              left: baseMargin,
+              right: baseMargin
+            }
+            : Object.assign({ top: 0, bottom: 0, left: 0, right: 0 }, baseMargin);
 
     const marginGraphic = toMarginGraphic({ matte, size, margin, name });
 
@@ -398,8 +318,8 @@ const computeNetworkFrameData = props => {
     }
 
     if (
-      networkSettings.projection === 'vertical' &&
-      networkSettings.type === 'sankey'
+        networkSettings.projection === 'vertical' &&
+        networkSettings.type === 'sankey'
     ) {
       networkSettings.direction = 'down';
     }
@@ -412,36 +332,37 @@ const computeNetworkFrameData = props => {
     let { edgeHash, nodeHash } = networkSettings.graphSettings;
 
     const createPointLayer =
-      networkSettings.type === 'treemap' ||
-      networkSettings.type === 'partition' ||
-      networkSettings.type === 'sankey';
+        networkSettings.type === 'treemap' ||
+        networkSettings.type === 'partition' ||
+        networkSettings.type === 'sankey';
 
     const nodeIDAccessor = stringToFn(props.nodeIDAccessor, d => d.id);
     const sourceAccessor = stringToFn(props.sourceAccessor, d => d.source);
     const targetAccessor = stringToFn(props.targetAccessor, d => d.target);
 
     const nodeSizeAccessor =
-      typeof props.nodeSizeAccessor === 'number'
-        ? genericFunction(props.nodeSizeAccessor)
-        : stringToFn(props.nodeSizeAccessor, d => d.r || 5);
+        typeof props.nodeSizeAccessor === 'number'
+            ? genericFunction(props.nodeSizeAccessor)
+            : stringToFn(props.nodeSizeAccessor, d => d.r || 5);
     const edgeWidthAccessor = stringToFn(
-      props.edgeWidthAccessor,
-      d => d.weight || 1
+        props.edgeWidthAccessor,
+        d => d.weight || 1
     );
 
     let projectedNodes = [];
     let projectedEdges = [];
 
+    console.log('-----')
     const isHierarchical =
-      typeof networkSettings.type === 'string' &&
-      hierarchicalTypeHash[networkSettings.type];
+        typeof networkSettings.type === 'string' &&
+        hierarchicalTypeHash[networkSettings.type];
 
     const changedData =
-      !frameData.projectedNodes ||
-      !frameData.projectedEdges ||
-      frameData.graphSettings.nodes !== nodes ||
-      frameData.graphSettings.edges !== edges ||
-      isHierarchical;
+        !frameData.projectedNodes ||
+        !frameData.projectedEdges ||
+        frameData.graphSettings.nodes !== nodes ||
+        frameData.graphSettings.edges !== edges ||
+        isHierarchical;
 
     if (networkSettings.type === 'dagre') {
       const dagreGraph = graph;
@@ -499,11 +420,11 @@ const computeNetworkFrameData = props => {
 
       if (isHierarchical && Array.isArray(edges)) {
         const createdHierarchicalData = softStack(
-          edges,
-          projectedNodes,
-          sourceAccessor,
-          targetAccessor,
-          nodeIDAccessor
+            edges,
+            projectedNodes,
+            sourceAccessor,
+            targetAccessor,
+            nodeIDAccessor
         );
 
         if (createdHierarchicalData.isHierarchical) {
@@ -511,7 +432,7 @@ const computeNetworkFrameData = props => {
           projectedNodes = [];
         } else {
           console.error(
-            "You've sent an edge list that is not strictly hierarchical (there are nodes with multiple parents) defaulting to force-directed network layout"
+              "You've sent an edge list that is not strictly hierarchical (there are nodes with multiple parents) defaulting to force-directed network layout"
           );
           networkSettings.type = 'force';
         }
@@ -520,8 +441,8 @@ const computeNetworkFrameData = props => {
       if (!Array.isArray(baseEdges)) {
         networkSettings.hierarchicalNetwork = true;
         const rootNode = hierarchy(
-          baseEdges,
-          networkSettings.hierarchyChildren
+            baseEdges,
+            networkSettings.hierarchyChildren
         );
 
         rootNode.sum(networkSettings.hierarchySum || (d => d.value));
@@ -531,16 +452,16 @@ const computeNetworkFrameData = props => {
           const hierarchicalLayout = layout();
           const networkSettingKeys = Object.keys(networkSettings);
           if (
-            (networkSettings.type === 'dendrogram' ||
-              networkSettings.type === 'tree' ||
-              networkSettings.type === 'cluster') &&
-            hierarchicalLayout.separation
+              (networkSettings.type === 'dendrogram' ||
+                  networkSettings.type === 'tree' ||
+                  networkSettings.type === 'cluster') &&
+              hierarchicalLayout.separation
           ) {
             hierarchicalLayout.separation(
-              (a, b) =>
-                (nodeSizeAccessor({ ...a, ...a.data }) || 1) +
-                (networkSettings.nodePadding || 0) +
-                (nodeSizeAccessor({ ...b, ...b.data }) || 1)
+                (a, b) =>
+                    (nodeSizeAccessor({ ...a, ...a.data }) || 1) +
+                    (networkSettings.nodePadding || 0) +
+                    (nodeSizeAccessor({ ...b, ...b.data }) || 1)
             );
           }
 
@@ -550,9 +471,9 @@ const computeNetworkFrameData = props => {
             }
           });
           const layoutSize =
-            networkSettings.projection === 'horizontal' && isHierarchical
-              ? [adjustedSize[1], adjustedSize[0]]
-              : adjustedSize;
+              networkSettings.projection === 'horizontal' && isHierarchical
+                  ? [adjustedSize[1], adjustedSize[0]]
+                  : adjustedSize;
           if (!networkSettings.nodeSize && hierarchicalLayout.size) {
             hierarchicalLayout.size(layoutSize);
           }
@@ -561,7 +482,7 @@ const computeNetworkFrameData = props => {
         }
 
         operationalEdges = nodesEdgesFromHierarchy(rootNode, nodeIDAccessor)
-          .edges;
+            .edges;
       }
 
       baseNodeProps.shapeNode = createPointLayer;
@@ -573,27 +494,27 @@ const computeNetworkFrameData = props => {
           sourceTarget.forEach(nodeDirection => {
             if (!nodeHash.get(nodeDirection)) {
               const nodeObject =
-                typeof nodeDirection === 'object'
-                  ? {
-                      ...baseNodeProps,
-                      ...nodeDirection
-                    }
-                  : {
-                      ...baseNodeProps,
-                      id: nodeDirection,
-                      createdByFrame: true
-                    };
+                  typeof nodeDirection === 'object'
+                      ? {
+                        ...baseNodeProps,
+                        ...nodeDirection
+                      }
+                      : {
+                        ...baseNodeProps,
+                        id: nodeDirection,
+                        createdByFrame: true
+                      };
 
               const nodeIDValue = nodeObject.id || nodeIDAccessor(nodeObject);
               nodeHierarchicalIDFill[nodeIDValue]
-                ? (nodeHierarchicalIDFill[nodeIDValue] += 1)
-                : (nodeHierarchicalIDFill[nodeIDValue] = 1);
+                  ? (nodeHierarchicalIDFill[nodeIDValue] += 1)
+                  : (nodeHierarchicalIDFill[nodeIDValue] = 1);
 
               if (!nodeObject.id) {
                 const nodeSuffix =
-                  nodeHierarchicalIDFill[nodeIDValue] === 1
-                    ? ''
-                    : `-${nodeHierarchicalIDFill[nodeIDValue]}`;
+                    nodeHierarchicalIDFill[nodeIDValue] === 1
+                        ? ''
+                        : `-${nodeHierarchicalIDFill[nodeIDValue]}`;
                 nodeObject.id = `${nodeIDValue}${nodeSuffix}`;
               }
 
@@ -613,7 +534,7 @@ const computeNetworkFrameData = props => {
           sourceNode.degree += edgeWeight;
 
           const edgeKey = `${nodeIDAccessor(sourceNode) ||
-            source}|${nodeIDAccessor(targetNode) || target}`;
+          source}|${nodeIDAccessor(targetNode) || target}`;
           const newEdge = Object.assign({}, edge, {
             source: nodeHash.get(source),
             target: nodeHash.get(target)
@@ -627,38 +548,45 @@ const computeNetworkFrameData = props => {
       networkSettings.graphSettings.edgeHash = edgeHash;
       projectedEdges.forEach(edge => {
         const edgeSource =
-          typeof edge.source === 'string'
-            ? edge.source
-            : nodeIDAccessor(edge.source);
+            typeof edge.source === 'string'
+                ? edge.source
+                : nodeIDAccessor(edge.source);
         const edgeTarget =
-          typeof edge.target === 'string'
-            ? edge.target
-            : nodeIDAccessor(edge.target);
+            typeof edge.target === 'string'
+                ? edge.target
+                : nodeIDAccessor(edge.target);
 
         const edgeKey = `${edgeSource}|${edgeTarget}`;
         edgeHash.set(edgeKey, edge);
       });
     }
 
-    const customNodeIcon = determineNodeIcon(
-      baseCustomNodeIcon,
-      networkSettings,
-      adjustedSize,
-      projectedNodes
-    );
+    const customNodeIcon = baseCustomNodeIcon
+        ? baseCustomNodeIcon
+        : nodeGenerator
+            ? nodeGenerator({
+              center,
+              networkSettings,
+              size: adjustedSize,
+              nodes: projectedNodes
+            })
+            : circleNodeGenerator();
 
-    const customEdgeIcon = determineEdgeIcon({
-      baseCustomEdgeIcon,
-      networkSettings,
-      size: adjustedSize,
-      nodes: projectedNodes,
-      graph
-    });
+    const customEdgeIcon = baseCustomEdgeIcon
+        ? baseCustomEdgeIcon
+        : edgeGenerator
+            ? edgeGenerator({
+              networkSettings,
+              size: adjustedSize,
+              nodes: projectedNodes,
+              graph
+            })
+            : null;
 
     if (
-      (networkSettings.type === 'sankey' ||
-        networkSettings.type === 'flowchart') &&
-      topologicalSort(projectedNodes, projectedEdges) === null
+        (networkSettings.type === 'sankey' ||
+            networkSettings.type === 'flowchart') &&
+        topologicalSort(projectedNodes, projectedEdges) === null
     ) {
       networkSettings.customSankey = sankeyCircular;
     }
@@ -669,9 +597,9 @@ const computeNetworkFrameData = props => {
 
     networkSettingsKeys.forEach(key => {
       if (
-        key !== 'edgeType' &&
-        key !== 'graphSettings' &&
-        networkSettings[key] !== frameData.graphSettings[key]
+          key !== 'edgeType' &&
+          key !== 'graphSettings' &&
+          networkSettings[key] !== frameData.graphSettings[key]
       ) {
         networkSettingsChanged = true;
       }
@@ -680,11 +608,11 @@ const computeNetworkFrameData = props => {
     //Support bubble chart with circle pack and with force
     if (networkSettings.type === 'sankey') {
       edgeType = d =>
-        d.circular
-          ? circularAreaLink(d)
-          : edgeType === 'angled'
-          ? ribbonLink(d)
-          : areaLink(d);
+          d.circular
+              ? circularAreaLink(d)
+              : edgeType === 'angled'
+              ? ribbonLink(d)
+              : areaLink(d);
     } else if (isHierarchical) {
       projectedNodes.forEach(node => {
         if (createPointLayer) {
@@ -692,9 +620,9 @@ const computeNetworkFrameData = props => {
           node.y = (node.y0 + node.y1) / 2;
         }
         if (
-          typeof networkSettings.type === 'string' &&
-          hierarchicalProjectable[networkSettings.type] &&
-          networkSettings.projection === 'horizontal'
+            typeof networkSettings.type === 'string' &&
+            hierarchicalProjectable[networkSettings.type] &&
+            networkSettings.projection === 'horizontal'
         ) {
           const ox = node.x;
           node.x = node.y;
@@ -709,18 +637,18 @@ const computeNetworkFrameData = props => {
             node.y1 = ox1;
           }
         } else if (
-          typeof networkSettings.type === 'string' &&
-          radialProjectable[networkSettings.type] &&
-          networkSettings.projection === 'radial'
+            typeof networkSettings.type === 'string' &&
+            radialProjectable[networkSettings.type] &&
+            networkSettings.projection === 'radial'
         ) {
           const radialPoint =
-            node.depth === 0
-              ? [adjustedSize[0] / 2, adjustedSize[1] / 2]
-              : pointOnArcAtAngle(
+              node.depth === 0
+                  ? [adjustedSize[0] / 2, adjustedSize[1] / 2]
+                  : pointOnArcAtAngle(
                   [adjustedSize[0] / 2, adjustedSize[1] / 2],
                   node.x / adjustedSize[0],
                   node.y / 2
-                );
+                  );
           node.x = radialPoint[0];
           node.y = radialPoint[1];
         } else {
@@ -737,8 +665,8 @@ const computeNetworkFrameData = props => {
     }
 
     if (
-      networkSettings.type !== 'static' &&
-      (changedData || networkSettingsChanged)
+        networkSettings.type !== 'static' &&
+        (changedData || networkSettingsChanged)
     ) {
       let components = [
         {
@@ -756,8 +684,8 @@ const computeNetworkFrameData = props => {
           sortGroups
         } = networkSettings;
         const arcGenerator = arc()
-          .innerRadius(radius - groupWidth)
-          .outerRadius(radius);
+            .innerRadius(radius - groupWidth)
+            .outerRadius(radius);
 
         const ribbonGenerator = ribbon().radius(radius - groupWidth);
 
@@ -792,22 +720,22 @@ const computeNetworkFrameData = props => {
 
           //this is incorrect should use edgeHash
           const nodeSourceID = nodeIDAccessor(
-            projectedNodes[generatedChord.source.index]
+              projectedNodes[generatedChord.source.index]
           );
           const nodeTargetID = nodeIDAccessor(
-            projectedNodes[generatedChord.target.index]
+              projectedNodes[generatedChord.target.index]
           );
           const chordEdge = edgeHash.get(`${nodeSourceID}|${nodeTargetID}`);
           chordEdge.d = chordD;
           const chordBounds = pathBounds(chordD);
           chordEdge.x =
-            adjustedSize[0] / 2 + (chordBounds.x1 + chordBounds.x2) / 2;
+              adjustedSize[0] / 2 + (chordBounds.x1 + chordBounds.x2) / 2;
           chordEdge.y =
-            adjustedSize[1] / 2 + (chordBounds.y1 + chordBounds.y2) / 2;
+              adjustedSize[1] / 2 + (chordBounds.y1 + chordBounds.y2) / 2;
         });
       } else if (
-        networkSettings.type === 'sankey' ||
-        networkSettings.type === 'flowchart'
+          networkSettings.type === 'sankey' ||
+          networkSettings.type === 'flowchart'
       ) {
         const {
           orient = 'center',
@@ -825,8 +753,8 @@ const computeNetworkFrameData = props => {
         let frameExtent = [[0, 0], adjustedSize];
 
         if (
-          networkSettings.direction === 'up' ||
-          networkSettings.direction === 'down'
+            networkSettings.direction === 'up' ||
+            networkSettings.direction === 'down'
         ) {
           frameExtent = [
             [0, 0],
@@ -835,13 +763,13 @@ const computeNetworkFrameData = props => {
         }
 
         const frameSankey = actualSankey()
-          .extent(frameExtent)
-          .links(projectedEdges)
-          .nodes(projectedNodes)
-          .nodeAlign(sankeyOrient)
-          .nodeId(nodeIDAccessor)
-          .nodeWidth(nodeWidth)
-          .iterations(iterations);
+            .extent(frameExtent)
+            .links(projectedEdges)
+            .nodes(projectedNodes)
+            .nodeAlign(sankeyOrient)
+            .nodeId(nodeIDAccessor)
+            .nodeWidth(nodeWidth)
+            .iterations(iterations);
 
         if (frameSankey.nodePaddingRatio && nodePaddingRatio) {
           frameSankey.nodePaddingRatio(nodePaddingRatio);
@@ -881,7 +809,7 @@ const computeNetworkFrameData = props => {
           const calcualatedNodeSize = nodeSizeAccessor(d);
           d._NWFText = textAccessor(d) || '';
           const textWidth =
-            fontWidth * d._NWFText.length * calcualatedNodeSize * 1.4;
+              fontWidth * d._NWFText.length * calcualatedNodeSize * 1.4;
           const textHeight = fontSize * calcualatedNodeSize;
 
           d.textHeight = textHeight + 4;
@@ -915,10 +843,10 @@ const computeNetworkFrameData = props => {
         const yCenter = size[1] / 2;
 
         const simulation = forceSimulation(projectedNodes)
-          .velocityDecay(0.6)
-          .force('x', forceX(xCenter).strength(1.2))
-          .force('y', forceY(yCenter).strength(1.2))
-          .force('collide', collide);
+            .velocityDecay(0.6)
+            .force('x', forceX(xCenter).strength(1.2))
+            .force('y', forceY(yCenter).strength(1.2))
+            .force('collide', collide);
 
         simulation.stop();
 
@@ -926,31 +854,31 @@ const computeNetworkFrameData = props => {
         //      }
 
         const xMin = min(
-          projectedNodes.map(
-            p => p.x - (p.rotate ? p.textHeight / 2 : p.textWidth / 2)
-          )
+            projectedNodes.map(
+                p => p.x - (p.rotate ? p.textHeight / 2 : p.textWidth / 2)
+            )
         );
         const xMax = max(
-          projectedNodes.map(
-            p => p.x + (p.rotate ? p.textHeight / 2 : p.textWidth / 2)
-          )
+            projectedNodes.map(
+                p => p.x + (p.rotate ? p.textHeight / 2 : p.textWidth / 2)
+            )
         );
         const yMin = min(
-          projectedNodes.map(
-            p => p.y - (p.rotate ? p.textWidth / 2 : p.textHeight / 2)
-          )
+            projectedNodes.map(
+                p => p.y - (p.rotate ? p.textWidth / 2 : p.textHeight / 2)
+            )
         );
         const yMax = max(
-          projectedNodes.map(
-            p => p.y + (p.rotate ? p.textWidth / 2 : p.textHeight / 2)
-          )
+            projectedNodes.map(
+                p => p.y + (p.rotate ? p.textWidth / 2 : p.textHeight / 2)
+            )
         );
         const projectionScaleX = scaleLinear()
-          .domain([xMin, xMax])
-          .range([0, adjustedSize[0]]);
+            .domain([xMin, xMax])
+            .range([0, adjustedSize[0]]);
         const projectionScaleY = scaleLinear()
-          .domain([yMin, yMax])
-          .range([0, adjustedSize[1]]);
+            .domain([yMin, yMax])
+            .range([0, adjustedSize[1]]);
         const xMod = adjustedSize[0] / xMax;
         const yMod = adjustedSize[1] / yMax;
 
@@ -961,8 +889,8 @@ const computeNetworkFrameData = props => {
           node.fontSize = node.fontSize * sizeMod;
           node.scale = 1;
           node.radius = node.r = Math.max(
-            (node.textHeight / 4) * yMod,
-            (node.textWidth / 4) * xMod
+              (node.textHeight / 4) * yMod,
+              (node.textWidth / 4) * xMod
           );
           //      node.textHeight = projectionScaleY(node.textHeight)
           //      node.textWidth = projectionScaleY(node.textWidth)
@@ -976,7 +904,7 @@ const computeNetworkFrameData = props => {
         } = networkSettings;
 
         const linkForce = forceLink().strength(d =>
-          Math.min(2.5, d.weight ? d.weight * edgeStrength : edgeStrength)
+            Math.min(2.5, d.weight ? d.weight * edgeStrength : edgeStrength)
         );
 
         if (edgeDistance) {
@@ -984,16 +912,16 @@ const computeNetworkFrameData = props => {
         }
 
         const simulation =
-          networkSettings.simulation ||
-          forceSimulation().force(
-            'charge',
-            forceManyBody()
-              .distanceMax(distanceMax)
-              .strength(
-                networkSettings.forceManyBody ||
-                  (d => -25 * nodeSizeAccessor(d))
-              )
-          );
+            networkSettings.simulation ||
+            forceSimulation().force(
+                'charge',
+                forceManyBody()
+                    .distanceMax(distanceMax)
+                    .strength(
+                        networkSettings.forceManyBody ||
+                        (d => -25 * nodeSizeAccessor(d))
+                    )
+            );
 
         //        simulation.force("link", linkForce).nodes(projectedNodes)
 
@@ -1003,8 +931,8 @@ const computeNetworkFrameData = props => {
 
         if (!simulation.force('x')) {
           simulation.force(
-            'x',
-            forceX(adjustedSize[0] / 2).strength(forceMod * 0.1)
+              'x',
+              forceX(adjustedSize[0] / 2).strength(forceMod * 0.1)
           );
         }
         if (!simulation.force('y')) {
@@ -1046,8 +974,8 @@ const computeNetworkFrameData = props => {
         components = breadthFirstCompontents(projectedNodes, componentHash);
 
         const largestComponent = Math.max(
-          projectedNodes.length / 3,
-          components[0].componentNodes.length
+            projectedNodes.length / 3,
+            components[0].componentNodes.length
         );
 
         const layoutSize = size[0] > size[1] ? size[1] : size[0];
@@ -1065,7 +993,7 @@ const computeNetworkFrameData = props => {
 
         components.forEach(({ componentNodes, componentEdges }) => {
           const linkForce = forceLink().strength(d =>
-            Math.min(2.5, d.weight ? d.weight * edgeStrength : edgeStrength)
+              Math.min(2.5, d.weight ? d.weight * edgeStrength : edgeStrength)
           );
 
           if (edgeDistance) {
@@ -1073,8 +1001,8 @@ const computeNetworkFrameData = props => {
           }
 
           const componentLayoutSize =
-            Math.max(componentNodes.length / largestComponent, 0.2) *
-            layoutSize;
+              Math.max(componentNodes.length / largestComponent, 0.2) *
+              layoutSize;
 
           const xBound = componentLayoutSize + currentX;
           const yBound = componentLayoutSize + currentY;
@@ -1099,19 +1027,19 @@ const computeNetworkFrameData = props => {
           const yCenter = currentY - componentLayoutSize / 2;
 
           const simulation = forceSimulation()
-            .force(
-              'charge',
-              forceManyBody().strength(
-                networkSettings.forceManyBody ||
-                  (d => -25 * nodeSizeAccessor(d))
+              .force(
+                  'charge',
+                  forceManyBody().strength(
+                      networkSettings.forceManyBody ||
+                      (d => -25 * nodeSizeAccessor(d))
+                  )
               )
-            )
-            .force('link', linkForce);
+              .force('link', linkForce);
 
           simulation
-            .force('x', forceX(xCenter))
-            .force('y', forceY(yCenter))
-            .nodes(componentNodes);
+              .force('x', forceX(xCenter))
+              .force('y', forceY(yCenter))
+              .nodes(componentNodes);
 
           simulation.force('link').links(componentEdges);
 
@@ -1125,11 +1053,11 @@ const computeNetworkFrameData = props => {
           const minY = min(componentNodes.map(d => d.y));
 
           const resetX = scaleLinear()
-            .domain([minX, maxX])
-            .range([currentX - componentLayoutSize, currentX - 20]);
+              .domain([minX, maxX])
+              .range([currentX - componentLayoutSize, currentX - 20]);
           const resetY = scaleLinear()
-            .domain([minY, maxY])
-            .range([currentY - componentLayoutSize, currentY - 20]);
+              .domain([minY, maxY])
+              .range([currentY - componentLayoutSize, currentY - 20]);
 
           componentNodes.forEach(node => {
             node.x = resetX(node.x);
@@ -1185,9 +1113,9 @@ const computeNetworkFrameData = props => {
     //filter out user-defined nodes
     projectedNodes = projectedNodes.filter(filterRenderedNodes);
     projectedEdges = projectedEdges.filter(
-      d =>
-        projectedNodes.indexOf(d.target) !== -1 &&
-        projectedNodes.indexOf(d.source) !== -1
+        d =>
+            projectedNodes.indexOf(d.target) !== -1 &&
+            projectedNodes.indexOf(d.source) !== -1
     );
 
     if (networkSettings.direction === 'flip') {
@@ -1198,13 +1126,13 @@ const computeNetworkFrameData = props => {
         node.y = adjustedSize[1] - node.y;
       });
     } else if (
-      networkSettings.direction === 'up' ||
-      networkSettings.direction === 'down'
+        networkSettings.direction === 'up' ||
+        networkSettings.direction === 'down'
     ) {
       const mod =
-        networkSettings.direction === 'up'
-          ? value => adjustedSize[1] - value
-          : value => value;
+          networkSettings.direction === 'up'
+              ? value => adjustedSize[1] - value
+              : value => value;
       projectedNodes.forEach(node => {
         const ox = node.x;
         const ox0 = node.x0;
@@ -1226,15 +1154,15 @@ const computeNetworkFrameData = props => {
     if (typeof networkSettings.zoom === 'function') {
       networkSettings.zoom(projectedNodes, adjustedSize);
     } else if (
-      networkSettings.zoom !== false &&
-      networkSettings.type !== 'matrix' &&
-      networkSettings.type !== 'wordcloud' &&
-      networkSettings.type !== 'chord' &&
-      networkSettings.type !== 'sankey' &&
-      networkSettings.type !== 'partition' &&
-      networkSettings.type !== 'treemap' &&
-      networkSettings.type !== 'circlepack' &&
-      networkSettings.type !== 'dagre'
+        networkSettings.zoom !== false &&
+        networkSettings.type !== 'matrix' &&
+        networkSettings.type !== 'wordcloud' &&
+        networkSettings.type !== 'chord' &&
+        networkSettings.type !== 'sankey' &&
+        networkSettings.type !== 'partition' &&
+        networkSettings.type !== 'treemap' &&
+        networkSettings.type !== 'circlepack' &&
+        networkSettings.type !== 'dagre'
     ) {
       // ZOOM SHOULD MAINTAIN ASPECT RATIO, ADD "stretch" to fill whole area
       const xMin = min(projectedNodes.map(p => p.x - nodeSizeAccessor(p)));
@@ -1272,21 +1200,21 @@ const computeNetworkFrameData = props => {
       }
 
       const projectionScaleX = scaleLinear()
-        .domain([xMin, xMax])
-        .range([xMod, adjustedSize[0] - xMod]);
+          .domain([xMin, xMax])
+          .range([xMod, adjustedSize[0] - xMod]);
       const projectionScaleY = scaleLinear()
-        .domain([yMin, yMax])
-        .range([yMod, adjustedSize[1] - yMod]);
+          .domain([yMin, yMax])
+          .range([yMod, adjustedSize[1] - yMod]);
       projectedNodes.forEach(node => {
         node.x = projectionScaleX(node.x);
         node.y = projectionScaleY(node.y);
       });
     } else if (
-      networkSettings.zoom !== false &&
-      networkSettings.projection !== 'radial' &&
-      (networkSettings.type === 'partition' ||
-        networkSettings.type === 'treemap' ||
-        networkSettings.type === 'dagre')
+        networkSettings.zoom !== false &&
+        networkSettings.projection !== 'radial' &&
+        (networkSettings.type === 'partition' ||
+            networkSettings.type === 'treemap' ||
+            networkSettings.type === 'dagre')
     ) {
       const xMin = min(projectedNodes.map(p => p.x0));
       const xMax = max(projectedNodes.map(p => p.x1));
@@ -1294,11 +1222,11 @@ const computeNetworkFrameData = props => {
       const yMax = max(projectedNodes.map(p => p.y1));
 
       const projectionScaleX = scaleLinear()
-        .domain([xMin, xMax])
-        .range([margin.left, adjustedSize[0] - margin.right]);
+          .domain([xMin, xMax])
+          .range([margin.left, adjustedSize[0] - margin.right]);
       const projectionScaleY = scaleLinear()
-        .domain([yMin, yMax])
-        .range([margin.top, adjustedSize[1] - margin.bottom]);
+          .domain([yMin, yMax])
+          .range([margin.top, adjustedSize[1] - margin.bottom]);
       projectedNodes.forEach(node => {
         node.x = projectionScaleX(node.x);
         node.y = projectionScaleY(node.y);
@@ -1349,20 +1277,20 @@ const computeNetworkFrameData = props => {
     if (props.nodeLabels && projectedNodes) {
       projectedNodes.forEach((node, nodei) => {
         const feasibleLabel =
-          nodeLabels && nodeLabels !== true && nodeLabels(node);
+            nodeLabels && nodeLabels !== true && nodeLabels(node);
 
         if (nodeLabels === true || feasibleLabel) {
           const actualLabel =
-            networkSettings.projection === 'radial' && node.depth !== 0
-              ? radialLabelGenerator(
+              networkSettings.projection === 'radial' && node.depth !== 0
+                  ? radialLabelGenerator(
                   node,
                   nodei,
                   nodeLabels === true ? nodeIDAccessor : nodeLabels,
                   adjustedSize
-                )
-              : nodeLabels === true
-              ? nodeIDAccessor(node, nodei)
-              : feasibleLabel;
+                  )
+                  : nodeLabels === true
+                  ? nodeIDAccessor(node, nodei)
+                  : feasibleLabel;
 
           let nodeLabel;
 
@@ -1398,9 +1326,9 @@ const computeNetworkFrameData = props => {
     const overlay = [];
     const areaBasedTypes = ['circlepack', 'treemap', 'partition', 'chord'];
     if (
-      (hoverAnnotation &&
-        areaBasedTypes.find(d => d === networkSettings.type)) ||
-      hoverAnnotation === 'area'
+        (hoverAnnotation &&
+            areaBasedTypes.find(d => d === networkSettings.type)) ||
+        hoverAnnotation === 'area'
     ) {
       if (hoverAnnotation !== 'edge') {
         const renderedNodeOverlays = projectedNodes.map((d, i) => ({
@@ -1437,24 +1365,24 @@ const computeNetworkFrameData = props => {
         });
       }
     } else if (
-      hoverAnnotation === 'edge' &&
-      typeof networkSettings.type === 'string' &&
-      edgePointHash[networkSettings.type]
+        hoverAnnotation === 'edge' &&
+        typeof networkSettings.type === 'string' &&
+        edgePointHash[networkSettings.type]
     ) {
       screenCoordinates = projectedEdges.map(
-        edgePointHash[networkSettings.type]
+          edgePointHash[networkSettings.type]
       );
     } else if (
-      Array.isArray(hoverAnnotation) ||
-      hoverAnnotation === true ||
-      hoverAnnotation === 'node'
+        Array.isArray(hoverAnnotation) ||
+        hoverAnnotation === true ||
+        hoverAnnotation === 'node'
     ) {
       screenCoordinates = projectedNodes;
       if (changedData || networkSettingsChanged)
         screenCoordinates = [...projectedNodes];
     } else if (
-      hoverAnnotation === 'all' &&
-      typeof networkSettings.type === 'string'
+        hoverAnnotation === 'all' &&
+        typeof networkSettings.type === 'string'
     ) {
       screenCoordinates = [
         ...projectedEdges.map(edgePointHash[networkSettings.type]),
@@ -1470,8 +1398,8 @@ const computeNetworkFrameData = props => {
       edgeRenderMode: stringToFn(edgeRenderMode, undefined, true),
       edgeUseCanvas,
       edgeRenderKey: edgeRenderKey
-        ? edgeRenderKey
-        : d => d._NWFEdgeKey || `${d.source.id}-${d.target.id}`,
+          ? edgeRenderKey
+          : d => d._NWFEdgeKey || `${d.source.id}-${d.target.id}`,
       projection: networkSettings.projection,
       edgeType,
       customEdgeIcon,
@@ -1513,55 +1441,14 @@ const computeNetworkFrameData = props => {
     });
   };
 
-  const {
-    adjustedPosition,
-    adjustedSize,
-    screenCoordinates,
-    overlay,
-    margin,
-    svgPipeline,
-    canvasPipeline,
-    backgroundGraphics,
-    foregroundGraphics,
-    renderNumber,
-    projectedNodes,
-    projectedEdges,
-
-    marginGraphic,
-    nodeIDAccessor,
-    sourceAccessor,
-    targetAccessor,
-    nodeSizeAccessor,
-    edgeWidthAccessor,
-
-    nodeLabelAnnotations,
-    graphSettings
-  } = frameData;
-
-  let formattedOverlay = null;
-
-  if (overlay && overlay.length > 0) {
-    formattedOverlay = overlay;
-  }
 
   useEffect(() => {
     computeFrame(props);
   }, []);
 
-  return {
-    // generated
-    frameXScale: null,
-    frameYScale: null,
-    canvasPipeline,
-    svgPipeline,
-    screenCoordinates,
-    xyPoints: null,
-    adjustedPosition,
-    adjustedSize,
-    plotChildren: [],
-    margin,
-    overlay: formattedOverlay
-  };
+
+  return frameData;
 };
+
 
 export default computeNetworkFrameData;

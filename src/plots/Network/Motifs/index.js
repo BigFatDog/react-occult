@@ -1,16 +1,16 @@
 import React from 'react';
 import ForceLayout from '../ForceLayout';
 
-const Force = props => {};
+const Motifs = props => {};
 
-Force.layout = null;
+Motifs.layout = null;
 
-Force.propTypes = {
+Motifs.propTypes = {
   ...ForceLayout.propTypes
 };
 
-Force.defaultProps = {
+Motifs.defaultProps = {
   ...ForceLayout.defaultProps
 };
 
-export default Force;
+export default Motifs;

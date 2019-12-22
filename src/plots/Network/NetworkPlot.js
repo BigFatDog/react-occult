@@ -14,8 +14,8 @@ NetworkPlot.propTypes = {
     PropTypes.func,
     PropTypes.object
   ]),
-  nodes: PropTypes.array,
-  edges: PropTypes.array,
+  nodes: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  edges: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   nodeIDAccessor: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
   nodeLabels: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   nodeRenderMode: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
@@ -23,14 +23,21 @@ NetworkPlot.propTypes = {
   nodeClass: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
   nodeSizeAccessor: PropTypes.oneOfType([PropTypes.func, PropTypes.number]),
   customNodeIcon: PropTypes.func,
-  canvasNodes: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   sourceAccessor: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
   targetAccessor: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+  //A string (One of 'none', 'curve', 'linearc','ribbon','arrowhead','halfarrow','nail','comet','taffy')
+  edgeType: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.object
+  ]),
   edgeStyle: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   edgeClass: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
   edgeRenderMode: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
   customEdgeIcon: PropTypes.func,
-  canvasEdges: PropTypes.oneOfType([PropTypes.bool, PropTypes.func])
+  filterRenderedNodes: PropTypes.func,
+  edgeRenderKey: PropTypes.func,
+  nodeRenderKey: PropTypes.func
 };
 
 NetworkPlot.defaultProps = {

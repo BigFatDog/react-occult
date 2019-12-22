@@ -19,19 +19,8 @@ const genericFunction = value => () => value;
 const midMod = d => (d.middle ? d.middle : 0);
 const zeroFunction = genericFunction(0);
 const twoPI = Math.PI * 2;
-const isAxis = type => ['XAxis', 'YAxis', 'Axis'].includes(type);
-import Frame from '../Frame';
 
 const defaultOverflow = { top: 0, bottom: 0, left: 0, right: 0 };
-
-const OrdinalTypes = [
-  'Bar',
-  'ClusterBar',
-  'Timeline',
-  'Swarm',
-  'OrdinalPoint',
-  'BarPercent'
-];
 
 const BAR_PERCENT = 'barpercent';
 const TIMELINE = 'timeline';
