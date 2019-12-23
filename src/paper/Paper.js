@@ -5,11 +5,11 @@ import { BaseProps, BaseDefaultProps } from './BaseProps';
 import {
   defaultNetworkSVGRule,
   defaultNetworkHTMLRule
-} from '../plots/Annotation/networkRen';
+} from '../plots/Annotation/networkAnnotationFn';
 import {
   generateXYSVGAnnotations,
   generateXYHtmlAnnotations
-} from '../plots/Annotation/xyAnnotations';
+} from '../plots/Annotation/xyAnnotationFn';
 
 // xy
 import Hexbin from '../plots/Hexbin';

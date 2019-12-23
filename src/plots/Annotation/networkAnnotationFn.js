@@ -8,14 +8,13 @@ import {
   svgRectEncloseRule,
   svgHullEncloseRule,
   svgHighlightRule
-} from './networkAnno';
+} from './networkAnnotations';
 import DesaturationLayer from './widgets/DesaturationLayer';
 
 const defaultNetworkSVGRule = ({ frameData, frameProps }) => ({
   d: baseD,
   i
 }) => {
-  console.log(frameData);
   const {
     projectedNodes,
     projectedEdges,
