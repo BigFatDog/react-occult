@@ -1,6 +1,4 @@
 import React from 'react';
-import resolveConflicts from './resolveConflicts';
-import Annotation from './InternalAnnotation';
 import DesaturationLayer from './widgets/DesaturationLayer';
 import SvgXYAnnotation from './widgets/SvgXYAnnotation';
 import BasicReactAnnotation from './widgets/BasicReactAnnotation';
@@ -39,11 +37,13 @@ const TypeHash = {
   highlight: SvgHighlight
 };
 
-const generateXYAnnotations = (d, i, props) => {
+const generateXYSVGAnnotations = ({frameProps, frameData}) => ({d,i}) => {
   let screenCoordinates = [];
-  const { xScale, yScale, accessors } = props;
-  const xAccessors = accessors.map(d => d.xAccessor);
-  const yAccessors = accessors.map(d => d.yAccessor);
+  const { plotChildren } = frameProps;
+  const { frameXScale: xScale, frameYScale: yScale, adjustedSize} = frameData;
+  const xAccessors = plotChildren.map(d => d.props.xAccessor);
+  const yAccessors = plotChildren.map(d => d.props.yAccessor);
+
   if (d.coordinates) {
     if (!Array.isArray(d.coordinates)) {
       const xData = findFirstAccessorValue(xAccessors, d.coordinates);
@@ -51,7 +51,7 @@ const generateXYAnnotations = (d, i, props) => {
       if (xData) {
         screenCoordinates[0] = xScale(xData);
       }
-      screenCoordinates[1] = yData ? yScale(yData) : props.adjustedSize[1];
+      screenCoordinates[1] = yData ? yScale(yData) : adjustedSize[1];
     } else {
       screenCoordinates = d.coordinates.map(e => {
         const xData = findFirstAccessorValue(xAccessors, e);
@@ -65,12 +65,12 @@ const generateXYAnnotations = (d, i, props) => {
   } else {
     screenCoordinates = d.screenCoordinates || [
       d.x ? d.x : 0,
-      d.y ? props.adjustedSize[1] - d.y : props.adjustedSize[1]
+      d.y ? adjustedSize[1] - d.y : adjustedSize[1]
     ];
   }
 
   const widgetProps = {
-    ...props,
+    ...frameProps,
     ...d,
     d,
     i,
@@ -78,12 +78,66 @@ const generateXYAnnotations = (d, i, props) => {
     y: screenCoordinates[1],
     screenCoordinates,
     xAccessors,
-    yAccessors
+    yAccessors,
+    xScale,
+    yScale,
+    adjustedSize,
+    adjustedPosition: frameData.adjustedPosition
   };
 
   const AnnotationType = TypeHash[d.type] || d.type;
   return AnnotationType ? <AnnotationType {...widgetProps} /> : null;
 };
 
-export default generateXYAnnotations;
+const generateXYHtmlAnnotations = ({frameProps, frameData}) =>  ({d,i}) => {
+  const {tooltipContent, voronoiHover} = frameProps;
+  const {screenCoordinates} = frameData;
+
+  return tooltipContent
+      ? screenCoordinates
+          .filter(e => {
+            if (voronoiHover) {
+              const hoverObj =
+                  Array.isArray(voronoiHover) && voronoiHover.length > 0
+                      ? voronoiHover[0]
+                      : Object.assign({}, voronoiHover);
+
+              if (hoverObj.hasOwnProperty('x') && hoverObj.hasOwnProperty('y')) {
+                if (typeof hoverObj.x.getMonth === 'function') {
+                  // is date
+                  return (
+                      hoverObj.x.toISOString() === e.x.toISOString() &&
+                      hoverObj.y === e.y
+                  );
+                } else {
+                  return hoverObj.x === e.x && hoverObj.y === e.y;
+                }
+              } else {
+                return false;
+              }
+            }
+
+            return false;
+          })
+          .map((d, i) => {
+            const _data = {
+              ...d,
+              x: frameXScale(d.x),
+              y: frameYScale(d.y)
+            };
+
+            return (
+                <HTMLTooltipAnnotation
+                    tooltipContent={tooltipContent}
+                    tooltipContentArgs={_data}
+                    i={i}
+                    d={_data}
+                    useSpans={useSpans}
+                />
+            );
+          })
+      : [];
+}
+
+export { generateXYSVGAnnotations, generateXYHtmlAnnotations };
 

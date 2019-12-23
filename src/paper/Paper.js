@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { BaseProps, BaseDefaultProps } from './BaseProps';
 
 import { defaultNetworkSVGRule, defaultNetworkHTMLRule } from '../plots/Annotation/networkRen';
+import { generateXYSVGAnnotations, generateXYHtmlAnnotations } from '../plots/Annotation/xyAnnotations';
+
 
 // xy
 import Hexbin from '../plots/Hexbin';
@@ -88,11 +90,15 @@ const Paper = props => {
   if (xyChildren.length > 0) {
     plotChildren = xyChildren;
 
-    frameData = computeXYFrameData({
-      ...props,
-      axesDefs,
-      plotChildren
-    });
+    const frameProps = {
+        ...props,
+        axesDefs,
+        plotChildren
+    };
+    frameData = computeXYFrameData(frameProps);
+
+    generateSVGAnnotations = generateXYSVGAnnotations({frameProps, frameData});
+    generateHTMLAnnotations = generateXYHtmlAnnotations({frameProps, frameData});
   } else if (ordinalChildren.length > 0) {
     if (ordinalChildren.length !== 1) {
       console.error('Only 1 Orindal plot is allowed');

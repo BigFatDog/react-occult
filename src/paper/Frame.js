@@ -8,7 +8,6 @@ import InteractionLayer from '../layers/InteractionLayer';
 
 import { generateFrameTitle, toMarginGraphic } from './utils';
 import { BaseProps, BaseDefaultProps } from './BaseProps';
-import HTMLTooltipAnnotation from '../plots/Annotation/widgets/HTMLTooltipAnnotation';
 import AnnotationLayer from '../layers/AnnotationLayer/i2';
 
 const getCanvasScale = context => {
@@ -128,56 +127,6 @@ const Frame = props => {
 
   //todo: remove
   const marginGraphic = toMarginGraphic({ matte, size, margin, name });
-
-  const htmlAnnotations = tooltipContent
-    ? screenCoordinates
-        .filter(e => {
-          if (voronoiHover) {
-            const hoverObj =
-              Array.isArray(voronoiHover) && voronoiHover.length > 0
-                ? voronoiHover[0]
-                : Object.assign({}, voronoiHover);
-
-            if (hoverObj.hasOwnProperty('x') && hoverObj.hasOwnProperty('y')) {
-              if (typeof hoverObj.x.getMonth === 'function') {
-                // is date
-                return (
-                  hoverObj.x.toISOString() === e.x.toISOString() &&
-                  hoverObj.y === e.y
-                );
-              } else {
-                return hoverObj.x === e.x && hoverObj.y === e.y;
-              }
-            } else {
-              return false;
-            }
-          }
-
-          return false;
-        })
-        .map((d, i) => {
-          const _data = {
-            ...d,
-            x: frameXScale(d.x),
-            y: frameYScale(d.y)
-          };
-
-          return (
-            <HTMLTooltipAnnotation
-              tooltipContent={tooltipContent}
-              tooltipContentArgs={_data}
-              i={i}
-              d={_data}
-              useSpans={useSpans}
-            />
-          );
-        })
-    : [];
-
-  const accessors = plotChildren.map(d => ({
-    xAccessor: d.props.xAccessor || d.props.oAccessor,
-    yAccessor: d.props.yAccessor || d.props.rAccessor
-  }));
 
   const annotations = React.Children.toArray(children)
     .filter(d => d.type.name === 'Annotation')
