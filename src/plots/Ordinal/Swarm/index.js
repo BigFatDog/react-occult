@@ -16,6 +16,7 @@ Swarm.propTypes = {
 
 Swarm.defaultProps = {
   ...OrdinalPlot.defaultProps,
+  r: 10,
   iterations: 120,
   strength: 2
 };

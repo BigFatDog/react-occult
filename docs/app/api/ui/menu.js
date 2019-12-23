@@ -108,6 +108,11 @@ module.exports = [
         link: '/linepercentage'
       },
       {
+        key: 'swarm',
+        name: 'Swarm',
+        link: '/swarm'
+      },
+      {
         key: 'geo',
         name: 'Geo',
         link: '/geo'

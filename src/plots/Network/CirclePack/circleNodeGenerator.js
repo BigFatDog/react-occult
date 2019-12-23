@@ -1,7 +1,7 @@
 import { Mark } from 'semiotic-mark';
-import * as React from 'react';
+import React from 'react';
 
-const circleNodeGenerator = ({
+const circleNodeGenerator = () => ({
   d,
   i,
   styleFn,

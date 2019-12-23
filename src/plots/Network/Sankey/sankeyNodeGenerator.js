@@ -1,7 +1,7 @@
 import { Mark } from 'semiotic-mark';
 import * as React from 'react';
 
-const sankeyNodeGenerator = ({
+const sankeyNodeGenerator = () => ({
   d,
   i,
   styleFn,

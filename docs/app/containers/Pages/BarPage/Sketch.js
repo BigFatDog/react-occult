@@ -104,7 +104,7 @@ const BarProps = {
 };
 
 const annotationProps = {
-  coordinates: { writeviz: 0.25, number: 2 },
+  coordinates: [{ writeviz: 0.25, number: 2 }],
   dx: -0.01,
   dy: -50,
   color: '#b3331d',
@@ -116,7 +116,7 @@ const Sketch = props => {
   return (
     <PapperBlock>
       <Paper {...VerticalISOTypeChart}>
-        {/*<Annotation {...annotationProps}/>*/}
+        <Annotation {...annotationProps} />
         <Bar {...BarProps} />
       </Paper>
     </PapperBlock>

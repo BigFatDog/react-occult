@@ -1,7 +1,7 @@
 import { Mark } from 'semiotic-mark';
-import * as React from 'react';
+import React from 'react';
 
-const matrixEdgeGenerator = (size, nodes) => ({
+const matrixEdgeGenerator = ({ size, nodes }) => ({
   d,
   i,
   styleFn,

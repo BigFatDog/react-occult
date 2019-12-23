@@ -1,7 +1,7 @@
 import { Mark } from 'semiotic-mark';
-import * as React from 'react';
+import React from 'react';
 
-const matrixNodeGenerator = (size, nodes) => {
+const matrixNodeGenerator = () => (size, nodes) => {
   const gridSize = Math.min(...size);
   const stepSize = gridSize / (nodes.length + 1);
 

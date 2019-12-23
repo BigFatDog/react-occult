@@ -5,7 +5,16 @@ export const VerticalISOTypeChart = {
   height: 438,
   margin: { top: 60, bottom: 140, left: 10, right: 80 },
   hoverAnnotation: true,
-
+  tooltipContent: _d => {
+    const d = _d.pieces[0];
+    return (
+      <div className="tooltip-content">
+        {d.type}
+        {d.writeviz}
+        {d.number}
+      </div>
+    );
+  },
   foregroundGraphics: (
     <g>
       <g transform="translate(20,165)">

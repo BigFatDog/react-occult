@@ -1,15 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
+import { generateFrameTitle, toMarginGraphic } from './utils';
+import { BaseProps, BaseDefaultProps } from './BaseProps';
+
 import FilterDefs from '../widgets/FilterDefs';
 import SpanOrDiv from '../widgets/SpanOrDiv';
 import VisualizationLayer from '../layers/VisualizationLayer';
 import InteractionLayer from '../layers/InteractionLayer';
-
-import { generateFrameTitle, toMarginGraphic } from './utils';
-import { BaseProps, BaseDefaultProps } from './BaseProps';
-import HTMLTooltipAnnotation from '../plots/Annotation/widgets/HTMLTooltipAnnotation';
-import renderAnnotations from '../plots/Annotation/renderAnnotations';
 import AnnotationLayer from '../layers/AnnotationLayer';
 
 const getCanvasScale = context => {
@@ -95,10 +93,8 @@ const Frame = props => {
     customClickBehavior,
     customHoverBehavior,
     customDoubleClickBehavior,
-    tooltipContent,
     // children
     children,
-    plotChildren,
     //todo: remove
     oLabels,
     axes,
@@ -130,56 +126,6 @@ const Frame = props => {
   //todo: remove
   const marginGraphic = toMarginGraphic({ matte, size, margin, name });
 
-  const htmlAnnotations = tooltipContent
-    ? screenCoordinates
-        .filter(e => {
-          if (voronoiHover) {
-            const hoverObj =
-              Array.isArray(voronoiHover) && voronoiHover.length > 0
-                ? voronoiHover[0]
-                : Object.assign({}, voronoiHover);
-
-            if (hoverObj.hasOwnProperty('x') && hoverObj.hasOwnProperty('y')) {
-              if (typeof hoverObj.x.getMonth === 'function') {
-                // is date
-                return (
-                  hoverObj.x.toISOString() === e.x.toISOString() &&
-                  hoverObj.y === e.y
-                );
-              } else {
-                return hoverObj.x === e.x && hoverObj.y === e.y;
-              }
-            } else {
-              return false;
-            }
-          }
-
-          return false;
-        })
-        .map((d, i) => {
-          const _data = {
-            ...d,
-            x: frameXScale(d.x),
-            y: frameYScale(d.y)
-          };
-
-          return (
-            <HTMLTooltipAnnotation
-              tooltipContent={tooltipContent}
-              tooltipContentArgs={_data}
-              i={i}
-              d={_data}
-              useSpans={useSpans}
-            />
-          );
-        })
-    : [];
-
-  const accessors = plotChildren.map(d => ({
-    xAccessor: d.props.xAccessor || d.props.oAccessor,
-    yAccessor: d.props.yAccessor || d.props.rAccessor
-  }));
-
   const annotations = React.Children.toArray(children)
     .filter(d => d.type.name === 'Annotation')
     .map(d => d.props);
@@ -192,22 +138,19 @@ const Frame = props => {
     }
   }
 
-  const svgAnnotations = renderAnnotations(annotations, {
-    xScale: frameXScale,
-    yScale: frameYScale,
-    frontCanvas,
-    adjustedSize,
-    adjustedPosition,
-    size,
-    margin,
-    accessors
-  });
+  // todo: put here?
+  if (props.nodeLabelAnnotations) {
+    annotations.push(...props.nodeLabelAnnotations);
+  }
+
+  const { generateSVGAnnotations, generateHTMLAnnotations } = props;
 
   const annotationLayer = annotations && annotations.length > 0 && (
     <AnnotationLayer
-      voronoiHover={setVoronoiHover}
-      htmlAnnotations={htmlAnnotations}
-      svgAnnotations={svgAnnotations}
+      annotations={annotations}
+      voronoiHover={voronoiHover}
+      generateSVGAnnotations={generateSVGAnnotations}
+      generateHTMLAnnotations={generateHTMLAnnotations}
       margin={margin}
       useSpans={useSpans}
       size={adjustedSize}

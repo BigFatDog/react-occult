@@ -1,12 +1,11 @@
 import { arc } from 'd3-shape';
 import { scaleLinear } from 'd3-scale';
 import { Mark } from 'semiotic-mark';
-import arcTweener from '../../../utils/arcTweener';
+import arcTweener from '../../utils/arcTweener';
 import * as React from 'react';
 
-const radialRectNodeGenerator = (size, center, type) => {
+const radialRectNodeGenerator = (size, center, angleRange = [0, 360]) => {
   const radialArc = arc();
-  const { angleRange = [0, 360] } = type;
   const rangePct = angleRange.map(d => d / 360);
   const rangeMod = rangePct[1] - rangePct[0];
 

@@ -1,6 +1,4 @@
 import React from 'react';
-import resolveConflicts from './resolveConflicts';
-import Annotation from './InternalAnnotation';
 import DesaturationLayer from './widgets/DesaturationLayer';
 import SvgXYAnnotation from './widgets/SvgXYAnnotation';
 import BasicReactAnnotation from './widgets/BasicReactAnnotation';
@@ -39,11 +37,13 @@ const TypeHash = {
   highlight: SvgHighlight
 };
 
-const toAnnotations = (d, i, props) => {
+const generateXYSVGAnnotations = ({ frameProps, frameData }) => ({ d, i }) => {
   let screenCoordinates = [];
-  const { xScale, yScale, accessors } = props;
-  const xAccessors = accessors.map(d => d.xAccessor);
-  const yAccessors = accessors.map(d => d.yAccessor);
+  const { plotChildren } = frameProps;
+  const { frameXScale: xScale, frameYScale: yScale, adjustedSize } = frameData;
+  const xAccessors = plotChildren.map(d => d.props.xAccessor);
+  const yAccessors = plotChildren.map(d => d.props.yAccessor);
+
   if (d.coordinates) {
     if (!Array.isArray(d.coordinates)) {
       const xData = findFirstAccessorValue(xAccessors, d.coordinates);
@@ -51,7 +51,7 @@ const toAnnotations = (d, i, props) => {
       if (xData) {
         screenCoordinates[0] = xScale(xData);
       }
-      screenCoordinates[1] = yData ? yScale(yData) : props.adjustedSize[1];
+      screenCoordinates[1] = yData ? yScale(yData) : adjustedSize[1];
     } else {
       screenCoordinates = d.coordinates.map(e => {
         const xData = findFirstAccessorValue(xAccessors, e);
@@ -65,12 +65,11 @@ const toAnnotations = (d, i, props) => {
   } else {
     screenCoordinates = d.screenCoordinates || [
       d.x ? d.x : 0,
-      d.y ? props.adjustedSize[1] - d.y : props.adjustedSize[1]
+      d.y ? adjustedSize[1] - d.y : adjustedSize[1]
     ];
   }
 
   const widgetProps = {
-    ...props,
     ...d,
     d,
     i,
@@ -78,60 +77,69 @@ const toAnnotations = (d, i, props) => {
     y: screenCoordinates[1],
     screenCoordinates,
     xAccessors,
-    yAccessors
+    yAccessors,
+    xScale,
+    yScale,
+    adjustedSize,
+    adjustedPosition: frameData.adjustedPosition
   };
 
   const AnnotationType = TypeHash[d.type] || d.type;
   return AnnotationType ? <AnnotationType {...widgetProps} /> : null;
 };
 
-const renderAnnotations = (annotations, props) => {
-  const { annotationHandling = false } = props;
+const generateXYHtmlAnnotations = ({ frameProps, frameData }) => ({
+  d,
+  i,
+  voronoiHover
+}) => {
+  const { tooltipContent } = frameProps;
+  const { screenCoordinates } = frameData;
 
-  let adjustedAnnotations = [];
+  return tooltipContent
+    ? screenCoordinates
+        .filter(e => {
+          if (voronoiHover) {
+            const hoverObj =
+              Array.isArray(voronoiHover) && voronoiHover.length > 0
+                ? voronoiHover[0]
+                : Object.assign({}, voronoiHover);
 
-  const annotationProcessor =
-    typeof annotationHandling === 'object'
-      ? annotationHandling
-      : { layout: { type: annotationHandling } };
+            if (hoverObj.hasOwnProperty('x') && hoverObj.hasOwnProperty('y')) {
+              if (typeof hoverObj.x.getMonth === 'function') {
+                // is date
+                return (
+                  hoverObj.x.toISOString() === e.x.toISOString() &&
+                  hoverObj.y === e.y
+                );
+              } else {
+                return hoverObj.x === e.x && hoverObj.y === e.y;
+              }
+            } else {
+              return false;
+            }
+          }
 
-  const initialSVGAnnotations = annotations
-    .map((d, i) => toAnnotations(d, i, props))
-    .filter(d => d !== null && d !== undefined);
+          return false;
+        })
+        .map((d, i) => {
+          const _data = {
+            ...d,
+            x: frameXScale(d.x),
+            y: frameYScale(d.y)
+          };
 
-  const adjustableAnnotations = initialSVGAnnotations.filter(
-    d => d.props && d.props.noteData && !d.props.noteData.fixedPosition
-  );
-  const fixedAnnotations = initialSVGAnnotations.filter(
-    d => !d.props || !d.props.noteData || d.props.noteData.fixedPosition
-  );
-
-  if (annotationHandling === false) {
-    adjustedAnnotations = adjustableAnnotations;
-  }
-
-  if (adjustedAnnotations.length !== adjustableAnnotations.length) {
-    adjustedAnnotations = resolveConflicts(
-      adjustableAnnotations,
-      annotationProcessor,
-      props
-    );
-  } else {
-    //Handle when style or other attributes change
-    adjustedAnnotations = adjustedAnnotations.map((d, i) => {
-      const newNoteData = Object.assign(
-        adjustableAnnotations[i].props.noteData,
-        {
-          nx: d.props.noteData.nx,
-          ny: d.props.noteData.ny,
-          note: d.props.noteData.note
-        }
-      );
-      return <Annotation key={d.key} noteData={newNoteData} />;
-    });
-  }
-
-  return [...adjustedAnnotations, ...fixedAnnotations];
+          return (
+            <HTMLTooltipAnnotation
+              tooltipContent={tooltipContent}
+              tooltipContentArgs={_data}
+              i={i}
+              d={_data}
+              useSpans={useSpans}
+            />
+          );
+        })
+    : [];
 };
 
-export default renderAnnotations;
+export { generateXYSVGAnnotations, generateXYHtmlAnnotations };

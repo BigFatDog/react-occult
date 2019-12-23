@@ -1,7 +1,7 @@
 import { Mark } from 'semiotic-mark';
 import * as React from 'react';
 import { curveMonotoneX, curveMonotoneY, line } from 'd3-shape';
-import linearRibbon from './linearRibbon';
+import linearRibbon from '../../../paper/network/layout/linearRibbon';
 
 const horizontalDagreLineGenerator = line()
   .curve(curveMonotoneX)
