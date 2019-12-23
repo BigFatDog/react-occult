@@ -139,7 +139,7 @@ const AnnotationLayer = props => {
 
 AnnotationLayer.propTypes = {
   margin: PropTypes.object,
-  voronoiHover: PropTypes.array,
+  voronoiHover: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   htmlAnnotations: PropTypes.array,
   svgAnnotations: PropTypes.array,
   useSpans: PropTypes.bool,

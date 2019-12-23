@@ -262,9 +262,7 @@ const computeOrdinalFrameData = props => {
     { total: 0 }
   );
 
-  const castOScaleType = oScaleType;
-
-  const oScale = dynamicColumnWidth ? scaleOrdinal() : castOScaleType();
+  const oScale = dynamicColumnWidth ? scaleOrdinal() : oScaleType;
 
   oScale.domain(oExtent);
 
@@ -1129,8 +1127,9 @@ const computeOrdinalFrameData = props => {
   }
 
   return {
-    frameXScale: null,
-    frameYScale: null,
+    projectedColumns,
+    pieceIDAccessor,
+    oColumn: null,
     canvasPipeline,
     svgPipeline,
     screenCoordinates,
@@ -1140,7 +1139,12 @@ const computeOrdinalFrameData = props => {
     axes: axis,
     axesTickLines,
     overlay: columnOverlays,
-    interactionOverflow
+    interactionOverflow,
+    projection,
+    oAccessor,
+    rAccessor,
+    rScale,
+    rScaleType
   };
 };
 

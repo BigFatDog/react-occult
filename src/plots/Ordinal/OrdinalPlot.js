@@ -83,8 +83,8 @@ OrdinalPlot.propTypes = {
 
 OrdinalPlot.defaultProps = {
   data: [],
-  oScaleType: scaleBand,
-  rScaleType: scaleLinear,
+  oScaleType: scaleBand(),
+  rScaleType: scaleLinear(),
   projection: 'vertical',
   type: 'none',
   connectorUseCanvas: true,
