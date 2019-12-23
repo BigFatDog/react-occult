@@ -88,8 +88,8 @@ const generateXYSVGAnnotations = ({ frameProps, frameData }) => ({ d, i }) => {
   return AnnotationType ? <AnnotationType {...widgetProps} /> : null;
 };
 
-const generateXYHtmlAnnotations = ({ frameProps, frameData }) => ({ d, i }) => {
-  const { tooltipContent, voronoiHover } = frameProps;
+const generateXYHtmlAnnotations = ({ frameProps, frameData }) => ({ d, i, voronoiHover }) => {
+  const { tooltipContent } = frameProps;
   const { screenCoordinates } = frameData;
 
   return tooltipContent
