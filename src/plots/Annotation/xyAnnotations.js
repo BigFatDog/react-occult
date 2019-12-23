@@ -37,10 +37,10 @@ const TypeHash = {
   highlight: SvgHighlight
 };
 
-const generateXYSVGAnnotations = ({frameProps, frameData}) => ({d,i}) => {
+const generateXYSVGAnnotations = ({ frameProps, frameData }) => ({ d, i }) => {
   let screenCoordinates = [];
   const { plotChildren } = frameProps;
-  const { frameXScale: xScale, frameYScale: yScale, adjustedSize} = frameData;
+  const { frameXScale: xScale, frameYScale: yScale, adjustedSize } = frameData;
   const xAccessors = plotChildren.map(d => d.props.xAccessor);
   const yAccessors = plotChildren.map(d => d.props.yAccessor);
 
@@ -88,55 +88,54 @@ const generateXYSVGAnnotations = ({frameProps, frameData}) => ({d,i}) => {
   return AnnotationType ? <AnnotationType {...widgetProps} /> : null;
 };
 
-const generateXYHtmlAnnotations = ({frameProps, frameData}) =>  ({d,i}) => {
-  const {tooltipContent, voronoiHover} = frameProps;
-  const {screenCoordinates} = frameData;
+const generateXYHtmlAnnotations = ({ frameProps, frameData }) => ({ d, i }) => {
+  const { tooltipContent, voronoiHover } = frameProps;
+  const { screenCoordinates } = frameData;
 
   return tooltipContent
-      ? screenCoordinates
-          .filter(e => {
-            if (voronoiHover) {
-              const hoverObj =
-                  Array.isArray(voronoiHover) && voronoiHover.length > 0
-                      ? voronoiHover[0]
-                      : Object.assign({}, voronoiHover);
+    ? screenCoordinates
+        .filter(e => {
+          if (voronoiHover) {
+            const hoverObj =
+              Array.isArray(voronoiHover) && voronoiHover.length > 0
+                ? voronoiHover[0]
+                : Object.assign({}, voronoiHover);
 
-              if (hoverObj.hasOwnProperty('x') && hoverObj.hasOwnProperty('y')) {
-                if (typeof hoverObj.x.getMonth === 'function') {
-                  // is date
-                  return (
-                      hoverObj.x.toISOString() === e.x.toISOString() &&
-                      hoverObj.y === e.y
-                  );
-                } else {
-                  return hoverObj.x === e.x && hoverObj.y === e.y;
-                }
+            if (hoverObj.hasOwnProperty('x') && hoverObj.hasOwnProperty('y')) {
+              if (typeof hoverObj.x.getMonth === 'function') {
+                // is date
+                return (
+                  hoverObj.x.toISOString() === e.x.toISOString() &&
+                  hoverObj.y === e.y
+                );
               } else {
-                return false;
+                return hoverObj.x === e.x && hoverObj.y === e.y;
               }
+            } else {
+              return false;
             }
+          }
 
-            return false;
-          })
-          .map((d, i) => {
-            const _data = {
-              ...d,
-              x: frameXScale(d.x),
-              y: frameYScale(d.y)
-            };
+          return false;
+        })
+        .map((d, i) => {
+          const _data = {
+            ...d,
+            x: frameXScale(d.x),
+            y: frameYScale(d.y)
+          };
 
-            return (
-                <HTMLTooltipAnnotation
-                    tooltipContent={tooltipContent}
-                    tooltipContentArgs={_data}
-                    i={i}
-                    d={_data}
-                    useSpans={useSpans}
-                />
-            );
-          })
-      : [];
-}
+          return (
+            <HTMLTooltipAnnotation
+              tooltipContent={tooltipContent}
+              tooltipContentArgs={_data}
+              i={i}
+              d={_data}
+              useSpans={useSpans}
+            />
+          );
+        })
+    : [];
+};
 
 export { generateXYSVGAnnotations, generateXYHtmlAnnotations };
-

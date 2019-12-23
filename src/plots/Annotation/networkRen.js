@@ -11,7 +11,10 @@ import {
 } from './networkAnno';
 import DesaturationLayer from './widgets/DesaturationLayer';
 
-const defaultNetworkSVGRule = ({ frameData, frameProps }) => ({ d: baseD, i }) => {
+const defaultNetworkSVGRule = ({ frameData, frameProps }) => ({
+  d: baseD,
+  i
+}) => {
   console.log(frameData);
   const {
     projectedNodes,
@@ -99,7 +102,10 @@ const defaultNetworkSVGRule = ({ frameData, frameProps }) => ({ d: baseD, i }) =
   return null;
 };
 
-const defaultNetworkHTMLRule = ({ frameProps, frameData }) => ({ d: baseD, i }) => {
+const defaultNetworkHTMLRule = ({ frameProps, frameData }) => ({
+  d: baseD,
+  i
+}) => {
   const { tooltipContent, useSpans } = frameProps;
   const { projectedNodes, projectedEdges, nodeIDAccessor } = frameData;
 

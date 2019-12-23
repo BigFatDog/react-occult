@@ -2,9 +2,14 @@ import React, { useState, useEffect } from 'react';
 
 import { BaseProps, BaseDefaultProps } from './BaseProps';
 
-import { defaultNetworkSVGRule, defaultNetworkHTMLRule } from '../plots/Annotation/networkRen';
-import { generateXYSVGAnnotations, generateXYHtmlAnnotations } from '../plots/Annotation/xyAnnotations';
-
+import {
+  defaultNetworkSVGRule,
+  defaultNetworkHTMLRule
+} from '../plots/Annotation/networkRen';
+import {
+  generateXYSVGAnnotations,
+  generateXYHtmlAnnotations
+} from '../plots/Annotation/xyAnnotations';
 
 // xy
 import Hexbin from '../plots/Hexbin';
@@ -91,14 +96,20 @@ const Paper = props => {
     plotChildren = xyChildren;
 
     const frameProps = {
-        ...props,
-        axesDefs,
-        plotChildren
+      ...props,
+      axesDefs,
+      plotChildren
     };
     frameData = computeXYFrameData(frameProps);
 
-    generateSVGAnnotations = generateXYSVGAnnotations({frameProps, frameData});
-    generateHTMLAnnotations = generateXYHtmlAnnotations({frameProps, frameData});
+    generateSVGAnnotations = generateXYSVGAnnotations({
+      frameProps,
+      frameData
+    });
+    generateHTMLAnnotations = generateXYHtmlAnnotations({
+      frameProps,
+      frameData
+    });
   } else if (ordinalChildren.length > 0) {
     if (ordinalChildren.length !== 1) {
       console.error('Only 1 Orindal plot is allowed');
@@ -115,22 +126,22 @@ const Paper = props => {
     }
     plotChildren = networkChildren;
     const frameProps = {
-        ...props,
-        axesDefs,
-        plotChildren
+      ...props,
+      axesDefs,
+      plotChildren
     };
     frameData = computeNetworkFrameData(frameProps);
 
-    generateSVGAnnotations = defaultNetworkSVGRule({frameProps, frameData});
-    generateHTMLAnnotations = defaultNetworkHTMLRule({frameProps, frameData});
+    generateSVGAnnotations = defaultNetworkSVGRule({ frameProps, frameData });
+    generateHTMLAnnotations = defaultNetworkHTMLRule({ frameProps, frameData });
   }
 
   const frameProps = {
     ...props,
     ...frameData,
     plotChildren,
-      generateSVGAnnotations,
-      generateHTMLAnnotations
+    generateSVGAnnotations,
+    generateHTMLAnnotations
   };
 
   return <Frame {...frameProps}>{children}</Frame>;

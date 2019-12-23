@@ -1,14 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
+
+import { generateFrameTitle, toMarginGraphic } from './utils';
+import { BaseProps, BaseDefaultProps } from './BaseProps';
+
 import FilterDefs from '../widgets/FilterDefs';
 import SpanOrDiv from '../widgets/SpanOrDiv';
 import VisualizationLayer from '../layers/VisualizationLayer';
 import InteractionLayer from '../layers/InteractionLayer';
-
-import { generateFrameTitle, toMarginGraphic } from './utils';
-import { BaseProps, BaseDefaultProps } from './BaseProps';
-import AnnotationLayer from '../layers/AnnotationLayer/i2';
+import AnnotationLayer from '../layers/AnnotationLayer';
 
 const getCanvasScale = context => {
   const devicePixelRatio = window.devicePixelRatio || 1;
@@ -93,10 +94,8 @@ const Frame = props => {
     customClickBehavior,
     customHoverBehavior,
     customDoubleClickBehavior,
-    tooltipContent,
     // children
     children,
-    plotChildren,
     //todo: remove
     oLabels,
     axes,
@@ -144,7 +143,7 @@ const Frame = props => {
   if (props.nodeLabelAnnotations) {
     annotations.push(...props.nodeLabelAnnotations);
   }
-  
+
   const { generateSVGAnnotations, generateHTMLAnnotations } = props;
 
   const annotationLayer = annotations && annotations.length > 0 && (
