@@ -70,7 +70,6 @@ const generateXYSVGAnnotations = ({frameProps, frameData}) => ({d,i}) => {
   }
 
   const widgetProps = {
-    ...frameProps,
     ...d,
     d,
     i,
