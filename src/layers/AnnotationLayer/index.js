@@ -32,11 +32,11 @@ const AnnotationLayer = props => {
         : { layout: { type: annotationHandling } };
 
     // todo: create svg anno
-    const initialSVGAnnotations = annotations.map((d, i) =>
-      generateSVGAnnotations({ d, i, voronoiHover })
-    );
+    const initialSVGAnnotations = annotations
+      .map((d, i) => generateSVGAnnotations({ d, i, voronoiHover }))
+      .filter(d => d);
     const adjustableAnnotations = initialSVGAnnotations.filter(
-      d => d.props && d.props.noteData && !d.props.noteData.fixedPosition
+      d => d && d.props && d.props.noteData && !d.props.noteData.fixedPosition
     );
     const fixedAnnotations = initialSVGAnnotations.filter(
       d => !d.props || !d.props.noteData || d.props.noteData.fixedPosition
@@ -88,9 +88,10 @@ const AnnotationLayer = props => {
     setAdjustedAnnotationsKey(newAdjustableAnnotationsKey);
   };
 
+  const { voronoiHover, frameData, frameProps } = props;
   useEffect(() => {
     createAnnotations(props);
-  }, []);
+  }, [voronoiHover, frameData, frameProps]);
 
   const { useSpans, size, margin } = props;
   return (
@@ -140,8 +141,6 @@ const AnnotationLayer = props => {
 AnnotationLayer.propTypes = {
   margin: PropTypes.object,
   voronoiHover: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
-  htmlAnnotations: PropTypes.array,
-  svgAnnotations: PropTypes.array,
   useSpans: PropTypes.bool,
   size: PropTypes.array,
   axes: PropTypes.array,

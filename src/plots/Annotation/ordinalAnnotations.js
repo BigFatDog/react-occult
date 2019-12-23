@@ -215,7 +215,7 @@ export const getColumnScreenCoordinates = ({
 
   const positionValue =
     (summaryType.type && summaryType.type !== 'none') ||
-    ['swarm', 'point', 'clusterbar'].find(p => p === type.type)
+    ['swarm', 'ordinalpoint', 'clusterbar'].find(p => p === type.type)
       ? max(pieces.map(p => p.scaledValue))
       : projection === 'horizontal'
       ? max(
@@ -230,7 +230,7 @@ export const getColumnScreenCoordinates = ({
     projection === 'horizontal'
       ? adjustedSize[0] - positionValue
       : (summaryType.type && summaryType.type !== 'none') ||
-        ['swarm', 'point', 'clusterbar'].find(p => p === type.type)
+        ['swarm', 'ordinalpoint', 'clusterbar'].find(p => p === type.type)
       ? adjustedSize[1] - positionValue
       : positionValue;
   yPosition += 10;
@@ -683,7 +683,7 @@ export const htmlFrameHoverRule = ({
 
   const screenCoordinates =
     ((type.type === 'clusterbar' ||
-      type.type === 'point' ||
+      type.type === 'ordinalpoint' ||
       type.type === 'swarm') &&
       d.x !== undefined &&
       d.y !== undefined) ||

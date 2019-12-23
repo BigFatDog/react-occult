@@ -36,7 +36,7 @@ const naturalLanguageTypes = {
   bar: { items: 'bar', chart: 'bar chart' },
   clusterbar: { items: 'bar', chart: 'grouped bar chart' },
   swarm: { items: 'point', chart: 'swarm plot' },
-  point: { items: 'point', chart: 'point plot' },
+  ordinalpoint: { items: 'point', chart: 'point plot' },
   timeline: { items: 'bar', chart: 'timeline' }
 };
 
@@ -1144,7 +1144,9 @@ const computeOrdinalFrameData = props => {
     oAccessor,
     rAccessor,
     rScale,
-    rScaleType
+    rScaleType,
+    summaryType,
+    type: pieceType
   };
 };
 

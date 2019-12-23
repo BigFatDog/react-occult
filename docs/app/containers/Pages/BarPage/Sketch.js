@@ -116,7 +116,7 @@ const Sketch = props => {
   return (
     <PapperBlock>
       <Paper {...VerticalISOTypeChart}>
-        <Annotation {...annotationProps}/>
+        <Annotation {...annotationProps} />
         <Bar {...BarProps} />
       </Paper>
     </PapperBlock>
