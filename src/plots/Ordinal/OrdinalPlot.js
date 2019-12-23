@@ -94,6 +94,4 @@ OrdinalPlot.defaultProps = {
   invertR: false
 };
 
-OrdinalPlot.layout = null;
-
 export default OrdinalPlot;

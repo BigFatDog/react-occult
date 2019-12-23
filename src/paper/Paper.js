@@ -30,6 +30,7 @@ import OrdinalPoint from '../plots/Ordinal/OrdinalPoint';
 import Bar from '../plots/Ordinal/Bar';
 import ClusterBar from '../plots/Ordinal/ClusterBar';
 import BarPercent from '../plots/Ordinal/BarPercent';
+import Swarm from '../plots/Ordinal/Swarm';
 
 // network
 import Arc from '../plots/Network/Arc';
@@ -59,7 +60,7 @@ const isAxis = type => [Axis, XAxis, YAxis].includes(type);
 const isXY = type =>
   [Hexbin, Contour, Heatmap, Line, Scatter, Trendline].includes(type);
 const isOrdinal = type =>
-  [Timeline, OrdinalPoint, Bar, ClusterBar, BarPercent].includes(type);
+  [Timeline, OrdinalPoint, Bar, ClusterBar, BarPercent, Swarm].includes(type);
 const isNetwork = type =>
   [
     Arc,
