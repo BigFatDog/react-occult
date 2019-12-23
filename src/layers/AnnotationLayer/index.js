@@ -22,7 +22,8 @@ const AnnotationLayer = props => {
       annotationHandling = false,
       size,
       generateSVGAnnotations,
-      generateHTMLAnnotations
+      generateHTMLAnnotations,
+      voronoiHover
     } = props;
 
     const annotationProcessor =
@@ -32,7 +33,7 @@ const AnnotationLayer = props => {
 
     // todo: create svg anno
     const initialSVGAnnotations = annotations.map((d, i) =>
-      generateSVGAnnotations({ d, i })
+      generateSVGAnnotations({ d, i, voronoiHover })
     );
     const adjustableAnnotations = initialSVGAnnotations.filter(
       d => d.props && d.props.noteData && !d.props.noteData.fixedPosition
@@ -78,7 +79,7 @@ const AnnotationLayer = props => {
     ];
 
     const renderedHTMLAnnotations = annotations.map((d, i) =>
-      generateHTMLAnnotations({ d, i })
+      generateHTMLAnnotations({ d, i, voronoiHover })
     );
 
     setAdjustedAnnotations(newAdjustedAnnotations);

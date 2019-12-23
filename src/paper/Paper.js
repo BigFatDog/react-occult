@@ -11,6 +11,11 @@ import {
   generateXYHtmlAnnotations
 } from '../plots/Annotation/xyAnnotationFn';
 
+import {
+  generateOrdinalSVGAnnotations,
+  generateOrdinalHTMLAnnotations
+} from '../plots/Annotation/ordinalAnnotationFn';
+
 // xy
 import Hexbin from '../plots/Hexbin';
 import Contour from '../plots/Contour';
@@ -115,10 +120,20 @@ const Paper = props => {
       console.error('Only 1 Orindal plot is allowed');
     }
     plotChildren = ordinalChildren;
-    frameData = computeOrdinalFrameData({
+    const frameProps = {
       ...props,
       axesDefs,
       plotChildren
+    };
+    frameData = computeOrdinalFrameData(frameProps);
+
+    generateSVGAnnotations = generateOrdinalSVGAnnotations({
+      frameProps,
+      frameData
+    });
+    generateHTMLAnnotations = generateOrdinalHTMLAnnotations({
+      frameProps,
+      frameData
     });
   } else if (networkChildren.length > 0) {
     if (networkChildren.length !== 1) {

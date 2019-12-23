@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
-
 import { generateFrameTitle, toMarginGraphic } from './utils';
 import { BaseProps, BaseDefaultProps } from './BaseProps';
 
@@ -149,7 +148,7 @@ const Frame = props => {
   const annotationLayer = annotations && annotations.length > 0 && (
     <AnnotationLayer
       annotations={annotations}
-      voronoiHover={setVoronoiHover}
+      voronoiHover={voronoiHover}
       generateSVGAnnotations={generateSVGAnnotations}
       generateHTMLAnnotations={generateHTMLAnnotations}
       margin={margin}
