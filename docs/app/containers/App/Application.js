@@ -25,7 +25,7 @@ import HistogramPage from '../Pages/BarPage/Histogram';
 import SwarmPage from '../Pages/BarPage/SwarmPage';
 import ChordPage from '../Pages/Chord/Chord';
 import DagrePage from '../Pages/Chord/Dagre';
-import BlankPage from '../Pages/BlankPage';
+import HomePage from '../Pages/HomePage';
 import { NotFound } from '../pageListAsync';
 
 class Application extends React.Component {
@@ -34,7 +34,7 @@ class Application extends React.Component {
     return (
       <Dashboard history={history} changeMode={changeMode}>
         <Switch>
-          <Route exact path="/" component={BlankPage} />
+          <Route exact path="/" component={HomePage} />
           <Route path="/line" component={LineChartPage} />
           <Route path="/contour" component={ContourPage} />
           <Route path="/scatter" component={ScatterPage} />

@@ -1146,7 +1146,8 @@ const computeOrdinalFrameData = props => {
     rScale,
     rScaleType,
     summaryType,
-    type: pieceType
+    type: pieceType,
+    oLabels
   };
 };
 
