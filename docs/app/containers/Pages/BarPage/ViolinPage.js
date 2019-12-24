@@ -69,11 +69,10 @@ const BarProps = {
 const FrameProps = {
   width: 1000,
   height: 500,
-  margin: { top: 20, right: 30, left: 110, bottom: 50 },
+  margin: { top: 40, right: 30, left: 110, bottom: 50 },
   title: (
     <text textAnchor="middle">
-      NYC Hospital Facilities <tspan fill={'#E5BDF6'}>Community Board</tspan>
-      vs <tspan fill={'#45B649'}>Council District</tspan>
+      NYC Hospital Facilities <tspan fill={'#E5BDF6'}>Community Board </tspan> By Borough
     </text>
   ),
   additionalDefs: [
