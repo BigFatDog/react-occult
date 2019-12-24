@@ -113,6 +113,16 @@ module.exports = [
         link: '/swarm'
       },
       {
+        key: 'chord',
+        name: 'chord',
+        link: '/chord'
+      },
+      {
+        key: 'dagre',
+        name: 'dagre',
+        link: '/dagre'
+      },
+      {
         key: 'geo',
         name: 'Geo',
         link: '/geo'

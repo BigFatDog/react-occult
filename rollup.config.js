@@ -2,7 +2,6 @@ import babel from 'rollup-plugin-babel';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
-import postcss from 'rollup-plugin-postcss';
 import filesize from 'rollup-plugin-filesize';
 import autoprefixer from 'autoprefixer';
 import localResolve from 'rollup-plugin-local-resolve';
@@ -33,11 +32,28 @@ const config = {
   ],
   plugins: [
     peerDepsExternal(),
-    postcss({ extract: true, plugins: [autoprefixer] }),
     localResolve(),
-    resolve(),
+    resolve({ jsnext: true }),
     babel({ exclude: 'node_modules/**' }),
-    commonjs(),
+    commonjs({
+      include: "node_modules/**",
+      namedExports: {
+        "node_modules/d3-glyphedge/build/d3-glyphEdge.js": [
+          "d",
+          "project",
+          "mutate",
+        ],
+        "node_modules/d3-sankey-circular/dist/index.js": [
+          "sankeyCircular",
+          "sankeyLeft",
+          "sankeyCenter",
+          "sankeyRight",
+          "sankeyJustify"
+        ],
+        "process": ["nextTick"],
+        "node_modules/events/events.js": ["EventEmitter"]
+      }
+    }),
     filesize(),
   ],
 };

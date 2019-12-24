@@ -3,18 +3,18 @@ import PathDiagram from '../PathDiagram';
 import dagreEdgeGenerator from './dagreEdgeGenerator';
 import hierarchicalRectNodeGenerator from '../hierarchicalRectNodeGenerator';
 
-const Dagree = props => {};
+const Dagre = props => {};
 
-Dagree.edgeGenerator = ({ graph }) =>
+Dagre.edgeGenerator = ({ graph }) =>
   graph ? dagreEdgeGenerator(graph.graph().rankdir) : null;
-Dagree.nodeGenerator = hierarchicalRectNodeGenerator;
+Dagre.nodeGenerator = hierarchicalRectNodeGenerator;
 
-Dagree.propTypes = {
+Dagre.propTypes = {
   ...PathDiagram.propTypes
 };
 
-Dagree.defaultProps = {
+Dagre.defaultProps = {
   ...PathDiagram.defaultProps
 };
 
-export default Dagree;
+export default Dagre;

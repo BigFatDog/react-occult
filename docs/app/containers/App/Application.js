@@ -23,7 +23,8 @@ import NetworkPage from '../Pages/Chord';
 import ViolinPage from '../Pages/BarPage/ViolinPage';
 import HistogramPage from '../Pages/BarPage/Histogram';
 import SwarmPage from '../Pages/BarPage/SwarmPage';
-
+import ChordPage from '../Pages/Chord/Chord';
+import DagrePage from '../Pages/Chord/Dagre';
 import BlankPage from '../Pages/BlankPage';
 import { NotFound } from '../pageListAsync';
 
@@ -55,6 +56,9 @@ class Application extends React.Component {
           <Route path="/histgram" component={HistogramPage} />
           <Route path="/network" component={NetworkPage} />
           <Route path="/swarm" component={SwarmPage} />
+          <Route path="/chord" component={ChordPage} />
+          <Route path="/dagre" component={DagrePage} />
+
           <Route component={NotFound} />
         </Switch>
       </Dashboard>
