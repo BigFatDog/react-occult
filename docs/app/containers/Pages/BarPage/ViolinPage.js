@@ -44,7 +44,7 @@ const BarProps = {
   r: 3,
   style: d => ({
     fill: colorScale(d.Borough),
-    opacity: 0.4,
+    opacity: 0.4
   }),
   summaryType: {
     type: 'violin',
@@ -72,7 +72,8 @@ const FrameProps = {
   margin: { top: 40, right: 30, left: 110, bottom: 50 },
   title: (
     <text textAnchor="middle">
-      NYC Hospital Facilities <tspan fill={'#E5BDF6'}>Community Board </tspan> By Borough
+      NYC Hospital Facilities <tspan fill={'#E5BDF6'}>Community Board </tspan>{' '}
+      By Borough
     </text>
   ),
   additionalDefs: [
@@ -95,7 +96,8 @@ const FrameProps = {
 
 const styles = {
   frame: {
-    background: 'linear-gradient( 109.6deg,  rgba(157,75,199,1) 11.2%, rgba(119,81,204,1) 83.1% )',
+    background:
+      'linear-gradient( 109.6deg,  rgba(157,75,199,1) 11.2%, rgba(119,81,204,1) 83.1% )',
     border: 0,
     borderRadius: 6,
     boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',

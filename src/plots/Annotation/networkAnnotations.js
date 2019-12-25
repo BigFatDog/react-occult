@@ -205,7 +205,11 @@ export const svgHullEncloseRule = ({
   return HullEnclosure({ points: projectedPoints.map(d => [d.x, d.y]), d, i });
 };
 
-export const svgHighlightRule = ({ d, customNodeIcon: customMark, nodeStyle: baseStyle }) => {
+export const svgHighlightRule = ({
+  d,
+  customNodeIcon: customMark,
+  nodeStyle: baseStyle
+}) => {
   let styleFn = baseStyle;
   if (d.style && typeof d.style === 'function') {
     styleFn = d => ({ ...baseStyle(d), ...d.style(d) });

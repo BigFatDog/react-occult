@@ -2,7 +2,7 @@ import React from 'react';
 import HierarchicalDiagram from '../HierarchicalDiagram';
 import radialRectNodeGenerator from '../radialRectNodeGenerator';
 import hierarchicalRectNodeGenerator from '../hierarchicalRectNodeGenerator';
-import Treemap from "../Treemap";
+import Treemap from '../Treemap';
 
 const Partition = props => {};
 

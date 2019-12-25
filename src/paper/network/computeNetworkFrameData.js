@@ -271,6 +271,8 @@ const computeNetworkFrameData = props => {
       angleRange
     } = singlePlot.props;
 
+    console.log(graph);
+
     let { edgeType, projection, direction } = singlePlot.props;
     const nodeStyle = stringToFn(baseNodeStyle, () => ({}), true);
 
@@ -332,8 +334,7 @@ const computeNetworkFrameData = props => {
     let projectedNodes = [];
     let projectedEdges = [];
 
-    const isHierarchical =
-      hierarchicalTypeHash[networkSettings.type];
+    const isHierarchical = hierarchicalTypeHash[networkSettings.type];
 
     const changedData =
       !frameData.projectedNodes ||
@@ -415,7 +416,6 @@ const computeNetworkFrameData = props => {
           networkSettings.type = 'force';
         }
       }
-
 
       if (!Array.isArray(baseEdges)) {
         networkSettings.hierarchicalNetwork = true;

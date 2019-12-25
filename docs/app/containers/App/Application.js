@@ -26,7 +26,7 @@ import ChordPage from '../Pages/Chord/Chord';
 import DagrePage from '../Pages/Chord/Dagre';
 import HomePage from '../Pages/HomePage';
 import CirclePackPage from '../Pages/Chord/CirclePack';
-import DendrogramPage from '../Pages/Chord/Dendrogram'
+import DendrogramPage from '../Pages/Chord/Dendrogram';
 import TreemapPage from '../Pages/Chord/TreeMap';
 import PartitionPage from '../Pages/Chord/PartitionPage';
 import SankeyPage from '../Pages/Chord/Sankey';

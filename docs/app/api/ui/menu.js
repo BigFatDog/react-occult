@@ -15,7 +15,7 @@ module.exports = [
         // icon: 'ios-barcode-outline',
         name: 'NYC Hospital',
         link: '/bar'
-      },
+      }
     ]
   },
 

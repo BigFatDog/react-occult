@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  YAxis,
-  Paper,
-  OrdinalPoint,
-} from 'occult';
+import { YAxis, Paper, OrdinalPoint } from 'occult';
 import { PapperBlock } from 'dan-components';
 import { withStyles } from '@material-ui/core/styles';
 import { HospitalFacilities } from '../data/HospitalFacilitiesData';
@@ -86,7 +82,7 @@ const BarProps = {
   rAccessor: ['Community Board', 'Census Tract'],
 
   projection: 'vertical',
-  oLabel: false,
+  oLabel: false
   // oLabel: d => (<text fontSize={12} transform={'rotate(60)'}>{d}</text>),
 };
 const FrameProps = {
