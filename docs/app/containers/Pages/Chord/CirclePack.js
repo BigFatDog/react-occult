@@ -52,18 +52,6 @@ const styles = {
   }
 };
 
-const theme = [
-  '#ac58e5',
-  '#E0488B',
-  '#9fd0cb',
-  '#e0d33a',
-  '#7566ff',
-  '#533f82',
-  '#7a255d',
-  '#365350',
-  '#a19a11',
-  '#3f4482'
-];
 const frameProps = {
   width: 1000,
   height: 940,
@@ -72,19 +60,19 @@ const frameProps = {
     {
       type: 'highlight',
       style: d => ({
-        fill: theme[d.depth],
-        stroke: theme[d.depth],
+        fill: colorScale(d.depth),
+        stroke: colorScale(d.depth),
         fillOpacity: 0.6
       })
     },
     { type: 'frame-hover' }
   ],
-  tooltipContent: d => (
-    <div className="tooltip-content">
-      {d.parent ? <p>{d.parent.data.name}</p> : undefined}
-      <p>{d.data.name}</p>
-    </div>
-  )
+  // tooltipContent: d => (
+  //   <div className="tooltip-content">
+  //     {d.parent ? <p>{d.parent.data.name}</p> : undefined}
+  //     <p>{d.data.name}</p>
+  //   </div>
+  // )
 };
 
 const plotProps = {
