@@ -6,16 +6,51 @@ module.exports = [
     link: '/'
   },
   {
-    key: 'layers',
-    name: 'Layers of Information',
+    key: 'nyc',
+    name: 'NYC Open Data',
     icon: 'ios-infinite-outline',
-    link: '/layers'
+    child: [
+      {
+        key: 'bar',
+        // icon: 'ios-barcode-outline',
+        name: 'NYC Hospital',
+        link: '/bar'
+      },
+    ]
   },
+
   {
     key: 'charts',
     name: 'Charts',
     icon: 'ios-analytics-outline',
     child: [
+      {
+        key: 'circle_pack',
+        // icon: 'ios-barcode-outline',
+        name: 'Circle Pack',
+        link: '/circlepack'
+      },
+
+      {
+        key: 'dendrogram',
+        name: 'Dendrogram',
+        link: '/dendrogram'
+      },
+      {
+        key: 'treemap',
+        name: 'Treemap',
+        link: '/treemap'
+      },
+      {
+        key: 'partition',
+        name: 'Partition',
+        link: '/partition'
+      },
+      {
+        key: 'sankey',
+        name: 'Sankey',
+        link: '/sankey'
+      },
       {
         key: 'old_faithful',
         name: 'Old Faithful Contour',
@@ -50,11 +85,6 @@ module.exports = [
         key: 'difference',
         name: 'Difference',
         link: '/difference'
-      },
-      {
-        key: 'bar',
-        name: 'NYC Hospital',
-        link: '/bar'
       },
       {
         key: 'violin',

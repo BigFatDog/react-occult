@@ -3,7 +3,7 @@ import React from 'react';
 import { XAxis, YAxis, Paper, Bar, Annotation, OrdinalPoint } from 'occult';
 import { PapperBlock } from 'dan-components';
 import { withStyles } from '@material-ui/core/styles';
-import { HospitalFacilities } from './Data';
+import { HospitalFacilities } from '../data/HospitalFacilitiesData';
 
 const TheMetLight = [
   // '#F44336',

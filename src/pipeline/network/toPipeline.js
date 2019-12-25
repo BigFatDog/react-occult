@@ -21,6 +21,7 @@ const toPipeline = ({
   customNodeIcon,
   nodeRenderKey
 }) => {
+  console.log('-----------------')
   const { svgPipeline: edgeSvg, canvasPipeline: edgeCanvas } = drawEdges({
     data: projectedEdges,
     renderKeyFn: edgeRenderKey,

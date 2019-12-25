@@ -1,16 +1,12 @@
-import * as d3 from 'd3';
 import React from 'react';
 import {
-  XAxis,
   YAxis,
   Paper,
-  Annotation,
   OrdinalPoint,
-  BarPercent
 } from 'occult';
 import { PapperBlock } from 'dan-components';
 import { withStyles } from '@material-ui/core/styles';
-import { HospitalFacilities } from './Data';
+import { HospitalFacilities } from '../data/HospitalFacilitiesData';
 
 const axisLeftProps = {
   orient: 'left',
@@ -45,12 +41,6 @@ const axisRightProps = {
       Council District
     </text>
   )
-};
-
-const highlight = {
-  type: 'highlight',
-  Borough: 'Queens',
-  style: { fill: 'red', stroke: 'none' }
 };
 
 const BarProps = {
@@ -96,7 +86,7 @@ const BarProps = {
   rAccessor: ['Community Board', 'Census Tract'],
 
   projection: 'vertical',
-  oLabel: false
+  oLabel: false,
   // oLabel: d => (<text fontSize={12} transform={'rotate(60)'}>{d}</text>),
 };
 const FrameProps = {
@@ -144,19 +134,17 @@ const styles = {
   }
 };
 
-const BarPage = props => {
+const HospitalFacilitiesPage = props => {
   const { classes } = props;
   return (
     <PapperBlock>
       <Paper {...FrameProps} className={classes.frame}>
         <YAxis {...axisLeftProps} />
         <YAxis {...axisRightProps} />
-        {/*<Annotation {...highlight}/>*/}
-        {/*<Annotation {...h2} />*/}
         <OrdinalPoint {...BarProps} />
       </Paper>
     </PapperBlock>
   );
 };
 
-export default withStyles(styles)(BarPage);
+export default withStyles(styles)(HospitalFacilitiesPage);

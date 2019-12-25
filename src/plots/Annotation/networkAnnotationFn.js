@@ -20,10 +20,10 @@ const defaultNetworkSVGRule = ({ frameData, frameProps }) => ({
     projectedEdges,
     nodeIDAccessor,
     nodeSizeAccessor,
-    adjustedSize
+    adjustedSize,
+    customNodeIcon,
+    nodeStyle
   } = frameData;
-
-  const { customMark, nodeStyle } = frameProps;
 
   const d = baseD.ids
     ? baseD
@@ -94,7 +94,7 @@ const defaultNetworkSVGRule = ({ frameData, frameProps }) => ({
   } else if (d.type === 'highlight') {
     return svgHighlightRule({
       d,
-      customMark,
+      customNodeIcon,
       nodeStyle
     });
   }

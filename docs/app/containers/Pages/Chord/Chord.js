@@ -1,13 +1,32 @@
 import { Paper, Chord } from 'occult';
 import React from 'react';
+import * as d3 from 'd3';
 import { PapperBlock } from 'dan-components';
 
-const colors = {
-  'Base Import': '#ac58e5',
-  Usage: '#E0488B',
-  Intermediary: '#9fd0cb',
-  Other: '#e0d33a'
-};
+
+const TheMetLight = [
+  '#ff2fab',
+  '#E91E63',
+  '#9C27B0',
+  '#673AB7',
+  '#3F51B5',
+  '#2196F3',
+  '#03A9F4',
+  '#00BCD4',
+  '#009688',
+  '#4CAF50',
+  '#8BC34A',
+  '#CDDC39',
+  '#FFEB3B',
+  '#FFC107',
+  '#FF9800',
+  '#FF5722'
+];
+
+const nodeColorScale = d3.scaleOrdinal().range( ['url(#gradient_1)', 'url(#gradient_2)', 'url(#gradient_3)', 'url(#gradient_4)']);
+
+
+const colorScale = d3.scaleOrdinal().range(TheMetLight)
 
 const chordProps = {
   nodes: [
@@ -344,24 +363,46 @@ const chordProps = {
   sourceAccessor: 'source',
   targetAccessor: 'target',
   nodeStyle: function(e) {
-    return { stroke: colors[e.category], fill: colors[e.category] };
+    return { stroke: nodeColorScale(e.category), fill: nodeColorScale(e.category), opacity: 0.8 };
   },
   edgeStyle: function(e) {
     return {
-      stroke: colors[e.target.category],
-      fill: colors[e.source.category],
-      fillOpacity: 0.2
+      // stroke: colors[e.target.category],
+      fill: colorScale(e.source.id),
+      fillOpacity: 0.75
     };
   },
   edgeWidthAccessor: 'value',
   hoverAnnotation: true,
   nodeLabels: d => {
     return d.output && <text textAnchor="middle">{d.id}</text>;
-  }
+  },
+  zoom: false, // Zoom the laid out nodes in or out so that they fit the specified size, can also be "stretch" if you want zoom not to maintain aspect ratio
+  groupWidth: 20, //  Width in pixels of the outer rings
+  padAngle: 0.01, // Space between groups in degrees,
 };
 const frameProps = {
   size: [700, 500],
-  margin: { right: 130, bottom: 20 }
+  margin: { right: 130, bottom: 20 },
+  additionalDefs:
+      [
+        <linearGradient key="gradient1" id="gradient_1">
+          <stop stopColor={'#ff2fab'} offset="0%" />
+          <stop stopColor={'#ffc62e'} offset="100%" />
+          </linearGradient>,
+        <linearGradient key="gradient2" id="gradient_2">
+          <stop stopColor={'#dc04ff'} offset="0%" />
+          <stop stopColor={'#d04376'} offset="100%" />
+        </linearGradient>,
+        <linearGradient key="gradient3" id="gradient_3">
+          <stop stopColor={'#7324ff'} offset="0%" />
+          <stop stopColor={'#52f091'} offset="100%" />
+        </linearGradient>,
+        <linearGradient key="gradient4" id="gradient_4">
+          <stop stopColor={'#04a6ff'} offset="0%" />
+          <stop stopColor={'#00ddc6'} offset="100%" />
+        </linearGradient>
+      ]
 };
 
 const ChordPage = props => {

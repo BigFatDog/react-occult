@@ -5,6 +5,7 @@ import circleNodeGenerator from './circleNodeGenerator';
 const CirclePack = props => {};
 
 CirclePack.nodeGenerator = circleNodeGenerator;
+CirclePack.edgeGenerator = () => () => null;
 
 CirclePack.propTypes = {
   ...HierarchicalDiagram.propTypes

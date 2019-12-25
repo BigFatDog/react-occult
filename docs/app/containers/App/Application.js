@@ -17,7 +17,6 @@ import GeoProjectionPage from '../Pages/GeoProjection';
 import TrendlinePage from '../Pages/TrendlinePage';
 import NeighbourPage from '../Pages/Neighbourhood';
 import DifferencePage from '../Pages/Difference';
-import BarPage from '../Pages/BarPage';
 import SketchPage from '../Pages/BarPage/Sketch';
 import NetworkPage from '../Pages/Chord';
 import ViolinPage from '../Pages/BarPage/ViolinPage';
@@ -26,7 +25,15 @@ import SwarmPage from '../Pages/BarPage/SwarmPage';
 import ChordPage from '../Pages/Chord/Chord';
 import DagrePage from '../Pages/Chord/Dagre';
 import HomePage from '../Pages/HomePage';
+import CirclePackPage from '../Pages/Chord/CirclePack';
+import DendrogramPage from '../Pages/Chord/Dendrogram'
+import TreemapPage from '../Pages/Chord/TreeMap';
+import PartitionPage from '../Pages/Chord/PartitionPage';
+import SankeyPage from '../Pages/Chord/Sankey';
+
 import { NotFound } from '../pageListAsync';
+
+import BarPage from '../Pages/NYCOpenData/HospitalFacilities';
 
 class Application extends React.Component {
   render() {
@@ -35,6 +42,8 @@ class Application extends React.Component {
       <Dashboard history={history} changeMode={changeMode}>
         <Switch>
           <Route exact path="/" component={HomePage} />
+          <Route path="/bar" component={BarPage} />
+
           <Route path="/line" component={LineChartPage} />
           <Route path="/contour" component={ContourPage} />
           <Route path="/scatter" component={ScatterPage} />
@@ -50,7 +59,6 @@ class Application extends React.Component {
           <Route path="/geo" component={GeoProjectionPage} />
           <Route path="/neighbour" component={NeighbourPage} />
           <Route path="/difference" component={DifferencePage} />
-          <Route path="/bar" component={BarPage} />
           <Route path="/sketch" component={SketchPage} />
           <Route path="/violin" component={ViolinPage} />
           <Route path="/histgram" component={HistogramPage} />
@@ -58,7 +66,11 @@ class Application extends React.Component {
           <Route path="/swarm" component={SwarmPage} />
           <Route path="/chord" component={ChordPage} />
           <Route path="/dagre" component={DagrePage} />
-
+          <Route path={'/circlepack'} component={CirclePackPage} />
+          <Route path={'/dendrogram'} component={DendrogramPage} />
+          <Route path={'/treemap'} component={TreemapPage} />
+          <Route path={'/partition'} component={PartitionPage} />
+          <Route path={'/sankey'} component={SankeyPage} />
           <Route component={NotFound} />
         </Switch>
       </Dashboard>
