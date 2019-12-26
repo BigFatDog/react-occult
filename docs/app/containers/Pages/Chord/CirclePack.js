@@ -1,37 +1,9 @@
 import React from 'react';
 import { PapperBlock } from 'dan-components';
 import { Paper, CirclePack } from 'occult';
-import { shakespeare } from '../data/shakespeare';
+import { root } from '../data/shakespeare';
 import * as d3 from 'd3';
 import { withStyles } from '@material-ui/core';
-
-const _root = d3
-  .stratify()
-  .id(d => d.id)
-  .parentId(d => d.parent)(shakespeare)
-  .sum(d => d.size || 0);
-
-const clean = root => {
-  if (root === null) {
-    return;
-  }
-
-  const newRoot = {
-    id: root.id
-  };
-
-  if (root.children) {
-    newRoot.children = root.children.map(d => clean(d));
-  }
-
-  if (root.value) {
-    newRoot.value = root.value;
-  }
-
-  return newRoot;
-};
-
-const root = clean(_root);
 
 const blue = '#0373d9';
 const green = '#00ff70';
@@ -39,7 +11,7 @@ const bg = '#3436b8';
 
 const colorScale = d3
   .scaleLinear()
-  .domain([0, Math.max(...shakespeare.map(d => d.size || 0))])
+  .domain([0, 500])
   .range([green, blue]);
 
 const styles = {
@@ -76,13 +48,17 @@ const frameProps = {
 };
 
 const plotProps = {
-  nodes: [root],
+  nodes: [root()],
   nodeIDAccessor: 'id',
   nodeStyle: d => ({
     fill: colorScale(d.value),
     stroke: bg,
     opacity: 0.7
   }),
+  zoom: true,
+  oPadding: 10,
+  hierarhcySum: d => d.size,
+  hierarchyChildren: d => d.children,
   filterRenderedNodes: d => d.depth !== 0,
   nodeLabels: d => {
     return d.depth > 1 ? null : (

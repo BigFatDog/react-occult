@@ -11,8 +11,6 @@ const circleNodeGenerator = () => ({
   transform,
   baseMarkProps
 }) => {
-  //this is repetitious
-
   return (
     <Mark
       {...baseMarkProps}

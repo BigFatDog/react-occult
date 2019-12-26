@@ -1,4 +1,6 @@
-export const shakespeare = [
+import * as d3 from "d3";
+
+export const shakespeare = ()=> [
   {
     id: 'Shakespeare',
     parent: null,
@@ -1860,3 +1862,34 @@ export const shakespeare = [
     size: 17
   }
 ];
+
+
+
+export const root = () => {
+  const _root = d3
+      .stratify()
+      .id(d => d.id)
+      .parentId(d => d.parent)(shakespeare())
+      .sum(d => d.size || 0);
+
+  const clean = root => {
+    if (root === null) {
+      return;
+    }
+
+    const newRoot = {
+      id: root.id
+    };
+
+    if (root.children) {
+      newRoot.children = root.children.map(d => clean(d));
+    }
+
+    if (root.value) {
+      newRoot.value = root.value;
+    }
+
+    return newRoot;
+  };
+  return clean(_root);
+};

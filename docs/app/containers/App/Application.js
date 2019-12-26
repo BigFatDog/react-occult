@@ -18,7 +18,7 @@ import TrendlinePage from '../Pages/TrendlinePage';
 import NeighbourPage from '../Pages/Neighbourhood';
 import DifferencePage from '../Pages/Difference';
 import SketchPage from '../Pages/BarPage/Sketch';
-import NetworkPage from '../Pages/Chord';
+import ForcePage from '../Pages/Chord/Force';
 import ViolinPage from '../Pages/BarPage/ViolinPage';
 import HistogramPage from '../Pages/BarPage/Histogram';
 import SwarmPage from '../Pages/BarPage/SwarmPage';
@@ -62,7 +62,7 @@ class Application extends React.Component {
           <Route path="/sketch" component={SketchPage} />
           <Route path="/violin" component={ViolinPage} />
           <Route path="/histgram" component={HistogramPage} />
-          <Route path="/network" component={NetworkPage} />
+          <Route path="/force" component={ForcePage} />
           <Route path="/swarm" component={SwarmPage} />
           <Route path="/chord" component={ChordPage} />
           <Route path="/dagre" component={DagrePage} />

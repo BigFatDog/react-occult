@@ -270,9 +270,6 @@ const computeNetworkFrameData = props => {
       nodePadding,
       angleRange
     } = singlePlot.props;
-
-    console.log(graph);
-
     let { edgeType, projection, direction } = singlePlot.props;
     const nodeStyle = stringToFn(baseNodeStyle, () => ({}), true);
 

@@ -102,9 +102,9 @@ module.exports = [
         link: '/sketch'
       },
       {
-        key: 'network',
-        name: 'Network',
-        link: '/network'
+        key: 'force',
+        name: 'Force',
+        link: '/force'
       },
       {
         key: 'heatmap',
