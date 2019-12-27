@@ -1,5 +1,5 @@
 import React from 'react';
-import { XAxis, YAxis, Paper, Force, Sankey } from 'occult';
+import { XAxis, YAxis, Paper, Sankey } from 'occult';
 import { PapperBlock } from 'dan-components';
 import energy from '../data/energy.json';
 import * as d3 from 'd3';
@@ -85,7 +85,7 @@ const sankeyProps = {
   nodeLabels: d => <text>{d.id}</text>
 };
 
-const Network = props => {
+const SankeyPage = props => {
   return (
     <PapperBlock>
       <Paper {...frameProps}>
@@ -95,4 +95,4 @@ const Network = props => {
   );
 };
 
-export default Network;
+export default SankeyPage;

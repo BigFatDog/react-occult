@@ -7,7 +7,6 @@ import ContourPage from '../Pages/ContourPage';
 import HeatmapPage from '../Pages/HeatmapPage';
 import HexbinPage from '../Pages/HexbinPage';
 import ScatterPage from '../Pages/ScatterPage';
-import AnnotationPage from '../Pages/AnnotationPage';
 import AreaPage from '../Pages/AreaChart';
 import OldFaithfulPage from '../Pages/OldFaithfulPage';
 import Bumpline from '../Pages/Bumpline';
@@ -30,6 +29,8 @@ import DendrogramPage from '../Pages/Chord/Dendrogram';
 import TreemapPage from '../Pages/Chord/TreeMap';
 import PartitionPage from '../Pages/Chord/PartitionPage';
 import SankeyPage from '../Pages/Chord/Sankey';
+import ArcPage from '../Pages/Chord/Arc';
+import RadarPage from '../Pages/Radar';
 
 import { NotFound } from '../pageListAsync';
 
@@ -41,7 +42,7 @@ class Application extends React.Component {
     return (
       <Dashboard history={history} changeMode={changeMode}>
         <Switch>
-          <Route exact path="/" component={HomePage} />
+          <Route exact path="/app" component={HomePage} />
           <Route path="/bar" component={BarPage} />
 
           <Route path="/line" component={LineChartPage} />
@@ -50,7 +51,6 @@ class Application extends React.Component {
           <Route path="/hexbin" component={HexbinPage} />
           <Route path="/heatmap" component={HeatmapPage} />
           <Route path="/area" component={AreaPage} />
-          <Route path="/annotations" component={AnnotationPage} />
           <Route path="/faithful" component={OldFaithfulPage} />
           <Route path="/bumpline" component={Bumpline} />
           <Route path="/linepercentage" component={LinePercentage} />
@@ -66,11 +66,14 @@ class Application extends React.Component {
           <Route path="/swarm" component={SwarmPage} />
           <Route path="/chord" component={ChordPage} />
           <Route path="/dagre" component={DagrePage} />
-          <Route path={'/circlepack'} component={CirclePackPage} />
-          <Route path={'/dendrogram'} component={DendrogramPage} />
-          <Route path={'/treemap'} component={TreemapPage} />
-          <Route path={'/partition'} component={PartitionPage} />
-          <Route path={'/sankey'} component={SankeyPage} />
+          <Route path='/circlepack' component={CirclePackPage} />
+          <Route path='/dendrogram' component={DendrogramPage} />
+          <Route path='/treemap' component={TreemapPage} />
+          <Route path='/partition' component={PartitionPage} />
+          <Route path='/sankey' component={SankeyPage} />
+          <Route path='/arc' component={ArcPage} />
+          <Route path='/radar' component={RadarPage} />
+
           <Route component={NotFound} />
         </Switch>
       </Dashboard>

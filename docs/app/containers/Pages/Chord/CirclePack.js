@@ -26,7 +26,15 @@ const styles = {
 
 const frameProps = {
   width: 1000,
-  height: 940,
+  height:1000,
+  margin: 40,
+  title: (
+      <g>
+        <text textAnchor="middle">
+          <tspan fill={'white'}>Shakespeare Characters Network</tspan>
+        </text>
+      </g>
+  ),
   hoverAnnotation: [
     { type: 'desaturation-layer', style: { fill: 'white', fillOpacity: 0.25 } },
     {
@@ -38,7 +46,7 @@ const frameProps = {
       })
     },
     { type: 'frame-hover' }
-  ],
+  ]
   // tooltipContent: d => (
   //   <div className="tooltip-content">
   //     {d.parent ? <p>{d.parent.data.name}</p> : undefined}

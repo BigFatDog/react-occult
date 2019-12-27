@@ -67,7 +67,7 @@ const ScatterPage = props => {
           <XAxis
             label={'Expire Date'}
             tickFormat={d => formatter(d)}
-            showLineTicks={false}
+            showTickLines={false}
             // rotate={30}
           />
           <YAxis

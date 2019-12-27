@@ -175,9 +175,9 @@ const LinePage = props => {
           <XAxis
             label={'Year'}
             tickFormat={d => formatDate(d)}
-            showLineTicks={false}
+            showTickLines={false}
           />
-          <YAxis label={'Weather'} showLineTicks={true} />
+          <YAxis label={'Weather'} showTickLines={true} />
           <YAxis {...yAxisProps} />
           <Line {...lineProps} />
           <Annotation

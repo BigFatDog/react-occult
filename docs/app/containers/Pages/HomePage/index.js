@@ -1,55 +1,66 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
+import {withStyles} from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import ButtonBase from '@material-ui/core/ButtonBase';
+import 'dan-styles/vendors/image-lightbox/image-lightbox.css';
+import styles from './photo-jss';
+import im1 from './img/scatter.png';
+import hosptial from './img/nyc_hospital.png';
+import CirclePackImg from './img/circle_pack.png';
+import OldFaithfulImg from './img/old_faithful.png';
+import ContourMarginImg from './img/contour.png';
+import AppleStockImg from './img/stock.png';
+import TrendLineImg from './img/trendline.png';
+import NeighbourHoodImg from './img/neighbourhood.png';
+import DifferenceImg from './img/difference.png';
+import ChordImg from './img/chord.png';
+import ForceImg from './img/force.png';
 
-const styles = theme => ({
-  root: {
-    flexGrow: 1
-  },
-  paper: {
-    padding: 2,
-    textAlign: 'center',
-    color: theme.palette.secondary.dark,
-    backgroundColor: theme.palette.secondary.light
-  }
-});
+const imgData = [{thumb: im1, title: 'scatter', url: '/scatter'},
+    {thumb: hosptial, title: 'NYC Hospital Facilities', url: '/bar'},
+    {thumb: CirclePackImg, title: 'Circle Pack', url: '/circlepack'},
+    {thumb: OldFaithfulImg, title: 'Old Faithful', url: '/faithful'},
+    {thumb: ContourMarginImg, title: 'Contour with Marginal Graphics', url: '/margin'},
+    {thumb: AppleStockImg, title: 'Apple Stock', url: '/area'},
+    {thumb: TrendLineImg, title: 'Trendline', url: '/trendline'},
+    {thumb: NeighbourHoodImg, title: 'Neighbourhood', url: '/neighbour'},
+    {thumb: DifferenceImg, title: 'Difference', url: '/difference'},
+    {thumb: ChordImg, title: 'Chord', url: '/chord'},
+    {thumb: ForceImg, title: 'Force', url: '/force'},
+];
 
-function FullWidthGrid(props) {
-  const { classes } = props;
-
-  return (
-    <div className={classes.root}>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Paper className={classes.paper}>xs=12</Paper>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Paper className={classes.paper}>xs=12 sm=6</Paper>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Paper className={classes.paper}>xs=12 sm=6</Paper>
-        </Grid>
-        <Grid item xs={6} sm={3}>
-          <Paper className={classes.paper}>xs=6 sm=3</Paper>
-        </Grid>
-        <Grid item xs={6} sm={3}>
-          <Paper className={classes.paper}>xs=6 sm=3</Paper>
-        </Grid>
-        <Grid item xs={6} sm={3}>
-          <Paper className={classes.paper}>xs=6 sm=3</Paper>
-        </Grid>
-        <Grid item xs={6} sm={3}>
-          <Paper className={classes.paper}>xs=6 sm=3</Paper>
-        </Grid>
-      </Grid>
-    </div>
-  );
-}
-
-FullWidthGrid.propTypes = {
-  classes: PropTypes.object.isRequired
+const HomePage = props => {
+    const {classes, history } = props;
+    return (
+        <div>
+            <div className={classes.masonry}>
+                {imgData.map(({thumb, title, url}, index) => (
+                    <figure className={classes.item} key={index}>
+                        <ButtonBase
+                            focusRipple
+                            className={classes.image}
+                            focusVisibleClassName={classes.focusVisible}
+                            onClick={() => history.push(url)}
+                        >
+                            <img src={thumb} alt={title}/>
+                            <span className={classes.imageBackdrop}/>
+                            <span className={classes.imageButton}>
+                <Typography
+                    component="span"
+                    variant="subtitle1"
+                    color="inherit"
+                    className={classes.imageTitle}
+                >
+                  {title}
+                    <span className={classes.imageMarked}/>
+                </Typography>
+              </span>
+                        </ButtonBase>
+                    </figure>
+                ))}
+            </div>
+        </div>
+    );
 };
 
-export default withStyles(styles)(FullWidthGrid);
+export default withStyles(styles)(HomePage);

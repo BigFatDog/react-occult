@@ -543,7 +543,7 @@ Axis.propTypes = {
   className: PropTypes.string,
   margin: PropTypes.object,
   name: PropTypes.string,
-  showLineTicks: PropTypes.bool,
+  showTickLines: PropTypes.bool,
   showLabels: PropTypes.bool,
   xyPoints: PropTypes.array,
   jaggedBase: PropTypes.bool,
@@ -564,7 +564,7 @@ Axis.defaultProps = {
   baseline: true,
   margin: { top: 0, bottom: 0, left: 0, right: 0 },
   center: false,
-  showLineTicks: true,
+  showTickLines: true,
   showLabels: true,
   jaggedBase: false
 };

@@ -997,7 +997,7 @@ const computeOrdinalFrameData = props => {
     }
   }
 
-  const { innerRadius } = singleOrdinalPlot.props;
+  const { innerRadius = 0 } = singleOrdinalPlot.props;
   // todo: move to toAxes
   const { axis, axesTickLines } = orFrameAxisGenerator({
     axis: arrayWrappedAxis,

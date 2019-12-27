@@ -123,7 +123,7 @@ const Paper = props => {
     plotChildren = ordinalChildren;
     const frameProps = {
       ...props,
-      axesDefs,
+      axesDefs: axesDefs.length > 0 ? [true] : [],
       plotChildren
     };
     frameData = computeOrdinalFrameData(frameProps);

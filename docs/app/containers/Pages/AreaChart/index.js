@@ -135,9 +135,9 @@ const AreaPage = props => {
             label={'Date'}
             tickFormat={d => formatter(d)}
             ticks={10}
-            showLineTicks={false}
+            showTickLines={false}
           />
-          <YAxis margin={{ top: 100 }} label={'Close'} showLineTicks={false} />
+          <YAxis margin={{ top: 100 }} label={'Close'} showTickLines={false} />
           <Line {...scatterProps} />
           <Annotation
             type={AnnotationCallout}

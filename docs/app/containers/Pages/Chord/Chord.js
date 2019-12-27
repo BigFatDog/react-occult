@@ -3,31 +3,40 @@ import React from 'react';
 import { PapperBlock } from 'dan-components';
 
 import { shakespeare } from '../data/shakespeare';
-import {withStyles} from "@material-ui/core";
-
+import { withStyles } from '@material-ui/core';
 
 const trackParent = (node, i, arr) => {
   if (!node) {
     return;
   }
 
-  if (node.id === 'Shakespeare' || node.id === 'Comedies' ||  node.id === 'Tragedies' || node.id === 'Histories') {
+  if (
+    node.id === 'Shakespeare' ||
+    node.id === 'Comedies' ||
+    node.id === 'Tragedies' ||
+    node.id === 'Histories'
+  ) {
     return null;
   }
 
-  while (node.parent !== null || node.parent !== 'Comedies' ||  node.parent !== 'Tragedies' || node.parent !== 'Histories' || node.parent !== 'Shakespeare') {
+  while (
+    node.parent !== null ||
+    node.parent !== 'Comedies' ||
+    node.parent !== 'Tragedies' ||
+    node.parent !== 'Histories' ||
+    node.parent !== 'Shakespeare'
+  ) {
     const _p = arr.find(d => d.id === node.parent);
-    const parent = trackParent(_p, i, arr)
+    const parent = trackParent(_p, i, arr);
     if (!parent) {
       break;
     } else {
       node.parent = parent.parent || parent.id;
     }
-
   }
 
   return node;
-}
+};
 
 const isPlay = id => ['Comedies', 'Tragedies', 'Histories'].includes(id);
 
@@ -48,7 +57,10 @@ const roots = [
     size: null
   }
 ];
-const flat = shakespeare().slice().map((d, i, arr) => trackParent(d, i, arr)).filter(d => d);
+const flat = shakespeare()
+  .slice()
+  .map((d, i, arr) => trackParent(d, i, arr))
+  .filter(d => d);
 const nodes = [...roots, ...flat];
 
 const blue = '#0373d9';
@@ -56,24 +68,24 @@ const green = '#00ff70';
 const bg = '#3436b8';
 
 const nodeColorScale = {
-  'Comedies': 'url(#gradient_1)',
-  'Tragedies': 'url(#gradient_2)',
-  'Histories': 'url(#gradient_3)',
-}
-
+  Comedies: 'url(#gradient_1)',
+  Tragedies: 'url(#gradient_2)',
+  Histories: 'url(#gradient_3)'
+};
 
 const colorMap = {
-  'Comedies': '#2196F3',
-  'Tragedies': '#ffc62e',
-  'Histories': '#7324ff'
-}
+  Comedies: '#2196F3',
+  Tragedies: '#ffc62e',
+  Histories: '#7324ff'
+};
 
 const styles = {
   frame: {
-    background: 'radial-gradient( circle 621px at 25.3% 13.8%,  rgba(255,255,255,1) 0%, rgba(234,236,255,1) 90% )',
+    background:
+      'radial-gradient( circle 621px at 25.3% 13.8%,  rgba(255,255,255,1) 0%, rgba(234,236,255,1) 90% )',
     border: 0,
     borderRadius: 6,
-    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)'
   }
 };
 
@@ -84,7 +96,10 @@ const chordProps = {
   sourceAccessor: 'parent',
   targetAccessor: 'id',
   nodeStyle: function(e) {
-    const c = e.parent === 'Shakespeare' ? nodeColorScale[e.id] : nodeColorScale[e.parent]
+    const c =
+      e.parent === 'Shakespeare'
+        ? nodeColorScale[e.id]
+        : nodeColorScale[e.parent];
 
     return {
       stroke: c,
@@ -111,15 +126,15 @@ const chordProps = {
   padAngle: 0.01 // Space between groups in degrees,
 };
 const frameProps = {
-  width: 900,
-  height: 900,
+  width: 700,
+  height: 700,
   margin: 40,
   additionalDefs: [
     <linearGradient key="gradient1" id="gradient_1">
       <stop stopColor={'#00ff70'} offset="0%" />
       <stop stopColor={'#0373d9'} offset="100%" />
     </linearGradient>,
-    <linearGradient key="gradient2" id="gradient_2"  x1={0} x2={0} y1={0} y2={1}>
+    <linearGradient key="gradient2" id="gradient_2" x1={0} x2={0} y1={0} y2={1}>
       <stop stopColor={'#ffc62e'} offset="0%" />
       <stop stopColor={'#ff2fab'} offset="100%" />
     </linearGradient>,

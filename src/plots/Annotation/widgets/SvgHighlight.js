@@ -32,12 +32,23 @@ const findPoints = (d, xScale, yScale) => {
     });
 };
 
-const SvgHighlight = ({ d, i, xScale, yScale, xyFrameRender }) => {
+const SvgHighlight = ({ d, i, xScale, yScale, projectedAreas, idAccessor, projectedLines, lineStyle}) => {
   const foundPoints = findPoints(d, xScale, yScale);
-  const foundLines = lines.data
+
+    let dID
+    const baseID = idAccessor({ ...d, ...d.data }, i)
+    if (baseID !== undefined) {
+        dID = baseID
+    } else if (d.parentLine && idAccessor(d.parentLine, i) !== undefined) {
+        dID = idAccessor(d.parentLine, i)
+    } else if (d.parentSummary && idAccessor(d.parentSummary, i) !== undefined) {
+        dID = idAccessor(d.parentSummary, i)
+    }
+
+  const foundLines = projectedLines
     .filter((p, q) => idAccessor(p, q) === dID)
     .map((p, q) => {
-      const baseStyle = xyFrameRender.lines.styleFn(p, q);
+      const baseStyle = lineStyle(p, q);
 
       const highlightStyle =
         typeof d.style === 'function' ? d.style(p, q) : d.style || {};
@@ -59,10 +70,10 @@ const SvgHighlight = ({ d, i, xScale, yScale, xyFrameRender }) => {
       );
     });
 
-  const foundAreas = summaries.data
+  const foundAreas = projectedAreas
     .filter((p, q) => idAccessor(p, q) === dID)
     .map((p, q) => {
-      const baseStyle = xyFrameRender.summaries.styleFn(p, q);
+      const baseStyle = areaStyle(p, q);
 
       const highlightStyle =
         typeof d.style === 'function' ? d.style(p, q) : d.style || {};

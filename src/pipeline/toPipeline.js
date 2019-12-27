@@ -32,12 +32,12 @@ const naturalLanguageLineType = {
 
 const toPipeline = props => {
   const {
-    lineStyle,
+    lineStyle: baseLineStyle,
     lineClass,
     lineCustomMarks,
     lineRenderMode,
     lineType,
-    areaStyle,
+    areaStyle: baseAreaStyle,
     areaClass,
     areaRenderMode,
     areaCustomMarks,
@@ -54,6 +54,8 @@ const toPipeline = props => {
     yExtent
   } = props;
 
+  const lineStyle = stringToFn(baseLineStyle, emptyObjectReturnFunction, true);
+  const areaStyle = stringToFn(baseAreaStyle, emptyObjectReturnFunction, true)
   const { projection, ...rest } = props;
 
   const { projectedLines, projectedAreas, projectedPoints } = projection({
@@ -86,7 +88,7 @@ const toPipeline = props => {
     useCanvas: lineUseCanvas,
     xScale,
     yScale,
-    styleFn: stringToFn(lineStyle, emptyObjectReturnFunction, true),
+    styleFn: lineStyle,
     classFn: stringToFn(lineClass, emptyStringReturnFunction, true),
     renderFn: stringToFn(lineRenderMode, undefined, true),
     customMarks: lineCustomMarks,
@@ -100,7 +102,7 @@ const toPipeline = props => {
     useCanvas: areaUseCanvas,
     xScale,
     yScale,
-    styleFn: stringToFn(areaStyle, emptyObjectReturnFunction, true),
+    styleFn: areaStyle,
     classFn: stringToFn(areaClass, emptyStringReturnFunction, true),
     renderFn: stringToFn(areaRenderMode, undefined, true),
     customMarks: areaCustomMarks,
@@ -127,7 +129,11 @@ const toPipeline = props => {
   return {
     svgPipe,
     canvasPipe,
-    xyPoints: projectedPoints
+    xyPoints: projectedPoints,
+    lineStyle,
+    areaStyle,
+    projectedLines,
+    projectedAreas
   };
 };
 

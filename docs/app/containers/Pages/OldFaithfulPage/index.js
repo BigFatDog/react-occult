@@ -52,7 +52,7 @@ const OldFaithfulPage = props => {
   const frameProps = {
     margin: { left: 60, bottom: 90, right: 10, top: 40 },
     width: 1000,
-    height: 600,
+    height: 800,
     title: (
       <text textAnchor="middle">
         Old Faithful at{' '}

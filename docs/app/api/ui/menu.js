@@ -1,10 +1,10 @@
 module.exports = [
-  {
-    key: 'home',
-    name: 'Home',
-    icon: 'ios-home-outline',
-    link: '/'
-  },
+  // {
+  //   key: 'home',
+  //   name: 'Home',
+  //   icon: 'ios-home-outline',
+  //   link: '/'
+  // },
   {
     key: 'nyc',
     name: 'NYC Open Data',
@@ -15,41 +15,12 @@ module.exports = [
         // icon: 'ios-barcode-outline',
         name: 'NYC Hospital',
         link: '/bar'
-      }
-    ]
-  },
-
-  {
-    key: 'charts',
-    name: 'Charts',
-    icon: 'ios-analytics-outline',
-    child: [
-      {
-        key: 'circle_pack',
-        // icon: 'ios-barcode-outline',
-        name: 'Circle Pack',
-        link: '/circlepack'
       },
 
       {
-        key: 'dendrogram',
-        name: 'Dendrogram',
-        link: '/dendrogram'
-      },
-      {
-        key: 'treemap',
-        name: 'Treemap',
-        link: '/treemap'
-      },
-      {
-        key: 'partition',
-        name: 'Partition',
-        link: '/partition'
-      },
-      {
-        key: 'sankey',
-        name: 'Sankey',
-        link: '/sankey'
+        key: 'geo',
+        name: 'Geo',
+        link: '/geo'
       },
       {
         key: 'old_faithful',
@@ -62,6 +33,18 @@ module.exports = [
         link: '/margin'
       },
       {
+        key: 'neighbour',
+        name: 'Neighbourhood',
+        link: '/neighbour'
+      },
+    ]
+  },
+  {
+    key: 'basic',
+    name: 'Basic',
+    icon: 'ios-pulse-outline',
+    child: [
+      {
         key: 'scatter',
         name: 'Scatter',
         link: '/scatter'
@@ -72,54 +55,9 @@ module.exports = [
         link: '/area'
       },
       {
-        key: 'trendline',
-        name: 'Trendline',
-        link: '/trendline'
-      },
-      {
-        key: 'neighbour',
-        name: 'Neighbourhood',
-        link: '/neighbour'
-      },
-      {
         key: 'difference',
         name: 'Difference',
         link: '/difference'
-      },
-      {
-        key: 'violin',
-        name: 'violin',
-        link: '/violin'
-      },
-      {
-        key: 'histgram',
-        name: 'Histgram',
-        link: '/histgram'
-      },
-      {
-        key: 'pencil',
-        name: 'Pencil',
-        link: '/sketch'
-      },
-      {
-        key: 'force',
-        name: 'Force',
-        link: '/force'
-      },
-      {
-        key: 'heatmap',
-        name: 'Heatmap',
-        link: '/heatmap'
-      },
-      {
-        key: 'contour',
-        name: 'Contour',
-        link: '/contour'
-      },
-      {
-        key: 'hexbin',
-        name: 'Hexbin',
-        link: '/hexbin'
       },
 
       {
@@ -137,11 +75,25 @@ module.exports = [
         name: 'Line Percentage',
         link: '/linepercentage'
       },
+    ]
+  },
+  {
+    key: 'network',
+    name: 'Network',
+    icon: 'ios-brush-outline',
+    child: [
       {
-        key: 'swarm',
-        name: 'Swarm',
-        link: '/swarm'
+        key: 'force',
+        name: 'Force',
+        link: '/force'
       },
+    ]
+  },
+  {
+    key: 'path',
+    icon: 'ios-ionic-outline',
+    name: 'Path',
+    child: [
       {
         key: 'chord',
         name: 'chord',
@@ -152,11 +104,99 @@ module.exports = [
         name: 'dagre',
         link: '/dagre'
       },
+
+      // {
+      //   key: 'sankey',
+      //   name: 'Sankey',
+      //   ink: '/sankey'
+      // },
       {
-        key: 'geo',
-        name: 'Geo',
-        link: '/geo'
-      }
+        key: 'arc',
+        name: 'Arc',
+        link: '/arc'
+      },
+    ]
+  },
+  {
+    key: 'hierarchy',
+    icon: 'ios-leaf-outline',
+    name: 'Hierarchy',
+    child: [
+      {
+        key: 'dendrogram',
+        name: 'Dendrogram',
+        link: '/dendrogram'
+      },
+      {
+        key: 'treemap',
+        name: 'Treemap',
+        link: '/treemap'
+      },
+      {
+        key: 'partition',
+        name: 'Partition',
+        link: '/partition'
+      },
+      {
+        key: 'circle_pack',
+        name: 'Circle Pack',
+        link: '/circlepack'
+      },
+    ]
+  },
+  {
+    key: 'summary',
+    icon: 'ios-bonfire-outline',
+    name: 'Sumarry',
+    child: [
+      {
+        key: 'violin',
+        name: 'violin',
+        link: '/violin'
+      },
+      {
+        key: 'histgram',
+        name: 'Histgram',
+        link: '/histgram'
+      },
+      {
+        key: 'heatmap',
+        name: 'Heatmap',
+        link: '/heatmap'
+      },
+      {
+        key: 'contour',
+        name: 'Contour',
+        link: '/contour'
+      },
+      {
+        key: 'hexbin',
+        name: 'Hexbin',
+        link: '/hexbin'
+      },
+      {
+        key: 'trendline',
+        name: 'Trendline',
+        link: '/trendline'
+      },
+    ]
+  },
+  {
+    key: 'ordinal',
+    icon: 'ios-analytics-outline',
+    name: 'Ordinal',
+    child: [
+      {
+        key: 'swarm',
+        name: 'Swarm',
+        link: '/swarm'
+      },
+
+      {
+        key: 'pencil',
+        name: 'Pencil',
+        link: '/sketch'
+      },
     ]
   }
 ];
