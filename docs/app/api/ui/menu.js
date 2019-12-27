@@ -36,7 +36,7 @@ module.exports = [
         key: 'neighbour',
         name: 'Neighbourhood',
         link: '/neighbour'
-      },
+      }
     ]
   },
   {
@@ -74,7 +74,7 @@ module.exports = [
         key: 'linepercentage',
         name: 'Line Percentage',
         link: '/linepercentage'
-      },
+      }
     ]
   },
   {
@@ -86,7 +86,7 @@ module.exports = [
         key: 'force',
         name: 'Force',
         link: '/force'
-      },
+      }
     ]
   },
   {
@@ -114,7 +114,7 @@ module.exports = [
         key: 'arc',
         name: 'Arc',
         link: '/arc'
-      },
+      }
     ]
   },
   {
@@ -141,7 +141,7 @@ module.exports = [
         key: 'circle_pack',
         name: 'Circle Pack',
         link: '/circlepack'
-      },
+      }
     ]
   },
   {
@@ -178,7 +178,7 @@ module.exports = [
         key: 'trendline',
         name: 'Trendline',
         link: '/trendline'
-      },
+      }
     ]
   },
   {
@@ -196,7 +196,7 @@ module.exports = [
         key: 'pencil',
         name: 'Pencil',
         link: '/sketch'
-      },
+      }
     ]
   }
 ];

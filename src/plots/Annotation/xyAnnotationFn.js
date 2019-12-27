@@ -83,7 +83,7 @@ const generateXYSVGAnnotations = ({ frameProps, frameData }) => ({ d, i }) => {
     yAccessors,
     xScale,
     yScale,
-    adjustedSize,
+    adjustedSize
   };
 
   const AnnotationType = TypeHash[d.type] || d.type;

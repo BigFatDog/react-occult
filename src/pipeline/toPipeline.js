@@ -55,7 +55,7 @@ const toPipeline = props => {
   } = props;
 
   const lineStyle = stringToFn(baseLineStyle, emptyObjectReturnFunction, true);
-  const areaStyle = stringToFn(baseAreaStyle, emptyObjectReturnFunction, true)
+  const areaStyle = stringToFn(baseAreaStyle, emptyObjectReturnFunction, true);
   const { projection, ...rest } = props;
 
   const { projectedLines, projectedAreas, projectedPoints } = projection({

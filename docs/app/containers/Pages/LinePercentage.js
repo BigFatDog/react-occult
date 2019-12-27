@@ -3,22 +3,20 @@ import { Paper, Line, XAxis, YAxis } from 'occult';
 import { PapperBlock } from 'dan-components';
 import { LineData } from './LineChartPage/lineData';
 import * as d3 from 'd3';
-import {withStyles} from "@material-ui/core";
+import { withStyles } from '@material-ui/core';
 
 const TheMetLight = [
   'url(#gradient_1)',
   'url(#gradient_2)',
   'url(#gradient_3)',
-  'url(#gradient_4)',
-
+  'url(#gradient_4)'
 ];
 
 const colorScale = d3.scaleOrdinal().range(TheMetLight);
 
 const styles = {
   frame: {
-    background:
-        '#242424',
+    background: '#242424',
     border: 0,
     borderRadius: 6,
     boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)'
@@ -30,9 +28,9 @@ const frameProps = {
   width: 1000,
   height: 600,
   title: (
-      <text textAnchor="middle">
-        <tspan fill={'#FFFFFF'}>Line Percentage</tspan>
-      </text>
+    <text textAnchor="middle">
+      <tspan fill={'#FFFFFF'}>Line Percentage</tspan>
+    </text>
   ),
   additionalDefs: [
     <linearGradient key="gradient1" id="gradient_1">
@@ -64,7 +62,7 @@ const lineProps = {
     stroke: '#ffffff',
     strokeWidth: 4,
     opacity: 0.7,
-    fill: colorScale(d.s),
+    fill: colorScale(d.s)
   }),
 
   lineType: {
@@ -84,13 +82,13 @@ const LinePage = props => {
   const { classes } = props;
 
   return (
-      <PapperBlock>
-        <Paper {...frameProps} className={classes.frame}>
-          <XAxis label={'Rank'} rotate={30} showTickLines={false}/>
-          <YAxis label={'Theaters'}  showTickLines={false}/>
-          <Line {...lineProps} />
-        </Paper>
-      </PapperBlock>
+    <PapperBlock>
+      <Paper {...frameProps} className={classes.frame}>
+        <XAxis label={'Rank'} rotate={30} showTickLines={false} />
+        <YAxis label={'Theaters'} showTickLines={false} />
+        <Line {...lineProps} />
+      </Paper>
+    </PapperBlock>
   );
 };
 

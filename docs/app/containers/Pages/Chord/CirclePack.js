@@ -26,14 +26,14 @@ const styles = {
 
 const frameProps = {
   width: 1000,
-  height:1000,
+  height: 1000,
   margin: 40,
   title: (
-      <g>
-        <text textAnchor="middle">
-          <tspan fill={'white'}>Shakespeare Characters Network</tspan>
-        </text>
-      </g>
+    <g>
+      <text textAnchor="middle">
+        <tspan fill={'white'}>Shakespeare Characters Network</tspan>
+      </text>
+    </g>
   ),
   hoverAnnotation: [
     { type: 'desaturation-layer', style: { fill: 'white', fillOpacity: 0.25 } },

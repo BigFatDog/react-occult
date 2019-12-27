@@ -32,18 +32,27 @@ const findPoints = (d, xScale, yScale) => {
     });
 };
 
-const SvgHighlight = ({ d, i, xScale, yScale, projectedAreas, idAccessor, projectedLines, lineStyle}) => {
+const SvgHighlight = ({
+  d,
+  i,
+  xScale,
+  yScale,
+  projectedAreas,
+  idAccessor,
+  projectedLines,
+  lineStyle
+}) => {
   const foundPoints = findPoints(d, xScale, yScale);
 
-    let dID
-    const baseID = idAccessor({ ...d, ...d.data }, i)
-    if (baseID !== undefined) {
-        dID = baseID
-    } else if (d.parentLine && idAccessor(d.parentLine, i) !== undefined) {
-        dID = idAccessor(d.parentLine, i)
-    } else if (d.parentSummary && idAccessor(d.parentSummary, i) !== undefined) {
-        dID = idAccessor(d.parentSummary, i)
-    }
+  let dID;
+  const baseID = idAccessor({ ...d, ...d.data }, i);
+  if (baseID !== undefined) {
+    dID = baseID;
+  } else if (d.parentLine && idAccessor(d.parentLine, i) !== undefined) {
+    dID = idAccessor(d.parentLine, i);
+  } else if (d.parentSummary && idAccessor(d.parentSummary, i) !== undefined) {
+    dID = idAccessor(d.parentSummary, i);
+  }
 
   const foundLines = projectedLines
     .filter((p, q) => idAccessor(p, q) === dID)

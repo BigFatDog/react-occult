@@ -37,3 +37,11 @@ circle.frame-hover {
 .bar-icon path {
 }
 
+.axis.radial path {
+    fill: #aeeef8;
+    stroke : #aeeef8;
+    stroke-width: 1;
+    stroke-opacity: 0.2;
+    opacity: 0.1;
+    box-shadow: 20px 10px 10px #dff84d;
+}

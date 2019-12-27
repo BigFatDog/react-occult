@@ -255,12 +255,12 @@ const Frame = props => {
               canvasPipeline={canvasPipeline}
               voronoiHover={setVoronoiHover}
             >
-              {svgPipeline}
               {axes && (
                 <g key="visualization-axis-labels" className="axis axis-labels">
                   {axes}
                 </g>
               )}
+              {svgPipeline}
             </VisualizationLayer>
             {generatedTitle && <g className="frame-title">{generatedTitle}</g>}
             {foregroundGraphics ||

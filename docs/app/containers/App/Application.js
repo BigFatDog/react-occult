@@ -66,13 +66,13 @@ class Application extends React.Component {
           <Route path="/swarm" component={SwarmPage} />
           <Route path="/chord" component={ChordPage} />
           <Route path="/dagre" component={DagrePage} />
-          <Route path='/circlepack' component={CirclePackPage} />
-          <Route path='/dendrogram' component={DendrogramPage} />
-          <Route path='/treemap' component={TreemapPage} />
-          <Route path='/partition' component={PartitionPage} />
-          <Route path='/sankey' component={SankeyPage} />
-          <Route path='/arc' component={ArcPage} />
-          <Route path='/radar' component={RadarPage} />
+          <Route path="/circlepack" component={CirclePackPage} />
+          <Route path="/dendrogram" component={DendrogramPage} />
+          <Route path="/treemap" component={TreemapPage} />
+          <Route path="/partition" component={PartitionPage} />
+          <Route path="/sankey" component={SankeyPage} />
+          <Route path="/arc" component={ArcPage} />
+          <Route path="/radar" component={RadarPage} />
 
           <Route component={NotFound} />
         </Switch>
