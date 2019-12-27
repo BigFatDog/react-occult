@@ -71,7 +71,7 @@ const pointProps = {
       fill: e.source.color,
       stroke: e.source.color,
       strokeOpacity: 0.5,
-      fillOpacity: 0.5
+      fillOpacity: 0.7
     };
   },
   title: 'Pokemon Base Stats',
