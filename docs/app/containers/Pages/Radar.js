@@ -123,7 +123,7 @@ const FrameProps = {
       <stop stopColor={'#D7E1EC'} offset="0%" />
       <stop stopColor={'#FFFFFF'} offset="100%" />
     </linearGradient>
-  ],
+  ]
 };
 
 const styles = {

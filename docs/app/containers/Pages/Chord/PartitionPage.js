@@ -1,58 +1,75 @@
 import React from 'react';
 import { PapperBlock } from 'dan-components';
 import { Paper, Partition } from 'occult';
-import { edges } from './SampleData';
+import * as d3 from 'd3';
+import { root } from '../data/shakespeare';
+import { withStyles } from '@material-ui/core';
 
-const theme = [
-  '#ac58e5',
-  '#E0488B',
-  '#9fd0cb',
-  '#e0d33a',
-  '#7566ff',
-  '#533f82',
-  '#7a255d',
-  '#365350',
-  '#a19a11',
-  '#3f4482'
-];
+const blue = '#0373d9';
+const green = '#00ff70';
+const bg = '#3436b8';
+
+const colorScale = d3
+  .scaleLinear()
+  .domain([0, 1000])
+  .range([green, blue]);
+
+const highlightScale = d3
+  .scaleLinear()
+  .domain([0, 20])
+  .range([green, bg]);
+
+const styles = {
+  frame: {
+    background: 'linear-gradient(to top, #48c6ef 0%, #6f86d6 100%)',
+    border: 0,
+    borderRadius: 6,
+    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+    color: 'white'
+  }
+};
+
 const frameProps = {
-  width: 700,
-  height: 600,
-  margin: 10,
+  width: 1000,
+  height: 700,
   hoverAnnotation: [
     { type: 'desaturation-layer', style: { fill: 'white', fillOpacity: 0.25 } },
     {
       type: 'highlight',
       style: d => ({
-        fill: theme[d.depth],
-        stroke: theme[d.depth],
+        fill: '#0074D9',
+        stroke: highlightScale(d.depth),
         fillOpacity: 0.6
       })
     },
     { type: 'frame-hover' }
   ],
   tooltipContent: d => (
-    <div className="tooltip-content">
-      {d.parent ? <p>{d.parent.data.name}</p> : undefined}
-      <p>{d.data.name}</p>
+    <div className="tooltip-content dark-tooltip-content">
+      <p>{d.id}</p>
     </div>
   )
 };
 
 const plotProps = {
-  edges,
-  nodeIDAccessor: 'name',
+  nodes: [root()],
+  nodeIDAccessor: 'id',
   nodeStyle: d => ({
-    fill: d.height === 0 ? theme[d.depth] : 'none',
-    fillOpacity: 1,
-    stroke: theme[d.depth]
+    fill: colorScale(d.value),
+    stroke: bg,
+    opacity: 0.7
   }),
+  zoom: true,
+  oPadding: 10,
+  // projection: 'radial',
+  hierarhcySum: d => d.size,
+  hierarchyChildren: d => d.children,
   filterRenderedNodes: d => d.depth !== 0,
   nodeLabels: d => {
     return d.depth > 1 ? null : (
-      <g transform="translate(0,5)">
+      <g transform="translate(0,-15)">
         <text
-          fontSize="18"
+          fontSize="14"
           textAnchor="middle"
           strokeWidth={2}
           stroke="white"
@@ -60,26 +77,23 @@ const plotProps = {
         >
           {d.id}
         </text>
-        <text fontSize="18" textAnchor="middle" fill={theme[d.depth]}>
+        <text fontSize="14" textAnchor="middle" fill={colorScale(d.value)}>
           {d.id}
         </text>
       </g>
     );
-  },
-  projection: 'radial',
-  zoom: true, // Zoom the laid out nodes in or out so that they fit the specified size, can also be "stretch" if you want zoom not to maintain aspect ratio
-  padding: 0, // Pixel value to separate individual nodes from each other
-  // projection: "vertical", // Accepts (vertical|horizontal|radial) whether to display the chart with steps laid out on the y axis (vertical) or the x axis (horizontal)
-  hierarhcySum: d => d.value, // Function for summing up children values into parent totals
-  hierarchyChildren: d => d.children
+  }
 };
 
-export default () => {
+const PartitionPage = props => {
+  const { classes } = props;
   return (
     <PapperBlock>
-      <Paper {...frameProps}>
+      <Paper {...frameProps} className={classes.frame}>
         <Partition {...plotProps} />
       </Paper>
     </PapperBlock>
   );
 };
+
+export default withStyles(styles)(PartitionPage);

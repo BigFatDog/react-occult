@@ -72,7 +72,7 @@ const plotProps = {
     return d.depth > 1 ? null : (
       <g transform="translate(0,-15)">
         <text
-          fontSize="12"
+          fontSize="14"
           textAnchor="middle"
           strokeWidth={2}
           stroke="white"
@@ -80,7 +80,7 @@ const plotProps = {
         >
           {d.id}
         </text>
-        <text fontSize="12" textAnchor="middle" fill={colorScale(d.value)}>
+        <text fontSize="14" textAnchor="middle" fill={colorScale(d.value)}>
           {d.id}
         </text>
       </g>
