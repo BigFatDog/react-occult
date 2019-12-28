@@ -16,7 +16,8 @@ const theme = [
   '#3f4482'
 ];
 const frameProps = {
-  size: [700, 400],
+  width: 700,
+  height: 600,
   margin: 10,
   hoverAnnotation: [
     { type: 'desaturation-layer', style: { fill: 'white', fillOpacity: 0.25 } },

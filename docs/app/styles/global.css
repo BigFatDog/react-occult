@@ -45,3 +45,10 @@ circle.frame-hover {
     opacity: 0.1;
     box-shadow: 20px 10px 10px #dff84d;
 }
+
+.dark-tooltip-content {
+    background: black;
+    opacity: .5;
+    color: white;
+    stroke: black;
+}
