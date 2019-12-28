@@ -95,7 +95,8 @@ const pointProps = {
     </g>
   ],
   pieceHoverAnnotation: true,
-  oLabel: true
+  oLabel: true,
+  useAxes: true
 };
 const FrameProps = {
   width: 700,
@@ -122,7 +123,7 @@ const FrameProps = {
       <stop stopColor={'#D7E1EC'} offset="0%" />
       <stop stopColor={'#FFFFFF'} offset="100%" />
     </linearGradient>
-  ]
+  ],
 };
 
 const styles = {
@@ -141,7 +142,6 @@ const BarPage = props => {
   return (
     <PapperBlock>
       <Paper {...FrameProps} className={classes.frame}>
-        <Axis />
         <OrdinalPoint {...pointProps} />
       </Paper>
     </PapperBlock>

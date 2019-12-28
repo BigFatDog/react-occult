@@ -196,6 +196,12 @@ module.exports = [
         key: 'pencil',
         name: 'Pencil',
         link: '/sketch'
+      },
+
+      {
+        key: 'radar',
+        name: 'Radar',
+        link: '/radar'
       }
     ]
   }

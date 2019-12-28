@@ -118,12 +118,14 @@ const Paper = props => {
     });
   } else if (ordinalChildren.length > 0) {
     if (ordinalChildren.length !== 1) {
-      console.error('Only 1 Orindal plot is allowed');
+      console.error('Only 1 Ordinal plot is allowed');
     }
+
+    const { useAxes } = ordinalChildren[0].props;
     plotChildren = ordinalChildren;
     const frameProps = {
       ...props,
-      axesDefs: axesDefs.length > 0 ? [true] : [],
+      axesDefs: useAxes === true ? [true] : axesDefs,
       plotChildren
     };
     frameData = computeOrdinalFrameData(frameProps);
