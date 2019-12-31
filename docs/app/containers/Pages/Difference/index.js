@@ -10,7 +10,8 @@ import SFPic from './sf.jpeg';
 
 const styles = {
   frame: {
-    background: 'linear-gradient(to top, #ffffff 0%, #dfe9f3 100%)',
+    background:
+      'linear-gradient(to top, rgba(255,235,238,1) 0%, rgba(186,190,245,1) 93.6%)',
     border: 0,
     borderRadius: 6,
     color: 'black'
@@ -129,8 +130,8 @@ const LinePage = props => {
     lineStyle: (d, i) => ({
       strokeWidth: 1,
       strokeDashArray: 4,
-      stroke: d.s === 'New York' ? '#fa71cd' : '#0074D9',
-      fill: d.s === 'New York' ? '#f9d423' : '#2ECC40',
+      stroke: d.s === 'New York' ? '#3D9970' : '#0074D9',
+      fill: d.s === 'New York' ? '#2ECC40' : '#aeeef8',
       // fill: d.s === 'New York' ? 'url(#paleWoodGradient3)' : 'url(#paleWoodGradient2)',
       fillOpacity: 0.4
     }),
@@ -155,17 +156,17 @@ const LinePage = props => {
 
   const yAxisProps = {
     orient: 'right',
-    showLabels: false,
-    marginalSummaryType: {
-      type: 'heatmap',
-      bins: 40,
-      // useBins: false,
-      summaryStyle: (d, i, f) => {
-        return { fill: '#FF4136', fillOpacity: 0.9, stroke: '#FF4136' };
-      },
-      showPoints: false,
-      pointStyle: { stroke: '#e0d33a', strokeOpacity: 0.75, fill: 'none' }
-    }
+    showLabels: false
+    // marginalSummaryType: {
+    //   type: 'heatmap',
+    //   bins: 40,
+    //   // useBins: false,
+    //   summaryStyle: (d, i, f) => {
+    //     return { fill: '#FF4136', fillOpacity: 0.9, stroke: '#FF4136' };
+    //   },
+    //   showPoints: false,
+    //   pointStyle: { stroke: '#e0d33a', strokeOpacity: 0.75, fill: 'none' }
+    // }
   };
 
   return (
@@ -177,23 +178,35 @@ const LinePage = props => {
             tickFormat={d => formatDate(d)}
             showTickLines={false}
           />
-          <YAxis label={'Weather'} showTickLines={true} />
-          <YAxis {...yAxisProps} />
-          <Line {...lineProps} />
-          <Annotation
-            type={'y'}
-            dx={110}
-            dy={40}
-            // connector={{ end: 'none' }}
-            coordinates={{ weather: 30 }}
-            color={'#0074D9'}
-            note={{
-              label: 'NYC snows',
-              align: 'right',
-              lineType: null,
-              wrap: 50
-            }}
+          <YAxis
+            label={'Weather'}
+            tickLineGenerator={({ xy }) => (
+              <path
+                style={{
+                  fill: '#efefef',
+                  stroke: '#ccc',
+                  opacity: 0.3,
+                  strokeDasharray: '4 4'
+                }}
+                d={`M${xy.x1},${xy.y1 - 5}L${xy.x2},${xy.y1 - 5}`}
+              />
+            )}
           />
+          <Line {...lineProps} />
+          {/*<Annotation*/}
+          {/*  type={'y'}*/}
+          {/*  dx={110}*/}
+          {/*  dy={40}*/}
+          {/*  // connector={{ end: 'none' }}*/}
+          {/*  coordinates={{ weather: 30 }}*/}
+          {/*  color={'#0074D9'}*/}
+          {/*  note={{*/}
+          {/*    label: 'NYC snows',*/}
+          {/*    align: 'right',*/}
+          {/*    lineType: null,*/}
+          {/*    wrap: 50*/}
+          {/*  }}*/}
+          {/*/>*/}
         </Paper>
       </PapperBlock>
     </div>

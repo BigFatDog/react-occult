@@ -2,9 +2,9 @@ import { LineData } from './lineData';
 import * as d3 from 'd3';
 
 const TheMetLight = [
-  '#F44336',
-  '#E91E63',
-  '#9C27B0',
+  '#aeeef8',
+  '#e5fd3d',
+  '#9caff6',
   '#673AB7',
   '#3F51B5',
   '#2196F3',
@@ -30,8 +30,9 @@ const BaseProps = {
   lineStyle: (d, i) => ({
     stroke: colorScale(d.s),
     fill: colorScale(d.s),
+    strokeWidth: 2,
     fillOpacity: 0.6,
-    strokeDasharray: i === 0 ? '10 10' : '5 5'
+    // strokeDasharray: i === 0 ? '10 10' : '5 5'
   }),
 
   lineType: {
@@ -47,13 +48,26 @@ const BaseProps = {
   lineUseCanvas: false
 };
 
-const makeByType = type =>
-  Object.assign({}, BaseProps, {
+const makeByType = type =>  {
+  const baseStyle = Object.assign({}, BaseProps, {
     lineType: {
       type,
       interpolator: d3.curveCatmullRom
     }
   });
+
+  if (type === 'line') {
+    baseStyle.lineStyle =  (d, i) => ({
+      stroke: colorScale(d.s),
+      strokeWidth: 2,
+      fill: 'none',
+      fillOpacity: 0.6,
+    });
+  }
+
+  return baseStyle;
+}
+
 
 const CumulativeReverse = makeByType('cumulative-reverse');
 const Cumulative = makeByType('cumulative');

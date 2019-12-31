@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import 'dan-styles/vendors/image-lightbox/image-lightbox.css';
 import styles from './photo-jss';
-import im1 from './img/scatter.png';
+import scatterImg from './img/scatter.png';
 import hosptial from './img/nyc_hospital.png';
 import CirclePackImg from './img/circle_pack.png';
 import OldFaithfulImg from './img/old_faithful.png';
@@ -15,9 +15,11 @@ import NeighbourHoodImg from './img/neighbourhood.png';
 import DifferenceImg from './img/difference.png';
 import ChordImg from './img/chord.png';
 import ForceImg from './img/force.png';
+import LinePercentageImg from './img/line_percentage.png';
 
 const imgData = [
-  { thumb: im1, title: 'scatter', url: '/scatter' },
+  { thumb: scatterImg, title: 'scatter', url: '/scatter' },
+  { thumb: LinePercentageImg, title: 'Line Percentage', url: '/linepercentage' },
   { thumb: hosptial, title: 'NYC Hospital Facilities', url: '/bar' },
   { thumb: CirclePackImg, title: 'Circle Pack', url: '/circlepack' },
   { thumb: OldFaithfulImg, title: 'Old Faithful', url: '/faithful' },
@@ -31,7 +33,8 @@ const imgData = [
   { thumb: NeighbourHoodImg, title: 'Neighbourhood', url: '/neighbour' },
   { thumb: DifferenceImg, title: 'Difference', url: '/difference' },
   { thumb: ChordImg, title: 'Chord', url: '/chord' },
-  { thumb: ForceImg, title: 'Force', url: '/force' }
+  { thumb: ForceImg, title: 'Force', url: '/force' },
+
 ];
 
 const HomePage = props => {

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Paper, Line, XAxis, YAxis } from 'occult';
+import Grid from '@material-ui/core/Grid';
 import { PapperBlock } from 'dan-components';
 import {
   CumulativeReverse,
@@ -15,15 +16,26 @@ import {
   StackedareaInvert,
   Stackedarea
 } from './types';
+import {withStyles} from "@material-ui/core";
+
+const styles = {
+    frame: {
+        background:
+            'linear-gradient( rgba(26,44,129,1) 7.3%, rgba(38,206,205,1) 89.3% )',
+        border: 0,
+        borderRadius: 6,
+        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)'
+    }
+};
 
 const LinePage = props => {
   const frameProps = name => ({
-    margin: { left: 60, bottom: 90, right: 10, top: 40 },
-    width: 700,
-    height: 400,
+    margin: { left: 10, bottom: 10, right: 10, top: 50 },
+    width: 500,
+    height: 300,
     title: (
       <text textAnchor="middle">
-        <tspan fill={'#03A9F4'}>{name}</tspan>
+        <tspan fill={'#FFFFFF'} opacity={0.6}>{name}</tspan>
       </text>
     )
   });
@@ -43,36 +55,49 @@ const LinePage = props => {
     { name: 'StackedareaInvert', type: StackedareaInvert },
     { name: 'Stackedarea', type: Stackedarea }
   ];
+
+    const { classes} = props
   const rendered = types.map(d => {
     return (
-      <Paper {...frameProps(d.name)}>
-        <XAxis label={'Year'} />
-        <YAxis
-          label={'Count'}
-          baseline={'under'}
-          tickLineGenerator={({ xy }) => (
-            <path
-              style={{
-                fill: '#efefef',
-                stroke: '#ccc',
-                strokeDasharray: '2 2'
-              }}
-              d={`M${xy.x1},${xy.y1 - 5}L${xy.x2},${xy.y1 - 5}L${
-                xy.x2
-              },${xy.y1 + 5}L${xy.x1},${xy.y1 + 5}Z`}
-            />
-          )}
-        />
-        <Line {...d.type} />
-      </Paper>
+        <Grid container item xs={6} style={{marginBottom: 10}}>
+            {/*<PapperBlock>*/}
+            <Paper {...frameProps(d.name)} className={classes.frame}>
+                {/*<XAxis label={'Year'}*/}
+                {/*       showTickLines={false}*/}
+                {/*/>*/}
+                <YAxis
+                    showLabels={false}
+                    jaggerBase={true}
+                    // label={'Count'}
+                    baseline={'under'}
+                    tickLineGenerator={({ xy }) => (
+                        <path
+                            style={{
+                                fill: '#efefef',
+                                stroke: '#ccc',
+                                opacity: 0.3,
+                                strokeDasharray: '4 4'
+                            }}
+                            d={`M${xy.x1},${xy.y1 - 5}L${xy.x2},${xy.y1 - 5}`}
+                        />
+                    )}
+                />
+                <Line {...d.type}
+                />
+            </Paper>
+            {/*</PapperBlock>*/}
+        </Grid>
     );
   });
 
+
   return (
-    <div>
-      <PapperBlock>{rendered}</PapperBlock>
-    </div>
+      <Grid container spacing={10}  direction="row"
+            justify="center"
+            alignItems="center">
+          {rendered}
+      </Grid>
   );
 };
 
-export default LinePage;
+export default withStyles(styles)(LinePage);

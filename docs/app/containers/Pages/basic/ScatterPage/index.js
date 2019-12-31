@@ -6,7 +6,7 @@ import { PapperBlock } from 'dan-components';
 import { withStyles } from '@material-ui/core/styles';
 import { Data } from './data';
 import { timeFormat } from 'd3-time-format';
-import { scaleSequential, scaleLog, scaleTime, scaleLinear } from 'd3-scale';
+import { scaleSequential, scaleLog, scaleTime } from 'd3-scale';
 import { extent } from 'd3-array';
 
 const styles = {

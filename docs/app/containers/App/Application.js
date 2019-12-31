@@ -6,11 +6,11 @@ import LineChartPage from '../Pages/LineChartPage';
 import ContourPage from '../Pages/ContourPage';
 import HeatmapPage from '../Pages/HeatmapPage';
 import HexbinPage from '../Pages/HexbinPage';
-import ScatterPage from '../Pages/ScatterPage';
-import AreaPage from '../Pages/AreaChart';
+import ScatterPage from '../Pages/basic/ScatterPage';
+import AreaPage from '../Pages/basic/AreaChart';
 import OldFaithfulPage from '../Pages/OldFaithfulPage';
 import Bumpline from '../Pages/Bumpline';
-import LinePercentage from '../Pages/LinePercentage';
+import LinePercentage from '../Pages/basic/LinePercentage';
 import MarginPage from '../Pages/MarginSummaryPage';
 import GeoProjectionPage from '../Pages/GeoProjection';
 import TrendlinePage from '../Pages/TrendlinePage';
@@ -42,7 +42,7 @@ class Application extends React.Component {
     return (
       <Dashboard history={history} changeMode={changeMode}>
         <Switch>
-          <Route exact path="/app" component={HomePage} />
+          <Route exact path="/" component={HomePage} />
           <Route path="/bar" component={BarPage} />
 
           <Route path="/line" component={LineChartPage} />

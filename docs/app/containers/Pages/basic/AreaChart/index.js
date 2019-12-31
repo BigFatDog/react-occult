@@ -1,7 +1,7 @@
 import React from 'react';
 import { Paper, Line, XAxis, YAxis, Annotation } from 'occult';
 import { PapperBlock } from 'dan-components';
-import { data } from '../data/AppleStock';
+import { data } from '../../data/AppleStock';
 import { timeFormat } from 'd3-time-format';
 import { scaleTime } from 'd3-scale';
 import * as d3 from 'd3';

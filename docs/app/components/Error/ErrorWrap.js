@@ -64,7 +64,7 @@ const ErrorWrap = props => (
             color="primary"
             className={classes.button}
             component={Link}
-            to="/app/"
+            to="/"
           >
             Go To Dashboard
           </Button>
