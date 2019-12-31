@@ -31,7 +31,7 @@ const BaseProps = {
     stroke: colorScale(d.s),
     fill: colorScale(d.s),
     strokeWidth: 2,
-    fillOpacity: 0.6,
+    fillOpacity: 0.6
     // strokeDasharray: i === 0 ? '10 10' : '5 5'
   }),
 
@@ -48,7 +48,7 @@ const BaseProps = {
   lineUseCanvas: false
 };
 
-const makeByType = type =>  {
+const makeByType = type => {
   const baseStyle = Object.assign({}, BaseProps, {
     lineType: {
       type,
@@ -57,17 +57,16 @@ const makeByType = type =>  {
   });
 
   if (type === 'line') {
-    baseStyle.lineStyle =  (d, i) => ({
+    baseStyle.lineStyle = (d, i) => ({
       stroke: colorScale(d.s),
       strokeWidth: 2,
       fill: 'none',
-      fillOpacity: 0.6,
+      fillOpacity: 0.6
     });
   }
 
   return baseStyle;
-}
-
+};
 
 const CumulativeReverse = makeByType('cumulative-reverse');
 const Cumulative = makeByType('cumulative');

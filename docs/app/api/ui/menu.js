@@ -187,6 +187,11 @@ module.exports = [
     name: 'Ordinal',
     child: [
       {
+        key: 'clusterbar',
+        name: 'ClusterBar',
+        link: '/clusterbar'
+      },
+      {
         key: 'swarm',
         name: 'Swarm',
         link: '/swarm'

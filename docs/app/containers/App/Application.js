@@ -9,7 +9,7 @@ import HexbinPage from '../Pages/HexbinPage';
 import ScatterPage from '../Pages/basic/ScatterPage';
 import AreaPage from '../Pages/basic/AreaChart';
 import OldFaithfulPage from '../Pages/OldFaithfulPage';
-import Bumpline from '../Pages/Bumpline';
+import ClusterBar from '../Pages/ordinal/StackedBarPage';
 import LinePercentage from '../Pages/basic/LinePercentage';
 import MarginPage from '../Pages/MarginSummaryPage';
 import GeoProjectionPage from '../Pages/GeoProjection';
@@ -52,7 +52,7 @@ class Application extends React.Component {
           <Route path="/heatmap" component={HeatmapPage} />
           <Route path="/area" component={AreaPage} />
           <Route path="/faithful" component={OldFaithfulPage} />
-          <Route path="/bumpline" component={Bumpline} />
+          <Route path="/clusterbar" component={ClusterBar} />
           <Route path="/linepercentage" component={LinePercentage} />
           <Route path="/trendline" component={TrendlinePage} />
           <Route path="/margin" component={MarginPage} />

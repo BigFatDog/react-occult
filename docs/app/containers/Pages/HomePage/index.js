@@ -19,7 +19,11 @@ import LinePercentageImg from './img/line_percentage.png';
 
 const imgData = [
   { thumb: scatterImg, title: 'scatter', url: '/scatter' },
-  { thumb: LinePercentageImg, title: 'Line Percentage', url: '/linepercentage' },
+  {
+    thumb: LinePercentageImg,
+    title: 'Line Percentage',
+    url: '/linepercentage'
+  },
   { thumb: hosptial, title: 'NYC Hospital Facilities', url: '/bar' },
   { thumb: CirclePackImg, title: 'Circle Pack', url: '/circlepack' },
   { thumb: OldFaithfulImg, title: 'Old Faithful', url: '/faithful' },
@@ -33,8 +37,7 @@ const imgData = [
   { thumb: NeighbourHoodImg, title: 'Neighbourhood', url: '/neighbour' },
   { thumb: DifferenceImg, title: 'Difference', url: '/difference' },
   { thumb: ChordImg, title: 'Chord', url: '/chord' },
-  { thumb: ForceImg, title: 'Force', url: '/force' },
-
+  { thumb: ForceImg, title: 'Force', url: '/force' }
 ];
 
 const HomePage = props => {
