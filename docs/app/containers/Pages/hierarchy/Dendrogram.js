@@ -1,7 +1,7 @@
 import React from 'react';
 import { PapperBlock } from 'dan-components';
 import { Paper, Tree } from 'occult';
-import { edges } from './SampleData';
+import { edges } from '../Chord/SampleData';
 
 const theme = [
   '#ac58e5',

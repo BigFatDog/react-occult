@@ -96,7 +96,6 @@ module.exports = [
         name: 'dagre',
         link: '/dagre'
       },
-
       // {
       //   key: 'sankey',
       //   name: 'Sankey',
