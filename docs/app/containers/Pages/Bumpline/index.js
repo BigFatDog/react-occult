@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import { Paper, Line, XAxis, YAxis, Contour, Hexbin, Heatmap } from 'occult';
 import brand from 'dan-api/dummy/brand';
 import { PapperBlock } from 'dan-components';
-import { TData } from '../LineChartPage/TData';
+import { TData } from '../basic/LineChartPage/TData';
 import * as d3 from 'd3';
 
 const TheMetLight = [
