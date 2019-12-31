@@ -2,82 +2,46 @@ import { Paper, Arc } from 'occult';
 import React from 'react';
 import { PapperBlock } from 'dan-components';
 
-import { shakespeare } from '../data/shakespeare';
 import { withStyles } from '@material-ui/core';
+import energy from '../data/energy.json';
+import * as d3 from 'd3';
 
-const trackParent = (node, i, arr) => {
-  if (!node) {
-    return;
-  }
-
-  if (
-    node.id === 'Shakespeare' ||
-    node.id === 'Comedies' ||
-    node.id === 'Tragedies' ||
-    node.id === 'Histories'
-  ) {
-    return null;
-  }
-
-  while (
-    node.parent !== null ||
-    node.parent !== 'Comedies' ||
-    node.parent !== 'Tragedies' ||
-    node.parent !== 'Histories' ||
-    node.parent !== 'Shakespeare'
-  ) {
-    const _p = arr.find(d => d.id === node.parent);
-    const parent = trackParent(_p, i, arr);
-    if (!parent) {
-      break;
-    } else {
-      node.parent = parent.parent || parent.id;
-    }
-  }
-
-  return node;
-};
-
-const isPlay = id => ['Comedies', 'Tragedies', 'Histories'].includes(id);
-
-const roots = [
-  {
-    id: 'Comedies',
-    parent: 'Shakespeare',
-    size: null
-  },
-  {
-    id: 'Tragedies',
-    parent: 'Shakespeare',
-    size: null
-  },
-  {
-    id: 'Histories',
-    parent: 'Shakespeare',
-    size: null
-  }
+const MetroRain8 = [
+  '#abe70f',
+  '#79e70f',
+  '#0fe71f',
+  '#0fe7d4',
+  '#10d9ec',
+  '#10c5ec',
+  '#1fb2e7',
+  '#1f97e7'
 ];
-const flat = shakespeare()
-  .slice()
-  .map((d, i, arr) => trackParent(d, i, arr))
-  .filter(d => d);
-const nodes = [...roots, ...flat];
-
-const blue = '#0373d9';
-const green = '#00ff70';
-const bg = '#3436b8';
-
-const nodeColorScale = {
-  Comedies: 'url(#gradient_1)',
-  Tragedies: 'url(#gradient_2)',
-  Histories: 'url(#gradient_3)'
-};
-
-const colorMap = {
-  Comedies: '#2196F3',
-  Tragedies: '#ffc62e',
-  Histories: '#7324ff'
-};
+const TheMetLight = [
+  '#F44336',
+  '#E91E63',
+  '#9C27B0',
+  '#673AB7',
+  '#3F51B5',
+  '#2196F3',
+  '#03A9F4',
+  '#00BCD4',
+  '#009688',
+  '#4CAF50',
+  '#8BC34A',
+  '#CDDC39',
+  '#FFEB3B',
+  '#FFC107',
+  '#FF9800',
+  '#FF5722'
+];
+const gradients = [
+  'url(#gradient_1)',
+  'url(#gradient_2)',
+  'url(#gradient_3)',
+  'url(#gradient_4)'
+];
+const colorScale1 = d3.scaleOrdinal().range(TheMetLight);
+const colorScale = d3.scaleOrdinal().range(gradients);
 
 const styles = {
   frame: {
@@ -90,33 +54,27 @@ const styles = {
 };
 
 const arcProps = {
-  nodes: nodes.slice(),
-  edges: flat.slice(),
-  nodeIDAccessor: 'id',
-  sourceAccessor: 'parent',
-  targetAccessor: 'id',
-  nodeStyle: function(e) {
-    const c =
-      e.parent === 'Shakespeare'
-        ? nodeColorScale[e.id]
-        : nodeColorScale[e.parent];
+  nodes: energy.nodes.slice(),
+  edges: energy.links.map(d => ({
+    source: energy.nodes[d.source].name,
+    target: energy.nodes[d.target].name,
+    value: d.value
+  })),
 
-    return {
-      stroke: c,
-      fill: c,
-      opacity: 0.8
-    };
-  },
-  edgeStyle: function(e) {
-    const c = nodeColorScale[e.source.id];
-
-    return {
-      stroke: c,
-      fill: 'none',
-      fillOpacity: 0.15
-    };
-  },
-  edgeWidthAccessor: 'size',
+  nodeIDAccessor: 'name',
+  sourceAccessor: 'source',
+  targetAccessor: 'target',
+  nodeStyle: d => ({
+    fill: colorScale1(d.name),
+    opacity: 0.8,
+    stroke: 'white'
+  }),
+  edgeStyle: d => ({
+    stroke: colorScale(d.target.name),
+    fill: colorScale(d.source.name),
+    fillOpacity: 0.2
+  }),
+  edgeWidthAccessor: 'value',
   hoverAnnotation: true,
   nodeLabels: d => {
     return d.output && <text textAnchor="middle">{d.id}</text>;
@@ -126,8 +84,8 @@ const arcProps = {
 };
 const frameProps = {
   width: 1000,
-  height: 600,
-  margin: {top: 100, bottom: 50, left: 20, right: 20},
+  height: 500,
+  margin: { top: 50, bottom: 100, left: 20, right: 20 },
   additionalDefs: [
     <linearGradient key="gradient1" id="gradient_1">
       <stop stopColor={'#00ff70'} offset="0%" />

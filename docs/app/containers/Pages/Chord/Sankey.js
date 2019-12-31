@@ -56,15 +56,10 @@ const sankeyProps = {
     value: d.value
   })),
 
-  /* --- Size --- */
-  /* --- Layout --- */
-  // nodePaddingRatio: 0.7,
-  /* --- Process --- */
   nodeIDAccessor: 'name',
   sourceAccessor: 'source',
   targetAccessor: 'target',
 
-  /* --- Customize --- */
   nodeStyle: d => ({
     stroke: colorScale(d.name),
     fill: colorScale(d.name)
@@ -75,10 +70,7 @@ const sankeyProps = {
     fillOpacity: 0.2
   }),
 
-  /* --- Draw --- */
   edgeWidthAccessor: 'value',
-
-  /* --- Interact --- */
   hoverAnnotation: true,
 
   /* --- Annotate --- */

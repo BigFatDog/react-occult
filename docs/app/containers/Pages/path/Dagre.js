@@ -4,7 +4,7 @@ import { PapperBlock } from 'dan-components';
 
 import { scaleLinear } from 'd3-scale';
 import dagre from 'dagre';
-import {withStyles} from "@material-ui/core";
+import { withStyles } from '@material-ui/core';
 
 const colors = {
   'Base Import': '#ff2fab',
@@ -351,25 +351,27 @@ g.setDefaultEdgeLabel(() => ({}));
 
 const styles = {
   frame: {
-    background:
-        '#f9f7e8',
+    background: '#f9f7e8',
     border: 0,
-    borderRadius: 6,
+    borderRadius: 6
   }
 };
-
 
 dagre.layout(g);
 const frameProps = {
   width: 1000,
   height: 700,
-  margin: {top: 20, bottom: 20, left: 10, right: 120}
+  margin: { top: 20, bottom: 20, left: 10, right: 120 }
 };
 
 const dagreProps = {
   graph: g,
   nodeStyle: function(e) {
-    return { stroke: colors[e.category], fill: colors[e.category], opacity: 0.7 };
+    return {
+      stroke: colors[e.category],
+      fill: colors[e.category],
+      opacity: 0.7
+    };
   },
   edgeStyle: function(e) {
     return {
