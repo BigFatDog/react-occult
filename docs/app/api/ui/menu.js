@@ -1,10 +1,4 @@
 module.exports = [
-  // {
-  //   key: 'home',
-  //   name: 'Home',
-  //   icon: 'ios-home-outline',
-  //   link: '/'
-  // },
   {
     key: 'nyc',
     name: 'NYC Open Data',
@@ -12,11 +6,14 @@ module.exports = [
     child: [
       {
         key: 'bar',
-        // icon: 'ios-barcode-outline',
         name: 'NYC Hospital',
         link: '/bar'
       },
-
+      {
+        key: 'squirrel',
+        name: 'Squirrel',
+        link: '/squirrel'
+      },
       {
         key: 'geo',
         name: 'Geo',
@@ -64,11 +61,6 @@ module.exports = [
         key: 'line',
         name: 'Line Charts',
         link: '/line'
-      },
-      {
-        key: 'bumpline',
-        name: 'Bumpline',
-        link: '/bumpline'
       },
       {
         key: 'linepercentage',

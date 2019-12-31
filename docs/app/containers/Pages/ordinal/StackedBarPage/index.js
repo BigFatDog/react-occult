@@ -4,6 +4,15 @@ import { PapperBlock } from 'dan-components';
 import * as d3 from 'd3';
 import { withStyles } from '@material-ui/core';
 
+import Squirrel from '../../data/2018_Central_Park_Squirrel_Census_-_Squirrel_Data.json';
+
+// const data = [];
+// for (const d of Squirrel) {
+//   if (d.hasOwnProperty('Primary Fur Color') && d.hasOwnProperty('Primary Fur Color').trim() !== '') {
+//     data.push()
+//   }
+// }
+
 const blue = '#aeeef8';
 const green = '#e5fd3d';
 const purple = '#9caff6';

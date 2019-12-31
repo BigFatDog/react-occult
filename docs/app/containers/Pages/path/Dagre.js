@@ -4,12 +4,13 @@ import { PapperBlock } from 'dan-components';
 
 import { scaleLinear } from 'd3-scale';
 import dagre from 'dagre';
+import {withStyles} from "@material-ui/core";
 
 const colors = {
-  'Base Import': '#ac58e5',
-  Usage: '#E0488B',
-  Intermediary: '#9fd0cb',
-  Other: '#e0d33a'
+  'Base Import': '#ff2fab',
+  Usage: '#0373d9',
+  Intermediary: '#9caff6',
+  Other: '#00ff70'
 };
 
 const size = scaleLinear()
@@ -348,34 +349,48 @@ g.setDefaultEdgeLabel(() => ({}));
   });
 });
 
+const styles = {
+  frame: {
+    background:
+        '#f9f7e8',
+    border: 0,
+    borderRadius: 6,
+  }
+};
+
+
 dagre.layout(g);
 const frameProps = {
-  size: [700, 500]
+  width: 1000,
+  height: 700,
+  margin: {top: 20, bottom: 20, left: 10, right: 120}
 };
 
 const dagreProps = {
   graph: g,
   nodeStyle: function(e) {
-    return { stroke: colors[e.category], fill: colors[e.category] };
+    return { stroke: colors[e.category], fill: colors[e.category], opacity: 0.7 };
   },
   edgeStyle: function(e) {
     return {
       fill: 'none',
       stroke: colors[e.source.category],
-      strokeWidth: e.weight
+      strokeWidth: e.weight,
+      opacity: 0.7
     };
   },
   nodeLabels: d => <text>{d.id}</text>
 };
 
 const DagrePage = props => {
+  const { classes } = props;
   return (
     <PapperBlock>
-      <Paper {...frameProps}>
+      <Paper {...frameProps} className={classes.frame}>
         <Dagre {...dagreProps} />
       </Paper>
     </PapperBlock>
   );
 };
 
-export default DagrePage;
+export default withStyles(styles)(DagrePage);

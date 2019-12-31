@@ -57,6 +57,11 @@ const styles = theme => ({
     margin: 0,
     padding: 0
   },
+  blackBg: {
+    backgroundColor: 'black',
+    margin: 0,
+    padding: 0
+  },
   noMargin: {},
   colorMode: {
     backgroundColor:

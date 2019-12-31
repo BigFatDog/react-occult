@@ -21,16 +21,17 @@ import ForcePage from '../Pages/Chord/Force';
 import ViolinPage from '../Pages/BarPage/ViolinPage';
 import HistogramPage from '../Pages/BarPage/Histogram';
 import SwarmPage from '../Pages/BarPage/SwarmPage';
-import ChordPage from '../Pages/Chord/Chord';
-import DagrePage from '../Pages/Chord/Dagre';
+import ChordPage from '../Pages/path/Chord';
+import DagrePage from '../Pages/path/Dagre';
 import HomePage from '../Pages/HomePage';
 import CirclePackPage from '../Pages/Chord/CirclePack';
 import DendrogramPage from '../Pages/Chord/Dendrogram';
 import TreemapPage from '../Pages/Chord/TreeMap';
 import PartitionPage from '../Pages/Chord/PartitionPage';
 import SankeyPage from '../Pages/Chord/Sankey';
-import ArcPage from '../Pages/Chord/Arc';
+import ArcPage from '../Pages/path/Arc';
 import RadarPage from '../Pages/Radar';
+import Squirrel from '../Pages/NYCOpenData/Squirrel';
 
 import { NotFound } from '../pageListAsync';
 
@@ -73,6 +74,7 @@ class Application extends React.Component {
           <Route path="/sankey" component={SankeyPage} />
           <Route path="/arc" component={ArcPage} />
           <Route path="/radar" component={RadarPage} />
+          <Route path="/squirrel" component={Squirrel} />
 
           <Route component={NotFound} />
         </Switch>

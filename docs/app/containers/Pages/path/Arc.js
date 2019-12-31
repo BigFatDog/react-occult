@@ -112,7 +112,7 @@ const arcProps = {
 
     return {
       stroke: c,
-      fill: c,
+      fill: 'none',
       fillOpacity: 0.15
     };
   },
@@ -121,14 +121,13 @@ const arcProps = {
   nodeLabels: d => {
     return d.output && <text textAnchor="middle">{d.id}</text>;
   },
-  zoom: true, // Zoom the laid out nodes in or out so that they fit the specified size, can also be "stretch" if you want zoom not to maintain aspect ratio
-  groupWidth: 20, //  Width in pixels of the outer rings
+  zoom: false, // Zoom the laid out nodes in or out so that they fit the specified size, can also be "stretch" if you want zoom not to maintain aspect ratio
   padAngle: 0.01 // Space between groups in degrees,
 };
 const frameProps = {
-  width: 700,
-  height: 700,
-  margin: 40,
+  width: 1000,
+  height: 600,
+  margin: {top: 100, bottom: 50, left: 20, right: 20},
   additionalDefs: [
     <linearGradient key="gradient1" id="gradient_1">
       <stop stopColor={'#00ff70'} offset="0%" />
