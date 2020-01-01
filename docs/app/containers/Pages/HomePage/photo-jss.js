@@ -9,7 +9,7 @@ const styles = theme => ({
     },
     columnGap: '1em',
     columnFill: 'initial',
-    marginTop: 20
+    margin: '1.5em auto'
   },
   item: {
     display: 'inline-block',

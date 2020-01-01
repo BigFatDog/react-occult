@@ -1,4 +1,6 @@
 import React from 'react';
+import Masonry from 'react-masonry-css'
+
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
@@ -35,60 +37,64 @@ const imgData = [
   },
   { thumb: hosptial, title: 'NYC Hospital Facilities', url: '/bar' },
   { thumb: CirclePackImg, title: 'Circle Pack', url: '/circlepack' },
-  { thumb: OldFaithfulImg, title: 'Old Faithful', url: '/faithful' },
+  { thumb: RadarImg, title: 'Radar', url: '/radar' },
+  { thumb: ForceImg, title: 'Force', url: '/force' },
+  { thumb: AppleStockImg, title: 'Apple Stock', url: '/area' },
+  { thumb: ChordImg, title: 'Chord', url: '/chord' },
+  { thumb: PartitionImg, title: 'Partition', url: '/partition' },
+  { thumb: DifferenceImg, title: 'Difference', url: '/difference' },
+  { thumb: TrendLineImg, title: 'Trendline', url: '/trendline' },
   {
     thumb: ContourMarginImg,
     title: 'Contour with Marginal Graphics',
     url: '/margin'
   },
-  { thumb: AppleStockImg, title: 'Apple Stock', url: '/area' },
-  { thumb: TrendLineImg, title: 'Trendline', url: '/trendline' },
   { thumb: NeighbourHoodImg, title: 'Neighbourhood', url: '/neighbour' },
-  { thumb: DifferenceImg, title: 'Difference', url: '/difference' },
-  { thumb: ChordImg, title: 'Chord', url: '/chord' },
-  { thumb: ForceImg, title: 'Force', url: '/force' },
   { thumb: Line1, title: 'Stacked', url: '/line' },
   { thumb: Line2, title: 'Percentage', url: '/line' },
   { thumb: Line3, title: 'Lines', url: '/line' },
+  { thumb: OldFaithfulImg, title: 'Old Faithful', url: '/faithful' },
   { thumb: DagreImg, title: 'Dagre', url: '/dagre' },
   { thumb: ArcImg, title: 'Arc', url: '/arc' },
   { thumb: TreemapImg, title: 'Treemap', url: '/treemap' },
   { thumb: ClusterImg, title: 'Cluster', url: '/cluster' },
-  { thumb: PartitionImg, title: 'Partition', url: '/partition' },
-  { thumb: RadarImg, title: 'Radar', url: '/radar' }
+
+
 ];
 
 const HomePage = props => {
   const { classes, history } = props;
+
   return (
-    <div>
-      <div className={classes.masonry}>
+      <Masonry
+          breakpointCols={3}
+          className="my-masonry-grid"
+          columnClassName="my-masonry-grid_column">
         {imgData.map(({ thumb, title, url }, index) => (
-          <figure className={classes.item} key={index}>
-            <ButtonBase
-              focusRipple
-              className={classes.image}
-              focusVisibleClassName={classes.focusVisible}
-              onClick={() => history.push(url)}
-            >
-              <img src={thumb} alt={title} />
-              <span className={classes.imageBackdrop} />
-              <span className={classes.imageButton}>
+            <figure className={classes.item} key={index}>
+              <ButtonBase
+                  focusRipple
+                  className={classes.image}
+                  focusVisibleClassName={classes.focusVisible}
+                  onClick={() => history.push(url)}
+              >
+                <img src={thumb} alt={title} />
+                <span className={classes.imageBackdrop} />
+                <span className={classes.imageButton}>
                 <Typography
-                  component="span"
-                  variant="subtitle1"
-                  color="inherit"
-                  className={classes.imageTitle}
+                    component="span"
+                    variant="subtitle1"
+                    color="inherit"
+                    className={classes.imageTitle}
                 >
                   {title}
                   <span className={classes.imageMarked} />
                 </Typography>
               </span>
-            </ButtonBase>
-          </figure>
+              </ButtonBase>
+            </figure>
         ))}
-      </div>
-    </div>
+      </Masonry>
   );
 };
 
