@@ -4,103 +4,79 @@ import { Axis, Paper, OrdinalPoint } from 'occult';
 import { PapperBlock } from 'dan-components';
 import { withStyles } from '@material-ui/core/styles';
 
+import AppDownloads from './data/app-download.json';
+
+const data = [
+  [//iPhone
+    {axis:"Battery Life",value:0.22},
+    {axis:"Brand",value:0.28},
+    {axis:"Contract Cost",value:0.29},
+    {axis:"Design And Quality",value:0.17},
+    {axis:"Have Internet Connectivity",value:0.22},
+    {axis:"Large Screen",value:0.02},
+    {axis:"Price Of Device",value:0.21},
+    {axis:"To Be A Smartphone",value:0.50}
+  ],[//Samsung
+    {axis:"Battery Life",value:0.27},
+    {axis:"Brand",value:0.16},
+    {axis:"Contract Cost",value:0.35},
+    {axis:"Design And Quality",value:0.13},
+    {axis:"Have Internet Connectivity",value:0.20},
+    {axis:"Large Screen",value:0.13},
+    {axis:"Price Of Device",value:0.35},
+    {axis:"To Be A Smartphone",value:0.38}
+  ],[//Nokia Smartphone
+    {axis:"Battery Life",value:0.26},
+    {axis:"Brand",value:0.10},
+    {axis:"Contract Cost",value:0.30},
+    {axis:"Design And Quality",value:0.14},
+    {axis:"Have Internet Connectivity",value:0.22},
+    {axis:"Large Screen",value:0.04},
+    {axis:"Price Of Device",value:0.41},
+    {axis:"To Be A Smartphone",value:0.30}
+  ]
+];
+
+const flatData = [];
+data[0].forEach(d => { d.brand = 'iPhone'; flatData.push(d)});
+data[1].forEach(d => { d.brand = 'Samsung'; flatData.push(d)});
+data[2].forEach(d => { d.brand = 'Nokia'; flatData.push(d)});
+
+const colors =[
+  '#e0d33a',
+  '#7324ff',
+  '#04a6ff',
+];
+
+const colorScale = d3.scaleOrdinal().range(colors);
+
 const pointProps = {
-  data: [
-    {
-      name: 'Pikachu',
-      color: '#e0d33a',
-      attribute: 'attack',
-      value: 55,
-      defense: 40,
-      speed: 90,
-      hp: 35
-    },
-    { name: 'Pikachu', color: '#e0d33a', attribute: 'defense', value: 40 },
-    { name: 'Pikachu', color: '#e0d33a', attribute: 'speed', value: 90 },
-    { name: 'Pikachu', color: '#e0d33a', attribute: 'hp', value: 35 },
-    {
-      name: 'Pikachu',
-      color: '#e0d33a',
-      attribute: 'special attack',
-      value: 50
-    },
-    { name: 'Pikachu', color: '#e0d33a', attribute: 'attack', value: 55 },
-    { name: 'Bulbasaur', color: '#9fd0cb', attribute: 'attack', value: 49 },
-    { name: 'Bulbasaur', color: '#9fd0cb', attribute: 'defense', value: 49 },
-    {
-      name: 'Bulbasaur',
-      color: '#9fd0cb',
-      attribute: 'special attack',
-      value: 65
-    },
-    { name: 'Bulbasaur', color: '#9fd0cb', attribute: 'speed', value: 45 },
-    { name: 'Bulbasaur', color: '#9fd0cb', attribute: 'hp', value: 45 },
-    { name: 'Squirtle', color: '#7566ff', attribute: 'attack', value: 48 },
-    { name: 'Squirtle', color: '#7566ff', attribute: 'defense', value: 65 },
-    {
-      name: 'Squirtle',
-      color: '#7566ff',
-      attribute: 'special attack',
-      value: 50
-    },
-    { name: 'Squirtle', color: '#7566ff', attribute: 'speed', value: 43 },
-    { name: 'Squirtle', color: '#7566ff', attribute: 'hp', value: 44 },
-    { name: 'Charmander', color: '#E0488B', attribute: 'attack', value: 52 },
-    { name: 'Charmander', color: '#E0488B', attribute: 'defense', value: 43 },
-    {
-      name: 'Charmander',
-      color: '#E0488B',
-      attribute: 'special attack',
-      value: 60
-    },
-    { name: 'Charmander', color: '#E0488B', attribute: 'speed', value: 65 },
-    { name: 'Charmander', color: '#E0488B', attribute: 'hp', value: 39 }
-  ],
+  data: flatData,
   connectorType: function(e) {
-    return e.name;
+    return e.brand;
   },
   projection: 'radial',
-  oAccessor: 'attribute',
+  oAccessor: 'axis',
   rAccessor: 'value',
-  rExtent: [0],
   style: function(e) {
-    return { fill: e.color, stroke: 'white', strokeOpacity: 0.5 };
+    return { fill: colorScale(e.brand), stroke: 'white', strokeOpacity: 0.5 };
   },
   connectorStyle: function(e) {
     return {
-      fill: e.source.color,
-      stroke: e.source.color,
-      strokeOpacity: 0.5,
-      fillOpacity: 0.7
+      fill: colorScale(e.source.brand),
+      stroke: colorScale(e.source.brand),
+      strokeWidth: 2,
+      strokeOpacity: 1,
+      fillOpacity: 0.3
     };
   },
-  title: 'Pokemon Base Stats',
-  foregroundGraphics: [
-    <g transform="translate(240, 73)" key="legend">
-      <text key={1} fill={'#ac58e5'}>
-        New York
-      </text>
-      <text key={1} y={20} fill={'#E0488B'}>
-        Las Vegas
-      </text>
-      <text key={1} y={40} fill={'#9fd0cb'}>
-        San Diego
-      </text>
-      <text key={1} y={60} fill={'#e0d33a'}>
-        Denver
-      </text>
-      <text key={1} y={80} fill={'#7566ff'}>
-        Oakland
-      </text>
-    </g>
-  ],
-  pieceHoverAnnotation: true,
+    pieceHoverAnnotation: true,
   oLabel: true,
   useAxes: true
 };
 const FrameProps = {
-  width: 700,
-  height: 700,
+  width: 900,
+  height: 900,
   margin: { left: 40, top: 50, bottom: 40, right: 40 },
   title: (
     <text textAnchor="middle">
@@ -108,28 +84,12 @@ const FrameProps = {
       By Borough
     </text>
   ),
-  additionalDefs: [
-    <pattern
-      key="triangle"
-      id="triangle"
-      width="10"
-      height="10"
-      patternUnits="userSpaceOnUse"
-    >
-      <rect fill={'#9fd0cb'} width="10" height="10" />
-      <circle fill={'#7566ff'} r="5" cx="3" cy="3" />
-    </pattern>,
-    <linearGradient key="gradient" x1="0" x2="0" y1="0" y2="1" id="gradient">
-      <stop stopColor={'#D7E1EC'} offset="0%" />
-      <stop stopColor={'#FFFFFF'} offset="100%" />
-    </linearGradient>
-  ]
 };
 
 const styles = {
   frame: {
     background:
-      'linear-gradient( 111.3deg,  rgba(74,105,187,1) 9.6%, rgba(205,77,204,1) 93.6% );',
+      'radial-gradient(rgba(205,77,204,1) 9.6%, rgba(74,105,187,1) 93.6%);',
     border: 0,
     borderRadius: 6,
     boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
