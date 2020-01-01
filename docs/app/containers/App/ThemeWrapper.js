@@ -136,22 +136,22 @@ class ThemeWrapper extends Component {
             color="rgba(255,255,255,.9)"
             showSpinner={false}
           />
-          <TemplateSettings
-            palette={palette}
-            selectedValue={color}
-            mode={mode}
-            gradient={gradient}
-            decoration={decoration}
-            bgPosition={bgPosition}
-            layout={layout}
-            changeTheme={this.handleChangeTheme}
-            changeRandomTheme={this.handleChangeRandomTheme}
-            changeMode={this.handleChangeMode}
-            changeGradient={this.handleChangeGradient}
-            changeDecoration={this.handleChangeDecoration}
-            changeBgPosition={this.handleChangeBgPosition}
-            changeLayout={this.handleChangeLayout}
-          />
+          {/*<TemplateSettings*/}
+          {/*  palette={palette}*/}
+          {/*  selectedValue={color}*/}
+          {/*  mode={mode}*/}
+          {/*  gradient={gradient}*/}
+          {/*  decoration={decoration}*/}
+          {/*  bgPosition={bgPosition}*/}
+          {/*  layout={layout}*/}
+          {/*  changeTheme={this.handleChangeTheme}*/}
+          {/*  changeRandomTheme={this.handleChangeRandomTheme}*/}
+          {/*  changeMode={this.handleChangeMode}*/}
+          {/*  changeGradient={this.handleChangeGradient}*/}
+          {/*  changeDecoration={this.handleChangeDecoration}*/}
+          {/*  changeBgPosition={this.handleChangeBgPosition}*/}
+          {/*  changeLayout={this.handleChangeLayout}*/}
+          {/*/>*/}
           <AppContext.Provider value={this.handleChangeMode}>
             {children}
           </AppContext.Provider>

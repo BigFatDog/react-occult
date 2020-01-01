@@ -83,7 +83,7 @@ const arcProps = {
   padAngle: 0.01 // Space between groups in degrees,
 };
 const frameProps = {
-  width: 1000,
+  width: 800,
   height: 500,
   margin: { top: 50, bottom: 100, left: 20, right: 20 },
   additionalDefs: [

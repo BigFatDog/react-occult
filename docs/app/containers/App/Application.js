@@ -17,7 +17,7 @@ import TrendlinePage from '../Pages/TrendlinePage';
 import NeighbourPage from '../Pages/Neighbourhood';
 import DifferencePage from '../Pages/basic/Difference';
 import SketchPage from '../Pages/BarPage/Sketch';
-import ForcePage from '../Pages/Chord/Force';
+import ForcePage from '../Pages/path/Force';
 import ViolinPage from '../Pages/BarPage/ViolinPage';
 import HistogramPage from '../Pages/BarPage/Histogram';
 import SwarmPage from '../Pages/BarPage/SwarmPage';
