@@ -2,26 +2,25 @@ import React from 'react';
 import { PapperBlock } from 'dan-components';
 import flareRoot from '../data/flare-tree.json';
 import { Paper, Tree, Cluster } from 'occult';
-import {withStyles} from "@material-ui/core";
-
+import { withStyles } from '@material-ui/core';
 
 const theme = [
-  "#F44336",
-  "#E91E63",
-  "#9C27B0",
-  "#673AB7",
-  "#3F51B5",
-  "#2196F3",
-  "#03A9F4",
-  "#00BCD4",
-  "#009688",
-  "#4CAF50",
-  "#8BC34A",
-  "#CDDC39",
-  "#FFEB3B",
-  "#FFC107",
-  "#FF9800",
-  "#FF5722"
+  '#F44336',
+  '#E91E63',
+  '#9C27B0',
+  '#673AB7',
+  '#3F51B5',
+  '#2196F3',
+  '#03A9F4',
+  '#00BCD4',
+  '#009688',
+  '#4CAF50',
+  '#8BC34A',
+  '#CDDC39',
+  '#FFEB3B',
+  '#FFC107',
+  '#FF9800',
+  '#FF5722'
 ];
 
 const frameProps = {
@@ -64,7 +63,7 @@ const plotProps = {
     stroke: theme[d.source.depth],
     opacity: 0.7
   }),
-  edgeType: 'nail',
+  edgeType: 'nail'
   // nodeLabels: d => {
   //   return d.depth < 4 ? (
   //     <g transform="translate(0,-15)">
@@ -87,10 +86,9 @@ const plotProps = {
 
 const styles = {
   frame: {
-    background:
-        '#272b4d',
+    background: '#272b4d',
     border: 0,
-    borderRadius: 6,
+    borderRadius: 6
   }
 };
 

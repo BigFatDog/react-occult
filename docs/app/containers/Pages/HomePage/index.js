@@ -54,8 +54,6 @@ const imgData = [
   { thumb: TreemapImg, title: 'Treemap', url: '/treemap' },
   { thumb: ClusterImg, title: 'Cluster', url: '/cluster' },
   { thumb: PartitionImg, title: 'Partition', url: '/partition' }
-
-
 ];
 
 const HomePage = props => {
