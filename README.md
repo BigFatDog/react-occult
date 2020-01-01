@@ -1,6 +1,6 @@
 # React Occult: EXPERIMENTAL, NOT PRODUCTION READY
 
-<img width="100%" alt="Occult Charts" src="img/full.png">
+<img width="100%" alt="Occult Charts" src="img/full_1.png">
 
 ## Design 
 <img width="100%" alt="Design" src="img/design.jpg">
@@ -11,24 +11,21 @@ Full source code is at: [Demo Page](https://github.com/BigFatDog/react-occult/bl
 ## Quick Guide to API
 
 ```javascript 1.6
-    <XYFrame {...frameProps}>
-      <XAxis label={'Rank'} />
-      <YAxis left={50} label={'Theaters'} />
-      <Annotation type={'y'} label={'a vertical divide line'} y={100} />
+    <Paper {...paperProps}>
+      <XAxis />
+      <YAxis left={50} />
+      <Annotation type={'y'} label={'vertical line'} y={100} />
       <Annotation
         type={AnnotationCalloutCircle}
-        note={{ label: 'callout', title: 'an annotation' }}
+        note={{ label: 'breakpoint', title: 'additionl information' }}
         score={10}
         subject={{ radius: 10 }}
         x={100}
         y={100}
       />
       <Line {...lineProps} />
-      <Heatmap {...heatmapProps} />
       <Contour {...contourProps} />
-      <Legend {...legnedProps} />
-      <Gradient />
-    </XYFrame>
+    </Paper>
 ```
 ## Design Brief
 * Components are freely composed within a `Frame`. Each component may have its dedicated data.
