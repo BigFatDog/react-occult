@@ -1,5 +1,5 @@
 import React from 'react';
-import Masonry from 'react-masonry-css'
+import Masonry from 'react-masonry-css';
 
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -57,44 +57,45 @@ const imgData = [
   { thumb: DagreImg, title: 'Dagre', url: '/dagre' },
   { thumb: ArcImg, title: 'Arc', url: '/arc' },
   { thumb: TreemapImg, title: 'Treemap', url: '/treemap' },
-  { thumb: ClusterImg, title: 'Cluster', url: '/cluster' },
-
-
+  { thumb: ClusterImg, title: 'Cluster', url: '/cluster' }
 ];
 
 const HomePage = props => {
   const { classes, history } = props;
 
   return (
+    <div>
       <Masonry
-          breakpointCols={3}
-          className="my-masonry-grid"
-          columnClassName="my-masonry-grid_column">
+        breakpointCols={3}
+        className="my-masonry-grid"
+        columnClassName="my-masonry-grid_column"
+      >
         {imgData.map(({ thumb, title, url }, index) => (
-            <figure className={classes.item} key={index}>
-              <ButtonBase
-                  focusRipple
-                  className={classes.image}
-                  focusVisibleClassName={classes.focusVisible}
-                  onClick={() => history.push(url)}
-              >
-                <img src={thumb} alt={title} />
-                <span className={classes.imageBackdrop} />
-                <span className={classes.imageButton}>
+          <figure className={classes.item} key={index}>
+            <ButtonBase
+              focusRipple
+              className={classes.image}
+              focusVisibleClassName={classes.focusVisible}
+              onClick={() => history.push(url)}
+            >
+              <img src={thumb} alt={title} />
+              <span className={classes.imageBackdrop} />
+              <span className={classes.imageButton}>
                 <Typography
-                    component="span"
-                    variant="subtitle1"
-                    color="inherit"
-                    className={classes.imageTitle}
+                  component="span"
+                  variant="subtitle1"
+                  color="inherit"
+                  className={classes.imageTitle}
                 >
                   {title}
                   <span className={classes.imageMarked} />
                 </Typography>
               </span>
-              </ButtonBase>
-            </figure>
+            </ButtonBase>
+          </figure>
         ))}
       </Masonry>
+    </div>
   );
 };
 

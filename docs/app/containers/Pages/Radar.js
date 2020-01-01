@@ -88,11 +88,7 @@ const FrameProps = {
   width: 1000,
   height: 1000,
   margin: { left: 40, top: 110, bottom: 90, right: 40 },
-  title: (
-    <text textAnchor="middle">
-      Smartphone Comparision
-    </text>
-  )
+  title: <text textAnchor="middle">Smartphone Comparision</text>
 };
 
 const styles = {
