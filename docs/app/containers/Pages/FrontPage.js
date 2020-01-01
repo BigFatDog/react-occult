@@ -37,7 +37,7 @@ const FrontPage = props => {
       style={{
         padding: 10,
         backgroundImage:
-          'radial-gradient( circle 879px at 10.4% 22.3%,  rgba(255,235,238,1) 0%, rgba(186,190,245,1) 93.6% )'
+          'linear-gradient(rgba(204,228,247,1) 11.2%, rgba(237,246,250,1) 100.2% )'
       }}
     >
       <div className={classes.bg}>
