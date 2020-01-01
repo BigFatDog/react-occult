@@ -1,8 +1,8 @@
 import React from 'react';
 
 export const VerticalISOTypeChart = {
-  width: 700,
-  height: 438,
+  width: 1200,
+  height: 700,
   margin: { top: 60, bottom: 140, left: 10, right: 80 },
   hoverAnnotation: true,
   tooltipContent: _d => {
@@ -15,6 +15,7 @@ export const VerticalISOTypeChart = {
       </div>
     );
   },
+
   foregroundGraphics: (
     <g>
       <g transform="translate(20,165)">

@@ -75,7 +75,7 @@ class SidebarContent extends React.Component {
       >
         <div className={classes.drawerHeader}>
           <NavLink
-            to="/app"
+            to="/"
             className={classNames(
               classes.brand,
               classes.brandBar,

@@ -48,7 +48,7 @@ const toAxes = ({
         footer: d.footer,
         tickSize: d.tickSize
       });
-      const tickLineGroup = d.showLineTicks !== false && (
+      const tickLineGroup = d.showTickLines !== false && (
         <g key={`axes-tick-lines-${i}`} className={`axis ${axisClassname}`}>
           {axisLines({
             axisParts,
@@ -85,7 +85,7 @@ const toAxes = ({
           center={d.center}
           marginalSummaryType={d.marginalSummaryType}
           xyPoints={xyPoints}
-          showLineTicks={d.showLineTicks}
+          showTickLines={d.showTickLines}
           showLabels={d.showLabels}
         />
       );

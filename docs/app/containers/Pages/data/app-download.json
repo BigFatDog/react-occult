@@ -1,0 +1,1167 @@
+[
+  {
+    "hour": 0,
+    "appid": "cn.com.china.Asoka",
+    "downloads": 9
+  },
+  {
+    "hour": 0,
+    "appid": "edu.princeton.Konklux",
+    "downloads": 3
+  },
+  {
+    "hour": 0,
+    "appid": "edu.upenn.Ronstring",
+    "downloads": 5
+  },
+  {
+    "hour": 0,
+    "appid": "com.purevolume.Lotstring",
+    "downloads": 6
+  },
+  {
+    "hour": 0,
+    "appid": "com.chronoengine.Redhold",
+    "downloads": 4
+  },
+  {
+    "hour": 0,
+    "appid": "de.1und1.Biodex",
+    "downloads": 4
+  },
+  {
+    "hour": 0,
+    "appid": "gov.hhs.Zathin",
+    "downloads": 7
+  },
+  {
+    "hour": 0,
+    "appid": "com.kickstarter.Otcom",
+    "downloads": 6
+  },
+  {
+    "hour": 0,
+    "appid": "com.wix.Voltsillam",
+    "downloads": 20
+  },
+  {
+    "hour": 0,
+    "appid": "com.acquirethisname.Bitwolf",
+    "downloads": 9
+  },
+  {
+    "hour": 0,
+    "appid": "com.scribd.Temp",
+    "downloads": 1
+  },
+  {
+    "hour": 0,
+    "appid": "com.amazon.Duobam",
+    "downloads": 2
+  },
+  {
+    "hour": 0,
+    "appid": "com.bizjournals.Transcof",
+    "downloads": 2
+  },
+  {
+    "hour": 1,
+    "appid": "cn.com.china.Asoka",
+    "downloads": 19
+  },
+  {
+    "hour": 1,
+    "appid": "edu.princeton.Konklux",
+    "downloads": 32
+  },
+  {
+    "hour": 1,
+    "appid": "edu.upenn.Ronstring",
+    "downloads": 52
+  },
+  {
+    "hour": 1,
+    "appid": "com.purevolume.Lotstring",
+    "downloads": 26
+  },
+  {
+    "hour": 1,
+    "appid": "com.chronoengine.Redhold",
+    "downloads": 4
+  },
+  {
+    "hour": 1,
+    "appid": "de.1und1.Biodex",
+    "downloads": 43
+  },
+  {
+    "hour": 1,
+    "appid": "gov.hhs.Zathin",
+    "downloads": 6
+  },
+  {
+    "hour": 1,
+    "appid": "com.kickstarter.Otcom",
+    "downloads": 3
+  },
+  {
+    "hour": 1,
+    "appid": "com.wix.Voltsillam",
+    "downloads": 3
+  },
+  {
+    "hour": 1,
+    "appid": "com.acquirethisname.Bitwolf",
+    "downloads": 5
+  },
+  {
+    "hour": 1,
+    "appid": "com.scribd.Temp",
+    "downloads": 1
+  },
+  {
+    "hour": 1,
+    "appid": "com.amazon.Duobam",
+    "downloads": 2
+  },
+  {
+    "hour": 1,
+    "appid": "com.bizjournals.Transcof",
+    "downloads": 2
+  },
+  {
+    "hour": 2,
+    "appid": "cn.com.china.Asoka",
+    "downloads": 9
+  },
+  {
+    "hour": 2,
+    "appid": "edu.princeton.Konklux",
+    "downloads": 2
+  },
+  {
+    "hour": 2,
+    "appid": "edu.upenn.Ronstring",
+    "downloads": 2
+  },
+  {
+    "hour": 2,
+    "appid": "com.purevolume.Lotstring",
+    "downloads": 6
+  },
+  {
+    "hour": 2,
+    "appid": "com.chronoengine.Redhold",
+    "downloads": 7
+  },
+  {
+    "hour": 2,
+    "appid": "de.1und1.Biodex",
+    "downloads": 3
+  },
+  {
+    "hour": 2,
+    "appid": "gov.hhs.Zathin",
+    "downloads": 4
+  },
+  {
+    "hour": 2,
+    "appid": "com.kickstarter.Otcom",
+    "downloads": 0
+  },
+  {
+    "hour": 2,
+    "appid": "com.wix.Voltsillam",
+    "downloads": 2
+  },
+  {
+    "hour": 2,
+    "appid": "com.acquirethisname.Bitwolf",
+    "downloads": 6
+  },
+  {
+    "hour": 2,
+    "appid": "com.scribd.Temp",
+    "downloads": 9
+  },
+  {
+    "hour": 2,
+    "appid": "com.amazon.Duobam",
+    "downloads": 20
+  },
+  {
+    "hour": 2,
+    "appid": "com.bizjournals.Transcof",
+    "downloads": 23
+  },
+  {
+    "hour": 3,
+    "appid": "cn.com.china.Asoka",
+    "downloads": 19
+  },
+  {
+    "hour": 3,
+    "appid": "edu.princeton.Konklux",
+    "downloads": 12
+  },
+  {
+    "hour": 3,
+    "appid": "edu.upenn.Ronstring",
+    "downloads": 12
+  },
+  {
+    "hour": 3,
+    "appid": "com.purevolume.Lotstring",
+    "downloads": 16
+  },
+  {
+    "hour": 3,
+    "appid": "com.chronoengine.Redhold",
+    "downloads": 17
+  },
+  {
+    "hour": 3,
+    "appid": "de.1und1.Biodex",
+    "downloads": 13
+  },
+  {
+    "hour": 3,
+    "appid": "gov.hhs.Zathin",
+    "downloads": 14
+  },
+  {
+    "hour": 3,
+    "appid": "com.kickstarter.Otcom",
+    "downloads": 10
+  },
+  {
+    "hour": 3,
+    "appid": "com.wix.Voltsillam",
+    "downloads": 12
+  },
+  {
+    "hour": 3,
+    "appid": "com.acquirethisname.Bitwolf",
+    "downloads": 16
+  },
+  {
+    "hour": 3,
+    "appid": "com.scribd.Temp",
+    "downloads": 19
+  },
+  {
+    "hour": 3,
+    "appid": "com.amazon.Duobam",
+    "downloads": 2
+  },
+  {
+    "hour": 3,
+    "appid": "com.bizjournals.Transcof",
+    "downloads": 23
+  },
+  {
+    "hour": 4,
+    "appid": "cn.com.china.Asoka",
+    "downloads": 9
+  },
+  {
+    "hour": 4,
+    "appid": "edu.princeton.Konklux",
+    "downloads": 2
+  },
+  {
+    "hour": 4,
+    "appid": "edu.upenn.Ronstring",
+    "downloads": 17
+  },
+  {
+    "hour": 4,
+    "appid": "com.purevolume.Lotstring",
+    "downloads": 62
+  },
+  {
+    "hour": 4,
+    "appid": "com.chronoengine.Redhold",
+    "downloads": 71
+  },
+  {
+    "hour": 4,
+    "appid": "de.1und1.Biodex",
+    "downloads": 11
+  },
+  {
+    "hour": 4,
+    "appid": "gov.hhs.Zathin",
+    "downloads": 14
+  },
+  {
+    "hour": 4,
+    "appid": "com.kickstarter.Otcom",
+    "downloads": 30
+  },
+  {
+    "hour": 4,
+    "appid": "com.wix.Voltsillam",
+    "downloads": 52
+  },
+  {
+    "hour": 4,
+    "appid": "com.acquirethisname.Bitwolf",
+    "downloads": 26
+  },
+  {
+    "hour": 4,
+    "appid": "com.scribd.Temp",
+    "downloads": 10
+  },
+  {
+    "hour": 4,
+    "appid": "com.amazon.Duobam",
+    "downloads": 20
+  },
+  {
+    "hour": 4,
+    "appid": "com.bizjournals.Transcof",
+    "downloads": 24
+  },
+  {
+    "hour": 5,
+    "appid": "cn.com.china.Asoka",
+    "downloads": 19
+  },
+  {
+    "hour": 5,
+    "appid": "edu.princeton.Konklux",
+    "downloads": 22
+  },
+  {
+    "hour": 5,
+    "appid": "edu.upenn.Ronstring",
+    "downloads": 1
+  },
+  {
+    "hour": 5,
+    "appid": "com.purevolume.Lotstring",
+    "downloads": 2
+  },
+  {
+    "hour": 5,
+    "appid": "com.chronoengine.Redhold",
+    "downloads": 7
+  },
+  {
+    "hour": 5,
+    "appid": "de.1und1.Biodex",
+    "downloads": 18
+  },
+  {
+    "hour": 5,
+    "appid": "gov.hhs.Zathin",
+    "downloads": 43
+  },
+  {
+    "hour": 5,
+    "appid": "com.kickstarter.Otcom",
+    "downloads": 10
+  },
+  {
+    "hour": 5,
+    "appid": "com.wix.Voltsillam",
+    "downloads": 22
+  },
+  {
+    "hour": 5,
+    "appid": "com.acquirethisname.Bitwolf",
+    "downloads": 6
+  },
+  {
+    "hour": 5,
+    "appid": "com.scribd.Temp",
+    "downloads": 10
+  },
+  {
+    "hour": 5,
+    "appid": "com.amazon.Duobam",
+    "downloads": 20
+  },
+  {
+    "hour": 5,
+    "appid": "com.bizjournals.Transcof",
+    "downloads": 24
+  },
+  {
+    "hour": 6,
+    "appid": "cn.com.china.Asoka",
+    "downloads": 19
+  },
+  {
+    "hour": 6,
+    "appid": "edu.princeton.Konklux",
+    "downloads": 2
+  },
+  {
+    "hour": 6,
+    "appid": "edu.upenn.Ronstring",
+    "downloads": 14
+  },
+  {
+    "hour": 6,
+    "appid": "com.purevolume.Lotstring",
+    "downloads": 2
+  },
+  {
+    "hour": 6,
+    "appid": "com.chronoengine.Redhold",
+    "downloads": 72
+  },
+  {
+    "hour": 6,
+    "appid": "de.1und1.Biodex",
+    "downloads": 12
+  },
+  {
+    "hour": 6,
+    "appid": "gov.hhs.Zathin",
+    "downloads": 41
+  },
+  {
+    "hour": 6,
+    "appid": "com.kickstarter.Otcom",
+    "downloads": 20
+  },
+  {
+    "hour": 6,
+    "appid": "com.wix.Voltsillam",
+    "downloads": 22
+  },
+  {
+    "hour": 6,
+    "appid": "com.acquirethisname.Bitwolf",
+    "downloads": 26
+  },
+  {
+    "hour": 6,
+    "appid": "com.scribd.Temp",
+    "downloads": 12
+  },
+  {
+    "hour": 6,
+    "appid": "com.amazon.Duobam",
+    "downloads": 20
+  },
+  {
+    "hour": 6,
+    "appid": "com.bizjournals.Transcof",
+    "downloads": 14
+  },
+  {
+    "hour": 7,
+    "appid": "cn.com.china.Asoka",
+    "downloads": 15
+  },
+  {
+    "hour": 7,
+    "appid": "edu.princeton.Konklux",
+    "downloads": 29
+  },
+  {
+    "hour": 7,
+    "appid": "edu.upenn.Ronstring",
+    "downloads": 141
+  },
+  {
+    "hour": 7,
+    "appid": "com.purevolume.Lotstring",
+    "downloads": 22
+  },
+  {
+    "hour": 7,
+    "appid": "com.chronoengine.Redhold",
+    "downloads": 322
+  },
+  {
+    "hour": 7,
+    "appid": "de.1und1.Biodex",
+    "downloads": 11
+  },
+  {
+    "hour": 7,
+    "appid": "gov.hhs.Zathin",
+    "downloads": 241
+  },
+  {
+    "hour": 7,
+    "appid": "com.kickstarter.Otcom",
+    "downloads": 120
+  },
+  {
+    "hour": 7,
+    "appid": "com.wix.Voltsillam",
+    "downloads": 122
+  },
+  {
+    "hour": 7,
+    "appid": "com.acquirethisname.Bitwolf",
+    "downloads": 126
+  },
+  {
+    "hour": 7,
+    "appid": "com.scribd.Temp",
+    "downloads": 112
+  },
+  {
+    "hour": 7,
+    "appid": "com.amazon.Duobam",
+    "downloads": 120
+  },
+  {
+    "hour": 7,
+    "appid": "com.bizjournals.Transcof",
+    "downloads": 114
+  },
+  {
+    "hour": 8,
+    "appid": "cn.com.china.Asoka",
+    "downloads": 135
+  },
+  {
+    "hour": 8,
+    "appid": "edu.princeton.Konklux",
+    "downloads": 229
+  },
+  {
+    "hour": 8,
+    "appid": "edu.upenn.Ronstring",
+    "downloads": 41
+  },
+  {
+    "hour": 8,
+    "appid": "com.purevolume.Lotstring",
+    "downloads": 222
+  },
+  {
+    "hour": 8,
+    "appid": "com.chronoengine.Redhold",
+    "downloads": 22
+  },
+  {
+    "hour": 8,
+    "appid": "de.1und1.Biodex",
+    "downloads": 141
+  },
+  {
+    "hour": 8,
+    "appid": "gov.hhs.Zathin",
+    "downloads": 21
+  },
+  {
+    "hour": 8,
+    "appid": "com.kickstarter.Otcom",
+    "downloads": 120
+  },
+  {
+    "hour": 8,
+    "appid": "com.wix.Voltsillam",
+    "downloads": 22
+  },
+  {
+    "hour": 8,
+    "appid": "com.acquirethisname.Bitwolf",
+    "downloads": 26
+  },
+  {
+    "hour": 8,
+    "appid": "com.scribd.Temp",
+    "downloads": 112
+  },
+  {
+    "hour": 8,
+    "appid": "com.amazon.Duobam",
+    "downloads": 10
+  },
+  {
+    "hour": 8,
+    "appid": "com.bizjournals.Transcof",
+    "downloads": 114
+  },
+  {
+    "hour": 9,
+    "appid": "cn.com.china.Asoka",
+    "downloads": 15
+  },
+  {
+    "hour": 9,
+    "appid": "edu.princeton.Konklux",
+    "downloads": 229
+  },
+  {
+    "hour": 9,
+    "appid": "edu.upenn.Ronstring",
+    "downloads": 241
+  },
+  {
+    "hour": 9,
+    "appid": "com.purevolume.Lotstring",
+    "downloads": 122
+  },
+  {
+    "hour": 9,
+    "appid": "com.chronoengine.Redhold",
+    "downloads": 222
+  },
+  {
+    "hour": 9,
+    "appid": "de.1und1.Biodex",
+    "downloads": 11
+  },
+  {
+    "hour": 9,
+    "appid": "gov.hhs.Zathin",
+    "downloads": 21
+  },
+  {
+    "hour": 9,
+    "appid": "com.kickstarter.Otcom",
+    "downloads": 129
+  },
+  {
+    "hour": 9,
+    "appid": "com.wix.Voltsillam",
+    "downloads": 221
+  },
+  {
+    "hour": 9,
+    "appid": "com.acquirethisname.Bitwolf",
+    "downloads": 26
+  },
+  {
+    "hour": 9,
+    "appid": "com.scribd.Temp",
+    "downloads": 112
+  },
+  {
+    "hour": 9,
+    "appid": "com.amazon.Duobam",
+    "downloads": 10
+  },
+  {
+    "hour": 9,
+    "appid": "com.bizjournals.Transcof",
+    "downloads": 11
+  },
+  {
+    "hour": 10,
+    "appid": "cn.com.china.Asoka",
+    "downloads": 151
+  },
+  {
+    "hour": 10,
+    "appid": "edu.princeton.Konklux",
+    "downloads": 229
+  },
+  {
+    "hour": 10,
+    "appid": "edu.upenn.Ronstring",
+    "downloads": 141
+  },
+  {
+    "hour": 10,
+    "appid": "com.purevolume.Lotstring",
+    "downloads": 125
+  },
+  {
+    "hour": 10,
+    "appid": "com.chronoengine.Redhold",
+    "downloads": 22
+  },
+  {
+    "hour": 10,
+    "appid": "de.1und1.Biodex",
+    "downloads": 116
+  },
+  {
+    "hour": 10,
+    "appid": "gov.hhs.Zathin",
+    "downloads": 213
+  },
+  {
+    "hour": 10,
+    "appid": "com.kickstarter.Otcom",
+    "downloads": 19
+  },
+  {
+    "hour": 10,
+    "appid": "com.wix.Voltsillam",
+    "downloads": 21
+  },
+  {
+    "hour": 10,
+    "appid": "com.acquirethisname.Bitwolf",
+    "downloads": 263
+  },
+  {
+    "hour": 10,
+    "appid": "com.scribd.Temp",
+    "downloads": 112
+  },
+  {
+    "hour": 10,
+    "appid": "com.amazon.Duobam",
+    "downloads": 10
+  },
+  {
+    "hour": 10,
+    "appid": "com.bizjournals.Transcof",
+    "downloads": 11
+  },
+  {
+    "hour": 11,
+    "appid": "cn.com.china.Asoka",
+    "downloads": 15
+  },
+  {
+    "hour": 11,
+    "appid": "edu.princeton.Konklux",
+    "downloads": 22
+  },
+  {
+    "hour": 11,
+    "appid": "edu.upenn.Ronstring",
+    "downloads": 141
+  },
+  {
+    "hour": 11,
+    "appid": "com.purevolume.Lotstring",
+    "downloads": 12
+  },
+  {
+    "hour": 11,
+    "appid": "com.chronoengine.Redhold",
+    "downloads": 122
+  },
+  {
+    "hour": 11,
+    "appid": "de.1und1.Biodex",
+    "downloads": 16
+  },
+  {
+    "hour": 11,
+    "appid": "gov.hhs.Zathin",
+    "downloads": 21
+  },
+  {
+    "hour": 11,
+    "appid": "com.kickstarter.Otcom",
+    "downloads": 19
+  },
+  {
+    "hour": 11,
+    "appid": "com.wix.Voltsillam",
+    "downloads": 21
+  },
+  {
+    "hour": 11,
+    "appid": "com.acquirethisname.Bitwolf",
+    "downloads": 26
+  },
+  {
+    "hour": 11,
+    "appid": "com.scribd.Temp",
+    "downloads": 112
+  },
+  {
+    "hour": 11,
+    "appid": "com.amazon.Duobam",
+    "downloads": 103
+  },
+  {
+    "hour": 11,
+    "appid": "com.bizjournals.Transcof",
+    "downloads": 116
+  },
+  {
+    "hour": 12,
+    "appid": "cn.com.china.Asoka",
+    "downloads": 11
+  },
+  {
+    "hour": 12,
+    "appid": "edu.princeton.Konklux",
+    "downloads": 29
+  },
+  {
+    "hour": 12,
+    "appid": "edu.upenn.Ronstring",
+    "downloads": 41
+  },
+  {
+    "hour": 12,
+    "appid": "com.purevolume.Lotstring",
+    "downloads": 25
+  },
+  {
+    "hour": 12,
+    "appid": "com.chronoengine.Redhold",
+    "downloads": 322
+  },
+  {
+    "hour": 12,
+    "appid": "de.1und1.Biodex",
+    "downloads": 16
+  },
+  {
+    "hour": 12,
+    "appid": "gov.hhs.Zathin",
+    "downloads": 13
+  },
+  {
+    "hour": 12,
+    "appid": "com.kickstarter.Otcom",
+    "downloads": 9
+  },
+  {
+    "hour": 12,
+    "appid": "com.wix.Voltsillam",
+    "downloads": 1
+  },
+  {
+    "hour": 12,
+    "appid": "com.acquirethisname.Bitwolf",
+    "downloads": 63
+  },
+  {
+    "hour": 12,
+    "appid": "com.scribd.Temp",
+    "downloads": 12
+  },
+  {
+    "hour": 12,
+    "appid": "com.amazon.Duobam",
+    "downloads": 10
+  },
+  {
+    "hour": 12,
+    "appid": "com.bizjournals.Transcof",
+    "downloads": 121
+  },
+  {
+    "hour": 13,
+    "appid": "cn.com.china.Asoka",
+    "downloads": 11
+  },
+  {
+    "hour": 13,
+    "appid": "edu.princeton.Konklux",
+    "downloads": 9
+  },
+  {
+    "hour": 13,
+    "appid": "edu.upenn.Ronstring",
+    "downloads": 8
+  },
+  {
+    "hour": 13,
+    "appid": "com.purevolume.Lotstring",
+    "downloads": 25
+  },
+  {
+    "hour": 13,
+    "appid": "com.chronoengine.Redhold",
+    "downloads": 22
+  },
+  {
+    "hour": 13,
+    "appid": "de.1und1.Biodex",
+    "downloads": 16
+  },
+  {
+    "hour": 13,
+    "appid": "gov.hhs.Zathin",
+    "downloads": 23
+  },
+  {
+    "hour": 13,
+    "appid": "com.kickstarter.Otcom",
+    "downloads": 19
+  },
+  {
+    "hour": 13,
+    "appid": "com.wix.Voltsillam",
+    "downloads": 21
+  },
+  {
+    "hour": 13,
+    "appid": "com.acquirethisname.Bitwolf",
+    "downloads": 63
+  },
+  {
+    "hour": 13,
+    "appid": "com.scribd.Temp",
+    "downloads": 12
+  },
+  {
+    "hour": 13,
+    "appid": "com.amazon.Duobam",
+    "downloads": 10
+  },
+  {
+    "hour": 13,
+    "appid": "com.bizjournals.Transcof",
+    "downloads": 11
+  },
+  {
+    "hour": 14,
+    "appid": "cn.com.china.Asoka",
+    "downloads": 11
+  },
+  {
+    "hour": 14,
+    "appid": "edu.princeton.Konklux",
+    "downloads": 29
+  },
+  {
+    "hour": 14,
+    "appid": "edu.upenn.Ronstring",
+    "downloads": 41
+  },
+  {
+    "hour": 14,
+    "appid": "com.purevolume.Lotstring",
+    "downloads": 25
+  },
+  {
+    "hour": 14,
+    "appid": "com.chronoengine.Redhold",
+    "downloads": 22
+  },
+  {
+    "hour": 14,
+    "appid": "de.1und1.Biodex",
+    "downloads": 116
+  },
+  {
+    "hour": 14,
+    "appid": "gov.hhs.Zathin",
+    "downloads": 213
+  },
+  {
+    "hour": 14,
+    "appid": "com.kickstarter.Otcom",
+    "downloads": 19
+  },
+  {
+    "hour": 14,
+    "appid": "com.wix.Voltsillam",
+    "downloads": 21
+  },
+  {
+    "hour": 14,
+    "appid": "com.acquirethisname.Bitwolf",
+    "downloads": 63
+  },
+  {
+    "hour": 14,
+    "appid": "com.scribd.Temp",
+    "downloads": 112
+  },
+  {
+    "hour": 14,
+    "appid": "com.amazon.Duobam",
+    "downloads": 105
+  },
+  {
+    "hour": 14,
+    "appid": "com.bizjournals.Transcof",
+    "downloads": 114
+  },
+  {
+    "hour": 15,
+    "appid": "cn.com.china.Asoka",
+    "downloads": 1
+  },
+  {
+    "hour": 15,
+    "appid": "edu.princeton.Konklux",
+    "downloads": 9
+  },
+  {
+    "hour": 15,
+    "appid": "edu.upenn.Ronstring",
+    "downloads": 11
+  },
+  {
+    "hour": 15,
+    "appid": "com.purevolume.Lotstring",
+    "downloads": 15
+  },
+  {
+    "hour": 15,
+    "appid": "com.chronoengine.Redhold",
+    "downloads": 2
+  },
+  {
+    "hour": 15,
+    "appid": "de.1und1.Biodex",
+    "downloads": 1
+  },
+  {
+    "hour": 15,
+    "appid": "gov.hhs.Zathin",
+    "downloads": 23
+  },
+  {
+    "hour": 15,
+    "appid": "com.kickstarter.Otcom",
+    "downloads": 9
+  },
+  {
+    "hour": 15,
+    "appid": "com.wix.Voltsillam",
+    "downloads": 2
+  },
+  {
+    "hour": 15,
+    "appid": "com.acquirethisname.Bitwolf",
+    "downloads": 23
+  },
+  {
+    "hour": 15,
+    "appid": "com.scribd.Temp",
+    "downloads": 12
+  },
+  {
+    "hour": 15,
+    "appid": "com.amazon.Duobam",
+    "downloads": 30
+  },
+  {
+    "hour": 15,
+    "appid": "com.bizjournals.Transcof",
+    "downloads": 91
+  },
+  {
+    "hour": 16,
+    "appid": "cn.com.china.Asoka",
+    "downloads": 15
+  },
+  {
+    "hour": 16,
+    "appid": "edu.princeton.Konklux",
+    "downloads": 22
+  },
+  {
+    "hour": 16,
+    "appid": "edu.upenn.Ronstring",
+    "downloads": 41
+  },
+  {
+    "hour": 16,
+    "appid": "com.purevolume.Lotstring",
+    "downloads": 15
+  },
+  {
+    "hour": 16,
+    "appid": "com.chronoengine.Redhold",
+    "downloads": 2
+  },
+  {
+    "hour": 16,
+    "appid": "de.1und1.Biodex",
+    "downloads": 11
+  },
+  {
+    "hour": 16,
+    "appid": "gov.hhs.Zathin",
+    "downloads": 21
+  },
+  {
+    "hour": 16,
+    "appid": "com.kickstarter.Otcom",
+    "downloads": 1
+  },
+  {
+    "hour": 16,
+    "appid": "com.wix.Voltsillam",
+    "downloads": 21
+  },
+  {
+    "hour": 16,
+    "appid": "com.acquirethisname.Bitwolf",
+    "downloads": 26
+  },
+  {
+    "hour": 16,
+    "appid": "com.scribd.Temp",
+    "downloads": 11
+  },
+  {
+    "hour": 16,
+    "appid": "com.amazon.Duobam",
+    "downloads": 10
+  },
+  {
+    "hour": 16,
+    "appid": "com.bizjournals.Transcof",
+    "downloads": 114
+  },
+  {
+    "hour": 17,
+    "appid": "cn.com.china.Asoka",
+    "downloads": 15
+  },
+  {
+    "hour": 17,
+    "appid": "edu.princeton.Konklux",
+    "downloads": 29
+  },
+  {
+    "hour": 17,
+    "appid": "edu.upenn.Ronstring",
+    "downloads": 14
+  },
+  {
+    "hour": 17,
+    "appid": "com.purevolume.Lotstring",
+    "downloads": 15
+  },
+  {
+    "hour": 17,
+    "appid": "com.chronoengine.Redhold",
+    "downloads": 2
+  },
+  {
+    "hour": 17,
+    "appid": "de.1und1.Biodex",
+    "downloads": 11
+  },
+  {
+    "hour": 17,
+    "appid": "gov.hhs.Zathin",
+    "downloads": 21
+  },
+  {
+    "hour": 17,
+    "appid": "com.kickstarter.Otcom",
+    "downloads": 1
+  },
+  {
+    "hour": 17,
+    "appid": "com.wix.Voltsillam",
+    "downloads": 21
+  },
+  {
+    "hour": 17,
+    "appid": "com.acquirethisname.Bitwolf",
+    "downloads": 26
+  },
+  {
+    "hour": 17,
+    "appid": "com.scribd.Temp",
+    "downloads": 11
+  },
+  {
+    "hour": 17,
+    "appid": "com.amazon.Duobam",
+    "downloads": 10
+  }
+]

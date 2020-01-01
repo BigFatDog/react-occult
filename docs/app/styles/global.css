@@ -34,3 +34,39 @@ circle.frame-hover {
     stroke: none;
 }
 
+.bar-icon path {
+}
+
+.axis.radial path {
+    fill: #aeeef8;
+    stroke : #aeeef8;
+    stroke-width: 1;
+    stroke-opacity: 0.2;
+    opacity: 0.1;
+    box-shadow: 20px 10px 10px #dff84d;
+}
+
+.dark-tooltip-content {
+    background: black;
+    opacity: .5;
+    color: white;
+    stroke: black;
+}
+
+.my-masonry-grid {
+    display: -webkit-box; /* Not needed if autoprefixing */
+    display: -ms-flexbox; /* Not needed if autoprefixing */
+    display: flex;
+    margin-left: -5px; /* gutter size offset */
+    width: auto;
+}
+.my-masonry-grid_column {
+    padding-left: 5px; /* gutter size */
+    background-clip: padding-box;
+}
+
+/* Style your items */
+.my-masonry-grid_column > div { /* change div to reference your elements you put in <Masonry> */
+    background: grey;
+    margin-bottom: 5px;
+}

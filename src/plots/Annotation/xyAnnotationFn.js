@@ -11,6 +11,8 @@ import SvgLineAnnotation from './widgets/SvgLineAnnotation';
 import SvgBoundsAnnotation from './widgets/SvgBoundsAnnotation';
 import SvgAreaAnnotation from './widgets/SvgAreaAnnotation';
 import SvgHighlight from './widgets/SvgHighlight';
+import HTMLTooltipAnnotation from './widgets/HTMLTooltipAnnotation';
+
 import {
   SvgHorizontalPointsAnnotation,
   SvgVerticalPointsAnnotation
@@ -73,6 +75,7 @@ const generateXYSVGAnnotations = ({ frameProps, frameData }) => ({ d, i }) => {
     ...d,
     d,
     i,
+    ...frameData,
     x: screenCoordinates[0],
     y: screenCoordinates[1],
     screenCoordinates,
@@ -80,8 +83,7 @@ const generateXYSVGAnnotations = ({ frameProps, frameData }) => ({ d, i }) => {
     yAccessors,
     xScale,
     yScale,
-    adjustedSize,
-    adjustedPosition: frameData.adjustedPosition
+    adjustedSize
   };
 
   const AnnotationType = TypeHash[d.type] || d.type;
@@ -93,8 +95,8 @@ const generateXYHtmlAnnotations = ({ frameProps, frameData }) => ({
   i,
   voronoiHover
 }) => {
-  const { tooltipContent } = frameProps;
-  const { screenCoordinates } = frameData;
+  const { tooltipContent, useSpans } = frameProps;
+  const { screenCoordinates, frameXScale, frameYScale } = frameData;
 
   return tooltipContent
     ? screenCoordinates

@@ -245,7 +245,7 @@ const computeNetworkFrameData = props => {
         : Array.isArray(graph)
         ? graph
         : (graph && graph.edges) || emptyArray,
-      nodeStyle,
+      nodeStyle: baseNodeStyle,
       nodeClass,
       edgeStyle,
       edgeClass,
@@ -267,12 +267,11 @@ const computeNetworkFrameData = props => {
       nodeSize,
       hierarchyChildren,
       hierarchySum,
-      barLayout,
       nodePadding,
       angleRange
     } = singlePlot.props;
-
     let { edgeType, projection, direction } = singlePlot.props;
+    const nodeStyle = stringToFn(baseNodeStyle, () => ({}), true);
 
     const { nodeGenerator, edgeGenerator } = singlePlot.type;
 
@@ -332,8 +331,7 @@ const computeNetworkFrameData = props => {
     let projectedNodes = [];
     let projectedEdges = [];
 
-    const isHierarchical =
-      hierarchicalTypeHash[networkSettings.type] !== undefined;
+    const isHierarchical = hierarchicalTypeHash[networkSettings.type];
 
     const changedData =
       !frameData.projectedNodes ||
@@ -423,7 +421,7 @@ const computeNetworkFrameData = props => {
         rootNode.sum(hierarchySum || (d => d.value));
 
         if (isHierarchical) {
-          const layout = barLayout || isHierarchical;
+          const layout = networkSettings.layout || isHierarchical;
           const hierarchicalLayout = layout();
           const networkSettingKeys = Object.keys(networkSettings);
           if (
@@ -558,7 +556,7 @@ const computeNetworkFrameData = props => {
           nodes: projectedNodes,
           graph
         })
-      : null;
+      : undefined;
 
     if (
       (networkSettings.type === 'sankey' ||
@@ -1276,7 +1274,7 @@ const computeNetworkFrameData = props => {
       customEdgeIcon,
       networkType: networkSettings.type,
       direction: networkSettings.direction,
-      nodeStyle: stringToFn(nodeStyle, () => ({}), true),
+      nodeStyle,
       nodeClass: stringToFn(nodeClass, () => '', true),
       nodeRenderMode: stringToFn(nodeRenderMode, undefined, true),
       nodeUseCanvas,
@@ -1310,7 +1308,10 @@ const computeNetworkFrameData = props => {
         ...networkSettings,
         direction,
         projection
-      }
+      },
+      customNodeIcon,
+      customEdgeIcon,
+      nodeStyle
     });
   };
 

@@ -2,6 +2,7 @@ import Paper from './paper/Paper';
 
 import XAxis from './axis/XAxis';
 import YAxis from './axis/YAxis';
+import Axis from './axis/Axis';
 
 import Annotation from './plots/Annotation';
 
@@ -42,6 +43,7 @@ export {
   Contour,
   XAxis,
   YAxis,
+  Axis,
   Hexbin,
   Heatmap,
   Trendline,

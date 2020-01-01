@@ -1,21 +1,24 @@
 module.exports = [
   {
-    key: 'home',
-    name: 'Home',
-    icon: 'ios-home-outline',
-    link: '/'
-  },
-  {
-    key: 'layers',
-    name: 'Layers of Information',
+    key: 'nyc',
+    name: 'NYC Open Data',
     icon: 'ios-infinite-outline',
-    link: '/layers'
-  },
-  {
-    key: 'charts',
-    name: 'Charts',
-    icon: 'ios-analytics-outline',
     child: [
+      {
+        key: 'bar',
+        name: 'NYC Hospital',
+        link: '/bar'
+      },
+      {
+        key: 'squirrel',
+        name: 'Squirrel',
+        link: '/squirrel'
+      },
+      {
+        key: 'geo',
+        name: 'Geo',
+        link: '/geo'
+      },
       {
         key: 'old_faithful',
         name: 'Old Faithful Contour',
@@ -27,6 +30,18 @@ module.exports = [
         link: '/margin'
       },
       {
+        key: 'neighbour',
+        name: 'Neighbourhood',
+        link: '/neighbour'
+      }
+    ]
+  },
+  {
+    key: 'basic',
+    name: 'Basic',
+    icon: 'ios-pulse-outline',
+    child: [
+      {
         key: 'scatter',
         name: 'Scatter',
         link: '/scatter'
@@ -37,25 +52,94 @@ module.exports = [
         link: '/area'
       },
       {
-        key: 'trendline',
-        name: 'Trendline',
-        link: '/trendline'
-      },
-      {
-        key: 'neighbour',
-        name: 'Neighbourhood',
-        link: '/neighbour'
-      },
-      {
         key: 'difference',
         name: 'Difference',
         link: '/difference'
       },
+
       {
-        key: 'bar',
-        name: 'NYC Hospital',
-        link: '/bar'
+        key: 'line',
+        name: 'Line Charts',
+        link: '/line'
       },
+      {
+        key: 'linepercentage',
+        name: 'Line Percentage',
+        link: '/linepercentage'
+      }
+    ]
+  },
+  {
+    key: 'network',
+    name: 'Network',
+    icon: 'ios-brush-outline',
+    child: [
+      {
+        key: 'force',
+        name: 'Force',
+        link: '/force'
+      }
+    ]
+  },
+  {
+    key: 'path',
+    icon: 'ios-ionic-outline',
+    name: 'Path',
+    child: [
+      {
+        key: 'chord',
+        name: 'chord',
+        link: '/chord'
+      },
+      {
+        key: 'dagre',
+        name: 'dagre',
+        link: '/dagre'
+      },
+      // {
+      //   key: 'sankey',
+      //   name: 'Sankey',
+      //   ink: '/sankey'
+      // },
+      {
+        key: 'arc',
+        name: 'Arc',
+        link: '/arc'
+      }
+    ]
+  },
+  {
+    key: 'hierarchy',
+    icon: 'ios-leaf-outline',
+    name: 'Hierarchy',
+    child: [
+      {
+        key: 'dendrogram',
+        name: 'Dendrogram',
+        link: '/dendrogram'
+      },
+      {
+        key: 'treemap',
+        name: 'Treemap',
+        link: '/treemap'
+      },
+      {
+        key: 'partition',
+        name: 'Partition',
+        link: '/partition'
+      },
+      {
+        key: 'circle_pack',
+        name: 'Circle Pack',
+        link: '/circlepack'
+      }
+    ]
+  },
+  {
+    key: 'summary',
+    icon: 'ios-bonfire-outline',
+    name: 'Sumarry',
+    child: [
       {
         key: 'violin',
         name: 'violin',
@@ -65,16 +149,6 @@ module.exports = [
         key: 'histgram',
         name: 'Histgram',
         link: '/histgram'
-      },
-      {
-        key: 'pencil',
-        name: 'Pencil',
-        link: '/sketch'
-      },
-      {
-        key: 'network',
-        name: 'Network',
-        link: '/network'
       },
       {
         key: 'heatmap',
@@ -91,31 +165,39 @@ module.exports = [
         name: 'Hexbin',
         link: '/hexbin'
       },
-
       {
-        key: 'line',
-        name: 'Line Charts',
-        link: '/line'
-      },
+        key: 'trendline',
+        name: 'Trendline',
+        link: '/trendline'
+      }
+    ]
+  },
+  {
+    key: 'ordinal',
+    icon: 'ios-analytics-outline',
+    name: 'Ordinal',
+    child: [
       {
-        key: 'bumpline',
-        name: 'Bumpline',
-        link: '/bumpline'
-      },
-      {
-        key: 'linepercentage',
-        name: 'Line Percentage',
-        link: '/linepercentage'
+        key: 'clusterbar',
+        name: 'ClusterBar',
+        link: '/clusterbar'
       },
       {
         key: 'swarm',
         name: 'Swarm',
         link: '/swarm'
       },
+
       {
-        key: 'geo',
-        name: 'Geo',
-        link: '/geo'
+        key: 'pencil',
+        name: 'Pencil',
+        link: '/sketch'
+      },
+
+      {
+        key: 'radar',
+        name: 'Radar',
+        link: '/radar'
       }
     ]
   }

@@ -8,7 +8,9 @@ const Treemap = props => {};
 Treemap.nodeGenerator = ({ size, center, projection, angleRange }) =>
   projection === 'radial'
     ? radialRectNodeGenerator(size, center, angleRange)
-    : hierarchicalRectNodeGenerator;
+    : hierarchicalRectNodeGenerator();
+
+Treemap.edgeGenerator = () => () => null;
 
 Treemap.propTypes = {
   ...HierarchicalDiagram.propTypes

@@ -2,30 +2,40 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
 import Dashboard from '../Templates/Dashboard';
-import LineChartPage from '../Pages/LineChartPage';
+import LineChartPage from '../Pages/basic/LineChartPage';
 import ContourPage from '../Pages/ContourPage';
 import HeatmapPage from '../Pages/HeatmapPage';
 import HexbinPage from '../Pages/HexbinPage';
-import ScatterPage from '../Pages/ScatterPage';
-import AnnotationPage from '../Pages/AnnotationPage';
-import AreaPage from '../Pages/AreaChart';
+import ScatterPage from '../Pages/basic/ScatterPage';
+import AreaPage from '../Pages/basic/AreaChart';
 import OldFaithfulPage from '../Pages/OldFaithfulPage';
-import Bumpline from '../Pages/Bumpline';
-import LinePercentage from '../Pages/LinePercentage';
+import ClusterBar from '../Pages/ordinal/StackedBarPage';
+import LinePercentage from '../Pages/basic/LinePercentage';
 import MarginPage from '../Pages/MarginSummaryPage';
 import GeoProjectionPage from '../Pages/GeoProjection';
 import TrendlinePage from '../Pages/TrendlinePage';
 import NeighbourPage from '../Pages/Neighbourhood';
-import DifferencePage from '../Pages/Difference';
-import BarPage from '../Pages/BarPage';
+import DifferencePage from '../Pages/basic/Difference';
 import SketchPage from '../Pages/BarPage/Sketch';
-import NetworkPage from '../Pages/Chord';
+import ForcePage from '../Pages/path/Force';
 import ViolinPage from '../Pages/BarPage/ViolinPage';
 import HistogramPage from '../Pages/BarPage/Histogram';
 import SwarmPage from '../Pages/BarPage/SwarmPage';
+import ChordPage from '../Pages/path/Chord';
+import DagrePage from '../Pages/path/Dagre';
+import HomePage from '../Pages/HomePage';
+import CirclePackPage from '../Pages/hierarchy/CirclePack';
+import DendrogramPage from '../Pages/hierarchy/Dendrogram';
+import TreemapPage from '../Pages/hierarchy/TreeMap';
+import PartitionPage from '../Pages/hierarchy/PartitionPage';
+import SankeyPage from '../Pages/path/Sankey';
+import ArcPage from '../Pages/path/Arc';
+import RadarPage from '../Pages/Radar';
+import Squirrel from '../Pages/NYCOpenData/Squirrel';
 
-import BlankPage from '../Pages/BlankPage';
 import { NotFound } from '../pageListAsync';
+
+import BarPage from '../Pages/NYCOpenData/HospitalFacilities';
 
 class Application extends React.Component {
   render() {
@@ -33,28 +43,39 @@ class Application extends React.Component {
     return (
       <Dashboard history={history} changeMode={changeMode}>
         <Switch>
-          <Route exact path="/" component={BlankPage} />
+          <Route exact path="/" component={HomePage} />
+          <Route path="/bar" component={BarPage} />
+
           <Route path="/line" component={LineChartPage} />
           <Route path="/contour" component={ContourPage} />
           <Route path="/scatter" component={ScatterPage} />
           <Route path="/hexbin" component={HexbinPage} />
           <Route path="/heatmap" component={HeatmapPage} />
           <Route path="/area" component={AreaPage} />
-          <Route path="/annotations" component={AnnotationPage} />
           <Route path="/faithful" component={OldFaithfulPage} />
-          <Route path="/bumpline" component={Bumpline} />
+          <Route path="/clusterbar" component={ClusterBar} />
           <Route path="/linepercentage" component={LinePercentage} />
           <Route path="/trendline" component={TrendlinePage} />
           <Route path="/margin" component={MarginPage} />
           <Route path="/geo" component={GeoProjectionPage} />
           <Route path="/neighbour" component={NeighbourPage} />
           <Route path="/difference" component={DifferencePage} />
-          <Route path="/bar" component={BarPage} />
           <Route path="/sketch" component={SketchPage} />
           <Route path="/violin" component={ViolinPage} />
           <Route path="/histgram" component={HistogramPage} />
-          <Route path="/network" component={NetworkPage} />
+          <Route path="/force" component={ForcePage} />
           <Route path="/swarm" component={SwarmPage} />
+          <Route path="/chord" component={ChordPage} />
+          <Route path="/dagre" component={DagrePage} />
+          <Route path="/circlepack" component={CirclePackPage} />
+          <Route path="/dendrogram" component={DendrogramPage} />
+          <Route path="/treemap" component={TreemapPage} />
+          <Route path="/partition" component={PartitionPage} />
+          <Route path="/sankey" component={SankeyPage} />
+          <Route path="/arc" component={ArcPage} />
+          <Route path="/radar" component={RadarPage} />
+          <Route path="/squirrel" component={Squirrel} />
+
           <Route component={NotFound} />
         </Switch>
       </Dashboard>

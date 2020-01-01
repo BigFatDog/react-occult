@@ -75,9 +75,10 @@ class Dashboard extends React.Component {
       gradient,
       deco,
       bgPosition,
-      layout,
-      changeMode
+      changeMode,
+      layout
     } = this.props;
+    // const layout = 'top-navigation';
     const { openGuide, transform } = this.state;
     const titleException = [
       '/app',

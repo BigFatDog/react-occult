@@ -56,8 +56,8 @@ const skull =
   'M16 0 C6 0 2 4 2 14 L2 22 L6 24 L6 30 L26 30 L26 24 L30 22 L30 14 C30 4 26 0 16 0 M9 12 A4.5 4.5 0 0 1 9 21 A4.5 4.5 0 0 1 9 12 M23 12 A4.5 4.5 0 0 1 23 21 A4.5 4.5 0 0 1 23 12 ';
 
 const iconHash = {
-  viz: rosto,
-  journalist: rosto,
+  viz: skull,
+  journalist: dribble,
   none: 'M0,0'
 };
 const colorHash = {
@@ -87,8 +87,8 @@ const TheMetLight = [
 const BarProps = {
   data: vizzers,
   icon: d => iconHash[d.type],
+  pieceClass: 'bar-icon',
   iconPadding: 2,
-  resize: 'fixed',
   projection: 'vertical',
   oAccessor: 'writeviz',
   sortO: (a, b) => parseFloat(a) - parseFloat(b),
@@ -97,7 +97,7 @@ const BarProps = {
     fill: colorHash[d.type],
     stroke: colorHash[d.type],
     fillOpacity: 1,
-    strokeWidth: 1.5
+    strokeWidth: 1
   }),
   oPadding: 2,
   renderMode: 'sketchy'

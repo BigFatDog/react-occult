@@ -3,7 +3,9 @@ import PathDiagram from '../PathDiagram';
 import chordNodeGenerator from './chordNodeGenerator';
 import chordEdgeGenerator from './chordEdgeGenerator';
 
-const Chord = props => {};
+const Chord = props => {
+  return null;
+};
 
 Chord.nodeGenerator = chordNodeGenerator;
 Chord.edgeGenerator = chordEdgeGenerator;
