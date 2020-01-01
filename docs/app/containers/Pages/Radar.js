@@ -85,13 +85,12 @@ const pointProps = {
   useAxes: true
 };
 const FrameProps = {
-  width: 900,
-  height: 900,
-  margin: { left: 40, top: 50, bottom: 40, right: 40 },
+  width: 1000,
+  height: 1000,
+  margin: { left: 40, top: 110, bottom: 90, right: 40 },
   title: (
     <text textAnchor="middle">
-      NYC Hospital Facilities <tspan fill={'#E5BDF6'}>Community Board </tspan>{' '}
-      By Borough
+      Smartphone Comparision
     </text>
   )
 };

@@ -24,6 +24,7 @@ import ArcImg from './img/arc.png';
 import TreemapImg from './img/treemap.png';
 import ClusterImg from './img/cluster.png';
 import PartitionImg from './img/partition.png';
+import RadarImg from './img/radar.png';
 
 const imgData = [
   { thumb: scatterImg, title: 'scatter', url: '/scatter' },
@@ -53,7 +54,8 @@ const imgData = [
   { thumb: ArcImg, title: 'Arc', url: '/arc' },
   { thumb: TreemapImg, title: 'Treemap', url: '/treemap' },
   { thumb: ClusterImg, title: 'Cluster', url: '/cluster' },
-  { thumb: PartitionImg, title: 'Partition', url: '/partition' }
+  { thumb: PartitionImg, title: 'Partition', url: '/partition' },
+  { thumb: RadarImg, title: 'Radar', url: '/radar' }
 ];
 
 const HomePage = props => {
